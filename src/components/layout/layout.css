@@ -1,0 +1,16 @@
+.app-layout{
+    display: flex;
+    flex-direction: row;
+}
+
+.layout-container{
+    width: 100%;
+    padding-left: 28px;
+    min-height: 100vh;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 6px #00000029;
+    opacity: 1; 
+}
+.layout-children-container{
+    margin-top: 30px;
+}

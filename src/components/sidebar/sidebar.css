@@ -1,0 +1,91 @@
+.sidebar-container{
+    width: 250px;
+    height: 100vh;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 6px #00000029;
+    opacity: 1;
+    position: relative;
+}
+
+.sidebar-logo{
+   margin-top: 30px;
+}
+.sidebar-header{
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar-userinfo{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 80px;
+    background: var(--metlife-blue-2) 0% 0% no-repeat padding-box;
+    background: #007ABC 0% 0% no-repeat padding-box;
+    opacity: 1;
+}
+
+
+.sidebar{
+   
+   
+}
+
+
+.sidebar-nav-ul{
+    list-style: none;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.sidebar-nav-ul li{
+   
+
+}
+.sidebar-nav-ul li a {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center; 
+    height: 50px;
+    text-decoration: none;
+    color: #333333;
+}
+
+
+
+.nav-active{
+    display: flex;
+    flex-direction: row;
+    background: var(--metlife-light-gray) 0% 0% no-repeat padding-box;
+    background: #F2F2F2 0% 0% no-repeat padding-box;
+    opacity: 0.96;
+}
+
+.nav-active::before{
+    content: " ";
+    height: 100%;
+    width: 4px;
+    /* background: transparent linear-gradient(180deg, var(--metlife-blue-2) 0%, #A4CE4E 100%) 0% 0% no-repeat padding-box; */
+    background: transparent linear-gradient(180deg, #007ABC 0%, #A4CE4E 100%) 0% 0% no-repeat padding-box;
+    opacity: 1;
+}
+
+.sidebar-nav{
+
+}
+
+.account-logout{
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    margin-left: 10px;
+    height: 30px;
+    opacity: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 50px;
+    text-decoration: none;
+    color: #333333;
+}
