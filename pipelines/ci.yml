@@ -1,72 +1,39 @@
 trigger:
-  branches:
-    include:
-      - develop
-      - Release/*
-  paths:
-    exclude:
-      - '**/*.yml'
-      - '**/*.yaml'
-
+    - none
+   #- releases/*
+   #- feature/*
 pool:
-  name: Linux
+  name: 'Default'
 
 resources:
   repositories:
     - repository: templates
       type: git
-      ref: refs/heads/ULM-java
+      ref: refs/heads/templatesV2
       name: Bangladesh ART/DevOpsTemplates
       trigger: none
 
 parameters:
-  - name: enableTest
-    displayName: Enable Unit Test and Code Coverage
-    type: boolean
-    default: false
-  - name: enableVeracodeScan
-    displayName: Enable Veracode Scan
-    type: boolean
-    default: false
-  - name: veracodeFailBuildOnPolicyFail
-    displayName: Abort build on veracode policy fail
-    type: boolean
-    default: false
-  - name: enableSonarQubeScan
-    displayName: 'Enable SonarQube Scan'
-    type: boolean
-    default: false
-  - name: applicationInsightJarPath
-    displayName: 'Path to download Application Insights Jar'
+  - name: nodejsVersion
+    displayName: 'Nodejs Version'
     type: string
-    default: https://devtools.metlife.com/artifactory/MavenCentral-cache/com/microsoft/azure/applicationinsights-agent/3.4.8/applicationinsights-agent-3.4.8.jar
-
-variables:
-  - name: projectRoot
-    value: $(Build.SourcesDirectory)
+    default: 16.16
 
 steps:
-  - template: ./nodejs/ci.yml@templates
+  - template: "./nodejs/pr.yml@templates"
     parameters:
+      packageManager: npm
       isSelfHostedAgent: true
-      enableTests: false
-      enableSonarQubeScan: false
-      appRootDir: $(projectRoot)
-      sonarInstance: SonarQube
-      sonarProjectKey: 'BangladeshART_13639_ulm_backend'
-      sonarProjectName: 'BangladeshART_13639_ulm_backend'
+      deleteLockFile: false
+      projectName: 'ULM-CLient'
+      componentName: 'ULM_Client'
+      nodejsVersion: ${{parameters.nodejsVersion}}
+      disableUnitTests: true
+      disableSonarScan: true
+      sonarInstance: 'SonarQube'
+      sonarProjectKey: ''
+      sonarProjectName: ''
       sonarExtraProperties: |
-        sonar.projectBaseDir=$(projectRoot)
-        sonar.sources=src/main/
-        sonar.tests=src/test/
-        sonar.java.binaries=build/classes
-      acrARMConnection: '13639-ULM-ServiceConnection'
-      acrHostName: 'acr13553s1dv01.azurecr.io'
-      acrRepoName: 'ulm-api'
-      dockerFilePath: $(projectRoot)
-      enableVeracodeScan: ${{parameters.enableVeracodeScan}}
-      veracodeServiceConnection: 'Veracode'
-      veracodeAppProfile: ''
-      veracodeSandboxName: ''
-      veracodeFailBuildOnPolicyFail: ${{parameters.veracodeFailBuildOnPolicyFail}}
-      artifactTargetPath: '$(Build.SourcesDirectory)/target/ulm-0.0.1-SNAPSHOT.jar'
+        sonar.sourceEncoding=UTF-8
+        sonar.exclusions=**/node_modules/**
+        sonar.typescript.exclusions=**/node_modules/**
