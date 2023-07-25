@@ -16,7 +16,7 @@ const Sidebar = () => {
       </div>
       <div className="sidebar-userinfo mt-4 text-center text-white">
         <h6>{user === null ? "Test User" : user.name}</h6>
-        <p style={{ color: "#F2F2F2" }}>Lorem Ipsum</p>
+        <p style={{ color: "#F2F2F2" }}>User Account</p>
       </div>
 
       <div className="sidebar">
@@ -42,16 +42,19 @@ const Sidebar = () => {
                 &nbsp; Leads
               </NavLink>
             </li>
+            
+
             <li className="">
               <NavLink
                 className={({ isActive, isPending }) =>
                   isActive ? "nav-active" : ""
                 }
-                to={"/leadsubmission"}
+                to={"/report"}
               >
-                &nbsp; Leads Submission
+                &nbsp; Report
               </NavLink>
             </li>
+            
              <li className="">
               <NavLink
                 className={({ isActive, isPending }) =>

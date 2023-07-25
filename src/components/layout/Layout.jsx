@@ -10,8 +10,7 @@ const Layout = ({ children,pageName }) => {
         <ToastContainer 
           position="top-right"
           autoClose={5000} />
-
-        <h6 className="mt-4" style={{color:'#75787B'}}>{pageName}</h6>
+        <h6 className="pt-4" style={{color:'#75787B'}}>{pageName}</h6>
         <div className="layout-children-container">{children}</div>
       </div>
     </div>

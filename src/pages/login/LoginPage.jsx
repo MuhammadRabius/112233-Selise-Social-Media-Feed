@@ -5,9 +5,11 @@ import * as Yup from "yup";
 import logo from "../../assets/img/metlifelogo.png";
 import { userLogin } from "../../services/AuthService";
 import jwt_decode from "jwt-decode";
-
+import { message } from 'antd';
 import { useNavigate, Navigate } from "react-router-dom";
 import TextInput from "../../components/inputs/TextInput";
+
+
 const LoginPage = () => {
   let navigate = useNavigate();
   const [isLoading,setIsloading] = useState(false)
@@ -28,11 +30,11 @@ const LoginPage = () => {
   return (
     <div className="login-container">
       <div className="login-card">
-        <div className="metlife-logo mt-3">
+        <div className="metlife-logo mt-4">
           <img src={logo} width={120} alt="logo" />
         </div>
 
-        <h6 className="text-center mt-3" style={{ margin: "0" }}>
+        <h6 className="text-center mt-4" style={{ margin: "0" }}>
           Sign into your account
         </h6>
         <p className="text-center">
@@ -50,10 +52,12 @@ const LoginPage = () => {
                 localStorage.setItem("access-token", token);
                 const user = jwt_decode(token);
                 localStorage.setItem("user", JSON.stringify(user));
+                message.success(res.message)
                 window.location.reload();
               }
               setIsloading(false)
             } catch (e) {
+              message.success(e.message)
               setIsloading(false)
               console.log(e);
             }
@@ -62,15 +66,15 @@ const LoginPage = () => {
           <Form>
             <div className="login-input-group mt-3">
               <TextInput type={'text'} name={'username'} placeholder={'Active Directory ID'}/>
-              <TextInput type={'password'} name={'password'} placeholder={'password'} classes={'mt-2'}/>
-              <button type="submit" disabled={isLoading} className="login-button btn mt-5">
-                Login
+              <TextInput type={'password'} name={'password'} placeholder={'Password'} classes={'mt-2'}/>
+              <button type="submit" disabled={isLoading} className="login-button ">
+                LOGIN
               </button>
 
-              <p className="mt-5">
-                <small>
-                  {" "}
-                  Your Active Directory ID is the ID you use to log in to your
+              <p className="mt-3">
+                <small className="__lw_text">
+                  
+                  Your <span className="_lw_text">Active Directory ID</span> is the ID you use to log in to your
                   MetLife computer.
                 </small>
               </p>

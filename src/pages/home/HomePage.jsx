@@ -1,107 +1,148 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import dayjs from "dayjs";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid,Cell } from "recharts";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { DatePicker } from "antd";
+import "./homePage.css";
+import {  getGrapFillColor } from "../../global_state/action";
+import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
+const { RangePicker } = DatePicker;
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
 
-export const options = {
-  responsive: false,
-  plugins: {
-    legend: {
-      display: true,
-      position: "top",
-    },
-    title: {
-      display: true,
-      text: "Chart.js Bar Chart",
-    },
-  },
-};
-
-const labels = ["Paid", "Organic", "Agent Leads", "Source"];
-
-const data = {
-  base: 50000,
-  labels: labels,
-  datasets: [
-    {
-      label: "",
-      data: [65, 59, 80, 0],
-      backgroundColor: ["#5F259F", "#0090DA", "#A4CE4E"],
-      borderColor: ["#5F259F", "#0090DA", "#A4CE4E"],
-      borderWidth: 1,
-    },
-  ],
-};
 
 const HomePage = () => {
-  const [age, setAge] = React.useState("");
+  const dateFormat = "YYYY-MM-DD";
+  const [isLoading, setIsloading] = useState(false);
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  // Lead Source Grap 
+   const renderIndexColum =(rowIndex,column)=>{
+    return column.rowIndex + 1 ;
+   }
+
+  // __Lead Source Data Table__
+  const [tData, setTData] = useState([]);
+  const [gData, setGData] = useState([]);
+  //  console.log('tdata',tData)
+  const [toDate, setToDate] = useState(dayjs().format("YYYY-MM-DD"));
+  const [fromDate, setFormDate] = useState(dayjs().add(-1,'month').format("YYYY-MM-DD"));
+
+  // Leads Table----y
+  const onChange = (date, dateString) => {
+ 
+    setToDate(dateString[1]);
+    setFormDate(dateString[0]);
   };
-  return (
-    <Layout pageName={"Dashboard"}>
-      <div className="d-flex  flex-row-reverse">
-       <div style={{width:'200px'}} className="mx-2">
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Age</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={age}
-              label="Age"
-              onChange={handleChange}
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
-          </div>
-          <div style={{width:'200px'}} >
-          <FormControl fullWidth>
-            <InputLabel id="currentyear">Select Current Year</InputLabel>
-            <Select
-              labelId="currentyear"
-              id="currentyear"
-              value={age}
-              label="Select Current Year"
-              onChange={handleChange}
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
-          </div>
-      </div>
 
-      <div className="home-barchart ms-5">
-        <Bar options={options} data={data} width={600} height={300} />
-      </div>
-    </Layout>
+  // Data fetching on table
+
+
+
+  useEffect(() => {
+    const ac = new AbortController();
+
+    try {
+      (async () => {
+        if (toDate && fromDate) {
+          setIsloading(true);
+          // Table API
+          const tableDisplay = await getLeadSource(fromDate, toDate);
+          setTData(tableDisplay.data.data);
+
+          // Grap API
+      
+          const typeDisplay = await getLeadSourceType(fromDate, toDate);
+          setGData(typeDisplay.data.data);
+        }
+        setIsloading(false);
+      })();
+    } catch (error) {
+      setIsloading(false);
+      console.log(error.message);
+      // err.respose.data.message && message.error(err.respose.data.message)
+    }
+
+    return () => ac.abort();
+  }, [fromDate, toDate]);
+    
+    
+
+  return (
+    <>
+      <Layout pageName={"Dashboard"}>
+        <p className="bt_Text">Leads Overview</p>
+        {/* Date Pickup Filter  */}
+
+        <div className="date_rage">
+          <RangePicker onChange={onChange} defaultValue={[dayjs().add(-1 , 'month'), dayjs()]} format={dateFormat} />
+        </div>
+        {/* Dates Section------ */}
+
+        {/* Chart Section------ */}
+        <div className="chart_section">
+          <div className="char-bar">
+            <BarChart width={900} height={300} data={gData} loading={isLoading}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} />
+              <XAxis
+                dataKey="leadSourceTypeName"
+                tickSize={2}
+                padding={{ right: 90 }}
+                label={{
+                  value: "Source",
+                  position: "insideBottomRight",
+                  offset: -5,
+                }}
+              />
+       
+              <YAxis width={50} tickSize={2} />
+              <Tooltip />
+              
+              <Bar 
+                barSize={60}
+                dataKey="totalLeadSentToUaa"
+                // fill={(entry)=>getGrapFillColor(entry.leadSourceTypeName)}
+                // fill="#0090DA"
+              >
+              {
+                gData.map((entry, index) => {
+                    // <Cell key={`cell-${index}`} fill={(entry)=>console.log(entry)} />
+                    <Cell fill={gData[index].leadSourceTypeName === "Paid" ? '#61bf93' : '#ededed'} />
+              })
+              }
+              </Bar>
+            </BarChart>
+          </div>
+        </div>
+
+        {/* Lead Source Table------ */}
+        <p className="bt_Text">Lead Sources</p>
+
+        <div className="card">
+          <DataTable
+            value={tData}
+            loading={isLoading}
+            tableStyle={{ minWidth: "50rem" }}
+          >
+            <Column field="index" header="SL No." body={renderIndexColum}></Column>
+            <Column field="leadSourceName" header="Source"></Column>
+            <Column field="totalLeadSentToUaa" header="TO UAA"></Column>
+            <Column field="totalLeadPending" header="Pending"></Column>
+            <Column field="totalLead" header="Total"></Column>
+          </DataTable>
+        </div>
+
+        {/* Modal Section */}
+      </Layout>
+    </>
   );
 };
 
 export default HomePage;
+
+
+// <Bar 
+//                 barSize={60}
+//                 dataKey="totalLeadSentToUaa"
+//                 fill={(entry)=>getGrapFillColor(entry.leadSourceTypeName)}
+//               />
