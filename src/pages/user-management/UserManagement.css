@@ -1,0 +1,124 @@
+.bt_Text {
+
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.um_container {
+    margin: 40px 0px;
+}
+
+.um_form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+}
+
+.um_form .input_group {
+    box-shadow: none !important;
+    border-inline-end-width: 0px !important;
+    border-width: 0px 0px 2px 0px !important;
+    border-color: #0090DA !important;
+    border-radius: 0px !important;
+    /* width: 513px; */
+    width: 100%;
+    height: 40px;
+    padding-left: 24px;
+    margin-top: 15px;
+}
+
+.um_form .ant-select-selector {
+    box-shadow: none !important;
+    border-inline-end-width: 0px !important;
+    border-width: 0px 0px 2px 0px !important;
+    border-color: #0090DA !important;
+    border-radius: 0px !important;
+    /* width: 480px !important; */
+    width: 100% !important;
+    height: 40px !important;
+    padding-left: 24px !important;
+    margin-top: 15px;
+}
+
+
+
+.um_f_part {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: space-between;
+    align-items: center;
+}
+
+.um_f_part .lead-search {
+    width: 399px;
+    height: 40px;
+    border-bottom: 2px solid #A2CF42;
+
+}
+
+.um_f_part .filterlead {
+    margin-left: 10px;
+    width: 359px;
+    border: 0;
+    outline: 0;
+    font-size: 14px;
+}
+
+.um_f_part .pi {
+    font-size: 1rem;
+    font-weight: bolder;
+}
+
+.um_f_part .pi .pi-search {
+    width: 18px;
+    height: 18px;
+    color: #0090DA;
+    opacity: 1;
+}
+
+.um_f_part .f_btn {
+    text-align: end;
+}
+
+.create_btn {
+    margin-top: 40px;
+    text-align: center;
+    font-style: Noto Sans;
+    font-weight: 500;
+    font-size: 14PX;
+    letter-spacing: 0px;
+    color: rgba(250, 250, 250, 1);
+    width: 135px;
+    height: 50px;
+    background: #007ABC;
+    border-radius: 8px;
+    border: 0;
+}
+
+.um_table {
+    margin-top: 50px;
+    margin-bottom: 70px;
+  }
+
+  /* Responsive */
+
+  /* @media only screen and (max-width: 1400px) {
+
+    .um_form .ant-form-item-control-input-content {
+        flex: auto;
+        max-width: 480px !important;
+    }
+    .um_form .input_group {
+       
+        width: 100% !important;
+        width: 480px;
+    }
+
+    .um_form .ant-select-selector {
+        width: 513px !important;
+        height: 40px !important;
+    }
+  } */

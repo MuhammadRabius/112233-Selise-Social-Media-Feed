@@ -1,0 +1,68 @@
+.bt_Text {
+
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.reportContainer {
+    margin-top: 64px;
+}
+
+.report_form {
+    /* display: flex;
+    justify-content: space-between;
+    align-items: center; */
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    gap: 20px;
+
+}
+
+.report_form ._input_group {
+    width: 100% ;
+    height: 40px !important;
+    border: 2px solid #007ABC;
+    box-shadow: none !important;
+    border-inline-end-width: 0px !important;
+    border-width: 0px 0px 2px 0px !important;
+    border-radius: 0px !important;
+  
+
+}
+
+.footer_part{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 70px;
+}
+
+.spanText{
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.submit_btn {
+    margin-top: 40px;
+    text-align: center;
+    font-style: Noto Sans;
+    font-weight: 500;
+    font-size: 14PX;
+    letter-spacing: 0px;
+    color: rgba(250, 250, 250, 1);
+    width: 191px;
+    height: 50px;
+    background: #007ABC;
+    border-radius: 8px;
+    border: 0;
+}
+
+.report_form .ant-select-selector{
+  box-shadow: none !important;
+  border-inline-end-width: 0px !important;
+  border-width: 0px 0px 2px 0px !important;
+  border-radius: 0px !important;
+  width: 100% !important;
+  height: 40px !important;
+  padding-left:20px !important;
+}

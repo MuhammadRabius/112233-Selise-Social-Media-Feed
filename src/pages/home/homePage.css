@@ -1,0 +1,111 @@
+.bt_Text {
+
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* Date Range--- */
+.date_rage {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
+    line-height: 2px;
+
+}
+
+.__d {
+    font-size: 13px;
+    color: #707070;
+
+}
+
+.ant-picker {
+    font-size: 15px;
+    border: 0px solid #0090DA !important;
+    border-radius: 0 !important;
+    border-width: 0px 0px 3px 0px !important;
+    width: 470px;
+    height: 54px;
+}
+
+.ant-picker-focused {
+    box-shadow: none !important;
+    border-inline-end-width: 0px !important;
+}
+
+.ant-picker-separator {
+    width: 6em !important;
+}
+
+.ant-picker-active-bar {
+    bottom: 0 !important;
+    background: white !important;
+}
+
+.ant-picker-suffix {
+    color: #0090DA !important;
+}
+
+/* Lead Source Chart Properties  */
+.chart_section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 45px 0px;
+}
+
+.char-bar {
+    margin: 10px 0px;
+}
+
+.recharts-cartesian-axis-line {
+    stroke: black;
+
+}
+
+
+/* Lead Source Table Properties  */
+
+.card {
+    margin-top: 25px;
+    margin-bottom: 65px;
+    border: none !important;
+}
+
+.p-component {
+    font-size: 14px !important;
+}
+
+
+/* Title */
+.p-datatable .p-datatable-thead tr th {
+    padding: 0.7rem !important;
+    border: 0px solid #dee2e6 !important;
+    border-width: 0px 0 2px 0 !important;
+    text-align: center !important;
+    color: #333333;
+    background: white !important;
+    transition: box-shadow 0.2s;
+
+}
+
+.p-column-header-content {
+    /* display: flex;
+    justify-content: center; */
+
+}
+
+/* Table row */
+.p-datatable .p-datatable-tbody{
+    margin-left: 15px;
+}
+.p-datatable .p-datatable-tbody tr td {
+    color: #333333;
+    border-width: 0px 0 2px 0 !important;
+    padding: 0.7rem !important;
+
+}
+
+.p-datatable .p-datatable-tbody tr:nth-child(even) {
+    background-color: #F0F5F8;
+}
