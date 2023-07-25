@@ -37,3 +37,13 @@ steps:
         sonar.sourceEncoding=UTF-8
         sonar.exclusions=**/node_modules/**
         sonar.typescript.exclusions=**/node_modules/**
+      enableVeracodeScan: false
+      veracodeServiceConnection: 'Veracode'
+      veracodeAppProfile: ''
+      veracodeSandboxName: ''
+      veracodeFailBuildOnPolicyFail: true
+      veracodeUploadDir: '.'
+      acrARMConnection: '13639-ULM-ServiceConnection'
+      acrHostName: 'acr13553s1dv01.azurecr.io'
+      acrRepoName: 'ulm-app'
+      dockerFilePath: $(Build.SourcesDirectory)
