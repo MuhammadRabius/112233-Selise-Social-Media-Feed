@@ -20,9 +20,10 @@ parameters:
     default: 16.16
 
 steps:
-  - task: CmdLine@2
+  - task: Npm@1
     inputs:
-      script: 'sudo npm cache clean --force'
+      command: 'custom'
+      workingDir: 'cache clean --force'
   - template: "./nodejs/ci.yml@templates"
     parameters:
       packageManager: npm
