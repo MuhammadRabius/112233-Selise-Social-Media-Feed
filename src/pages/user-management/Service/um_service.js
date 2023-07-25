@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export const getDistrict = async () => {
+export const getLocations = async () => {
 
-    return await axios.get(`/api/districts`);
+    return await axios.get(`/api/locations`);
 }
 export const getRole = async () => {
 
