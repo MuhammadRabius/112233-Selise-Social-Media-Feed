@@ -20,7 +20,7 @@ parameters:
     default: 16.16
 
 steps:
-  - template: "./nodejs/pr.yml@templates"
+  - template: "./nodejs/ci.yml@templates"
     parameters:
       packageManager: npm
       isSelfHostedAgent: true
