@@ -20,10 +20,6 @@ parameters:
     default: 16.16
 
 steps:
-  - task: Npm@1
-    inputs:
-      command: 'custom'
-      workingDir: 'npm cache clean --force'
   - template: "./nodejs/ci.yml@templates"
     parameters:
       packageManager: npm
