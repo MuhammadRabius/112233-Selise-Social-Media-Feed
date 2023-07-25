@@ -106,8 +106,8 @@ const HomePage = () => {
               >
               {
                 gData.map((entry, index) => {
-                    // <Cell key={`cell-${index}`} fill={(entry)=>console.log(entry)} />
-                    <Cell fill={gData[index].leadSourceTypeName === "Paid" ? '#61bf93' : '#ededed'} />
+                    const color = getGrapFillColor(entry.leadSourceTypeName);
+                    return <Cell fill={color} />
               })
               }
               </Bar>

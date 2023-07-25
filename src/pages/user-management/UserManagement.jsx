@@ -288,12 +288,7 @@ const UserManagement = () => {
 
           {/* Lead Generation Pagination */}
           <div className="pgn_ld_sb">
-            <Paginator
-              first={first}
-              rows={rows}
-              totalRecords={120}
-              onPageChange={onPageChange}
-            />
+           
           </div>
         </div>
       </Layout>
@@ -336,3 +331,11 @@ const columns = [
     render: (states) => <NavLink>Edit</NavLink>,
   },
 ];
+
+
+// <Paginator
+// first={first}
+// rows={rows}
+// totalRecords={120}
+// onPageChange={onPageChange}
+// />
