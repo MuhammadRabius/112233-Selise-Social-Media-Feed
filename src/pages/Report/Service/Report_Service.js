@@ -11,5 +11,5 @@ export const getCount = async ({fromDate, toDate,leadSourceId,email,phoneNumber}
 
 export const getSource = async () => {
 
-    return await axios.get(`/api/leads/source/type/list`);
+    return await axios.get(`/api/leads/sources`);
 }

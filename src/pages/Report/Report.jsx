@@ -17,7 +17,7 @@ const Report = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [leadSorce, setLeadSource] = useState([]);
-
+  // console.log("data",leadSorce);
   const onChangeStart = (date, dateString) => {
     setStartDate(dateString);
   };
@@ -47,7 +47,8 @@ const Report = () => {
       email: email || "",
       phoneNumber: phoneNumber || "",
     };
-
+    
+  
     try {
       
         setLoading(true);
@@ -87,8 +88,8 @@ const Report = () => {
       try {
         setLoading(true);
         //
-        const districtDisplay = await getSource();
-        setLeadSource(districtDisplay.data.data);
+        const leadSource = await getSource();
+        setLeadSource(leadSource.data.data);
 
         setLoading(false);
       } catch (error) {
@@ -154,7 +155,7 @@ const Report = () => {
               <Form.Item name="leadsource" label="">
                 <Select allowClear showSearch placeholder="Source Type">
                   {leadSorce.map((_d) => {
-                    console.log("leadSorce", _d.leadSourceType);
+                   
                     return (
                       <>
                         <Option key={_d.id} value={_d.id}>
