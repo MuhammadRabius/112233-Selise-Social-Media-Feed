@@ -12,7 +12,7 @@ const Report = () => {
   const [dataCount, setDataCount] = useState(0);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [leadSourceId, setLead] = useState("");
+  const [leadSourceId, setLeadId] = useState("");
   const [phoneNumber, setphoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setLoading] = useState(false);
@@ -23,6 +23,9 @@ const Report = () => {
   };
   const onChangeEnd = (date, dateString) => {
     setEndDate(dateString);
+  };
+  const onChangeSourceType = (e) => {
+    setLeadId(e);
   };
 
   // Spin
@@ -37,7 +40,6 @@ const Report = () => {
 
   const onFinish = async(values) => {
     setEmail(values.email);
-    setLead(values.leadsource);
     setphoneNumber(values.mobilenumber);
 
     const payload = {
@@ -55,6 +57,7 @@ const Report = () => {
         if (startDate && endDate) {
           const display = await getCount(payload);
           setDataCount(display.data.data);
+          
         }
         const display = await getReport(
           payload,
@@ -69,6 +72,7 @@ const Report = () => {
         link.click();
         // const fileData = await display.data.blob()
         console.log("report data", display);
+        // form.resetFields();
         setLoading(false);
         // saveAsXlsxFile(fileData)
      
@@ -107,6 +111,7 @@ const Report = () => {
         <p className="bt_Text">Report</p>
         <div className="reportContainer">
           <Form
+            form={form}
             initialValues={{
               remember: true,
             }}
@@ -153,7 +158,7 @@ const Report = () => {
               </Form.Item>
 
               <Form.Item name="leadsource" label="">
-                <Select allowClear showSearch placeholder="Source Type">
+                <Select allowClear showSearch placeholder="Source Type"  onChange={onChangeSourceType}>
                   {leadSorce.map((_d) => {
                    
                     return (
