@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
-import { DatePicker, Input, Form, Button, Select ,Spin} from "antd";
+import { DatePicker, Input, Form, message, Select ,Spin} from "antd";
 import "./Report.css";
+import dayjs from "dayjs"
 import { getCount, getReport, getSource } from "./Service/Report_Service";
 import { LoadingOutlined } from "@ant-design/icons";
 const { Option } = Select;
@@ -34,7 +35,7 @@ const Report = () => {
     />
   );
 
-  const onFinish = (values) => {
+  const onFinish = async(values) => {
     setEmail(values.email);
     setLead(values.leadsource);
     setphoneNumber(values.mobilenumber);
@@ -48,7 +49,7 @@ const Report = () => {
     };
 
     try {
-      (async () => {
+      
         setLoading(true);
         if (startDate && endDate) {
           const display = await getCount(payload);
@@ -62,14 +63,14 @@ const Report = () => {
         const url = window.URL.createObjectURL(new Blob([display.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", `${Date.now()}.xlsx`);
+        link.setAttribute("download", `LeadCount-Report ${dayjs().format("YYYY-MM-DD")}.xlsx`);
         document.body.appendChild(link);
         link.click();
         // const fileData = await display.data.blob()
         console.log("report data", display);
         setLoading(false);
         // saveAsXlsxFile(fileData)
-      })();
+     
     } catch (error) {
       setLoading(false);
       console.log(error.message);
@@ -90,9 +91,9 @@ const Report = () => {
         setLeadSource(districtDisplay.data.data);
 
         setLoading(false);
-      } catch (err) {
+      } catch (error) {
         setLoading(false);
-        console.error("Something went wrong");
+        error.response.data.details[0] && message.error(error.response.data.details[0])
       }
     })();
 

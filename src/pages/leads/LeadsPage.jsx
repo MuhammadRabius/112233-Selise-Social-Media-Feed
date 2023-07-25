@@ -210,31 +210,34 @@ const LeadsPage = () => {
    "newFaRequest": true,
    "remarks": remark || "",
  }
-  const handleOnlySubmit = () => {
+  const handleOnlySubmit = async () => {
     console.log("clicked");
 
     try {
-      (async () => {
+    
        
+        if(fname && phoneNumber && district){
         setLoading(true);
         const sendSingleLead = await submitLeadManual(payload);
         message.success(sendSingleLead.data.message)
         setCallBack(!callBack)
         setLoading(false);
         form.resetFields();
+        }
         
-      })();
     } catch (error) {
       setLoading(false);
       console.log(error.message);
-      // err.respose.data.message && message.error(err.respose.data.message)
+      error.response.data.details[0] && message.error(error.response.data.details[0])
     }
     
   };
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
+    
+    
     try {
-      (async () => {
+      
        
         setLoading(true);
         const sendSingleLead = await submitLeadManual(payload);
@@ -244,7 +247,7 @@ const LeadsPage = () => {
         form.resetFields();
         setAddLead(false);
         
-      })();
+      ;
     } catch (error) {
       setLoading(false);
       console.log(error.message);
