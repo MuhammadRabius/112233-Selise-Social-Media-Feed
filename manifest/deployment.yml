@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bd-ulm-app-deployment
+  namespace: bd-ulm
+spec:
+  selector:
+    matchLabels:
+      app: bd-ulm-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bd-ulm-app
+    spec:
+      containers:
+        - name: bd-ulm-app-container
+          #image: acr13553s1dv01.azurecr.io/uaa360be:20230517.8
+          image: #{IMAGE_REGISTRY}#/bdulm-app:#{IMAGE_TAG}#
+          #args: [ "-Djavax.net.debug=ssl:handshake" ]
+          #command: ["/bin/bash"]
+          #args: ["-c", "while true; do ping localhost:5000; sleep 60;done"]
+          ports:
+            - name: webapp-port
+              containerPort: 80
+              protocol: TCP
+          env:
+            #- name: ASPNETCORE_URLS
+            #  value: http://+:5000
+            #- name: SPRING_PROFILE_ACTIVE
+            #  value: dev
