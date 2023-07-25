@@ -104,30 +104,48 @@ const UserManagement = () => {
     {
       title: "SL",
       dataIndex: "key",
+      key: "key",
+      sorter: (a, b) => a.id - b.id,
+      render: (id, record, index) => {
+        ++index;
+        return index;
+      },
+      showSorterTooltip: false,
     },
     {
       title: "Username",
       dataIndex: "username",
+      key: "username",
+      sorter: (a, b) => a.username === b.username,
     },
     {
       title: "Role",
       dataIndex: "role",
+      key: "key",
+      sorter: (a, b) => a.key === b.key,
     },
     {
       title: "Email",
       dataIndex: "email",
+      key: "email",
+      sorter: (a, b) => a.email === b.email,
     },
     {
       title: "Department",
       dataIndex: "department",
+      key: "department",
+      sorter: (a, b) => a.department === b.department,
     },
     {
       title: "Location",
       dataIndex: "location",
+      key: "location",
+      sorter: (a, b) => a.location === b.location,
     },
     {
       title: "Action",
       dataIndex: "action",
+      key: "key",
       render: (states) => <NavLink>Edit</NavLink>,
     },
   ];
