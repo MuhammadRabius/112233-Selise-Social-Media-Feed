@@ -23,8 +23,7 @@ steps:
   - task: CmdLine@2
     inputs:
       script: |
-        sudo chown -R username:group "/Users/username/.npm"
-        sudo chown -R username:group "/Users/username/.npm-global"
+        sudo npm install -g npm@latest
   # - task: Npm@1
   #   displayName: 'Cache Clean'
   #   inputs:
