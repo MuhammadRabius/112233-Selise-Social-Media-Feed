@@ -1,16 +1,22 @@
-import {useState} from "react";
+import { useState,useContext } from "react";
 import "./loginPage.css";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import logo from "../../assets/img/metlifelogo.png";
 import { userLogin } from "../../services/AuthService";
 import jwt_decode from "jwt-decode";
-
-import { useNavigate, Navigate } from "react-router-dom";
+import { message } from "antd";
+import { Navigate,useNavigate,useHistory} from "react-router-dom";
 import TextInput from "../../components/inputs/TextInput";
+import { UserContext } from "../../components/Context/UserContext";
+
 const LoginPage = () => {
-  let navigate = useNavigate();
-  const [isLoading,setIsloading] = useState(false)
+  const { setUserData } = useContext(UserContext);
+  const [isLoading, setIsloading] = useState(false);
+  const navigate = useNavigate();
+  // const history = useHistory();
+
+
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
@@ -19,7 +25,7 @@ const LoginPage = () => {
       .required("Password is required"),
   });
 
-  const token = localStorage.getItem("access-token") ;
+  const token = localStorage.getItem("access-token");
 
   if (token !== null) {
     return <Navigate to="/" replace />;
@@ -28,11 +34,11 @@ const LoginPage = () => {
   return (
     <div className="login-container">
       <div className="login-card">
-        <div className="metlife-logo mt-3">
+        <div className="metlife-logo mt-4">
           <img src={logo} width={120} alt="logo" />
         </div>
 
-        <h6 className="text-center mt-3" style={{ margin: "0" }}>
+        <h6 className="text-center mt-4" style={{ margin: "0" }}>
           Sign into your account
         </h6>
         <p className="text-center">
@@ -43,35 +49,53 @@ const LoginPage = () => {
           validationSchema={LoginSchema}
           onSubmit={async (values) => {
             try {
-              setIsloading(true)
+              setIsloading(true);
               const res = await userLogin(values);
+              setUserData(res.data.data)
               if (res.status === 200) {
                 const token = res.data.data.token;
+                const username = res.data.data.username;
                 localStorage.setItem("access-token", token);
                 const user = jwt_decode(token);
                 localStorage.setItem("user", JSON.stringify(user));
-                window.location.reload();
+                localStorage.setItem("username", JSON.stringify(username));
+                window.location.href = "/";
+                message.success(res.data.message);
+                
               }
-              setIsloading(false)
+              setIsloading(false);
             } catch (e) {
-              setIsloading(false)
+              message.success(e.message);
+              setIsloading(false);
               console.log(e);
             }
           }}
         >
           <Form>
             <div className="login-input-group mt-3">
-              <TextInput type={'text'} name={'username'} placeholder={'Active Directory ID'}/>
-              <TextInput type={'password'} name={'password'} placeholder={'password'} classes={'mt-2'}/>
-              <button type="submit" disabled={isLoading} className="login-button btn mt-5">
-                Login
+              <TextInput
+                type={"text"}
+                name={"username"}
+                placeholder={"Active Directory ID"}
+              />
+              <TextInput
+                type={"password"}
+                name={"password"}
+                placeholder={"Password"}
+                classes={"mt-2"}
+              />
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="login-button "
+              >
+                LOGIN
               </button>
 
-              <p className="mt-5">
-                <small>
-                  {" "}
-                  Your Active Directory ID is the ID you use to log in to your
-                  MetLife computer.
+              <p className="mt-3">
+                <small className="__lw_text">
+                  Your <span className="_lw_text">Active Directory ID</span> is
+                  the ID you use to log in to your MetLife computer.
                 </small>
               </p>
             </div>

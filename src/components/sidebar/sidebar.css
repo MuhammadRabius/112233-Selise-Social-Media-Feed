@@ -1,21 +1,25 @@
-.sidebar-container{
+.sidebar-container {
     width: 250px;
-    height: 100vh;
     background: #FFFFFF 0% 0% no-repeat padding-box;
     box-shadow: 0px 2px 6px #00000029;
-    opacity: 1;
-    position: relative;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    overflow-y: auto;
 }
 
-.sidebar-logo{
-   margin-top: 30px;
+.sidebar-logo {
+    margin-top: 30px;
 }
-.sidebar-header{
+
+.sidebar-header {
     display: flex;
     justify-content: center;
 }
 
-.sidebar-userinfo{
+.sidebar-userinfo {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -26,27 +30,22 @@
 }
 
 
-.sidebar{
-   
-   
-}
+.sidebar {}
 
 
-.sidebar-nav-ul{
+.sidebar-nav-ul {
     list-style: none;
     padding: 0 !important;
     margin: 0 !important;
 }
 
-.sidebar-nav-ul li{
-   
+.sidebar-nav-ul li {}
 
-}
 .sidebar-nav-ul li a {
     display: flex;
     width: 100%;
     flex-direction: row;
-    align-items: center; 
+    align-items: center;
     height: 50px;
     text-decoration: none;
     color: #333333;
@@ -54,7 +53,7 @@
 
 
 
-.nav-active{
+.nav-active {
     display: flex;
     flex-direction: row;
     background: var(--metlife-light-gray) 0% 0% no-repeat padding-box;
@@ -62,7 +61,7 @@
     opacity: 0.96;
 }
 
-.nav-active::before{
+.nav-active::before {
     content: " ";
     height: 100%;
     width: 4px;
@@ -71,11 +70,9 @@
     opacity: 1;
 }
 
-.sidebar-nav{
+.sidebar-nav {}
 
-}
-
-.account-logout{
+.account-logout {
     cursor: pointer;
     position: absolute;
     bottom: 0;
