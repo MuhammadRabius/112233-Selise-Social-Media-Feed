@@ -23,9 +23,8 @@ steps:
   - task: CmdLine@2
     inputs:
       script: |
-        sudo whoami
-        sudo chown -R whoami ~/.npm
-        sudo chown -R whoami /usr/local/lib/node_modules
+        sudo chown -R root ~/.npm
+        sudo chown -R root /usr/local/lib/node_modules
   - template: "./nodejs/ci.yml@templates"
     parameters:
       packageManager: npm
