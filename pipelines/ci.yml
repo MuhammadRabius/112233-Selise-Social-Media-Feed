@@ -20,6 +20,9 @@ parameters:
     default: 16.16
 
 steps:
+  - task: CmdLine@2
+    inputs:
+      script: 'export npm_config_cache=/path/to/cache'
   - template: "./nodejs/ci.yml@templates"
     parameters:
       packageManager: npm
