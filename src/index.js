@@ -43,7 +43,6 @@ const router = createBrowserRouter(
       <Route element={<RequireAuth />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/leads" element={<LeadsPage />} />
-
         <Route path="/usermanagement" element={<UserManagement />} />
         <Route path="/report" element={<Report />} />
       </Route>
