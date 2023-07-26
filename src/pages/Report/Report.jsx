@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
-import { DatePicker, Input, Form, Button, Select ,Spin} from "antd";
+import { DatePicker, Input, Form, message, Select ,Spin} from "antd";
 import "./Report.css";
+import dayjs from "dayjs"
 import { getCount, getReport, getSource } from "./Service/Report_Service";
 import { LoadingOutlined } from "@ant-design/icons";
 const { Option } = Select;
@@ -11,17 +12,20 @@ const Report = () => {
   const [dataCount, setDataCount] = useState(0);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [leadSourceId, setLead] = useState("");
+  const [leadSourceId, setLeadId] = useState("");
   const [phoneNumber, setphoneNumber] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmailData] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [leadSorce, setLeadSource] = useState([]);
-
+  console.log("data",email);
   const onChangeStart = (date, dateString) => {
     setStartDate(dateString);
   };
   const onChangeEnd = (date, dateString) => {
     setEndDate(dateString);
+  };
+  const onChangeSourceType = (e) => {
+    setLeadId(e);
   };
 
   // Spin
@@ -34,25 +38,25 @@ const Report = () => {
     />
   );
 
-  const onFinish = (values) => {
-    setEmail(values.email);
-    setLead(values.leadsource);
-    setphoneNumber(values.mobilenumber);
+  const onFinish = async(values) => {
 
     const payload = {
       fromDate: startDate,
       toDate: endDate,
       leadSourceId: leadSourceId || "",
-      email: email || "",
-      phoneNumber: phoneNumber || "",
+      email: values.email || "",
+      phoneNumber: values.mobilenumber || "",
     };
-
+    
+    console.log("payload",payload)
+  
     try {
-      (async () => {
+      
         setLoading(true);
         if (startDate && endDate) {
           const display = await getCount(payload);
           setDataCount(display.data.data);
+          
         }
         const display = await getReport(
           payload,
@@ -62,19 +66,20 @@ const Report = () => {
         const url = window.URL.createObjectURL(new Blob([display.data]));
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", `${Date.now()}.xlsx`);
+        link.setAttribute("download", `LeadCount-Report ${dayjs().format("YYYY-MM-DD")}.xlsx`);
         document.body.appendChild(link);
         link.click();
         // const fileData = await display.data.blob()
         console.log("report data", display);
+        // form.resetFields();
         setLoading(false);
         // saveAsXlsxFile(fileData)
-      })();
+     
     } catch (error) {
       setLoading(false);
       console.log(error.message);
       // err.respose.data.message && message.error(err.respose.data.message)
-    }
+    } 
   };
 
   console.log("data");
@@ -86,13 +91,13 @@ const Report = () => {
       try {
         setLoading(true);
         //
-        const districtDisplay = await getSource();
-        setLeadSource(districtDisplay.data.data);
+        const leadSource = await getSource();
+        setLeadSource(leadSource.data.data);
 
         setLoading(false);
-      } catch (err) {
+      } catch (error) {
         setLoading(false);
-        console.error("Something went wrong");
+        error.response.data.details[0] && message.error(error.response.data.details[0])
       }
     })();
 
@@ -105,6 +110,7 @@ const Report = () => {
         <p className="bt_Text">Report</p>
         <div className="reportContainer">
           <Form
+            form={form}
             initialValues={{
               remember: true,
             }}
@@ -151,9 +157,9 @@ const Report = () => {
               </Form.Item>
 
               <Form.Item name="leadsource" label="">
-                <Select allowClear showSearch placeholder="Source Type">
+                <Select allowClear showSearch placeholder="Source Type"  onChange={onChangeSourceType}>
                   {leadSorce.map((_d) => {
-                    console.log("leadSorce", _d.leadSourceType);
+                   
                     return (
                       <>
                         <Option key={_d.id} value={_d.id}>
