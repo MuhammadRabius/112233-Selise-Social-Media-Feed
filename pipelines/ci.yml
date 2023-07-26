@@ -23,8 +23,8 @@ steps:
   - task: CmdLine@2
     inputs:
       script: |
-        sudo chown -R root ~/.npm
-        sudo chown -R root /usr/local/lib/node_modules
+        ./configure && make && sudo make install
+  # sudo chown -R root /usr/local/lib/node_modules
   - template: "./nodejs/ci.yml@templates"
     parameters:
       packageManager: npm
