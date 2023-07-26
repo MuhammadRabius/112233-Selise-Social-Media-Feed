@@ -1,0 +1,39 @@
+trigger:
+    - none
+   #- releases/*
+   #- feature/*
+pool:
+  name: 'Default'
+
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      ref: refs/heads/templatesV2
+      name: Bangladesh ART/DevOpsTemplates
+      trigger: none
+
+parameters:
+  - name: nodejsVersion
+    displayName: 'Nodejs Version'
+    type: string
+    default: 16.16
+
+steps:
+  - template: "./nodejs/pr.yml@templates"
+    parameters:
+      packageManager: npm
+      isSelfHostedAgent: true
+      deleteLockFile: false
+      projectName: 'ULM-CLient'
+      componentName: 'ULM_Client'
+      nodejsVersion: ${{parameters.nodejsVersion}}
+      disableUnitTests: true
+      disableSonarScan: true
+      sonarInstance: 'SonarQube'
+      sonarProjectKey: ''
+      sonarProjectName: ''
+      sonarExtraProperties: |
+        sonar.sourceEncoding=UTF-8
+        sonar.exclusions=**/node_modules/**
+        sonar.typescript.exclusions=**/node_modules/**
