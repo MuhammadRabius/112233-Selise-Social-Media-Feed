@@ -1,19 +1,33 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
 import * as Yup from "yup";
 import { Paginator } from "primereact/paginator";
-import { Table, Radio, Modal, Form, Input, Select,Button, message,Pagination} from "antd";
+import {
+  Table,
+  Radio,
+  Modal,
+  Form,
+  Input,
+  Select,
+  Button,
+  message,
+  Pagination,
+} from "antd";
 import AddBulkUpload from "./AddBulkUpload";
-import { getDistrict, submitLeadManual, leadList} from './Service/lead_service';
-import './LeadPage.css';
+import {
+  getDistrict,
+  submitLeadManual,
+  leadList,
+} from "./Service/lead_service";
+import "./LeadPage.css";
 
 const LeadsPage = () => {
   const { Option } = Select;
   const { TextArea } = Input;
   const [form] = Form.useForm();
-  const [isLoading,setLoading]=useState(false);
-  const [callBack,setCallBack]=useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [callBack, setCallBack] = useState(false);
 
   const [findPolicy, setPolicyNumber] = useState("");
 
@@ -50,124 +64,51 @@ const LeadsPage = () => {
     setRows(event.rows);
   };
 
-  /*   const useStyles = withStyles((theme) => ({
-    root: {
-      "& .MuiFilledInput-root": {
-        background: "rgb(232, 241, 250)"
-      }
-    }
-  })); */
 
-  // const [leads, setLeads] = useState([
-  //   {
-  //     leadId: 235,
-
-  //     firstname: "Tomal",
-
-  //     lastname: "Mahdi",
-
-  //     email: "tomal.mahdi@metlife.com.bd",
-
-  //     contactNo: "01677503555",
-
-  //     leadSourceName: "360Health",
-
-  //     districtName: "Dhaka",
-
-  //     leadStatus: "Not Verified",
-
-  //     leadDate: "2023-06-19",
-  //   },
-
-  //   {
-  //     leadId: 241,
-
-  //     firstname: "Tomal",
-
-  //     lastname: "Mahdi",
-
-  //     email: "tomal.mahdi@metlife.com.bd",
-
-  //     contactNo: "01677503555",
-
-  //     leadSourceName: "360Health",
-
-  //     districtName: "Dhaka",
-
-  //     leadStatus: "Not Verified",
-
-  //     leadDate: "2023-06-19",
-  //   },
-  // ]);
-
-  //
-
-  //
-  const phoneRegExp =
-    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
-  // Form
-  const validationSchema = Yup.object().shape({
-    fname: Yup.string().required("First name is required"),
-    lname: Yup.string()
-      //.min(5, "Password must be 5 characters at minimum")
-      .required("Last name is required"),
-    mobileno: Yup.string()
-      .matches(phoneRegExp, "Phone number is not valid")
-      .min(11, "Mobile number must be 11 characters")
-      .max(11, "Mobile number must be 11 characters")
-      .required("Mobile number is required"),
-    district: Yup.number().positive().required("Please select district"),
-  });
+  
 
   // Modal On Submit -------
 
-
   // Find On Set Data----
   const onPolicySearch = (_v) => {
-    console.log("find value", _v.target.value);
+
     setPolicyNumber(_v.target.value);
   };
   const onPolicyFind = (_v) => {
-    console.log("policy click")
+    console.log("policy click");
     try {
       // const findPolicy =
     } catch (err) {
       console.log(err);
     }
   };
-  
-  // setup Field Data from API
-  const [districtAPI,setDistrictAPI]=useState([]);
-  const [singleLeadSubmit,setSingleLeadSubmit]=useState([]);
-  const [leadListView,setLeadListView]=useState([])
 
-  console.log("leadListView",leadListView)
-  
-  // Table Sorting 
+  // setup Field Data from API
+  const [districtAPI, setDistrictAPI] = useState([]);
+  const [singleLeadSubmit, setSingleLeadSubmit] = useState([]);
+  const [leadListView, setLeadListView] = useState([]);
+
+  // Table Sorting
   const [sortedInfo, setSortedInfo] = useState({});
+  
   const setcontactNoSort = () => {
-    setSortedInfo(
-      {
-      order: 'descend',
-      columnKey: 'contactNo',
-    },
-    
-    );
+    setSortedInfo({
+      order: "descend",
+      columnKey: "contactNo",
+    });
   };
 
   // Form Field onChange Setup-----
-  const [fname,setFName]=useState("")
-  const [lastname,setLastName]=useState('')
-  const [phoneNumber,setPhoneNumber]=useState('')
-  const [email,setEmail]=useState('')
-  const [faq,setFAQ]=useState('')
-  const [remark,setRemak]=useState('')
-  const [district,setDistrict]=useState('')
+  const [fname, setFName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [faq, setFAQ] = useState("");
+  const [remark, setRemak] = useState("");
+  const [district, setDistrict] = useState("");
 
   const handleName = (e) => {
-    
-    setFName(e.target.value)
+    setFName(e.target.value);
   };
   const handleLastName = (e) => {
     setLastName(e.target.value);
@@ -177,18 +118,17 @@ const LeadsPage = () => {
   };
 
   const handlePhoneNumber = (e) => {
-    console.log("handleName", e.target.value);
-    setPhoneNumber(e.target.value)
+    setPhoneNumber(e.target.value);
   };
   const handleFAQ = (e) => {
-    setFAQ(e.target.value)
+    setFAQ(e.target.value);
   };
   const handleRemrk = (e) => {
-    setRemak(e.target.value)
+    setRemak(e.target.value);
   };
   // District ----
   const onDistrictChange = (values) => {
-    setDistrict(values)
+    setDistrict(values);
   };
 
   // Radio FAQ
@@ -199,61 +139,52 @@ const LeadsPage = () => {
   };
 
   // Submission-------------
-  const payload ={
-   "customerFirstname": fname || '',
-   "customerLastname": lastname || "",
-   "customerContactNo": phoneNumber,
-   "district": district,
-   "customerEmail": email || "",
-   "customerPolicyNumber":  "",
-   "faCode": faq || "",
-   "newFaRequest": true,
-   "remarks": remark || "",
- }
+  const payload = {
+    customerFirstname: fname || "",
+    customerLastname: lastname || "",
+    customerContactNo: phoneNumber,
+    district: district,
+    customerEmail: email || "",
+    customerPolicyNumber: "",
+    faCode: faq || "",
+    newFaRequest: true,
+    remarks: remark || "",
+  };
   const handleOnlySubmit = async () => {
-    console.log("clicked");
+   
 
     try {
-    
-       
-        if(fname && phoneNumber && district){
+      if (fname && phoneNumber && district) {
         setLoading(true);
         const sendSingleLead = await submitLeadManual(payload);
-        message.success(sendSingleLead.data.message)
-        setCallBack(!callBack)
+        message.success(sendSingleLead.data.message);
+        setCallBack(!callBack);
         setLoading(false);
         form.resetFields();
-        }
-        
+      }
     } catch (error) {
       setLoading(false);
       console.log(error.message);
-      error.response.data.details[0] && message.error(error.response.data.details[0])
+      error.response.data.details[0] &&
+        message.error(error.response.data.details[0]);
     }
-    
   };
 
   const onFinish = async (values) => {
-    
-    
     try {
-      
-       
-        setLoading(true);
-        const sendSingleLead = await submitLeadManual(payload);
-        message.success(sendSingleLead.data.message)
-        setCallBack(!callBack)
-        setLoading(false);
-        form.resetFields();
-        setAddLead(false);
-        
-      ;
+      setLoading(true);
+      const sendSingleLead = await submitLeadManual(payload);
+      message.success(sendSingleLead.data.message);
+      setCallBack(!callBack);
+      setLoading(false);
+      form.resetFields();
+      setAddLead(false);
     } catch (error) {
       setLoading(false);
       console.log(error.message);
-      // err.respose.data.message && message.error(err.respose.data.message)
+      
     }
-    // setAddLead(false);
+   
   };
 
   // Search by Phonee
@@ -261,8 +192,6 @@ const LeadsPage = () => {
   const onSearchPhone = (e) => {
     const _s_v = e.target.value;
     setFilterData(_s_v);
-
-    console.log("search phone", e.target.value);
   };
   const onSearchClick = (e) => {
     // const filterTable = data.filter(data.mn === filterDate);
@@ -271,153 +200,149 @@ const LeadsPage = () => {
 
   // Table Data
   const onTableChange = (pagination, filters, sorter, extra) => {
-    // console.log("params", pagination, filters, sorter, extra);
-    setSortedInfo(sorter)
+    setSortedInfo(sorter);
   };
-
 
   // Api Calling ----------
 
   useEffect(() => {
-
     const ac = new AbortController();
 
     (async () => {
       try {
-        setLoading(true)
+        setLoading(true);
         const districtDisplay = await getDistrict();
         setDistrictAPI(districtDisplay.data.data);
 
         const leadDisplay = await leadList();
-        console.log("leadData",leadDisplay.data.data)
-        setLeadListView(leadDisplay.data.data)
-        setLoading(false)
+      
+        setLeadListView(leadDisplay.data.data);
+        setLoading(false);
       } catch (err) {
-        setLoading(false)
-        console.error('Something went wrong')
+        setLoading(false);
+        console.error("Something went wrong");
       }
-    })()
-
+    })();
 
     return () => ac.abort();
+  }, [callBack]);
 
-  }, [callBack])
+  // Data Table Colum
 
 
-  // Data Table Colum 
-  // Demo Data ---------
-
-const columns = [
-  {
-    title: "Date",
-    dataIndex: "leadDate",
-    // sorter: {
-    //   compare: (a, b) => a.chinese - b.chinese,
-    //   multiple: 3,
-    // },
-  },
-  {
-    title: "First Name",
-    dataIndex: "firstname",
-    key: 'firstname',
-    sorter: (a, b) => a.firstname === b.firstname,
-    sortOrder: sortedInfo.columnKey === 'firstname' ? sortedInfo.order : null,
-    ellipsis: true,
-    
-  },
-  {
-    title: "Last Name",
-    dataIndex: "lastname",
-    key: 'lastname',
-    sorter: (a, b) => a.lastname === b.lastname,
-    sortOrder: sortedInfo.columnKey === 'lastname' ? sortedInfo.order : null,
-    ellipsis: true,
-    
-  },
-  {
-    title: "Mobile No",
-    dataIndex: "contactNo",
-    key: 'contactNo',
-    sorter: (a, b) => a.contactNo - b.contactNo,
-    sortOrder: sortedInfo.columnKey === 'contactNo' ? sortedInfo.order : null,
-    ellipsis: true,
-  },
-  {
-    title: "Email",
-    dataIndex: "email",
-    key: 'email',
-    sorter: {
-      compare: (a, b) => a.email = b.email, 
+  const columns = [
+    {
+      title: "Date",
+      dataIndex: "leadDate",
+      // sorter: {
+      //   compare: (a, b) => a.chinese - b.chinese,
+      //   multiple: 3,
+      // },
     },
-  },
-  {
-    title: "District",
-    dataIndex: "districtName",
-    key: 'districtName',
-    sorter: (a, b) => a.districtName === b.districtName,
-    sortOrder: sortedInfo.columnKey === 'districtName' ? sortedInfo.order : null,
-    ellipsis: true,
-    
-    // sorter: {
-    //   compare: (a, b) => a.english - b.english,
-    //   multiple: 1,
-    // },
-  },
-  {
-    title: "Sources",
-    dataIndex: "leadSourceName",
-    key: 'leadSourceName',
-    sorter: (a, b) => a.leadSourceName === b.leadSourceName,
-    sortOrder: sortedInfo.columnKey === 'leadSourceName' ? sortedInfo.order : null,
-    ellipsis: true,
-    // sorter: {
-    //   compare: (a, b) => a.english - b.english,
-    //   multiple: 1,
-    // },
-  },
-  {
-    title: "Status",
-    dataIndex: "leadStatus",
-    key: 'leadStatus',
-    sorter: (a, b) => a.leadStatus === b.leadStatus,
-    sortOrder: sortedInfo.columnKey === 'leadStatus' ? sortedInfo.order : null,
-    ellipsis: true,
-    render: (leadStatus) => {
-      console.log("leadS",leadStatus)
-      return( 
-        leadStatus === 'Verified' || leadStatus === "Sent To UAA" ? <>
-      <div
-        style={{
-          width: "12px",
-          height: "12px",
-          background: "#A4CE4E",
-          border: "1px solid #FFFFFF",
-          borderRadius: "14px",
-          marginLeft: "15px",
-        }}
-      ></div>
-      
-      </> : <>
-      <div
-        style={{
-          width: "12px",
-          height: "12px",
-          background: "#D42123",
-          border: "1px solid #FFFFFF",
-          borderRadius: "14px",
-          marginLeft: "15px",
-        }}
-      ></div> </>
-      ) 
-      
-    }
-  },
-  {
-    title: "Action",
-    dataIndex: "action",
-    render: (states) => <NavLink>Edit</NavLink>,
-  },
-];
+    {
+      title: "First Name",
+      dataIndex: "firstname",
+      key: "firstname",
+      sorter: (a, b) => a.firstname === b.firstname,
+      sortOrder: sortedInfo.columnKey === "firstname" ? sortedInfo.order : null,
+      ellipsis: true,
+    },
+    {
+      title: "Last Name",
+      dataIndex: "lastname",
+      key: "lastname",
+      sorter: (a, b) => a.lastname === b.lastname,
+      sortOrder: sortedInfo.columnKey === "lastname" ? sortedInfo.order : null,
+      ellipsis: true,
+    },
+    {
+      title: "Mobile No",
+      dataIndex: "contactNo",
+      key: "contactNo",
+      sorter: (a, b) => a.contactNo - b.contactNo,
+      sortOrder: sortedInfo.columnKey === "contactNo" ? sortedInfo.order : null,
+      ellipsis: true,
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+      sorter: {
+        compare: (a, b) => (a.email = b.email),
+      },
+    },
+    {
+      title: "District",
+      dataIndex: "districtName",
+      key: "districtName",
+      sorter: (a, b) => a.districtName === b.districtName,
+      sortOrder:
+        sortedInfo.columnKey === "districtName" ? sortedInfo.order : null,
+      ellipsis: true,
+
+      // sorter: {
+      //   compare: (a, b) => a.english - b.english,
+      //   multiple: 1,
+      // },
+    },
+    {
+      title: "Sources",
+      dataIndex: "leadSourceName",
+      key: "leadSourceName",
+      sorter: (a, b) => a.leadSourceName === b.leadSourceName,
+      sortOrder:
+        sortedInfo.columnKey === "leadSourceName" ? sortedInfo.order : null,
+      ellipsis: true,
+      // sorter: {
+      //   compare: (a, b) => a.english - b.english,
+      //   multiple: 1,
+      // },
+    },
+    {
+      title: "Status",
+      dataIndex: "leadStatus",
+      key: "leadStatus",
+      sorter: (a, b) => a.leadStatus === b.leadStatus,
+      sortOrder:
+        sortedInfo.columnKey === "leadStatus" ? sortedInfo.order : null,
+      ellipsis: true,
+      render: (leadStatus) => {
+        console.log("leadS", leadStatus);
+        return leadStatus === "Verified" || leadStatus === "Sent To UAA" ? (
+          <>
+            <div
+              style={{
+                width: "12px",
+                height: "12px",
+                background: "#A4CE4E",
+                border: "1px solid #FFFFFF",
+                borderRadius: "14px",
+                marginLeft: "15px",
+              }}
+            ></div>
+          </>
+        ) : (
+          <>
+            <div
+              style={{
+                width: "12px",
+                height: "12px",
+                background: "#D42123",
+                border: "1px solid #FFFFFF",
+                borderRadius: "14px",
+                marginLeft: "15px",
+              }}
+            ></div>{" "}
+          </>
+        );
+      },
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      render: (states) => <NavLink>Edit</NavLink>,
+    },
+  ];
 
   return (
     <Layout pageName={"Leads"}>
@@ -460,14 +385,13 @@ const columns = [
               columns={columns}
               dataSource={leadListView}
               onChange={onTableChange}
-                            // pagination={false}
+              // pagination={false}
             />
           </div>
         </div>
 
         {/* Lead Generation Pagination */}
-        <div className="pgn_ld_sb">
-        </div>
+        <div className="pgn_ld_sb"></div>
 
         {/* Modal Section ------*/}
 
@@ -523,7 +447,12 @@ const columns = [
                   <Input placeholder="* First Name" />
                 </Form.Item>
 
-                <Form.Item label="" validateFirst={true} name="lastname"  onChange={handleLastName}>
+                <Form.Item
+                  label=""
+                  validateFirst={true}
+                  name="lastname"
+                  onChange={handleLastName}
+                >
                   <Input placeholder="Last Name" />
                 </Form.Item>
 
@@ -545,7 +474,12 @@ const columns = [
               01777-777524`}
                   />
                 </Form.Item>
-                <Form.Item label="" name="email" validateFirst={true}  onChange={handleEmail}>
+                <Form.Item
+                  label=""
+                  name="email"
+                  validateFirst={true}
+                  onChange={handleEmail}
+                >
                   <Input type="email" placeholder="Email" />
                 </Form.Item>
 
@@ -567,17 +501,17 @@ const columns = [
                     showSearch
                   >
 
-                  {
-                    districtAPI.map((_d)=>{
-                      console.log("data",_d)
+                    {
+                      districtAPI.map((_d) => {
                       return (
                         <>
-                        <Option key={_d.id} value={_d.nameEnglish}>{_d.labelEnglish}</Option>
+                          <Option key={_d.id} value={_d.nameEnglish}>
+                            {_d.labelEnglish}
+                          </Option>
                         </>
-                      )
-                    })
-                  }
-                }
+                      );
+                    })}
+                    }
                   </Select>
                 </Form.Item>
 
@@ -588,7 +522,7 @@ const columns = [
                       className="policy_input"
                       placeholder="Existing Policy Number (If Any)"
                     />
-                     <Button onClick={onPolicyFind} className="policy_btn ">
+                    <Button onClick={onPolicyFind} className="policy_btn ">
                       FIND
                     </Button>
                   </div>
@@ -606,12 +540,10 @@ const columns = [
                 </Form.Item>
 
                 <Form.Item label="" name="facode">
-                  <Input placeholder="FA Code"  onChange={handleFAQ} />
+                  <Input placeholder="FA Code" onChange={handleFAQ} />
                 </Form.Item>
 
                 <Form.Item label="" name="remark">
-                  {/* <Input className='custom_remark' placeholder="Remark" /> */}
-                  {/* <input className="custom_remark" placeholder="Remark" /> */}
                   <TextArea
                     onChange={handleRemrk}
                     className="custom_remark"
@@ -644,20 +576,3 @@ const columns = [
 };
 
 export default LeadsPage;
-
-
-
-// // <Paginator
-//             first={first}
-//             rows={rows}
-//             totalRecords={120}
-//             onPageChange={onPageChange}
-//           />
-
-
-// <Pagination
-//         total={leadListView.length}
-//         showSizeChanger
-//         showQuickJumper
-//         showTotal={(total) => `Total ${total} items`}
-//       />
