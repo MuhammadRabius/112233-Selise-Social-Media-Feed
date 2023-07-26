@@ -22,8 +22,9 @@ parameters:
 steps:
   - task: CmdLine@2
     inputs:
-      script: 'sudo chown -R METNET` ~/.npm'
-      script: 'sudo chown -R `METNET` /usr/local/lib/node_modules'
+      script: |
+        sudo chown -R METNET` ~/.npm
+        sudo chown -R `METNET` /usr/local/lib/node_modules
   - template: "./nodejs/ci.yml@templates"
     parameters:
       packageManager: npm
