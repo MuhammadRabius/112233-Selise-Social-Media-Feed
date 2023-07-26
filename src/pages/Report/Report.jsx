@@ -14,10 +14,10 @@ const Report = () => {
   const [endDate, setEndDate] = useState("");
   const [leadSourceId, setLeadId] = useState("");
   const [phoneNumber, setphoneNumber] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmailData] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [leadSorce, setLeadSource] = useState([]);
-  // console.log("data",leadSorce);
+  console.log("data",email);
   const onChangeStart = (date, dateString) => {
     setStartDate(dateString);
   };
@@ -39,17 +39,16 @@ const Report = () => {
   );
 
   const onFinish = async(values) => {
-    setEmail(values.email);
-    setphoneNumber(values.mobilenumber);
 
     const payload = {
       fromDate: startDate,
       toDate: endDate,
       leadSourceId: leadSourceId || "",
-      email: email || "",
-      phoneNumber: phoneNumber || "",
+      email: values.email || "",
+      phoneNumber: values.mobilenumber || "",
     };
     
+    console.log("payload",payload)
   
     try {
       
