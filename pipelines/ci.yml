@@ -20,11 +20,18 @@ parameters:
     default: 16.16
 
 steps:
-  - task: CmdLine@2
-    inputs:
-      script: |
-        ./configure && make && sudo make install
-  # sudo chown -R root /usr/local/lib/node_modules
+  # - task: CmdLine@2
+  #   inputs:
+  #     script: |
+  #       sudo chown -R root ~/.npm
+  #       sudo chown -R root /usr/local/lib/node_modules
+  # - task: Npm@1
+  #   displayName: 'Cache Clean'
+  #   inputs:
+  #     command: custom
+  #     verbose: false
+  #     customCommand: 'cache clean --force'
+  #     workingDir: '$(Build.SourcesDirectory)'
   - template: "./nodejs/ci.yml@templates"
     parameters:
       packageManager: npm
