@@ -8,7 +8,6 @@ import AddBulkUpload from "./AddBulkUpload";
 import { getDistrict, submitLeadManual, leadList} from './Service/lead_service';
 import './LeadPage.css';
 
-
 const LeadsPage = () => {
   const { Option } = Select;
   const { TextArea } = Input;
