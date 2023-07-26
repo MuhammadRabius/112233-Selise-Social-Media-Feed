@@ -22,7 +22,7 @@ parameters:
 steps:
   - task: CmdLine@2
     inputs:
-      script: 'export npm_config_cache=/path/to/cache'
+      script: 'sudo chown -R 241713548:1005200513 "/home/METNET/ap1024803/.npm"'
   - template: "./nodejs/ci.yml@templates"
     parameters:
       packageManager: npm
