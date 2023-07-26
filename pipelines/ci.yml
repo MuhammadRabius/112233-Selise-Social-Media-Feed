@@ -23,8 +23,9 @@ steps:
   - task: CmdLine@2
     inputs:
       script: |
-        sudo chown -R METNET ~/.npm
-        sudo chown -R METNET /usr/local/lib/node_modules
+        sudo whoami
+        sudo chown -R whoami ~/.npm
+        sudo chown -R whoami /usr/local/lib/node_modules
   - template: "./nodejs/ci.yml@templates"
     parameters:
       packageManager: npm
