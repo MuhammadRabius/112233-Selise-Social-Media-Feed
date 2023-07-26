@@ -1,12 +1,12 @@
 import { useState,useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
-import "./Leadpage.css";
 import * as Yup from "yup";
 import { Paginator } from "primereact/paginator";
 import { Table, Radio, Modal, Form, Input, Select,Button, message,Pagination} from "antd";
 import AddBulkUpload from "./AddBulkUpload";
 import { getDistrict, submitLeadManual, leadList} from './Service/lead_service';
+import "./LeadPage.css";
 const { Option } = Select;
 const { TextArea } = Input;
 
