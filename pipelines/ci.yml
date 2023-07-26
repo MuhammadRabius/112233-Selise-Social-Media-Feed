@@ -20,11 +20,11 @@ parameters:
     default: 16.16
 
 steps:
-  # - task: CmdLine@2
-  #   inputs:
-  #     script: |
-  #       sudo chown -R root ~/.npm
-  #       sudo chown -R root /usr/local/lib/node_modules
+  - task: CmdLine@2
+    inputs:
+      script: |
+        export npm_config_cache=/path/to/cache
+      #sudo chown -R root /usr/local/lib/node_modules
   # - task: Npm@1
   #   displayName: 'Cache Clean'
   #   inputs:
