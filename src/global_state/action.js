@@ -9,7 +9,7 @@ export const getDate = (d) =>  {
 }
 
 export const getGrapFillColor = (typeName) => {
-  console.log("dataType",typeName)
+  
     switch (typeName) {
   
       case 'Organic':

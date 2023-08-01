@@ -59,7 +59,6 @@ const UserManagement = () => {
         setCallBack(!callBack);
         form.resetFields();
         setLoading(false);
-        
       })();
     } catch (error) {
       setLoading(false);
@@ -67,7 +66,7 @@ const UserManagement = () => {
       // err.respose.data.message && message.error(err.respose.data.message)
     }
   };
-     
+
   // Page Pagination
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(10);
@@ -107,6 +106,18 @@ const UserManagement = () => {
     return () => ac.abort();
   }, [callBack]);
 
+  // sorting
+  const [sortedInfo, setSortedInfo] = useState({});
+  // Table Data
+  const onTableChange = (pagination, filters, sorter, extra) => {
+    setSortedInfo(sorter);
+  };
+  const setcontactNoSort = () => {
+    setSortedInfo({
+      order: "descend",
+      columnKey: "username",
+    });
+  };
   const columns = [
     {
       title: "SL",
@@ -123,31 +134,42 @@ const UserManagement = () => {
       title: "Username",
       dataIndex: "username",
       key: "username",
-      sorter: (a, b) => a.username === b.username,
+      sorter: (a, b) => a?.username?.length - b?.username?.length,
+      sortOrder: sortedInfo.columnKey === "username" ? sortedInfo.order : null,
+      ellipsis: true,
     },
     {
       title: "Role",
       dataIndex: "role",
-      key: "key",
-      sorter: (a, b) => a.key === b.key,
+      key: "role",
+      sorter: (a, b) => a?.role?.length - b?.role?.length,
+      sortOrder: sortedInfo.columnKey === "role" ? sortedInfo.order : null,
+      ellipsis: true,
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      sorter: (a, b) => a.email === b.email,
+      sorter: (a, b) => a?.email?.length - b?.email?.length,
+      sortOrder: sortedInfo.columnKey === "email" ? sortedInfo.order : null,
+      ellipsis: true,
     },
     {
       title: "Department",
       dataIndex: "department",
       key: "department",
-      sorter: (a, b) => a.department === b.department,
+      sorter: (a, b) => a?.department?.length - b?.department?.length,
+      sortOrder:
+        sortedInfo.columnKey === "department" ? sortedInfo.order : null,
+      ellipsis: true,
     },
     {
       title: "Location",
       dataIndex: "location",
       key: "location",
-      sorter: (a, b) => a.location === b.location,
+      sorter: (a, b) => a?.location?.length - b?.location?.length,
+      sortOrder: sortedInfo.columnKey === "location" ? sortedInfo.order : null,
+      ellipsis: true,
     },
     {
       title: "Action",
@@ -301,6 +323,7 @@ const UserManagement = () => {
             <div className="um_table">
               <div>
                 <Table
+                  onChange={onTableChange}
                   columns={columns}
                   dataSource={user}
                   loading={isLoading}

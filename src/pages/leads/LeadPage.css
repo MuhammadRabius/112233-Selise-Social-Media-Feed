@@ -60,7 +60,7 @@
 }
 
 
-/*  Lead Submission table-------------  */
+/*  Lead Submission table--  */
 
 .__l_sub_table {
   margin-top: 50px;
@@ -98,13 +98,13 @@
 
 
 /* Modal */
-.ant-modal .ant-modal-content {
+.addLeadModal .ant-modal-content {
   width: 574px;
   min-height: 667px;
   padding: 0px 0px 16px 0px;
 }
 
-.ant-modal .ant-modal-title {
+.addLeadModal .ant-modal-title {
   color: #FFFFFF;
   text-align: center;
   width: 574px;
@@ -138,7 +138,7 @@
   padding-left:24px;
   padding-bottom: 16px;
 }
-.ant-select-selector {
+ .ant-select-selector {
   box-shadow: none !important;
   border-inline-end-width: 0px !important;
   border-width: 0px 0px 2px 0px !important;
@@ -219,6 +219,7 @@
   gap:10px;
   margin-top: 10px;
 }
+
 .sub_btn{
   text-align: center;
   font-style: Noto Sans;

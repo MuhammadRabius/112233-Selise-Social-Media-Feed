@@ -1,0 +1,60 @@
+trigger:
+    - none
+   #- releases/*
+   #- feature/*
+pool:
+  name: 'Linux'
+
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      ref: refs/heads/ULM-java
+      name: Bangladesh ART/DevOpsTemplates
+      trigger: none
+
+parameters:
+  - name: nodejsVersion
+    displayName: 'Nodejs Version'
+    type: string
+    default: 16.16
+
+steps:
+  # - task: CmdLine@2
+  #   inputs:
+  #     script: |
+  #       sudo npm install -g npm@latest
+  # - task: Npm@1
+  #   displayName: 'Cache Clean'
+  #   inputs:
+  #     command: custom
+  #     verbose: false
+  #     customCommand: 'cache clean --force'
+  #     workingDir: '$(Build.SourcesDirectory)'
+  - template: "./nodejs/ci.yml@templates"
+    parameters:
+      packageManager: npm
+      isSelfHostedAgent: true
+      deleteLockFile: false
+      projectName: 'ULM-CLient'
+      componentName: 'ULM_Client'
+      nodejsVersion: ${{parameters.nodejsVersion}}
+      disableUnitTests: true
+      disableSonarScan: true
+      sonarInstance: 'SonarQube'
+      sonarProjectKey: ''
+      sonarProjectName: ''
+      sonarExtraProperties: |
+        sonar.sourceEncoding=UTF-8
+        sonar.exclusions=**/node_modules/**
+        sonar.typescript.exclusions=**/node_modules/**
+      enableVeracodeScan: false
+      veracodeServiceConnection: 'Veracode'
+      veracodeAppProfile: ''
+      veracodeSandboxName: ''
+      veracodeFailBuildOnPolicyFail: true
+      veracodeUploadDir: '.'
+      acrARMConnection: '13639-ULM-ServiceConnection'
+      acrHostName: 'acr13553s1dv01.azurecr.io'
+      acrRepoName: 'ulm-app'
+      dockerFilePath: $(Build.SourcesDirectory)

@@ -1,0 +1,52 @@
+.bulk_up_container .ant-modal-content {
+  width: 120%;
+  height: 378px;
+  padding: 0px 0px 16px 0px;
+}
+
+.bulk_up_container .ant-modal-title {
+  color: #FFFFFF;
+  text-align: center;
+  width: 100%;
+  height: 56px;
+  padding: 17px 0px;
+  background: #0090DA 0% 0% no-repeat padding-box;
+  opacity: 1;
+
+}
+
+.ant-modal-close-x {
+  font-size: 20px !important;
+  color: #FFFF;
+  width: 18px;
+  height: 14px;
+}
+
+.bulk_up_container .ant-modal-body {
+  padding: 36px 30px;
+}
+
+.bulk_up_container .ant-upload-drag {
+  border: 2px dashed #d9d9d9;
+  background: white;
+}
+.bulk_up_container .upload_container{
+  text-align: end;
+  
+
+}
+.bulk_up_container .upload-btn {
+  text-align: center;
+  font-style: Noto Sans;
+  font-weight: 500;
+  font-size: 14PX;
+  letter-spacing: 0px;
+  color: rgba(250, 250, 250, 1);
+  text-transform: capitalize;
+  width: 98px;
+  height: 50px;
+  background: #007ABC;
+  border-radius: 8px;
+  border: 0;
+
+}

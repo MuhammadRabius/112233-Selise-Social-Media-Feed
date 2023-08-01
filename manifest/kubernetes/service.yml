@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bd-ulm-app-service
+  namespace: bd-ulm
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  labels:
+    app: bd-ulm-app
+spec:
+  type: ClusterIP
+  selector:
+    app: bd-ulm-app
+  ports:
+    - name: bd-ulm-app-port
+      port: 80
+      targetPort: webapp-port

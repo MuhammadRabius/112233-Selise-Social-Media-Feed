@@ -5,6 +5,7 @@ import "./Report.css";
 import dayjs from "dayjs"
 import { getCount, getReport, getSource } from "./Service/Report_Service";
 import { LoadingOutlined } from "@ant-design/icons";
+import { validatePhoneNumber } from "../../Validation/Validation";
 const { Option } = Select;
 
 const Report = () => {
@@ -14,10 +15,10 @@ const Report = () => {
   const [endDate, setEndDate] = useState("");
   const [leadSourceId, setLeadId] = useState("");
   const [phoneNumber, setphoneNumber] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmailData] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [leadSorce, setLeadSource] = useState([]);
-  // console.log("data",leadSorce);
+
   const onChangeStart = (date, dateString) => {
     setStartDate(dateString);
   };
@@ -39,24 +40,23 @@ const Report = () => {
   );
 
   const onFinish = async(values) => {
-    setEmail(values.email);
-    setphoneNumber(values.mobilenumber);
 
     const payload = {
       fromDate: startDate,
       toDate: endDate,
       leadSourceId: leadSourceId || "",
-      email: email || "",
-      phoneNumber: phoneNumber || "",
+      email: values.email || "",
+      phoneNumber: values.mobilenumber || "",
     };
     
+    console.log("payload",payload)
   
     try {
       
         setLoading(true);
         if (startDate && endDate) {
           const display = await getCount(payload);
-          setDataCount(display.data.data);
+          setDataCount(display?.data?.data);
           
         }
         const display = await getReport(
@@ -80,7 +80,7 @@ const Report = () => {
       setLoading(false);
       console.log(error.message);
       // err.respose.data.message && message.error(err.respose.data.message)
-    }
+    } 
   };
 
   console.log("data");
@@ -93,12 +93,12 @@ const Report = () => {
         setLoading(true);
         //
         const leadSource = await getSource();
-        setLeadSource(leadSource.data.data);
+        setLeadSource(leadSource?.data?.data);
 
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        error.response.data.details[0] && message.error(error.response.data.details[0])
+        error?.response?.data?.details[0] && message.error(error?.response?.data?.details[0])
       }
     })();
 
@@ -163,8 +163,8 @@ const Report = () => {
                    
                     return (
                       <>
-                        <Option key={_d.id} value={_d.id}>
-                          {_d.name}
+                        <Option key={_d?.id} value={_d?.id}>
+                          {_d?.name}
                         </Option>
                       </>
                     );
@@ -175,11 +175,14 @@ const Report = () => {
               <Form.Item label="" name="email">
                 <Input className="_input_group" placeholder="Email" />
               </Form.Item>
-              <Form.Item label="" name="mobilenumber">
+              <Form.Item label="" 
+              name="mobilenumber"
+              
+              >
                 <Input
                   className="_input_group"
-                  placeholder="Mobile number"
-                  maxLength={11}
+                  placeholder="8801777345678"
+                  maxLength={13}
                 />
               </Form.Item>
             </div>
