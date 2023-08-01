@@ -64,7 +64,7 @@ const Report = () => {
           { responseType: "blob" },
           { "Content-Type": "application/octet-stream" }
         );
-        const url = window.URL.createObjectURL(new Blob([display.data]));
+        const url = window.URL.createObjectURL(new Blob([display?.data]));
         const link = document.createElement("a");
         link.href = url;
         link.setAttribute("download", `LeadCount-Report ${dayjs().format("YYYY-MM-DD")}.xlsx`);
