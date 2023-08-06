@@ -201,6 +201,7 @@ const LeadsPage = () => {
         setLoading(false);
       } catch (err) {
         setLoading(false);
+        message.error(err.response.data.message)
         console.error("Something went wrong");
       }
     })();
