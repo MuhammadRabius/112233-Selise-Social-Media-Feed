@@ -213,7 +213,7 @@ const LeadsPage = () => {
         
       } catch (err) {
         setLoading(false);
-        message.error(err.response.data.message)
+        // message.error(err.response.data.message)
         console.error("Something went wrong");
       }
     })();
@@ -242,7 +242,7 @@ const LeadsPage = () => {
     {
       title: "Date",
       dataIndex: "leadDate",
-      sorter: (a, b) => new Date(a.leadDate) - new Date(b.leadDate),
+      sorter: (a, b) =>  (a?.leadDate) - (b?.leadDate),
       sortOrder: sortedInfo.columnKey === "leadDate" ? sortedInfo.order : null,
     },
     {
@@ -411,7 +411,7 @@ const LeadsPage = () => {
           <div className="pgn_ld_sb">
             <Pagination
               showQuickJumper
-              defaultCurrent={1 || p_Number}
+              defaultCurrent={p_Number}
               total={Math.ceil(total)}
               onChange={onChange}
             />

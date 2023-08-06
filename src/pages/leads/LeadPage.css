@@ -259,6 +259,12 @@
   border-color: #007ABC !important;
   color: #FFFFFF !important;
 }
+
+
+.pgn_ld_sb .ant-select-selector{
+  border-width: 2px !important;
+  border-color: #007ABC !important;
+}
 .pgn_ld_sb .ant-pagination-options-quick-jumper{
   margin-inline-start: 250px !important;
 }
