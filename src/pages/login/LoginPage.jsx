@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import logo from "../../assets/img/metlifelogo.png";
 import { userLogin } from "../../services/AuthService";
 import jwt_decode from "jwt-decode";
-import { message } from "antd";
+import { message,Skeleton } from "antd";
 import { Navigate,useNavigate,useHistory} from "react-router-dom";
 import TextInput from "../../components/inputs/TextInput";
 import { UserContext } from "../../components/Context/UserContext";
@@ -32,6 +32,10 @@ const LoginPage = () => {
   }
 
   return (
+    <Skeleton loading={isLoading} size="large" active
+    paragraph={{
+      rows: 20,
+    }}>  
     <div className="login-container">
       <div className="login-card">
         <div className="metlife-logo mt-4">
@@ -103,6 +107,7 @@ const LoginPage = () => {
         </Formik>
       </div>
     </div>
+    </Skeleton>
   );
 };
 

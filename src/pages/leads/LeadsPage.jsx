@@ -61,19 +61,25 @@ const LeadsPage = () => {
     setAddLead(false);
   };
 
-  // Modal On Submit -------
-
   // setup Field Data from API
   const [districtAPI, setDistrictAPI] = useState([]);
   const [singleLeadSubmit, setSingleLeadSubmit] = useState([]);
   const [leadListView, setLeadListView] = useState([]);
+  const [p_Number, set_P_Number] = useState(1);
+  const [p_Size, set_P_Size] = useState(10);
+  const [total, setTotal] = useState(0);
 
+  const onChange = (pageNumber, pageSize) => {
+    set_P_Number(pageNumber);
+    set_P_Size(pageSize);
+  };
   // Table Sorting
   const [sortedInfo, setSortedInfo] = useState({});
   // Table Data
   const onTableChange = (pagination, filters, sorter, extra) => {
     setSortedInfo(sorter);
   };
+
   const setcontactNoSort = () => {
     setSortedInfo({
       order: "descend",
@@ -121,7 +127,7 @@ const LeadsPage = () => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
-  
+
   // Find On Set Data----
   const onPolicySearch = (_v) => {
     setPolicyNumber(_v.target.value);
@@ -134,8 +140,6 @@ const LeadsPage = () => {
       console.log(err);
     }
   };
-
-  
 
   // Submission payload-------------
   const payload = {
@@ -193,12 +197,20 @@ const LeadsPage = () => {
     (async () => {
       try {
         setLoading(true);
+        
         const districtDisplay = await getDistrict();
         setDistrictAPI(districtDisplay.data.data);
 
-        const leadDisplay = await leadList();
-        setLeadListView(leadDisplay.data.data);
+
+        const leadDisplay = await leadList(p_Number, p_Size);
+        setTotal(leadDisplay?.data?.data?.totalItems);
+        setLeadListView(leadDisplay?.data?.data?.items);
+        set_P_Number(...p_Number, leadDisplay?.data?.data?.pageNumber);
+        set_P_Size(...p_Size, leadDisplay?.data?.data?.pageSize);
+        
+        
         setLoading(false);
+        
       } catch (err) {
         setLoading(false);
         message.error(err.response.data.message)
@@ -207,14 +219,13 @@ const LeadsPage = () => {
     })();
 
     return () => ac.abort();
-  }, [callBack]);
+  }, [callBack, p_Number, p_Size]);
 
   // Update Single Lead ModaL
 
   const [updateLeadModal, setUpdateLeadModal] = useState(false);
   const [singleID, setSingleID] = useState(0);
 
-  console.log("LeadID", singleID);
   const showLeadUpdateMOdal = (id) => {
     setSingleID(id);
     setUpdateLeadModal(true);
@@ -223,15 +234,6 @@ const LeadsPage = () => {
   const updateModalCancel = () => {
     form.resetFields();
     setUpdateLeadModal(false);
-  };
-
-  // Page Pagination
-  // const [first, setFirst] = useState(0);
-  // const [rows, setRows] = useState(10);
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
-  const onPageChange = (event) => {
-    setCurrentPage(event.page + 1);
   };
 
   // Data Table Colum
@@ -395,17 +397,25 @@ const LeadsPage = () => {
           <div className="__l_sub_table">
             <div>
               <Table
+                key={leadListView}
                 loading={isLoading}
                 columns={columns}
                 dataSource={leadListView}
+                pagination={false}
                 onChange={onTableChange}
-                // pagination={false}
               />
             </div>
           </div>
 
           {/* Lead Generation Pagination */}
-          <div className="pgn_ld_sb"></div>
+          <div className="pgn_ld_sb">
+            <Pagination
+              showQuickJumper
+              defaultCurrent={1 || p_Number}
+              total={Math.ceil(total)}
+              onChange={onChange}
+            />
+          </div>
 
           {/* Modal Section ------*/}
 
@@ -593,15 +603,7 @@ const LeadsPage = () => {
       )}
     </>
   );
-  
 };
 
 export default LeadsPage;
 
-// <Paginator
-//               first
-//               rows={10}
-//               totalRecords={leadListView?.length}
-//               currentPage={currentPage - 1}
-//               onPageChange={onPageChange}
-//               />

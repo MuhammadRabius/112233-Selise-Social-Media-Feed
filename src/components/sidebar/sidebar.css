@@ -76,7 +76,7 @@
     cursor: pointer;
     position: absolute;
     bottom: 0;
-    margin-left: 10px;
+    margin-left: 57px;
     height: 30px;
     opacity: 1;
     display: flex;
@@ -85,4 +85,5 @@
     height: 50px;
     text-decoration: none;
     color: #333333;
+    gap: 10px;
 }
