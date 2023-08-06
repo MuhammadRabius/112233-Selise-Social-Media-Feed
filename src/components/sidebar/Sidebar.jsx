@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import "./sidebar.css";
 import logo from "../../assets/img/metlifelogo.png";
 import { Link, NavLink, Navigate } from "react-router-dom";
+import { LogoutOutlined  } from "@ant-design/icons";
 import { UserContext } from '../Context/UserContext';
 const Sidebar = () => {
   const { userData } = useContext(UserContext);
@@ -75,7 +76,7 @@ const Sidebar = () => {
         </nav>
       </div>
       <div className="account-logout" onClick={onLogoutClick}>
-        Account Logout
+      <LogoutOutlined style={{color:"#007ABC",width:"11px",height:"16px"}}/> Account Logout
       </div>
     </div>
   );

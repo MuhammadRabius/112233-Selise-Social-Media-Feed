@@ -24,6 +24,7 @@ import LeadSubmission from "./pages/leadsubmission/LeadSubmission";
 import UserManagement from "./pages/user-management/UserManagement";
 import Report from "./pages/Report/Report";
 import { UserProvider } from "./components/Context/UserContext";
+import Demo from "./pages/Demo/Demo";
 
 // axios.defaults.baseURL =  "http://10.40.92.245:8200";
 // axios.defaults.baseURL =  "http://10.69.13.7:8200";
@@ -44,6 +45,7 @@ const router = createBrowserRouter(
         <Route path="/leads" element={<LeadsPage />} />
         <Route path="/usermanagement" element={<UserManagement />} />
         <Route path="/report" element={<Report />} />
+        <Route path="/demo" element={<Demo />} />
       </Route>
     </Route>
   )

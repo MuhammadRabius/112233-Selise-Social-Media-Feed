@@ -37,13 +37,13 @@ const HomePage = () => {
     return column.rowIndex + 1;
   };
 
+
   // __Lead Source Data Table__
   const [tData, setTData] = useState([]);
   const [gData, setGData] = useState([]);
-  //  console.log('tdata',tData)
   const [toDate, setToDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [fromDate, setFormDate] = useState(
-    dayjs().add(-1, "month").format("YYYY-MM-DD")
+    dayjs().startOf("month").format("YYYY-MM-DD")
   );
 
   // Leads Table----y
@@ -91,7 +91,7 @@ const HomePage = () => {
           <div className="date_rage">
             <RangePicker
               onChange={onChange}
-              defaultValue={[dayjs().add(-1, "month"), dayjs()]}
+              defaultValue={[dayjs().startOf("month"), dayjs()]}
               format={dateFormat}
             />
           </div>
@@ -123,9 +123,7 @@ const HomePage = () => {
 
                 <Bar
                   barSize={60}
-                  dataKey="totalLeadSentToUaa"
-                  
-                >
+                  dataKey="totalLeadSentToUaa">
                   {gData.map((entry, index) => {
                     const color = getGrapFillColor(entry.leadSourceTypeName);
                     return <Cell fill={color} />;
@@ -140,6 +138,7 @@ const HomePage = () => {
 
           <div className="card">
             <DataTable
+             
               value={tData}
               loading={isLoading}
               tableStyle={{ minWidth: "50rem" }}

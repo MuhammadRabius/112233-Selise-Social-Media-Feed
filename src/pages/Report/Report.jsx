@@ -49,7 +49,6 @@ const Report = () => {
       phoneNumber: values.mobilenumber || "",
     };
     
-    console.log("payload",payload)
   
     try {
       
@@ -70,20 +69,14 @@ const Report = () => {
         link.setAttribute("download", `LeadCount-Report ${dayjs().format("YYYY-MM-DD")}.xlsx`);
         document.body.appendChild(link);
         link.click();
-        // const fileData = await display.data.blob()
-        console.log("report data", display);
-        // form.resetFields();
         setLoading(false);
-        // saveAsXlsxFile(fileData)
      
     } catch (error) {
       setLoading(false);
       console.log(error.message);
-      // err.respose.data.message && message.error(err.respose.data.message)
     } 
   };
 
-  console.log("data");
   //  api calling ---
   useEffect(() => {
     const ac = new AbortController();
@@ -192,7 +185,7 @@ const Report = () => {
                 {`Total Lead Count : ${dataCount}`}{" "}
               </span>
               <Form.Item>
-                <button className="submit_btn" htmlType="submit">
+                <button className="submit_btn" htmltype="submit">
                   DOWNLOAD IN EXCEL
                 </button>
               </Form.Item>
