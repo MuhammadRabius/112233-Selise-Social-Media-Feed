@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
-import { DatePicker, Input, Form, message, Select ,Spin} from "antd";
+import { DatePicker, Input, Form, message, Select, Spin, Space } from "antd";
 import "./Report.css";
-import dayjs from "dayjs"
+import dayjs from "dayjs";
 import { getCount, getReport, getSource } from "./Service/Report_Service";
 import { LoadingOutlined } from "@ant-design/icons";
 import { validatePhoneNumber } from "../../Validation/Validation";
@@ -39,42 +39,44 @@ const Report = () => {
     />
   );
 
-  const onFinish = async(values) => {
-
+  const onFinish = async (values) => {
+    const phoneNum = `88${values?.mobilenumber}`;
+   
     const payload = {
       fromDate: startDate,
       toDate: endDate,
       leadSourceId: leadSourceId || "",
-      email: values.email || "",
-      phoneNumber: values.mobilenumber || "",
+      email: values?.email || "",
+      phoneNumber: phoneNum || "",
     };
-    
+
   
+
     try {
-      
-        setLoading(true);
-        if (startDate && endDate) {
-          const display = await getCount(payload);
-          setDataCount(display?.data?.data);
-          
-        }
-        const display = await getReport(
-          payload,
-          { responseType: "blob" },
-          { "Content-Type": "application/octet-stream" }
-        );
-        const url = window.URL.createObjectURL(new Blob([display?.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", `LeadCount-Report ${dayjs().format("YYYY-MM-DD")}.xlsx`);
-        document.body.appendChild(link);
-        link.click();
-        setLoading(false);
-     
+      setLoading(true);
+      if (startDate && endDate) {
+        // const display = await getCount(payload);
+        // setDataCount(display?.data?.data);
+      }
+      const display = await getReport(
+        payload,
+        { responseType: "blob" },
+        { "Content-Type": "application/octet-stream" }
+      );
+      const url = window.URL.createObjectURL(new Blob([display?.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute(
+        "download",
+        `LeadCount-Report ${dayjs().format("YYYY-MM-DD")}.xlsx`
+      );
+      document.body.appendChild(link);
+      link.click();
+      setLoading(false);
     } catch (error) {
       setLoading(false);
       console.log(error.message);
-    } 
+    }
   };
 
   //  api calling ---
@@ -91,7 +93,8 @@ const Report = () => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        error?.response?.data?.details[0] && message.error(error?.response?.data?.details[0])
+        error?.response?.data?.details[0] &&
+          message.error(error?.response?.data?.details[0]);
       }
     })();
 
@@ -128,6 +131,7 @@ const Report = () => {
                   format={`YYYY-MM-DD`}
                   suffixIcon={false}
                   placeholder="Start Day!"
+                  disabledDate={(current) => current.isAfter(dayjs())}
                 />
               </Form.Item>
               <Form.Item
@@ -146,14 +150,18 @@ const Report = () => {
                   format={`YYYY-MM-DD`}
                   suffixIcon={false}
                   placeholder="End Day!"
-                  showToday
+                  disabledDate={(current) => current.isAfter(dayjs())}
                 />
               </Form.Item>
 
               <Form.Item name="leadsource" label="">
-                <Select allowClear showSearch placeholder="Source Type"  onChange={onChangeSourceType}>
+                <Select
+                  allowClear
+                  showSearch
+                  placeholder="Source Type"
+                  onChange={onChangeSourceType}
+                >
                   {leadSorce.map((_d) => {
-                   
                     return (
                       <>
                         <Option key={_d?.id} value={_d?.id}>
@@ -168,13 +176,11 @@ const Report = () => {
               <Form.Item label="" name="email">
                 <Input className="_input_group" placeholder="Email" />
               </Form.Item>
-              <Form.Item label="" 
-              name="mobilenumber"
-              
-              >
+              <Form.Item label="" name="mobilenumber" >
                 <Input
                   className="_input_group"
-                  placeholder="8801777345678"
+                  addonBefore="+88"
+                  placeholder="01777345678"
                   maxLength={13}
                 />
               </Form.Item>

@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
-import "./sidebar.css";
 import logo from "../../assets/img/metlifelogo.png";
-import { Link, NavLink, Navigate } from "react-router-dom";
+import { NavLink  } from "react-router-dom";
 import { LogoutOutlined  } from "@ant-design/icons";
-import { UserContext } from '../Context/UserContext';
-const Sidebar = () => {
-  const { userData } = useContext(UserContext);
+import "./sidebar.css";
 
+const Sidebar = () => {
+  
   const user = JSON.parse(localStorage.getItem("user"));
   const username = JSON.parse(localStorage.getItem("username"));
  

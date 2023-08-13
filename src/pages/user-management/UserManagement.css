@@ -13,7 +13,7 @@
     grid-template-columns: repeat(2, 1fr);
     justify-content: space-between;
     align-items: center;
-    gap: 25px;
+    gap: 18px;
 }
 
 .um_form .input_group {
@@ -101,11 +101,53 @@
 .um_table {
     margin-top: 50px;
     margin-bottom: 70px;
-  }
+}
 
-  /* Responsive */
 
-  /* @media only screen and (max-width: 1400px) {
+/* pagination */
+.pgn_ld_sb {
+    margin: 70px 0px 40px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pgn_ld_sb .ant-pagination-item {
+    min-width: 40px !important;
+    height: 40px !important;
+    border-radius: 19px !important;
+    line-height: 38px !important;
+}
+
+.pgn_ld_sb .ant-pagination-item-active {
+    background: #007ABC !important;
+    border-color: #007ABC !important;
+    color: #FFFFFF !important;
+    font-size: 14px !important;
+}
+
+.pgn_ld_sb .ant-pagination-options-quick-jumper {
+    margin-inline-start: 85px !important;
+}
+
+.pgn_ld_sb .ant-pagination-options-quick-jumper input {
+    border-width: 2px !important;
+    border-color: #007ABC !important;
+}
+
+.pgn_ld_sb .ant-select-selector {
+    margin-right: 45px;
+    border-width: 2px !important;
+    border-color: #007ABC !important;
+}
+
+.pgn_ld_sb .anticon-right {
+    color: #007ABC !important;
+}
+
+/* Responsive */
+
+/* @media only screen and (max-width: 1400px) {
 
     .um_form .ant-form-item-control-input-content {
         flex: auto;
@@ -122,3 +164,9 @@
         height: 40px !important;
     }
   } */
+
+@media screen and (max-width: 1500px) {
+    .pgn_ld_sb .ant-pagination-options-quick-jumper {
+        margin-inline-start: 250px !important;
+    }
+}
