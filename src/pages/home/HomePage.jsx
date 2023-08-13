@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { DatePicker, Spin } from "antd";
+import { DatePicker, Spin,message } from "antd";
 import "./homePage.css";
 import { getGrapFillColor } from "../../global_state/action";
 import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
@@ -72,10 +72,9 @@ const HomePage = () => {
         }
         setIsloading(false);
       })();
-    } catch (error) {
+    } catch (err) {
       setIsloading(false);
-      console.log(error.message);
-      // err.respose.data.message && message.error(err.respose.data.message)
+      err.respose.data.message && message.error(err.respose.data.message)
     }
 
     return () => ac.abort();
@@ -101,7 +100,7 @@ const HomePage = () => {
           <div className="chart_section">
             <div className="char-bar">
               <BarChart
-                width={900}
+                width={1000}
                 height={300}
                 data={gData}
                 loading={isLoading}
@@ -118,12 +117,19 @@ const HomePage = () => {
                   }}
                 />
 
-                <YAxis width={50} tickSize={2} />
+                <YAxis
+                  width={50}
+                  tickSize={2}
+                  label={{
+                    value: "Lead",
+                    offset: 6,
+                    angle: -90,
+                    position: "insideLeft",
+                  }}
+                />
                 <Tooltip />
 
-                <Bar
-                  barSize={60}
-                  dataKey="totalLeadSentToUaa">
+                <Bar barSize={60} dataKey="totalLeadSentToUaa">
                   {gData.map((entry, index) => {
                     const color = getGrapFillColor(entry.leadSourceTypeName);
                     return <Cell fill={color} />;
@@ -138,7 +144,7 @@ const HomePage = () => {
 
           <div className="card">
             <DataTable
-             
+              key={tData.id}
               value={tData}
               loading={isLoading}
               tableStyle={{ minWidth: "50rem" }}

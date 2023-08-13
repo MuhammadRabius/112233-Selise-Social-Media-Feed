@@ -19,7 +19,14 @@ import {
   leadUpdateByID,
 } from "./Service/lead_service";
 
-const LeadUpdateModal = ({ open, onCancel, singleID, setUpdateLeadModal }) => {
+const LeadUpdateModal = ({
+  open,
+  onCancel,
+  singleID,
+  setUpdateLeadModal,
+  callBack,
+  setCallBack,
+}) => {
   const [form] = Form.useForm();
 
   const antIcon = (
@@ -37,7 +44,6 @@ const LeadUpdateModal = ({ open, onCancel, singleID, setUpdateLeadModal }) => {
 
   const { Option } = Select;
   const { TextArea } = Input;
-  const [callBack, setCallBack] = useState(false);
   const [districtAPI, setDistrictAPI] = useState([]);
   const [loading, setLoading] = useState(false);
   const [listViewData, setListbyIdData] = useState({
@@ -58,18 +64,18 @@ const LeadUpdateModal = ({ open, onCancel, singleID, setUpdateLeadModal }) => {
     districtName: "",
   });
 
-  
-
   // District ----
-  const onDistrictChange = (values) => {
-    setListbyIdData({ ...listViewData, districtName: values });
+  const onDistrictChange = (value) => {
+    console.log("values", value);
+    setListbyIdData({ ...listViewData, districtName: value });
   };
 
   // Submission payload-------------
   const payload = {
     customerFirstname: listViewData?.firstName,
     customerLastname: listViewData?.lastName,
-    customerContactNo: listViewData?.contactNo,
+    // customerContactNo: listViewData?.contactNo,
+    customerContactNo: `88${listViewData?.contactNo}`,
     district: listViewData?.districtName,
     customerEmail: listViewData?.email,
     customerPolicyNumber: listViewData?.customerPolicyNumber,
@@ -80,18 +86,26 @@ const LeadUpdateModal = ({ open, onCancel, singleID, setUpdateLeadModal }) => {
 
   // Update All and Exit Call
   const onFinish = async () => {
-   
-    try {
-      setLoading(true);
-      const res = await leadUpdateByID(singleID, payload);
-      message.success(res.data.message);
-      setCallBack(!callBack);
-      setLoading(false);
-      setUpdateLeadModal(false);
-    } catch (error) {
-      setLoading(false);
-      console.log(error.message);
+
+    if(listViewData?.firstName && listViewData?.contactNo && listViewData?.districtName){
+      try {
+        setLoading(true);
+        
+        const res = await leadUpdateByID(singleID, payload);
+        if (res?.data?.status === false) {
+          message.error(res.data.message);
+        }
+  
+        setCallBack(!callBack);
+        setLoading(false);
+        setUpdateLeadModal(false);
+      } catch (error) {
+        setLoading(false);
+        error.response.data.details[0] &&
+        message.error(error.response.data.details[0]);
+      }
     }
+    
   };
 
   // Data Fetching by ID
@@ -136,8 +150,6 @@ const LeadUpdateModal = ({ open, onCancel, singleID, setUpdateLeadModal }) => {
     return () => ac.abort();
   }, [callBack, singleID]);
 
- 
-
   return (
     <>
       <Modal
@@ -177,7 +189,8 @@ const LeadUpdateModal = ({ open, onCancel, singleID, setUpdateLeadModal }) => {
               <Form.Item name="contactNo" validateFirst={true}>
                 {" "}
                 <Input
-                  maxLength={13}
+                  addonBefore="+88"
+                  maxLength={11}
                   placeholder="* Mobile Number"
                   value={listViewData?.contactNo}
                   onChange={(e) =>
@@ -202,16 +215,17 @@ const LeadUpdateModal = ({ open, onCancel, singleID, setUpdateLeadModal }) => {
                 label=""
                 name="districtName"
                 validateFirst={true}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please Select District!",
-                  },
-                ]}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Please Select District!",
+                //   },
+                // ]}
               >
-                <Select
+                <select
+                  className="districtChange"
                   placeholder={`${listViewData?.districtName}`}
-                  onChange={onDistrictChange}
+                  onChange={(e) => onDistrictChange(e.target.value)}
                   allowClear
                   showSearch
                   initialValue={listViewData?.districtName}
@@ -219,14 +233,14 @@ const LeadUpdateModal = ({ open, onCancel, singleID, setUpdateLeadModal }) => {
                   {districtAPI.map((_d) => {
                     return (
                       <>
-                        <Option key={_d.id} value={_d.nameEnglish}>
+                        <option key={_d.id} value={_d.nameEnglish}>
                           {_d.labelEnglish}
-                        </Option>
+                        </option>
                       </>
                     );
                   })}
                   }
-                </Select>
+                </select>
               </Form.Item>
 
               <Form.Item

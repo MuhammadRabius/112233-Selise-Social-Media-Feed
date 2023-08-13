@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
-import { Input, Form, Select, Table, message, Spin } from "antd";
+import { Input, Form, Select, Table, message, Spin,Pagination } from "antd";
 import { NavLink } from "react-router-dom";
-import { Paginator } from "primereact/paginator";
 import { LoadingOutlined } from "@ant-design/icons";
 import "./UserManagement.css";
 import {
@@ -323,6 +322,7 @@ const UserManagement = () => {
             <div className="um_table">
               <div>
                 <Table
+                  key={user.id}
                   onChange={onTableChange}
                   columns={columns}
                   dataSource={user}
@@ -331,8 +331,10 @@ const UserManagement = () => {
               </div>
             </div>
 
-            {/* Lead Generation Pagination */}
-            <div className="pgn_ld_sb"></div>
+            {/*  Pagination */}
+            <div className="pgn_ld_sb">
+            
+          </div>
           </div>
         </Layout>
       </Spin>

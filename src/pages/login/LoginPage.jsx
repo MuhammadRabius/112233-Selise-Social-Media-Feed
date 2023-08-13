@@ -6,15 +6,12 @@ import logo from "../../assets/img/metlifelogo.png";
 import { userLogin } from "../../services/AuthService";
 import jwt_decode from "jwt-decode";
 import { message,Skeleton } from "antd";
-import { Navigate,useNavigate,useHistory} from "react-router-dom";
+import { Navigate} from "react-router-dom";
 import TextInput from "../../components/inputs/TextInput";
-import { UserContext } from "../../components/Context/UserContext";
 
 const LoginPage = () => {
-  const { setUserData } = useContext(UserContext);
   const [isLoading, setIsloading] = useState(false);
-  const navigate = useNavigate();
-  // const history = useHistory();
+
 
 
 
@@ -34,7 +31,7 @@ const LoginPage = () => {
   return (
     <Skeleton loading={isLoading} size="large" active
     paragraph={{
-      rows: 20,
+      rows: 10,
     }}>  
     <div className="login-container">
       <div className="login-card">
@@ -55,7 +52,7 @@ const LoginPage = () => {
             try {
               setIsloading(true);
               const res = await userLogin(values);
-              setUserData(res.data.data)
+          
               if (res.status === 200) {
                 const token = res.data.data.token;
                 const username = res.data.data.username;
@@ -94,7 +91,7 @@ const LoginPage = () => {
                 className="login-button "
               >
                 LOGIN
-              </button>
+              </button> 
 
               <p className="mt-3">
                 <small className="__lw_text">

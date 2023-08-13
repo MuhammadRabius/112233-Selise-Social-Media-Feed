@@ -4,7 +4,7 @@ import { UploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import "./UploadModal.css";
 import { bulkExcelUpload } from "../Service/lead_service";
 
-const UploadModal = ({ open, onCancel, onSubmit, setBulkUpModal }) => {
+const UploadModal = ({ open, onCancel, onSubmit, setBulkUpModal,callBack,setCallBack }) => {
   const [form] = Form.useForm();
   const { Dragger } = Upload;
   const [isLoading, setLoading] = useState(false);
@@ -43,6 +43,7 @@ const UploadModal = ({ open, onCancel, onSubmit, setBulkUpModal }) => {
 
         message.success(response.data.message);
         form.resetFields();
+        setCallBack(!callBack);
         setBulkUpModal(false);
       } else {
         message.warning("Please Upload Excel File");
@@ -54,9 +55,7 @@ const UploadModal = ({ open, onCancel, onSubmit, setBulkUpModal }) => {
     }
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
+
 
   return (
     <>
@@ -72,7 +71,6 @@ const UploadModal = ({ open, onCancel, onSubmit, setBulkUpModal }) => {
             form={form}
             name="excel_upload_form"
             onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
             initialValues={{
               remember: true,
             }}
