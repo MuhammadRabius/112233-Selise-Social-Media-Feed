@@ -53,7 +53,7 @@ const LoginPage = () => {
               setIsloading(true);
               const res = await userLogin(values);
           
-              if (res.status === 200) {
+              if (res.data.message === true) {
                 const token = res.data.data.token;
                 const username = res.data.data.username;
                 localStorage.setItem("access-token", token);
@@ -64,6 +64,7 @@ const LoginPage = () => {
                 message.success(res.data.message);
                 
               }
+              message.error(res.data.message);
               setIsloading(false);
             } catch (e) {
               message.success(e.message);
