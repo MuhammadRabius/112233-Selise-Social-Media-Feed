@@ -52,22 +52,23 @@ const LoginPage = () => {
             try {
               setIsloading(true);
               const res = await userLogin(values);
-          
-              if (res.data.message === true) {
-                const token = res.data.data.token;
-                const username = res.data.data.username;
-                localStorage.setItem("access-token", token);
-                const user = jwt_decode(token);
-                localStorage.setItem("user", JSON.stringify(user));
-                localStorage.setItem("username", JSON.stringify(username));
-                window.location.href = "/";
-                message.success(res.data.message);
-                
+
+              if (res.data.status === false) {
+                message.error(res.data.message);
+                setIsloading(false);
               }
-              message.error(res.data.message);
+              const token = res.data.data.token;
+              const username = res.data.data.username;
+              localStorage.setItem("access-token", token);
+              const user = jwt_decode(token);
+              localStorage.setItem("user", JSON.stringify(user));
+              localStorage.setItem("username", JSON.stringify(username));
+              window.location.href = "/";
+              message.success(res.data.message);
               setIsloading(false);
+              
             } catch (e) {
-              message.success(e.message);
+              message.error(e.res.data.message);
               setIsloading(false);
               console.log(e);
             }
