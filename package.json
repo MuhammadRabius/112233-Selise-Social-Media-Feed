@@ -43,7 +43,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "set\"GENERATE_SOURCEMAP=false\"&& react-scripts build",
+    "build": "react-scripts build",
     "test": "jest --clearCache && cross-env NODE_OPTIONS=--experimental-vm-modules npx jest --verbose",
     "eject": "react-scripts eject"
   },
