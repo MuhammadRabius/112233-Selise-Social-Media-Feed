@@ -493,10 +493,9 @@ const LeadsPage = () => {
                     ]}
                   >
                     <Input
-                      addonBefore="+88"
+                      addonBefore="88"
                       maxLength={11}
-                      placeholder={`* Mobile 
-              8801777-777524`}
+                      placeholder={`* Mobile 01777-777524`}
                     />
                   </Form.Item>
                   <Form.Item

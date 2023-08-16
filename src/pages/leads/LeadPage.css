@@ -19,7 +19,9 @@
 .lead-search {
   width: 399px;
   height: 40px;
-  border-bottom: 2px solid #A2CF42;
+  border-width: 0 0 2px;
+  border-image: linear-gradient(to right, #0090DA, #A4CE4E) 1;
+  border-style: solid;
 
 }
 
