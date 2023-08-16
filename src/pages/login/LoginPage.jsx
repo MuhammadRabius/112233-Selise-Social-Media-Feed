@@ -8,6 +8,7 @@ import jwt_decode from "jwt-decode";
 import { message,Skeleton } from "antd";
 import { Navigate} from "react-router-dom";
 import TextInput from "../../components/inputs/TextInput";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const LoginPage = () => {
   const [isLoading, setIsloading] = useState(false);
@@ -27,6 +28,16 @@ const LoginPage = () => {
   if (token !== null) {
     return <Navigate to="/" replace />;
   }
+
+  // Spin
+  const antIcon = (
+    <LoadingOutlined
+      style={{
+        fontSize: 24,
+      }}
+      spin
+    />
+  );
 
   return (
     <Skeleton loading={isLoading} size="large" active
