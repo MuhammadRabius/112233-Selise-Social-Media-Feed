@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1692002209391" clover="3.2.0">
-  <project timestamp="1692002209391" name="All files">
-    <metrics statements="156" coveredstatements="81" conditionals="50" coveredconditionals="9" methods="49" coveredmethods="21" elements="255" coveredelements="111" complexity="0" loc="156" ncloc="156" packages="12" files="12" classes="12"/>
+<coverage generated="1692164816692" clover="3.2.0">
+  <project timestamp="1692164816692" name="All files">
+    <metrics statements="157" coveredstatements="78" conditionals="52" coveredconditionals="10" methods="49" coveredmethods="19" elements="258" coveredelements="107" complexity="0" loc="157" ncloc="157" packages="12" files="12" classes="12"/>
     <package name="src">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <file name="App.jsx" path="C:\Users\rabiussanym\OneDrive - MetLife\Documents\ULM_repo_1\13639-ULM-client\src\App.jsx">
@@ -32,7 +32,7 @@
       <file name="TextInput.jsx" path="C:\Users\rabiussanym\OneDrive - MetLife\Documents\ULM_repo_1\13639-ULM-client\src\components\inputs\TextInput.jsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="2" count="2" type="stmt"/>
-        <line num="3" count="6" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
       </file>
     </package>
     <package name="src.components.layout">
@@ -191,20 +191,21 @@
       </file>
     </package>
     <package name="src.pages.login">
-      <metrics statements="26" coveredstatements="9" conditionals="6" coveredconditionals="1" methods="7" coveredmethods="2"/>
+      <metrics statements="27" coveredstatements="7" conditionals="8" coveredconditionals="2" methods="7" coveredmethods="1"/>
       <file name="LoginPage.jsx" path="C:\Users\rabiussanym\OneDrive - MetLife\Documents\ULM_repo_1\13639-ULM-client\src\pages\login\LoginPage.jsx">
-        <metrics statements="26" coveredstatements="9" conditionals="6" coveredconditionals="1" methods="7" coveredmethods="2"/>
+        <metrics statements="27" coveredstatements="7" conditionals="8" coveredconditionals="2" methods="7" coveredmethods="1"/>
         <line num="12" count="2" type="stmt"/>
-        <line num="13" count="4" type="stmt"/>
-        <line num="15" count="3" type="stmt"/>
-        <line num="22" count="3" type="stmt"/>
-        <line num="24" count="3" type="cond" truecount="1" falsecount="1"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="28" count="3" type="stmt"/>
-        <line num="53" count="2" type="stmt"/>
-        <line num="54" count="2" type="stmt"/>
-        <line num="55" count="2" type="stmt"/>
-        <line num="57" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="27" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="52" count="0" type="stmt"/>
+        <line num="53" count="0" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
+        <line num="56" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="58" count="0" type="stmt"/>
         <line num="59" count="0" type="stmt"/>
         <line num="61" count="0" type="stmt"/>
@@ -216,18 +217,18 @@
         <line num="67" count="0" type="stmt"/>
         <line num="68" count="0" type="stmt"/>
         <line num="69" count="0" type="stmt"/>
-        <line num="71" count="0" type="stmt"/>
         <line num="72" count="0" type="stmt"/>
         <line num="73" count="0" type="stmt"/>
-        <line num="123" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="74" count="0" type="stmt"/>
+        <line num="124" count="0" type="cond" truecount="0" falsecount="2"/>
       </file>
     </package>
     <package name="src.services">
-      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="AuthService.js" path="C:\Users\rabiussanym\OneDrive - MetLife\Documents\ULM_repo_1\13639-ULM-client\src\services\AuthService.js">
-        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="3" count="2" type="stmt"/>
-        <line num="4" count="2" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
       </file>
     </package>
   </project>
