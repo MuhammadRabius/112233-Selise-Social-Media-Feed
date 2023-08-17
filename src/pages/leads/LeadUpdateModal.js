@@ -86,26 +86,28 @@ const LeadUpdateModal = ({
 
   // Update All and Exit Call
   const onFinish = async () => {
-
-    if(listViewData?.firstName && listViewData?.contactNo && listViewData?.districtName){
+    if (
+      listViewData?.firstName &&
+      listViewData?.contactNo &&
+      listViewData?.districtName
+    ) {
       try {
         setLoading(true);
-        
+
         const res = await leadUpdateByID(singleID, payload);
         if (res?.data?.status === false) {
           message.error(res.data.message);
         }
-  
+
         setCallBack(!callBack);
         setLoading(false);
         setUpdateLeadModal(false);
       } catch (error) {
         setLoading(false);
         error.response.data.details[0] &&
-        message.error(error.response.data.details[0]);
+          message.error(error.response.data.details[0]);
       }
     }
-    
   };
 
   // Data Fetching by ID
@@ -215,6 +217,7 @@ const LeadUpdateModal = ({
                 label=""
                 name="districtName"
                 validateFirst={true}
+
                 // rules={[
                 //   {
                 //     required: true,
@@ -228,8 +231,9 @@ const LeadUpdateModal = ({
                   onChange={(e) => onDistrictChange(e.target.value)}
                   allowClear
                   showSearch
-                  initialValue={listViewData?.districtName}
+                  defaultValue={listViewData?.districtName}
                 >
+                
                   {districtAPI.map((_d) => {
                     return (
                       <>
