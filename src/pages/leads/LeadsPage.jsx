@@ -67,10 +67,14 @@ const LeadsPage = () => {
   const [leadListView, setLeadListView] = useState([]);
   const [p_Number, set_P_Number] = useState(0);
   const [p_Size, set_P_Size] = useState(10);
-  const [total, setTotal] = useState(0);
+  const [totalPages, setTotal] = useState(0);
+  
+  // setIndexNumber
+  const frontPaginationNumber = p_Number + 1;
 
-  const onChange = (pageNumber, pageSize) => {
-    set_P_Number(pageNumber);
+  const onPaginationChange = (pageNumber, pageSize) => {
+    const pageNum = pageNumber -1
+    set_P_Number(pageNum);
     set_P_Size(pageSize);
   };
   // Table Sorting
@@ -155,12 +159,9 @@ const LeadsPage = () => {
     remarks: remark || "",
   };
 
-
-
   // Submit All and Exit Call
-  const onFinish = async (btnTypes,values) => {
-   
-    if(fname && phoneNumber && district ){
+  const onFinish = async (btnTypes, values) => {
+    if (fname && phoneNumber && district) {
       try {
         setLoading(true);
         const sendSingleLead = await submitLeadManual(payload);
@@ -168,13 +169,13 @@ const LeadsPage = () => {
         setCallBack(!callBack);
         setLoading(false);
         form.resetFields();
-        if (btnTypes === "singleExit" ){
-          setAddLead(false); 
+        if (btnTypes === "singleExit") {
+          setAddLead(false);
         }
       } catch (error) {
         setLoading(false);
         error.response.data.details[0] &&
-        message.error(error.response.data.details[0]);
+          message.error(error.response.data.details[0]);
       }
     }
   };
@@ -192,6 +193,7 @@ const LeadsPage = () => {
         setDistrictAPI(districtDisplay.data.data);
 
         const leadDisplay = await leadList(p_Number, p_Size);
+
         setTotal(leadDisplay?.data?.data?.totalItems);
         setLeadListView(leadDisplay?.data?.data?.items);
         set_P_Number(...p_Number, leadDisplay?.data?.data?.pageNumber);
@@ -200,7 +202,6 @@ const LeadsPage = () => {
         setLoading(false);
       } catch (err) {
         setLoading(false);
-        
       }
     })();
 
@@ -238,7 +239,7 @@ const LeadsPage = () => {
       sorter: (a, b) => a?.firstName?.length - b?.firstName?.length,
       sortOrder: sortedInfo.columnKey === "firstName" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
-      responsive: ["sm"]
+      responsive: ["sm"],
     },
     {
       title: "Last Name",
@@ -248,7 +249,7 @@ const LeadsPage = () => {
       sortOrder: sortedInfo.columnKey === "lastName" ? sortedInfo.order : null,
       ellipsis: true,
       sortDirections: ["descend", "ascend"],
-      responsive: ["sm"]
+      responsive: ["sm"],
     },
     {
       title: "Mobile No",
@@ -258,7 +259,7 @@ const LeadsPage = () => {
       sortOrder: sortedInfo.columnKey === "contactNo" ? sortedInfo.order : null,
       ellipsis: true,
       sortDirections: ["descend", "ascend"],
-      responsive: ["sm"]
+      responsive: ["sm"],
     },
     {
       title: "Email",
@@ -267,7 +268,7 @@ const LeadsPage = () => {
       sorter: (a, b) => a?.email?.length - b?.email?.length,
       sortOrder: sortedInfo.columnKey === "email" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
-      responsive: ["sm"]
+      responsive: ["sm"],
     },
     {
       title: "District",
@@ -278,7 +279,7 @@ const LeadsPage = () => {
         sortedInfo.columnKey === "districtName" ? sortedInfo.order : null,
       ellipsis: true,
       sortDirections: ["descend", "ascend"],
-      responsive: ["sm"]
+      responsive: ["sm"],
 
       // sorter: {
       //   compare: (a, b) => a.english - b.english,
@@ -294,7 +295,7 @@ const LeadsPage = () => {
         sortedInfo.columnKey === "leadSourceName" ? sortedInfo.order : null,
       ellipsis: true,
       sortDirections: ["descend", "ascend"],
-      responsive: ["sm"]
+      responsive: ["sm"],
       // sorter: {
       //   compare: (a, b) => a.english - b.english,
       //   multiple: 1,
@@ -411,12 +412,11 @@ const LeadsPage = () => {
           {/* Lead Generation Pagination */}
           <div className="pgn_ld_sb">
             <Pagination
-            
               showQuickJumper
-              defaultCurrent={p_Number}
+              current={frontPaginationNumber}
               // total={Math.ceil(total)}
-              total={total}
-              onChange={onChange}
+              total={totalPages}
+              onChange={onPaginationChange}
             />
           </div>
 
@@ -467,7 +467,7 @@ const LeadsPage = () => {
                       },
                     ]}
                   >
-                    <Input placeholder="* First Name" />
+                    <Input placeholder="* First Name" className="input_group" />
                   </Form.Item>
 
                   <Form.Item
@@ -476,13 +476,12 @@ const LeadsPage = () => {
                     name="lastname"
                     onChange={handleLastName}
                   >
-                    <Input placeholder="Last Name" />
+                    <Input placeholder="Last Name" className="input_group" />
                   </Form.Item>
 
                   <Form.Item
                     label=""
                     name="mobilenumber"
-                
                     validateFirst={true}
                     onChange={handlePhoneNumber}
                     rules={[
@@ -493,8 +492,9 @@ const LeadsPage = () => {
                     ]}
                   >
                     <Input
-                      addonBefore="88"
-                      maxLength={11}
+                      // className='contactNumber'
+                      addonBefore="880"
+                      maxLength={10}
                       placeholder={`* Mobile 01777-777524`}
                     />
                   </Form.Item>
@@ -504,7 +504,11 @@ const LeadsPage = () => {
                     validateFirst={true}
                     onChange={handleEmail}
                   >
-                    <Input type="email" placeholder="Email" />
+                    <Input
+                      type="email"
+                      placeholder="Email"
+                      className="input_group"
+                    />
                   </Form.Item>
 
                   <Form.Item
@@ -540,6 +544,7 @@ const LeadsPage = () => {
                   <Form.Item label="" validateFirst={true} name="policy">
                     <div className="exiting_policy">
                       <Input
+                        className="input_group"
                         onChange={onPolicySearch}
                         className="policy_input"
                         placeholder="Existing Policy Number (If Any)"
@@ -562,7 +567,11 @@ const LeadsPage = () => {
                   </Form.Item>
 
                   <Form.Item label="" name="facode">
-                    <Input placeholder="FA Code" onChange={handleFAQ} />
+                    <Input
+                      placeholder="FA Code"
+                      onChange={handleFAQ}
+                      className="input_group"
+                    />
                   </Form.Item>
 
                   <Form.Item label="" name="remark">
@@ -580,17 +589,18 @@ const LeadsPage = () => {
                     <Form.Item>
                       <button
                         htmlType="submit"
-                        onClick={()=>onFinish("singleCon")}
+                        onClick={() => onFinish("singleCon")}
                         className="sub_btn me-4"
                       >
                         SUBMIT
                       </button>
                     </Form.Item>
                     <Form.Item>
-                      <button 
-                      htmlType="submit" 
-                      onClick={()=>onFinish("singleExit")}
-                       className="sub_btn">
+                      <button
+                        htmlType="submit"
+                        onClick={() => onFinish("singleExit")}
+                        className="sub_btn"
+                      >
                         SUBMIT & CLOSE
                       </button>
                     </Form.Item>

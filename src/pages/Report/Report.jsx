@@ -47,16 +47,14 @@ const Report = () => {
       toDate: endDate,
       leadSourceId: leadSourceId || "",
       email: values?.email || "",
-      phoneNumber: phoneNum || "",
+      phoneNumber: values?.mobilenumber || "",
     };
-
-  
 
     try {
       setLoading(true);
       if (startDate && endDate) {
-        // const display = await getCount(payload);
-        // setDataCount(display?.data?.data);
+        const display = await getCount(payload);
+        setDataCount(display?.data?.data);
       }
       const display = await getReport(
         payload,

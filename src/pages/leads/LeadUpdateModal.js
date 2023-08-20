@@ -8,7 +8,7 @@ import {
   Select,
   Button,
   message,
-  Pagination,
+  Tooltip,
   Spin,
 } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -75,7 +75,7 @@ const LeadUpdateModal = ({
     customerFirstname: listViewData?.firstName,
     customerLastname: listViewData?.lastName,
     // customerContactNo: listViewData?.contactNo,
-    customerContactNo: `88${listViewData?.contactNo}`,
+    customerContactNo: `880${listViewData?.contactNo}`,
     district: listViewData?.districtName,
     customerEmail: listViewData?.email,
     customerPolicyNumber: listViewData?.customerPolicyNumber,
@@ -168,6 +168,7 @@ const LeadUpdateModal = ({
               <Form.Item name="firstName" validateFirst={true}>
                 {" "}
                 <Input
+                  className="input_group"
                   type="text"
                   placeholder="* First Name"
                   value={listViewData?.firstName}
@@ -183,6 +184,7 @@ const LeadUpdateModal = ({
               <Form.Item name="lastName">
                 {" "}
                 <Input
+                  className="input_group"
                   placeholder="Last Name"
                   value={listViewData?.lastName}
                   disabled
@@ -191,8 +193,9 @@ const LeadUpdateModal = ({
               <Form.Item name="contactNo" validateFirst={true}>
                 {" "}
                 <Input
-                  addonBefore="88"
-                  maxLength={11}
+                  // addonBefore="880"
+                  className="input_group"
+                  maxLength={13}
                   placeholder="* Mobile Number"
                   value={listViewData?.contactNo}
                   onChange={(e) =>
@@ -202,10 +205,12 @@ const LeadUpdateModal = ({
                     })
                   }
                 />
+               
               </Form.Item>
               <Form.Item name="email">
                 {" "}
                 <Input
+                  className="input_group"
                   type="text"
                   placeholder="Email"
                   value={listViewData?.email}
@@ -233,7 +238,6 @@ const LeadUpdateModal = ({
                   showSearch
                   defaultValue={listViewData?.districtName}
                 >
-                
                   {districtAPI.map((_d) => {
                     return (
                       <>
@@ -254,6 +258,7 @@ const LeadUpdateModal = ({
               >
                 <div className="exiting_policy">
                   <Input
+                    className="input_group"
                     disabled
                     className="policy_input"
                     placeholder="Existing Policy Number (If Any)"
@@ -266,6 +271,7 @@ const LeadUpdateModal = ({
 
               <Form.Item label="" name="facode">
                 <Input
+                  className="input_group"
                   placeholder="FA Code"
                   disabled
                   value={listViewData?.faCode}
