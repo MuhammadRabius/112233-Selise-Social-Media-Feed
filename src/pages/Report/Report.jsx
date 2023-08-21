@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { getCount, getReport, getSource } from "./Service/Report_Service";
 import { LoadingOutlined } from "@ant-design/icons";
 import { validatePhoneNumber } from "../../Validation/Validation";
+import { mobileValidation } from "../../global_state/action";
 const { Option } = Select;
 
 const Report = () => {
@@ -40,14 +41,18 @@ const Report = () => {
   );
 
   const onFinish = async (values) => {
-    const phoneNum = `88${values?.mobilenumber}`;
+
    
+    
+    const phoneIn = values?.mobilenumber === "undefine" || values?.mobilenumber === "" ? "":`880${values?.mobilenumber}`;
+    
+
     const payload = {
       fromDate: startDate,
       toDate: endDate,
       leadSourceId: leadSourceId || "",
       email: values?.email || "",
-      phoneNumber: values?.mobilenumber || "",
+      phoneNumber: phoneIn,
     };
 
     try {
@@ -56,20 +61,20 @@ const Report = () => {
         const display = await getCount(payload);
         setDataCount(display?.data?.data);
       }
-      const display = await getReport(
-        payload,
-        { responseType: "blob" },
-        { "Content-Type": "application/octet-stream" }
-      );
-      const url = window.URL.createObjectURL(new Blob([display?.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute(
-        "download",
-        `LeadCount-Report ${dayjs().format("YYYY-MM-DD")}.xlsx`
-      );
-      document.body.appendChild(link);
-      link.click();
+      // const display = await getReport(
+      //   payload,
+      //   { responseType: "blob" },
+      //   { "Content-Type": "application/octet-stream" }
+      // );
+      // const url = window.URL.createObjectURL(new Blob([display?.data]));
+      // const link = document.createElement("a");
+      // link.href = url;
+      // link.setAttribute(
+      //   "download",
+      //   `LeadCount-Report ${dayjs().format("YYYY-MM-DD")}.xlsx`
+      // );
+      // document.body.appendChild(link);
+      // link.click();
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -172,14 +177,14 @@ const Report = () => {
               </Form.Item>
 
               <Form.Item label="" name="email">
-                <Input className="_input_group" placeholder="Email" />
+                <Input className="_input_group" placeholder="Email" type="email"/>
               </Form.Item>
               <Form.Item label="" name="mobilenumber" >
                 <Input
                   className="_input_group"
-                  addonBefore="88"
-                  placeholder="01777345678"
-                  maxLength={13}
+                  addonBefore="880"
+                  placeholder="1777345678"
+                  maxLength={10}
                 />
               </Form.Item>
             </div>

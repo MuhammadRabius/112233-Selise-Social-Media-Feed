@@ -87,7 +87,7 @@ const LeadsPage = () => {
   const setcontactNoSort = () => {
     setSortedInfo({
       order: "descend",
-      columnKey: "contactNo",
+      columnKey: "leadDate",
     });
   };
 
@@ -229,14 +229,16 @@ const LeadsPage = () => {
     {
       title: "Date",
       dataIndex: "leadDate",
+      key:"leadDate",
       sorter: (a, b) => new Date(a.leadDate) - new Date(b.leadDate),
       sortOrder: sortedInfo.columnKey === "leadDate" ? sortedInfo.order : null,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "First Name",
       dataIndex: "firstName",
       key: "firstName",
-      sorter: (a, b) => a?.firstName?.length - b?.firstName?.length,
+      sorter: (a, b) => a?.firstName.localeCompare( b?.firstName),
       sortOrder: sortedInfo.columnKey === "firstName" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
@@ -495,7 +497,7 @@ const LeadsPage = () => {
                       // className='contactNumber'
                       addonBefore="880"
                       maxLength={10}
-                      placeholder={`* Mobile 01777-777524`}
+                      placeholder={`* 1777-777524`}
                     />
                   </Form.Item>
                   <Form.Item
