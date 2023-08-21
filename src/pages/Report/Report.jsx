@@ -183,7 +183,11 @@ const Report = () => {
                   type="email"
                 />
               </Form.Item>
-              <Form.Item label="" name="mobilenumber">
+              <Form.Item
+                label=""
+                name="mobilenumber"
+                // rules={[{ validator: validatePhoneNumber }]}
+              >
                 <Input
                   className="_input_group"
                   addonBefore="880"

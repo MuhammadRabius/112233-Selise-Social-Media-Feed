@@ -44,7 +44,7 @@ const LeadUpdateModal = ({
 
   const { Option } = Select;
   const { TextArea } = Input;
- 
+  const [phoneError,setPhoneError] =useState('')
   const [districtAPI, setDistrictAPI] = useState([]);
   const [loading, setLoading] = useState(false);
   const [listViewData, setListbyIdData] = useState({
@@ -62,6 +62,7 @@ const LeadUpdateModal = ({
   });
 
   // payloadContactMagic
+  
   const phonePrefixZero = listViewData?.contactNo?.charAt(0) === "0" || null ? `880${listViewData?.contactNo?.substring(1)}` : `880${listViewData?.contactNo}`
   const contactNumber = listViewData?.contactNo?.charAt(0) === "8" || null ? `${listViewData?.contactNo}` : phonePrefixZero;
   
@@ -89,16 +90,16 @@ const LeadUpdateModal = ({
     remarks: listViewData?.remarks,
   };
 
-  // console.log("payload",payload)
-
+   console.log("number",contactNumber)
+   
   // Update All and Exit Call
   const onFinish = async () => {
 
     if (
       listViewData?.firstName &&
-      listViewData?.contactNo &&
+      listViewData?.contactNo?.length === 13 &&
       listViewData?.districtName
-      ) {
+    ) {
         try {
           setLoading(true);
 
@@ -115,9 +116,12 @@ const LeadUpdateModal = ({
         error.response.data.details[0] &&
           message.error(error.response.data.details[0]);
       }
+    } else {
+      // message.warning('Mobile number must be 10 digits, exclude 880')
+      setPhoneError('Mobile number must be 10 digits, exclude 880. i.e 1405628226')
     }
   };
-
+  
   // Data Fetching by ID
   useEffect(() => {
     const ac = new AbortController();
@@ -153,13 +157,19 @@ const LeadUpdateModal = ({
         setLoading(false);
       } catch (err) {
         setLoading(false);
-        console.error("Something went wrong");
       }
     })();
 
     return () => ac.abort();
   }, [callBack, singleID]);
 
+
+  const validatePhoneNumberLength = (_,value)=>{
+    if(value && (value.length !==13 )){
+      return Promise.reject("Phone Number Must Have 13 Number")
+    }
+    return Promise.resolve();
+  };
   return (
     <>
       <Modal
@@ -172,7 +182,7 @@ const LeadUpdateModal = ({
       >
         <Spin indicator={antIcon} spinning={loading}>
           <div className="_modal_body">
-            <Form form={form} onFinish={onFinish} autoComplete="off">
+            <Form form={form} onFinish={onFinish} autoComplete="off" >
               <Form.Item name="firstName" validateFirst={true}>
                 {" "}
                 <Input
@@ -198,39 +208,47 @@ const LeadUpdateModal = ({
                   disabled
                 />
               </Form.Item>
-              <Form.Item name="contactNo" validateFirst={true} >
-                {" "}
-                {
-                  listViewData?.contactNo?.charAt(0) === "8" ? <Input
-                  addonBefore="880"
-                  // className="input_group"
-                  maxLength={13}
-                  placeholder="* Mobile Number"
-                  value={listViewData?.contactNo.replace(/^880/g, '')}
-                  onChange={(e) =>
-                    setListbyIdData({
-                      ...listViewData,
-                      contactNo: e.target.value,
-                    })
-                  }
-                /> : <Input
-
-                addonBefore="880"
-                // className="input_group"
-                maxLength={10}
-                placeholder="* Mobile Number"
-                value={listViewData?.contactNo?.replace(/^0/g, '')}
-                onChange={(e) =>
-                  setListbyIdData({
-                    ...listViewData,
-                    contactNo: e.target.value,
-                  })
-                }
-              />
-                }
+              <Form.Item
+                name="contactNo"
                 
-               
+              >
+                {" "}
+                {listViewData?.contactNo?.charAt(0) === "8" ? (
+                  <Input
+                    
+                    addonBefore="880"
+                    // className="input_group"
+                    maxLength={10}
+                    placeholder="* Mobile Number"
+                    value={listViewData?.contactNo.replace(/^880/g, "")}
+                    onChange={(e) =>
+                      setListbyIdData({
+                        ...listViewData,
+                        contactNo: e.target.value,
+                      })
+                    }
+                  />
+                ) : (
+                  <Input
+                    
+                    addonBefore="880"
+                    // className="input_group"
+                    maxLength={10}
+                    placeholder="* Mobile Number"
+                    value={listViewData?.contactNo?.replace(/^0/g, "")}
+                    onChange={(e) =>
+                      setListbyIdData({
+                        ...listViewData,
+                        contactNo: e.target.value,
+                      })
+                    }
+                  />
+                )}
+                {
+                  phoneError && <p style={{color:'red'}}>{phoneError}</p>
+                }
               </Form.Item>
+              
               <Form.Item name="email">
                 {" "}
                 <Input

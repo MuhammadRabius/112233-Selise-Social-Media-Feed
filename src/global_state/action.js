@@ -33,6 +33,14 @@ export const mobileValidation = (phoneNumber) => {
   }
 };
 
+// Update Modal Mobile Number CharAt Validation
+
+export const phonePrefix =(prefix)=>{
+  console.log("prefix",prefix)
+}
+
+
+// File Download for Error Excel File
 export const saveAsXlsxFile= (base64) => {
 
   var mediaType =
