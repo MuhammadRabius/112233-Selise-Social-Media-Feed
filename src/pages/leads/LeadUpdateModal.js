@@ -18,6 +18,7 @@ import {
   leadListByID,
   leadUpdateByID,
 } from "./Service/lead_service";
+import { phonePrefix } from "../../global_state/action";
 
 const LeadUpdateModal = ({
   open,
@@ -90,14 +91,15 @@ const LeadUpdateModal = ({
     remarks: listViewData?.remarks,
   };
 
-   console.log("number",contactNumber)
    
   // Update All and Exit Call
   const onFinish = async () => {
 
+    console.log("p length",contactNumber?.length)
+
     if (
       listViewData?.firstName &&
-      listViewData?.contactNo?.length === 13 &&
+      (contactNumber?.length === 13) &&
       listViewData?.districtName
     ) {
         try {
@@ -117,8 +119,7 @@ const LeadUpdateModal = ({
           message.error(error.response.data.details[0]);
       }
     } else {
-      // message.warning('Mobile number must be 10 digits, exclude 880')
-      setPhoneError('Mobile number must be 10 digits, exclude 880. i.e 1405628226')
+      message.error('Please input valid mobile number. Must be 10 digit exclude 880')
     }
   };
   
@@ -164,12 +165,7 @@ const LeadUpdateModal = ({
   }, [callBack, singleID]);
 
 
-  const validatePhoneNumberLength = (_,value)=>{
-    if(value && (value.length !==13 )){
-      return Promise.reject("Phone Number Must Have 13 Number")
-    }
-    return Promise.resolve();
-  };
+  
   return (
     <>
       <Modal
@@ -208,46 +204,54 @@ const LeadUpdateModal = ({
                   disabled
                 />
               </Form.Item>
-              <Form.Item
+
+              {
+                ((listViewData?.contactNo?.length === 11 || listViewData?.contactNo?.length === 13) && (listViewData?.contactNo?.charAt(0) === "0" || listViewData?.contactNo?.charAt(0) === "8") ) ? 
+                <Form.Item
                 name="contactNo"
-                
               >
                 {" "}
-                {listViewData?.contactNo?.charAt(0) === "8" ? (
-                  <Input
-                    
-                    addonBefore="880"
-                    // className="input_group"
-                    maxLength={10}
-                    placeholder="* Mobile Number"
-                    value={listViewData?.contactNo.replace(/^880/g, "")}
-                    onChange={(e) =>
-                      setListbyIdData({
-                        ...listViewData,
-                        contactNo: e.target.value,
-                      })
-                    }
-                  />
-                ) : (
-                  <Input
-                    
-                    addonBefore="880"
-                    // className="input_group"
-                    maxLength={10}
-                    placeholder="* Mobile Number"
-                    value={listViewData?.contactNo?.replace(/^0/g, "")}
-                    onChange={(e) =>
-                      setListbyIdData({
-                        ...listViewData,
-                        contactNo: e.target.value,
-                      })
-                    }
-                  />
-                )}
-                {
-                  phoneError && <p style={{color:'red'}}>{phoneError}</p>
+                
+                <Input
+                  addonBefore="880"
+                  // className="input_group"
+                  maxLength={10}
+                  placeholder="* Mobile Number"
+                  value={phonePrefix(listViewData?.contactNo)}
+                  onChange={(e) =>
+                    setListbyIdData({
+                      ...listViewData,
+                      contactNo: e.target.value,
+                    })
+                  }
+                />
+                
+              </Form.Item> : 
+              
+              <Form.Item
+              name="contactNo"
+            >
+              {" "}
+              
+              <Input
+                addonBefore="880"
+                // className="input_group"
+                maxLength={10}
+                placeholder="* Mobile Number"
+                value={phonePrefix(listViewData?.contactNo)}
+                onChange={(e) =>
+                  setListbyIdData({
+                    ...listViewData,
+                    contactNo: e.target.value,
+                  })
                 }
-              </Form.Item>
+              />
+              {
+                <p style={{color:'red'}}>Mobile number must be 10 digits, exclude 880. i.e 1405628226</p>
+              }
+            </Form.Item>
+              }
+              
               
               <Form.Item name="email">
                 {" "}

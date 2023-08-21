@@ -37,6 +37,18 @@ export const mobileValidation = (phoneNumber) => {
 
 export const phonePrefix =(prefix)=>{
   console.log("prefix",prefix)
+  switch (prefix.charAt(0)) {
+    
+    case "8":
+      return prefix.replace(/^880/g, "");
+      
+    case "0":
+      return prefix.replace(/^0/g, "");
+     
+
+    default:
+      return prefix;
+  }
 }
 
 
