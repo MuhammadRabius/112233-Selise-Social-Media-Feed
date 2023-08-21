@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { getCount, getReport, getSource } from "./Service/Report_Service";
 import { LoadingOutlined } from "@ant-design/icons";
 import { validatePhoneNumber } from "../../Validation/Validation";
-import { mobileValidation } from "../../global_state/action";
+import { mobileValidation, phoneStatus } from "../../global_state/action";
 const { Option } = Select;
 
 const Report = () => {
@@ -15,8 +15,9 @@ const Report = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [leadSourceId, setLeadId] = useState("");
-  const [phoneNumber, setphoneNumber] = useState("");
-  const [email, setEmailData] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const[updatePhon,setUpdatePhon]=useState("")
+  const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [leadSorce, setLeadSource] = useState([]);
 
@@ -29,6 +30,9 @@ const Report = () => {
   const onChangeSourceType = (e) => {
     setLeadId(e);
   };
+  const handleMobileNum =(value)=>{
+    setPhoneNumber(value)
+  }
 
   // Spin
   const antIcon = (
@@ -42,8 +46,14 @@ const Report = () => {
 
   const onFinish = async (values) => {
     
-    const phoneIn =
-    values?.mobilenumber === undefined || values?.mobilenumber === ""? "" : `880${values?.mobilenumber}`;
+    console.log("phoneX",values?.mobilenumber)
+    const phoneX = phoneStatus(phoneNumber)
+    if((phoneX === "") || (phoneX?.length === 13)){
+      setUpdatePhon(phoneX)
+    } else {
+      return message.error("Please input valid mobile number. Must be 10 digit exclude 880")
+    }
+
     
 
 
@@ -52,7 +62,7 @@ const Report = () => {
       toDate: endDate,
       leadSourceId: leadSourceId || "",
       email: values?.email || "",
-      phoneNumber: phoneIn,
+      phoneNumber: updatePhon,
     };
 
     try {
@@ -61,12 +71,12 @@ const Report = () => {
         const display = await getCount(payload);
         setDataCount(display?.data?.data);
       }
-      // const display = await getReport(
+      // const res = await getReport(
       //   payload,
       //   { responseType: "blob" },
       //   { "Content-Type": "application/octet-stream" }
       // );
-      // const url = window.URL.createObjectURL(new Blob([display?.data]));
+      // const url = window.URL.createObjectURL(new Blob([res?.data]));
       // const link = document.createElement("a");
       // link.href = url;
       // link.setAttribute(
@@ -186,15 +196,17 @@ const Report = () => {
               <Form.Item
                 label=""
                 name="mobilenumber"
-                // rules={[{ validator: validatePhoneNumber }]}
               >
                 <Input
+                  onChange={(e)=>handleMobileNum(e.target.value)}
                   className="_input_group"
                   addonBefore="880"
                   placeholder="1777345678"
-                  maxLength={10}
+                  type="number"
+                  min={1}
                 />
-              </Form.Item>
+                </Form.Item>
+              
             </div>
 
             <div className="footer_part">

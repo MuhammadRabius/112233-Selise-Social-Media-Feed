@@ -23,20 +23,20 @@ export const getGrapFillColor = (typeName) => {
   }
 };
 
-export const mobileValidation = (phoneNumber) => {
-  console.log("phoneNumber", phoneNumber);
+// export const mobileValidation = (phoneNumber) => {
+//   console.log("phoneNumber", phoneNumber);
 
- if (phoneNumber?.length <= 9) {
-    return message.error("Please enter 10 digit Phone Number");
-  } else if (phoneNumber?.charAt(0) === "0") {
-    return message.warning("Please start without 880");
-  }
-};
+//  if (phoneNumber?.length <= 9) {
+//     return message.error("Please enter 10 digit Phone Number");
+//   } else if (phoneNumber?.charAt(0) === "0") {
+//     return message.warning("Please start without 880");
+//   }
+// };
 
 // Update Modal Mobile Number CharAt Validation
 
 export const phonePrefix =(prefix)=>{
-  console.log("prefix",prefix)
+  
   switch (prefix.charAt(0)) {
     
     case "8":
@@ -50,6 +50,24 @@ export const phonePrefix =(prefix)=>{
       return prefix;
   }
 }
+// Report Mobile Validation
+
+export const phoneStatus = (phoneNumber) => {
+  console.log("type", phoneNumber?.length);
+  switch (phoneNumber?.length) {
+    case undefined:
+      return "";
+
+    case 0:
+      return "";
+
+    case 10:
+      return `880${phoneNumber}`;
+
+    default:
+      return "Please input valid mobile number. Must be 10 digit exclude 880";
+  }
+};
 
 
 // File Download for Error Excel File
@@ -76,9 +94,6 @@ export const saveAsXlsxFile= (base64) => {
   a.textContent = "Download file!";
 
   // console.log(a);
-
-
-
 
   document.body.appendChild(a);
 
