@@ -41,11 +41,11 @@ const Report = () => {
   );
 
   const onFinish = async (values) => {
+    
+    const phoneIn =
+    values?.mobilenumber === undefined || values?.mobilenumber === ""? "" : `880${values?.mobilenumber}`;
+    
 
-   
-    
-    const phoneIn = values?.mobilenumber === "undefine" || values?.mobilenumber === "" ? "":`880${values?.mobilenumber}`;
-    
 
     const payload = {
       fromDate: startDate,
@@ -177,9 +177,13 @@ const Report = () => {
               </Form.Item>
 
               <Form.Item label="" name="email">
-                <Input className="_input_group" placeholder="Email" type="email"/>
+                <Input
+                  className="_input_group"
+                  placeholder="Email"
+                  type="email"
+                />
               </Form.Item>
-              <Form.Item label="" name="mobilenumber" >
+              <Form.Item label="" name="mobilenumber">
                 <Input
                   className="_input_group"
                   addonBefore="880"

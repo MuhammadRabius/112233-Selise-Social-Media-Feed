@@ -44,6 +44,7 @@ const LeadUpdateModal = ({
 
   const { Option } = Select;
   const { TextArea } = Input;
+ 
   const [districtAPI, setDistrictAPI] = useState([]);
   const [loading, setLoading] = useState(false);
   const [listViewData, setListbyIdData] = useState({
@@ -60,6 +61,10 @@ const LeadUpdateModal = ({
     remarks: "",
   });
 
+  // payloadContactMagic
+  const phonePrefixZero = listViewData?.contactNo?.charAt(0) === "0" || null ? `880${listViewData?.contactNo?.substring(1)}` : `880${listViewData?.contactNo}`
+  const contactNumber = listViewData?.contactNo?.charAt(0) === "8" || null ? `${listViewData?.contactNo}` : phonePrefixZero;
+  
   const [district, setDistrict] = useState({
     districtName: "",
   });
@@ -75,7 +80,7 @@ const LeadUpdateModal = ({
     customerFirstname: listViewData?.firstName,
     customerLastname: listViewData?.lastName,
     // customerContactNo: listViewData?.contactNo,
-    customerContactNo: `880${listViewData?.contactNo}`,
+    customerContactNo: contactNumber,
     district: listViewData?.districtName,
     customerEmail: listViewData?.email,
     customerPolicyNumber: listViewData?.customerPolicyNumber,
@@ -84,15 +89,18 @@ const LeadUpdateModal = ({
     remarks: listViewData?.remarks,
   };
 
+  // console.log("payload",payload)
+
   // Update All and Exit Call
   const onFinish = async () => {
+
     if (
       listViewData?.firstName &&
       listViewData?.contactNo &&
       listViewData?.districtName
-    ) {
-      try {
-        setLoading(true);
+      ) {
+        try {
+          setLoading(true);
 
         const res = await leadUpdateByID(singleID, payload);
         if (res?.data?.status === false) {
@@ -190,21 +198,37 @@ const LeadUpdateModal = ({
                   disabled
                 />
               </Form.Item>
-              <Form.Item name="contactNo" validateFirst={true}>
+              <Form.Item name="contactNo" validateFirst={true} >
                 {" "}
-                <Input
-                  // addonBefore="880"
-                  className="input_group"
+                {
+                  listViewData?.contactNo?.charAt(0) === "8" ? <Input
+                  addonBefore="880"
+                  // className="input_group"
                   maxLength={13}
                   placeholder="* Mobile Number"
-                  value={listViewData?.contactNo}
+                  value={listViewData?.contactNo.replace(/^880/g, '')}
                   onChange={(e) =>
                     setListbyIdData({
                       ...listViewData,
                       contactNo: e.target.value,
                     })
                   }
-                />
+                /> : <Input
+
+                addonBefore="880"
+                // className="input_group"
+                maxLength={10}
+                placeholder="* Mobile Number"
+                value={listViewData?.contactNo?.replace(/^0/g, '')}
+                onChange={(e) =>
+                  setListbyIdData({
+                    ...listViewData,
+                    contactNo: e.target.value,
+                  })
+                }
+              />
+                }
+                
                
               </Form.Item>
               <Form.Item name="email">
@@ -236,7 +260,7 @@ const LeadUpdateModal = ({
                   onChange={(e) => onDistrictChange(e.target.value)}
                   allowClear
                   showSearch
-                  defaultValue={listViewData?.districtName}
+                  value={listViewData?.districtName}
                 >
                   {districtAPI.map((_d) => {
                     return (
