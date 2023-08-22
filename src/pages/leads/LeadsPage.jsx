@@ -68,12 +68,12 @@ const LeadsPage = () => {
   const [p_Number, set_P_Number] = useState(0);
   const [p_Size, set_P_Size] = useState(10);
   const [totalPages, setTotal] = useState(0);
-  
+
   // setIndexNumber
   const frontPaginationNumber = p_Number + 1;
 
   const onPaginationChange = (pageNumber, pageSize) => {
-    const pageNum = pageNumber -1
+    const pageNum = pageNumber - 1;
     set_P_Number(pageNum);
     set_P_Size(pageSize);
   };
@@ -229,7 +229,7 @@ const LeadsPage = () => {
     {
       title: "Date",
       dataIndex: "leadDate",
-      key:"leadDate",
+      key: "leadDate",
       sorter: (a, b) => new Date(a.leadDate) - new Date(b.leadDate),
       sortOrder: sortedInfo.columnKey === "leadDate" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
@@ -238,7 +238,7 @@ const LeadsPage = () => {
       title: "First Name",
       dataIndex: "firstName",
       key: "firstName",
-      sorter: (a, b) => a?.firstName.localeCompare( b?.firstName),
+      sorter: (a, b) => a?.firstName.localeCompare(b?.firstName),
       sortOrder: sortedInfo.columnKey === "firstName" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
@@ -453,7 +453,6 @@ const LeadsPage = () => {
                   initialValues={{
                     remember: true,
                   }}
-                  
                   autoComplete="off"
                 >
                   <Form.Item

@@ -225,6 +225,11 @@
   border: 0;
 }
 
+.policy_btn span{
+  color: #FFFFFF;
+
+}
+
 .custom_remark {
   box-shadow: none;
   padding: 2px !important;

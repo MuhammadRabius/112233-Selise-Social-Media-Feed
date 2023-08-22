@@ -52,20 +52,34 @@ export const phonePrefix =(prefix)=>{
 }
 // Report Mobile Validation
 
-export const phoneStatus = (phoneNumber) => {
-  console.log("type", phoneNumber?.length);
-  switch (phoneNumber?.length) {
-    case undefined:
-      return "";
+// export const phoneStatus = (phoneNumber) => {
+//   console.log("type", phoneNumber?.length);
+//   switch (phoneNumber?.length) {
+//     case undefined:
+//       return "";
+
+//     case 0:
+//       return "";
+
+//     case 10:
+//       return `880${phoneNumber}`;
+
+//     default:
+//       return "Please input valid mobile number. Must be 10 digit exclude 880";
+//   }
+// };
+// Report Mobile Validation
+
+export const LeadCountStatus = (type) => {
+  switch (type) {
+    case null:
+      return 0;
 
     case 0:
-      return "";
-
-    case 10:
-      return `880${phoneNumber}`;
+      return "No Data Found";
 
     default:
-      return "Please input valid mobile number. Must be 10 digit exclude 880";
+      return 0;
   }
 };
 

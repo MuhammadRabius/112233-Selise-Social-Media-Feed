@@ -4,7 +4,14 @@ import { UploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import "./UploadModal.css";
 import { bulkExcelUpload } from "../Service/lead_service";
 
-const UploadModal = ({ open, onCancel, onSubmit, setBulkUpModal,callBack,setCallBack }) => {
+const UploadModal = ({
+  open,
+  onCancel,
+  onSubmit,
+  setBulkUpModal,
+  callBack,
+  setCallBack,
+}) => {
   const [form] = Form.useForm();
   const { Dragger } = Upload;
   const [isLoading, setLoading] = useState(false);
@@ -54,8 +61,6 @@ const UploadModal = ({ open, onCancel, onSubmit, setBulkUpModal,callBack,setCall
       error.response.data.message && message.error(error.response.data.message);
     }
   };
-
-
 
   return (
     <>

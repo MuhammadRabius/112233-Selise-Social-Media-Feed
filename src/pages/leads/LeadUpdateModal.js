@@ -45,7 +45,7 @@ const LeadUpdateModal = ({
 
   const { Option } = Select;
   const { TextArea } = Input;
-  const [phoneError,setPhoneError] =useState('')
+  const [phoneError, setPhoneError] = useState("");
   const [districtAPI, setDistrictAPI] = useState([]);
   const [loading, setLoading] = useState(false);
   const [listViewData, setListbyIdData] = useState({
@@ -63,10 +63,16 @@ const LeadUpdateModal = ({
   });
 
   // payloadContactMagic
-  
-  const phonePrefixZero = listViewData?.contactNo?.charAt(0) === "0" || null ? `880${listViewData?.contactNo?.substring(1)}` : `880${listViewData?.contactNo}`
-  const contactNumber = listViewData?.contactNo?.charAt(0) === "8" || null ? `${listViewData?.contactNo}` : phonePrefixZero;
-  
+
+  const phonePrefixZero =
+    listViewData?.contactNo?.charAt(0) === "0" || null
+      ? `880${listViewData?.contactNo?.substring(1)}`
+      : `880${listViewData?.contactNo}`;
+  const contactNumber =
+    listViewData?.contactNo?.charAt(0) === "8" || null
+      ? `${listViewData?.contactNo}`
+      : phonePrefixZero;
+
   const [district, setDistrict] = useState({
     districtName: "",
   });
@@ -91,19 +97,17 @@ const LeadUpdateModal = ({
     remarks: listViewData?.remarks,
   };
 
-   
   // Update All and Exit Call
   const onFinish = async () => {
-
-    console.log("p length",contactNumber?.length)
+    console.log("p length", contactNumber?.length);
 
     if (
       listViewData?.firstName &&
-      (contactNumber?.length === 13) &&
+      contactNumber?.length === 13 &&
       listViewData?.districtName
     ) {
-        try {
-          setLoading(true);
+      try {
+        setLoading(true);
 
         const res = await leadUpdateByID(singleID, payload);
         if (res?.data?.status === false) {
@@ -119,10 +123,12 @@ const LeadUpdateModal = ({
           message.error(error.response.data.details[0]);
       }
     } else {
-      message.error('Please input valid mobile number. Must be 10 digit exclude 880')
+      message.error(
+        "Please input valid mobile number. Must be 10 digit exclude 880"
+      );
     }
   };
-  
+
   // Data Fetching by ID
   useEffect(() => {
     const ac = new AbortController();
@@ -164,8 +170,6 @@ const LeadUpdateModal = ({
     return () => ac.abort();
   }, [callBack, singleID]);
 
-
-  
   return (
     <>
       <Modal
@@ -178,7 +182,7 @@ const LeadUpdateModal = ({
       >
         <Spin indicator={antIcon} spinning={loading}>
           <div className="_modal_body">
-            <Form form={form} onFinish={onFinish} autoComplete="off" >
+            <Form form={form} onFinish={onFinish} autoComplete="off">
               <Form.Item name="firstName" validateFirst={true}>
                 {" "}
                 <Input
@@ -205,54 +209,51 @@ const LeadUpdateModal = ({
                 />
               </Form.Item>
 
-              {
-                ((listViewData?.contactNo?.length === 11 || listViewData?.contactNo?.length === 13) && (listViewData?.contactNo?.charAt(0) === "0" || listViewData?.contactNo?.charAt(0) === "8") ) ? 
-                <Form.Item
-                name="contactNo"
-              >
-                {" "}
-                
-                <Input
-                  addonBefore="880"
-                  // className="input_group"
-                  maxLength={10}
-                  placeholder="* Mobile Number"
-                  value={phonePrefix(listViewData?.contactNo)}
-                  onChange={(e) =>
-                    setListbyIdData({
-                      ...listViewData,
-                      contactNo: e.target.value,
-                    })
+              {(listViewData?.contactNo?.length === 11 ||
+                listViewData?.contactNo?.length === 13) &&
+              (listViewData?.contactNo?.charAt(0) === "0" ||
+                listViewData?.contactNo?.charAt(0) === "8") ? (
+                <Form.Item name="contactNo">
+                  {" "}
+                  <Input
+                    addonBefore="880"
+                    // className="input_group"
+                    maxLength={10}
+                    placeholder="* Mobile Number"
+                    value={phonePrefix(listViewData?.contactNo)}
+                    onChange={(e) =>
+                      setListbyIdData({
+                        ...listViewData,
+                        contactNo: e.target.value,
+                      })
+                    }
+                  />
+                </Form.Item>
+              ) : (
+                <Form.Item name="contactNo">
+                  {" "}
+                  <Input
+                    addonBefore="880"
+                    // className="input_group"
+                    maxLength={10}
+                    placeholder="* Mobile Number"
+                    value={phonePrefix(listViewData?.contactNo)}
+                    onChange={(e) =>
+                      setListbyIdData({
+                        ...listViewData,
+                        contactNo: e.target.value,
+                      })
+                    }
+                  />
+                  {
+                    <p style={{ color: "red" }}>
+                      Mobile number must be 10 digits, exclude 880. i.e
+                      1405628226
+                    </p>
                   }
-                />
-                
-              </Form.Item> : 
-              
-              <Form.Item
-              name="contactNo"
-            >
-              {" "}
-              
-              <Input
-                addonBefore="880"
-                // className="input_group"
-                maxLength={10}
-                placeholder="* Mobile Number"
-                value={phonePrefix(listViewData?.contactNo)}
-                onChange={(e) =>
-                  setListbyIdData({
-                    ...listViewData,
-                    contactNo: e.target.value,
-                  })
-                }
-              />
-              {
-                <p style={{color:'red'}}>Mobile number must be 10 digits, exclude 880. i.e 1405628226</p>
-              }
-            </Form.Item>
-              }
-              
-              
+                </Form.Item>
+              )}
+
               <Form.Item name="email">
                 {" "}
                 <Input

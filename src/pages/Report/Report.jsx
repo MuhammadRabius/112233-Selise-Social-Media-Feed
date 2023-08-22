@@ -6,21 +6,21 @@ import dayjs from "dayjs";
 import { getCount, getReport, getSource } from "./Service/Report_Service";
 import { LoadingOutlined } from "@ant-design/icons";
 import { validatePhoneNumber } from "../../Validation/Validation";
-import { mobileValidation, phoneStatus } from "../../global_state/action";
+import { LeadCountStatus, mobileValidation, phoneStatus } from "../../global_state/action";
 const { Option } = Select;
 
 const Report = () => {
   const [form] = Form.useForm();
-  const [dataCount, setDataCount] = useState(0);
+  const [dataCount, setDataCount] = useState(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [leadSourceId, setLeadId] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const[updatePhon,setUpdatePhon]=useState("")
+  const [updatePhon, setUpdatePhon] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [leadSorce, setLeadSource] = useState([]);
-  const [callBack,setCallBack]=useState(false)
+  const [callBack, setCallBack] = useState(false);
   const onChangeStart = (date, dateString) => {
     setStartDate(dateString);
   };
@@ -30,7 +30,9 @@ const Report = () => {
   const onChangeSourceType = (e) => {
     setLeadId(e);
   };
-  
+
+
+  console.log("dataCount",dataCount)
   // Spin
   const antIcon = (
     <LoadingOutlined
@@ -42,14 +44,17 @@ const Report = () => {
   );
 
   const onFinish = async (values) => {
-
-    if((values?.mobileNumber !== undefined) && (values?.mobileNumber !== "") && (values?.mobileNumber?.length !== 10)){
-      return message.warning("Please input valid mobile number. Must be 10 digit exclude 880") 
+    if (
+      values?.mobileNumber !== undefined &&
+      values?.mobileNumber !== "" &&
+      values?.mobileNumber?.length !== 10
+    ) {
+      return message.warning(
+        "Please input valid mobile number. Must be 10 digit exclude 880"
+      );
     }
-    
-    const phoneUpdate = (values?.mobileNumber === undefined) ||( values?.mobileNumber === "") ? "" : `880${values?.mobileNumber}`;
 
-
+    const phoneUpdate =(values?.mobileNumber === undefined || values?.mobileNumber === "") ? "" : `880${values?.mobileNumber}`;
 
     const payload = {
       fromDate: startDate,
@@ -65,26 +70,26 @@ const Report = () => {
         const display = await getCount(payload);
         setDataCount(display?.data?.data);
       }
-      // const res = await getReport(
-      //   payload,
-      //   { responseType: "blob" },
-      //   { "Content-Type": "application/octet-stream" }
-      // );
-      // const url = window.URL.createObjectURL(new Blob([res?.data]));
-      // const link = document.createElement("a");
-      // link.href = url;
-      // link.setAttribute(
-      //   "download",
-      //   `LeadCount-Report ${dayjs().format("YYYY-MM-DD")}.xlsx`
-      // );
-      // document.body.appendChild(link);
-      // link.click();
-      setCallBack(!callBack)
+      const res = await getReport(
+        payload,
+        { responseType: "blob" },
+        { "Content-Type": "application/octet-stream" }
+      );
+      const url = window.URL.createObjectURL(new Blob([res?.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute(
+        "download",
+        `LeadCount-Report ${dayjs().format("YYYY-MM-DD")}.xlsx`
+      );
+      document.body.appendChild(link);
+      link.click();
+      setCallBack(!callBack);
       setLoading(false);
     } catch (error) {
       setLoading(false);
       error?.response?.data?.details[0] &&
-          message.error(error?.response?.data?.details[0]);
+        message.error(error?.response?.data?.details[0]);
     }
   };
 
@@ -140,7 +145,9 @@ const Report = () => {
                   format={`YYYY-MM-DD`}
                   suffixIcon={false}
                   placeholder="Start Day!"
-                  disabledDate={(current) => current.isAfter(dayjs().add(-1, 'day'))}
+                  disabledDate={(current) =>
+                    current.isAfter(dayjs().add(-1, "day"))
+                  }
                 />
               </Form.Item>
               <Form.Item
@@ -189,26 +196,26 @@ const Report = () => {
                   type="email"
                 />
               </Form.Item>
-              <Form.Item
-                label=""
-                name="mobileNumber"
-              >
+              <Form.Item label="" name="mobileNumber">
                 <Input
                   value={phoneNumber}
-                  onChange={(e)=>setPhoneNumber(e.target.value.replace(/^0/g, ""))}
+                  onChange={(e) =>
+                    setPhoneNumber(e.target.value.replace(/^0/g, ""))
+                  }
                   className="_input_group"
                   addonBefore="880"
                   placeholder="1777345678"
                   type="number"
                   min={1}
                 />
-                </Form.Item>
-              
+              </Form.Item>
             </div>
 
             <div className="footer_part">
               <span className="spanText">
-                {`Total Lead Count : ${dataCount === 0 ? "No Data Found" : `${dataCount}` }`}{" "}
+                {`Total Lead Count : ${
+                  (dataCount === 0 || dataCount === null) ?  `${LeadCountStatus(dataCount)}` : `${dataCount}`
+                }`}{" "}
               </span>
               <Form.Item>
                 <button className="submit_btn" htmltype="submit">
