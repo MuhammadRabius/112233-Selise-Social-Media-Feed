@@ -20,7 +20,7 @@ const Report = () => {
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [leadSorce, setLeadSource] = useState([]);
-
+  const [callBack,setCallBack]=useState(false)
   const onChangeStart = (date, dateString) => {
     setStartDate(dateString);
   };
@@ -30,10 +30,7 @@ const Report = () => {
   const onChangeSourceType = (e) => {
     setLeadId(e);
   };
-  const handleMobileNum =(value)=>{
-    setPhoneNumber(value)
-  }
-
+  
   // Spin
   const antIcon = (
     <LoadingOutlined
@@ -45,16 +42,13 @@ const Report = () => {
   );
 
   const onFinish = async (values) => {
-    
-    console.log("phoneX",values?.mobilenumber)
-    const phoneX = phoneStatus(phoneNumber)
-    if((phoneX === "") || (phoneX?.length === 13)){
-      setUpdatePhon(phoneX)
-    } else {
-      return message.error("Please input valid mobile number. Must be 10 digit exclude 880")
-    }
 
+    if((values?.mobileNumber !== undefined) && (values?.mobileNumber !== "") && (values?.mobileNumber?.length !== 10)){
+      return message.warning("Please input valid mobile number. Must be 10 digit exclude 880") 
+    }
     
+    const phoneUpdate = (values?.mobileNumber === undefined) ||( values?.mobileNumber === "") ? "" : `880${values?.mobileNumber}`;
+
 
 
     const payload = {
@@ -62,7 +56,7 @@ const Report = () => {
       toDate: endDate,
       leadSourceId: leadSourceId || "",
       email: values?.email || "",
-      phoneNumber: updatePhon,
+      phoneNumber: phoneUpdate,
     };
 
     try {
@@ -85,10 +79,12 @@ const Report = () => {
       // );
       // document.body.appendChild(link);
       // link.click();
+      setCallBack(!callBack)
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log(error.message);
+      error?.response?.data?.details[0] &&
+          message.error(error?.response?.data?.details[0]);
     }
   };
 
@@ -144,7 +140,7 @@ const Report = () => {
                   format={`YYYY-MM-DD`}
                   suffixIcon={false}
                   placeholder="Start Day!"
-                  disabledDate={(current) => current.isAfter(dayjs())}
+                  disabledDate={(current) => current.isAfter(dayjs().add(-1, 'day'))}
                 />
               </Form.Item>
               <Form.Item
@@ -195,10 +191,11 @@ const Report = () => {
               </Form.Item>
               <Form.Item
                 label=""
-                name="mobilenumber"
+                name="mobileNumber"
               >
                 <Input
-                  onChange={(e)=>handleMobileNum(e.target.value)}
+                  value={phoneNumber}
+                  onChange={(e)=>setPhoneNumber(e.target.value.replace(/^0/g, ""))}
                   className="_input_group"
                   addonBefore="880"
                   placeholder="1777345678"
@@ -211,7 +208,7 @@ const Report = () => {
 
             <div className="footer_part">
               <span className="spanText">
-                {`Total Lead Count : ${dataCount}`}{" "}
+                {`Total Lead Count : ${dataCount === 0 ? "No Data Found" : `${dataCount}` }`}{" "}
               </span>
               <Form.Item>
                 <button className="submit_btn" htmltype="submit">
