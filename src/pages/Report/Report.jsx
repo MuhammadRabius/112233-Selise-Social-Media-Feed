@@ -88,8 +88,7 @@ const Report = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      error?.response?.data?.details[0] &&
-        message.error(error?.response?.data?.details[0]);
+     
     }
   };
 

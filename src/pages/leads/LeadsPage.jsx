@@ -20,6 +20,7 @@ import {
   getDistrict,
   submitLeadManual,
   leadList,
+  findFinicalAgent,
 } from "./Service/lead_service";
 import "./LeadPage.css";
 
@@ -58,6 +59,7 @@ const LeadsPage = () => {
 
   const handleCancel = () => {
     form.resetFields();
+    setFinicalAgent(false)
     setAddLead(false);
   };
 
@@ -100,7 +102,12 @@ const LeadsPage = () => {
   const [remark, setRemak] = useState("");
   const [district, setDistrict] = useState("");
   const [findPolicy, setPolicyNumber] = useState("");
+  const [policyNum,setPolicyNum]=useState("");
+  const [finicalAgent,setFinicalAgent]=useState(false);
+  const [faYesNO, setFaYesNo] = useState("yes");
 
+  console.log("finicalAgent",finicalAgent)
+  console.log("policyNum",policyNum)
   const handleName = (e) => {
     setFName(e.target.value);
   };
@@ -126,20 +133,19 @@ const LeadsPage = () => {
   };
 
   // Radio FAQ
-  const [value, setValue] = useState("yes");
   const onFAQChange = (e) => {
     console.log("radio checked", e.target.value);
-    setValue(e.target.value);
+    setFaYesNo(e.target.value);
   };
 
-  // Find On Set Data----
-  const onPolicySearch = (_v) => {
-    setPolicyNumber(_v.target.value);
-  };
-  const onPolicyFind = (_v) => {
-    console.log("policy click");
+  // Find FinicalAgent By Policy Number
+  const onPolicyFind = async(_v) => {
+    console.log("policy click",findPolicy);
     try {
-      // const findPolicy =
+      const faRes = await findFinicalAgent(findPolicy);
+      setPolicyNum(faRes?.data?.data?.agentCode);
+      setFinicalAgent(faRes.data.data?.active)
+      
     } catch (err) {
       console.log(err);
     }
@@ -150,7 +156,7 @@ const LeadsPage = () => {
     customerFirstname: fname || "",
     customerLastname: lastname || "",
     // customerContactNo: phoneNumber,
-    customerContactNo: `88${phoneNumber}`,
+    customerContactNo: `880${phoneNumber}`,
     district: district,
     customerEmail: email || "",
     customerPolicyNumber: "",
@@ -168,7 +174,7 @@ const LeadsPage = () => {
         message.success(sendSingleLead.data.message);
         setCallBack(!callBack);
         setLoading(false);
-        form.resetFields();
+        // form.resetFields();
         if (btnTypes === "singleExit") {
           setAddLead(false);
         }
@@ -198,6 +204,10 @@ const LeadsPage = () => {
         setLeadListView(leadDisplay?.data?.data?.items);
         set_P_Number(...p_Number, leadDisplay?.data?.data?.pageNumber);
         set_P_Size(...p_Size, leadDisplay?.data?.data?.pageSize);
+        
+
+
+
 
         setLoading(false);
       } catch (err) {
@@ -546,7 +556,7 @@ const LeadsPage = () => {
                     <div className="exiting_policy">
                       <Input
                         className="input_group"
-                        onChange={onPolicySearch}
+                        onChange={(e) => setPolicyNumber(e?.target?.value)}
                         className="policy_input"
                         placeholder="Existing Policy Number (If Any)"
                       />
@@ -554,26 +564,36 @@ const LeadsPage = () => {
                         FIND
                       </Button>
                     </div>
-                    {findPolicy ? (
+                    {finicalAgent === true ? (
                       <div className="_ex_P">
-                        <span style={{ color: "#6E6E6E" }}>
+                        <span style={{ color: "#6E6E6E", marginLeft:"3px" }}>
                           Lead Submit with new FA ?
                         </span>
-                        <Radio.Group onChange={onFAQChange} value={value}>
+                        <Radio.Group onChange={onFAQChange} value={faYesNO}>
                           <Radio value="yes">YES</Radio>
                           <Radio value="no">NO</Radio>
                         </Radio.Group>
+
+                        <Input
+                          value={policyNum}
+                          placeholder="FA Code"
+                          onChange={handleFAQ}
+                          className="input_group"
+                          readOnly
+                        />
                       </div>
                     ) : null}
                   </Form.Item>
 
-                  <Form.Item label="" name="facode">
-                    <Input
-                      placeholder="FA Code"
-                      onChange={handleFAQ}
-                      className="input_group"
-                    />
-                  </Form.Item>
+                  {finicalAgent === true ? null : (
+                    <Form.Item label="" name="facode">
+                      <Input
+                        placeholder="FA Code"
+                        onChange={handleFAQ}
+                        className="input_group"
+                      />
+                    </Form.Item>
+                  )}
 
                   <Form.Item label="" name="remark">
                     <TextArea

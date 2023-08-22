@@ -29,3 +29,8 @@ export const leadUpdateByID = async (id,payload) => {
 
     return await axios.put(`/api/leads/${id}`, payload);
 }
+
+export const findFinicalAgent= async (faCode) => {
+
+    return await axios.get(`api/leads/agents?policyNumber=${faCode}`);
+}

@@ -6,7 +6,7 @@ export const getLocations = async () => {
 }
 export const getRole = async () => {
 
-    return await axios.get(`/api/role/list`);
+    return await axios.get(`/api/roles`);
 }
 export const getDepartment = async () => {
 

@@ -6,11 +6,14 @@ import axios from 'axios';
 //     Authorization: `Token ${TOKEN}`
 //  }}, Signal);
 
+// ListView
 export const getLeadSource = async (fromDate, toDate , Signal) => {
 
     return await axios.get(`/api/leads/sources/lead-count?fromDate=${fromDate}&toDate=${toDate}`,Signal);
 }
+
+// Graph
 export const getLeadSourceType = async (fromDate, toDate , Signal) => {
 
-    return await axios.get(`/api/leads/source/type/lead-count?fromDate=${fromDate}&toDate=${toDate}`,Signal);
+    return await axios.get(`/api/leads/sources/types/lead-count?fromDate=${fromDate}&toDate=${toDate}`,Signal);
 }

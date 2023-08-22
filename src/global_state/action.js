@@ -85,7 +85,7 @@ export const LeadCountStatus = (type) => {
 
 
 // File Download for Error Excel File
-export const saveAsXlsxFile= (base64) => {
+export const ErrorExcelFileDownload= (base64) => {
 
   var mediaType =
 

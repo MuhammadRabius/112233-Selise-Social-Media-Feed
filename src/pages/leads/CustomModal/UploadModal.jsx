@@ -3,6 +3,7 @@ import { Modal, Form, Upload, Button, Spin, message } from "antd";
 import { UploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import "./UploadModal.css";
 import { bulkExcelUpload } from "../Service/lead_service";
+import { ErrorExcelFileDownload } from "../../../global_state/action";
 
 const UploadModal = ({
   open,
@@ -47,8 +48,10 @@ const UploadModal = ({
             "Content-Type": "multipart/form-data",
           },
         });
-
-        message.success(response.data.message);
+        if(response.data.data !== null){
+          ErrorExcelFileDownload(response?.data?.data)
+        }
+        message.success(response?.data?.message);
         form.resetFields();
         setCallBack(!callBack);
         setBulkUpModal(false);
