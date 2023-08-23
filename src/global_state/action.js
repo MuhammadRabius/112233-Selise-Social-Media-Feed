@@ -103,7 +103,7 @@ export const ErrorExcelFileDownload= (base64) => {
 
   // var date = new Date();
 
-  a.download = `${date}.xlsx`;
+  a.download = `ErrorLeads ${date}.xlsx`;
 
   a.textContent = "Download file!";
 

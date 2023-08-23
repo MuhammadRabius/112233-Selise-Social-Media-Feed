@@ -6,7 +6,11 @@ import dayjs from "dayjs";
 import { getCount, getReport, getSource } from "./Service/Report_Service";
 import { LoadingOutlined } from "@ant-design/icons";
 import { validatePhoneNumber } from "../../Validation/Validation";
-import { LeadCountStatus, mobileValidation, phoneStatus } from "../../global_state/action";
+import {
+  LeadCountStatus,
+  mobileVaidation,
+  phoneStatus,
+} from "../../global_state/action";
 const { Option } = Select;
 
 const Report = () => {
@@ -31,8 +35,7 @@ const Report = () => {
     setLeadId(e);
   };
 
-
-  console.log("dataCount",dataCount)
+  console.log("dataCount", dataCount);
   // Spin
   const antIcon = (
     <LoadingOutlined
@@ -54,7 +57,10 @@ const Report = () => {
       );
     }
 
-    const phoneUpdate =(values?.mobileNumber === undefined || values?.mobileNumber === "") ? "" : `880${values?.mobileNumber}`;
+    const phoneUpdate =
+      values?.mobileNumber === undefined || values?.mobileNumber === ""
+        ? ""
+        : `880${values?.mobileNumber}`;
 
     const payload = {
       fromDate: startDate,
@@ -88,7 +94,6 @@ const Report = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-     
     }
   };
 
@@ -213,7 +218,9 @@ const Report = () => {
             <div className="footer_part">
               <span className="spanText">
                 {`Total Lead Count : ${
-                  (dataCount === 0 || dataCount === null) ?  `${LeadCountStatus(dataCount)}` : `${dataCount}`
+                  dataCount === 0 || dataCount === null
+                    ? `${LeadCountStatus(dataCount)}`
+                    : `${dataCount}`
                 }`}{" "}
               </span>
               <Form.Item>

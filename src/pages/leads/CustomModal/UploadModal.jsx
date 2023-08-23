@@ -34,7 +34,6 @@ const UploadModal = ({
 
   // File Upload Content
   const onFinish = async (values) => {
-    console.log(values);
     const data = values?.file?.fileList[0]?.originFileObj;
 
     try {
@@ -48,10 +47,12 @@ const UploadModal = ({
             "Content-Type": "multipart/form-data",
           },
         });
-        if(response.data.data !== null){
-          ErrorExcelFileDownload(response?.data?.data)
+        if (response.data.data !== null) {
+          ErrorExcelFileDownload(response?.data?.data);
         }
-        message.success(response?.data?.message);
+        response?.data?.message === true
+          ? message.success(response?.data?.message)
+          : message.error(response?.data?.message);
         form.resetFields();
         setCallBack(!callBack);
         setBulkUpModal(false);

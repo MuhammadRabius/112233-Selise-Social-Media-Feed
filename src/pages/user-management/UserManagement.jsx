@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
-import { Input, Form, Select, Table, message, Spin,Pagination } from "antd";
+import { Input, Form, Select, Table, message, Spin, Pagination } from "antd";
 import { NavLink } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
 import "./UserManagement.css";
@@ -332,9 +332,7 @@ const UserManagement = () => {
             </div>
 
             {/*  Pagination */}
-            <div className="pgn_ld_sb">
-            
-          </div>
+            <div className="pgn_ld_sb"></div>
           </div>
         </Layout>
       </Spin>
@@ -344,43 +342,5 @@ const UserManagement = () => {
 
 export default UserManagement;
 
-// Demo Data ---------
 
-const columns = [
-  {
-    title: "SL",
-    dataIndex: "key",
-  },
-  {
-    title: "Usename",
-    dataIndex: "Usename",
-  },
-  {
-    title: "Role",
-    dataIndex: "Role",
-  },
-  {
-    title: "Email",
-    dataIndex: "Email",
-  },
-  {
-    title: "Department",
-    dataIndex: "Department",
-  },
-  {
-    title: "Location",
-    dataIndex: "Department",
-  },
-  {
-    title: "Action",
-    dataIndex: "action",
-    render: (states) => <NavLink>Edit</NavLink>,
-  },
-];
 
-// <Paginator
-// first={first}
-// rows={rows}
-// totalRecords={120}
-// onPageChange={onPageChange}
-// />

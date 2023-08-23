@@ -31,7 +31,11 @@
   border: 0;
   outline: 0;
   font-size: 14px;
+  border: none !important;
+  box-shadow: none !important;
+  
 }
+
 
 .pi {
   font-size: 1rem;

@@ -12,7 +12,7 @@ import {
 } from "recharts";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { DatePicker, Spin,message } from "antd";
+import { DatePicker, Spin, message } from "antd";
 import "./homePage.css";
 import { getGrapFillColor } from "../../global_state/action";
 import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
@@ -36,7 +36,6 @@ const HomePage = () => {
   const renderIndexColum = (rowIndex, column) => {
     return column.rowIndex + 1;
   };
-
 
   // __Lead Source Data Table__
   const [tData, setTData] = useState([]);
@@ -74,7 +73,7 @@ const HomePage = () => {
       })();
     } catch (err) {
       setIsloading(false);
-      err.respose.data.message && message.error(err.respose.data.message)
+      err.respose.data.message && message.error(err.respose.data.message);
     }
 
     return () => ac.abort();
@@ -146,7 +145,7 @@ const HomePage = () => {
             <DataTable
               key={tData.id}
               value={tData}
-              loading={isLoading}
+              // loading={isLoading}
               tableStyle={{ minWidth: "50rem" }}
             >
               <Column
@@ -161,7 +160,7 @@ const HomePage = () => {
             </DataTable>
           </div>
 
-          {/* Modal Section */}
+          
         </Layout>
       </Spin>
     </>
@@ -169,5 +168,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-
-

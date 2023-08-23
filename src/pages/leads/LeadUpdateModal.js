@@ -1,16 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Table,
-  Radio,
-  Modal,
-  Form,
-  Input,
-  Select,
-  Button,
-  message,
-  Tooltip,
-  Spin,
-} from "antd";
+import { Modal, Form, Input, Select, Button, message, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 import {
@@ -41,6 +30,7 @@ const LeadUpdateModal = ({
 
   const handleCancel = () => {
     onCancel();
+    form.resetFields();
   };
 
   const { Option } = Select;
@@ -99,7 +89,6 @@ const LeadUpdateModal = ({
 
   // Update All and Exit Call
   const onFinish = async () => {
-
     if (
       listViewData?.firstName &&
       contactNumber?.length === 13 &&
