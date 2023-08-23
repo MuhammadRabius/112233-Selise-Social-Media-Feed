@@ -99,7 +99,6 @@ const LeadUpdateModal = ({
 
   // Update All and Exit Call
   const onFinish = async () => {
-    console.log("p length", contactNumber?.length);
 
     if (
       listViewData?.firstName &&

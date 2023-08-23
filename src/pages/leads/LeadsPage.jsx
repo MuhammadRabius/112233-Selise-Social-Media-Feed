@@ -13,6 +13,7 @@ import {
   Button,
   message,
   Pagination,
+  Tag
 } from "antd";
 import UploadModal from "./CustomModal/UploadModal";
 import LeadUpdateModal from "./LeadUpdateModal";
@@ -59,7 +60,7 @@ const LeadsPage = () => {
 
   const handleCancel = () => {
     form.resetFields();
-    setFinicalAgent(false)
+    setFaStatus(null)
     setAddLead(false);
   };
 
@@ -98,16 +99,15 @@ const LeadsPage = () => {
   const [lastname, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
-  const [faq, setFAQ] = useState("");
-  const [remark, setRemak] = useState("");
   const [district, setDistrict] = useState("");
   const [findPolicy, setPolicyNumber] = useState("");
-  const [policyNum,setPolicyNum]=useState("");
-  const [finicalAgent,setFinicalAgent]=useState(false);
+  const [faStatus,setFaStatus]=useState(null);
   const [faYesNO, setFaYesNo] = useState("yes");
-
-  console.log("finicalAgent",finicalAgent)
-  console.log("policyNum",policyNum)
+  const newFaReq = faYesNO === "yes" ? true : false;
+  const [faCode, setFaCode] = useState("");
+  const [remark, setRemak] = useState("");
+ 
+ 
   const handleName = (e) => {
     setFName(e.target.value);
   };
@@ -121,9 +121,7 @@ const LeadsPage = () => {
   const handlePhoneNumber = (e) => {
     setPhoneNumber(e.target.value);
   };
-  const handleFAQ = (e) => {
-    setFAQ(e.target.value);
-  };
+  
   const handleRemrk = (e) => {
     setRemak(e.target.value);
   };
@@ -134,34 +132,33 @@ const LeadsPage = () => {
 
   // Radio FAQ
   const onFAQChange = (e) => {
-    console.log("radio checked", e.target.value);
-    setFaYesNo(e.target.value);
+     setFaYesNo (e?.target?.value)
   };
 
   // Find FinicalAgent By Policy Number
   const onPolicyFind = async(_v) => {
-    console.log("policy click",findPolicy);
+
     try {
       const faRes = await findFinicalAgent(findPolicy);
-      setPolicyNum(faRes?.data?.data?.agentCode);
-      setFinicalAgent(faRes.data.data?.active)
+      setFaCode(faRes?.data?.data?.agentCode);
+      setFaStatus(faRes?.data?.data?.active)
       
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
   // Submission payload-------------
-  const payload = {
+  const leadSubPayload = {
     customerFirstname: fname || "",
     customerLastname: lastname || "",
     // customerContactNo: phoneNumber,
     customerContactNo: `880${phoneNumber}`,
     district: district,
     customerEmail: email || "",
-    customerPolicyNumber: "",
-    faCode: faq || "",
-    newFaRequest: true,
+    customerPolicyNumber: findPolicy || "",
+    faCode: faCode || "",
+    newFaRequest: newFaReq,
     remarks: remark || "",
   };
 
@@ -170,18 +167,17 @@ const LeadsPage = () => {
     if (fname && phoneNumber && district) {
       try {
         setLoading(true);
-        const sendSingleLead = await submitLeadManual(payload);
+        const sendSingleLead = await submitLeadManual(leadSubPayload);
         message.success(sendSingleLead.data.message);
         setCallBack(!callBack);
         setLoading(false);
-        // form.resetFields();
+        setAddLead(false);
+        form.resetFields();
         if (btnTypes === "singleExit") {
-          setAddLead(false);
         }
+        setFaStatus(null)
       } catch (error) {
         setLoading(false);
-        error.response.data.details[0] &&
-          message.error(error.response.data.details[0]);
       }
     }
   };
@@ -564,36 +560,56 @@ const LeadsPage = () => {
                         FIND
                       </Button>
                     </div>
-                    {finicalAgent === true ? (
+                    {faStatus === true ? (
                       <div className="_ex_P">
-                        <span style={{ color: "#6E6E6E", marginLeft:"3px" }}>
-                          Lead Submit with new FA ?
-                        </span>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            marginTop: "5px",
+                          }}
+                        >
+                          <span style={{ color: "#6E6E6E", marginLeft: "3px" }}>
+                            Lead Submit with new FA ?
+                          </span>
+                          <p style={{ color: "#6E6E6E" }}>
+                            FA Status : <Tag color="#87d068">Active</Tag>
+                          </p>
+                        </div>
                         <Radio.Group onChange={onFAQChange} value={faYesNO}>
                           <Radio value="yes">YES</Radio>
                           <Radio value="no">NO</Radio>
                         </Radio.Group>
 
                         <Input
-                          value={policyNum}
+                          value={faCode}
                           placeholder="FA Code"
-                          onChange={handleFAQ}
                           className="input_group"
                           readOnly
                         />
                       </div>
                     ) : null}
                   </Form.Item>
-
-                  {finicalAgent === true ? null : (
+                  {faStatus === false ? (
+                    <div style={{ marginTop: "10px", marginBottom: "15px" }}>
+                      <p style={{ color: "#6E6E6E" }}>
+                        FA Status :{" "}
+                        <Tag color="#f50">
+                          FA Inactive. New FA will be attached
+                        </Tag>
+                      </p>
+                    </div>
+                  ) : null}
+                  {faStatus === null ? (
                     <Form.Item label="" name="facode">
                       <Input
                         placeholder="FA Code"
-                        onChange={handleFAQ}
                         className="input_group"
+                        readOnly
                       />
                     </Form.Item>
-                  )}
+                  ) : null}
 
                   <Form.Item label="" name="remark">
                     <TextArea
