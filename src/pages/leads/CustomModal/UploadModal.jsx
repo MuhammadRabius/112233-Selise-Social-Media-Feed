@@ -4,6 +4,7 @@ import { UploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import "./UploadModal.css";
 import { bulkExcelUpload } from "../Service/lead_service";
 import { ErrorExcelFileDownload } from "../../../global_state/action";
+import Loader from "../../../components/Loader/Loader.tsx";
 
 const UploadModal = ({
   open,
@@ -68,7 +69,9 @@ const UploadModal = ({
 
   return (
     <>
-      <Spin indicator={antIcon} spinning={isLoading}>
+      {isLoading ? (
+        <Loader isLoading={isLoading} />
+      ) : (
         <Modal
           className="bulk_up_container"
           title="BULK UPLOAD"
@@ -118,7 +121,7 @@ const UploadModal = ({
             </Form.Item>
           </Form>
         </Modal>
-      </Spin>
+      )}
     </>
   );
 };

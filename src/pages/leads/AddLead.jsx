@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import {
   Radio,
   Modal,
@@ -18,7 +17,8 @@ import {
   findFinicalAgent,
 } from "./Service/lead_service";
 import "./LeadPage.css";
-import { LoadingOutlined } from "@ant-design/icons";
+import Loader from "../../components/Loader/Loader.tsx";
+
 const AddLeadModal = ({
   open,
   onCancel,

@@ -11,6 +11,7 @@ import {
   mobileVaidation,
   phoneStatus,
 } from "../../global_state/action";
+import Loader from "../../components/Loader/Loader.tsx";
 const { Option } = Select;
 
 const Report = () => {
@@ -119,9 +120,11 @@ const Report = () => {
     return () => ac.abort();
   }, []);
 
-  return (
-    <Spin indicator={antIcon} spinning={isLoading}>
-      <Layout pageName={"Report"}>
+  return <>
+    {isLoading ? (
+        <Loader isLoading={isLoading} />
+      ) 
+      : <Layout pageName={"Report"}>
         <p className="bt_Text">Report</p>
         <div className="reportContainer">
           <Form
@@ -232,8 +235,8 @@ const Report = () => {
           </Form>
         </div>
       </Layout>
-    </Spin>
-  );
+              }
+  </>;
 };
 
 export default Report;

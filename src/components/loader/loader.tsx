@@ -1,5 +1,5 @@
 import React from "react";
-import "./loader.scss";
+import "./loader.css";
 import Backdrop from "@mui/material/Backdrop";
 
 interface props {

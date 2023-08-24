@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
-import { Table, Input, Pagination } from "antd";
+import { Table, Input, Pagination, message } from "antd";
 import UploadModal from "./CustomModal/UploadModal";
 import LeadUpdateModal from "./LeadUpdateModal";
 import {
@@ -10,21 +10,37 @@ import {
 } from "./Service/lead_service";
 import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
+import Loader from "../../components/Loader/Loader.tsx";
+
 
 const LeadsPage = () => {
   const [isLoading, setLoading] = useState(false);
   const [callBack, setCallBack] = useState(false);
-  // Table Sorting
-  const [sortedInfo, setSortedInfo] = useState({});
+  // Filter Issues
+  const [searchInput, setSearchInput] = useState("");
+  const [filterStatus, setFilterStatus] = useState(false);
+  const [filterData, setFilterData] = useState([]);
   // setup Field Data from API
   const [leadListView, setLeadListView] = useState([]);
   const [p_Number, set_P_Number] = useState(0);
+  const [fiterPgNum, setFiterPgNum] = useState(0);
   const [p_Size, set_P_Size] = useState(10);
   const [totalPages, setTotal] = useState(0);
+  const [filterTotal, setFilterTotal] = useState(0);
   const frontPaginationNumber = p_Number + 1;
-  // Filter Issues
-  const [searchInput, setSearchInput] = useState("");
-  const [filterData, setFilterData] = useState([]);
+  // Table Sorting
+  const [sortedInfo, setSortedInfo] = useState({});
+
+  // console.log("p_Size", p_Size);
+
+  // console.log("totalPages", totalPages);
+  // console.log("filterStatus", filterStatus);
+
+  const phoneNumberSearch = (e) => {
+
+    setFilterData(leadListView);
+    setSearchInput(e?.target?.value);
+  };
 
   // Modal Section ----------
 
@@ -54,31 +70,41 @@ const LeadsPage = () => {
     setUpdateLeadModal(false);
   };
 
-  console.log("filterPhoneData", filterData);
+  // const filterT = ()=>{
+  //   setTotal
+  // }
 
-  const onSearchPhone = (e) => {
-    const _s_v = e.target.value;
-    setSearchInput(_s_v);
-  };
+  // console.log("filterPhoneData", filterData);
 
   const onSearchClick = async (e) => {
     try {
-      // const filterTable = leadListView.filter((item)=>item.contactNo.includes(searchInput));
-      // setFilterPhoneData(filterTable)
-      const filterDisplay = await leadListByFiltering(0, p_Size, searchInput);
-      setFilterData(filterDisplay?.data?.data?.items);
-      // setTotal(filterDisplay?.data?.data?.totalItems);
-      // set_P_Number(filterDisplay?.data?.data?.pageNumber);
-      // set_P_Size(filterDisplay?.data?.data?.pageSize);
-      // setCallBack(!callBack);
-    } catch (err) {}
+      setLoading(true);
+      if (searchInput?.length !== 13) {
+        return (
+          message.warning(
+            "Please Inset 13 Digit Mobile Number e.g 88017-XXXXXXXX"
+          ),
+          setLoading(false)
+        );
+      } else{
+        getApiCall()
+
+      }
+
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
   };
 
   // setIndexNumber
 
   const onPaginationChange = (pageNumber, pageSize) => {
+
+    console.log("pageNumber, pageSize", pageNumber, pageSize)
+    
     const pageNum = pageNumber - 1;
-    set_P_Number(pageNum);
+    set_P_Number(pageNum)
     set_P_Size(pageSize);
   };
 
@@ -87,31 +113,27 @@ const LeadsPage = () => {
     setSortedInfo(sorter);
   };
 
-  const setcontactNoSort = () => {
-    setSortedInfo({
-      order: "descend",
-      columnKey: "leadDate",
-    });
-  };
-
   // Api Calling ----------
+
+  const getApiCall = async () =>  {
+    try {
+      setLoading(true);
+
+      const leadDisplay = searchInput.length === 13 ? await leadListWithPagination(0, p_Size,searchInput) : await leadListWithPagination(p_Number, p_Size,searchInput);
+      setLeadListView(leadDisplay?.data?.data?.items);
+      setTotal(leadDisplay?.data?.data?.totalItems);
+      set_P_Number(...p_Number, leadDisplay?.data?.data?.pageNumber);
+      set_P_Size(...p_Size, leadDisplay?.data?.data?.pageSize);
+
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
     const ac = new AbortController();
-
-    (async () => {
-      try {
-        setLoading(true);
-        const leadDisplay = await leadListWithPagination(p_Number, p_Size);
-        setLeadListView(leadDisplay?.data?.data?.items);
-        setTotal(leadDisplay?.data?.data?.totalItems);
-        set_P_Number(...p_Number, leadDisplay?.data?.data?.pageNumber);
-        set_P_Size(...p_Size, leadDisplay?.data?.data?.pageSize);
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-      }
-    })();
+    getApiCall()
 
     return () => ac.abort();
   }, [callBack, p_Number, p_Size, searchInput]);
@@ -277,8 +299,8 @@ const LeadsPage = () => {
           <div className="lead_S_Btn">
             <div className="lead-search">
               <Input
-                onChange={onSearchPhone}
-                placeholder="Search by Phone no.  "
+                onChange={phoneNumberSearch}
+                placeholder="Search by 13 digit Phone No. e.g 88017-77126759  "
                 className="filterlead"
                 type="text"
                 name="fname"
@@ -309,10 +331,7 @@ const LeadsPage = () => {
                 key={leadListView.totalItems}
                 loading={isLoading}
                 columns={columns}
-                dataSource={
-                  searchInput?.length === 13 ? filterData : leadListView
-                }
-                // dataSource={ filterData  }
+                dataSource={leadListView}
                 pagination={false}
                 onChange={onTableChange}
                 tableLayout="fixed"
@@ -321,11 +340,12 @@ const LeadsPage = () => {
           </div>
 
           {/* Lead Generation Pagination */}
+
           <div className="pgn_ld_sb">
             <Pagination
               showQuickJumper
               current={frontPaginationNumber}
-              total={totalPages}
+              total={ totalPages}
               onChange={onPaginationChange}
             />
           </div>

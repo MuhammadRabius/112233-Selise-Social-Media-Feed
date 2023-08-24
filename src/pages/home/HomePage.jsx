@@ -17,6 +17,7 @@ import "./homePage.css";
 import { getGrapFillColor } from "../../global_state/action";
 import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
 import { LoadingOutlined } from "@ant-design/icons";
+import Loader from "../../components/Loader/Loader.tsx";
 
 const { RangePicker } = DatePicker;
 
@@ -81,7 +82,9 @@ const HomePage = () => {
 
   return (
     <>
-      <Spin indicator={antIcon} spinning={isLoading}>
+    {isLoading ? (
+      <Loader isLoading={isLoading} />
+    ) :
         <Layout pageName={"Dashboard"}>
           <p className="bt_Text">Leads Overview</p>
           {/* Date Pickup Filter  */}
@@ -159,10 +162,8 @@ const HomePage = () => {
               <Column field="totalLead" header="Total"></Column>
             </DataTable>
           </div>
-
-          
         </Layout>
-      </Spin>
+        }
     </>
   );
 };

@@ -9,6 +9,7 @@ import { message,Skeleton } from "antd";
 import { Navigate} from "react-router-dom";
 import TextInput from "../../components/inputs/TextInput";
 import { LoadingOutlined } from "@ant-design/icons";
+import Loader from "../../components/Loader/Loader.tsx";
 
 const LoginPage = () => {
   const [isLoading, setIsloading] = useState(false);
@@ -36,14 +37,13 @@ const LoginPage = () => {
         fontSize: 24,
       }}
       spin
-    />
-  );
-
-  return (
-    <Skeleton loading={isLoading} size="large" active
-    paragraph={{
-      rows: 10,
-    }}>  
+      />
+      );
+      
+      return <>
+     {isLoading ? (
+        <Loader isLoading={isLoading} />
+      ) : 
     <div className="login-container">
       <div className="login-card">
         <div className="metlife-logo mt-4">
@@ -117,8 +117,9 @@ const LoginPage = () => {
         </Formik>
       </div>
     </div>
-    </Skeleton>
-  );
+        }
+   
+  </>;
 };
 
 export default LoginPage;
