@@ -101,7 +101,6 @@ const LeadsPage = () => {
 
   const onPaginationChange = (pageNumber, pageSize) => {
 
-    console.log("pageNumber, pageSize", pageNumber, pageSize)
     
     const pageNum = pageNumber - 1;
     set_P_Number(pageNum)
@@ -300,7 +299,7 @@ const LeadsPage = () => {
             <div className="lead-search">
               <Input
                 onChange={phoneNumberSearch}
-                placeholder="Search by 13 digit Phone No. e.g 88017-77126759  "
+                placeholder="Search by 13 digit Phone No. e.g 88017-XXXXXXXX  "
                 className="filterlead"
                 type="text"
                 name="fname"

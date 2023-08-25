@@ -21,11 +21,7 @@ const UserManagement = () => {
 
   // Spin
   const antIcon = (
-    <LoadingOutlined
-      style={{
-        fontSize: 24,
-      }}
-      spin
+    <Loader isLoading={true}
     />
   );
 
@@ -40,7 +36,6 @@ const UserManagement = () => {
     console.log("search click");
   };
   const onFinish = (values) => {
-    console.log("values", values);
 
     const payload = {
       username: values?.username,
@@ -177,7 +172,7 @@ const UserManagement = () => {
   return (
     <>
       {isLoading ? (
-        <Loader isLoading={isLoading} />
+        <Spin indicator={antIcon} loading={isLoading} />
       ) : (
         <>
           {" "}

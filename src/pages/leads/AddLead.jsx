@@ -212,7 +212,7 @@ const AddLeadModal = ({
                 // className='contactNumber'
                 addonBefore="880"
                 maxLength={10}
-                placeholder={`* 1777-777524`}
+                placeholder={`* 17XXXXXXXX`}
               />
             </Form.Item>
             <Form.Item

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import {
   BarChart,
   Bar,
@@ -18,7 +19,7 @@ import { getGrapFillColor } from "../../global_state/action";
 import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
 import { LoadingOutlined } from "@ant-design/icons";
 import Loader from "../../components/Loader/Loader.tsx";
-
+dayjs.extend(customParseFormat)
 const { RangePicker } = DatePicker;
 
 const HomePage = () => {
@@ -43,9 +44,11 @@ const HomePage = () => {
   const [gData, setGData] = useState([]);
   const [toDate, setToDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [fromDate, setFormDate] = useState(
-    dayjs().startOf("month").format("YYYY-MM-DD")
+    dayjs().startOf("month").format("YYYY-MM-DD") 
   );
 
+  console.log("toDate", toDate);
+  console.log("fromDate", fromDate);
   // Leads Table----y
   const onChange = (date, dateString) => {
     setToDate(dateString[1]);
@@ -74,7 +77,7 @@ const HomePage = () => {
       })();
     } catch (err) {
       setIsloading(false);
-      err.respose.data.message && message.error(err.respose.data.message);
+      err.response.data.message && message.error(err.response.data.message);
     }
 
     return () => ac.abort();
@@ -82,88 +85,92 @@ const HomePage = () => {
 
   return (
     <>
-    {isLoading ? (
-      <Loader isLoading={isLoading} />
-    ) :
-        <Layout pageName={"Dashboard"}>
-          <p className="bt_Text">Leads Overview</p>
-          {/* Date Pickup Filter  */}
+      <Layout pageName={"Dashboard"}>
+        {isLoading ? (
+          <Loader isLoading={isLoading} />
+        ) : (
+          <>
+            <p className="bt_Text">Leads Overview</p>
 
-          <div className="date_rage">
-            <RangePicker
-              onChange={onChange}
-              defaultValue={[dayjs().startOf("month"), dayjs()]}
-              format={dateFormat}
-            />
-          </div>
-          {/* Dates Section------ */}
-
-          {/* Chart Section------ */}
-          <div className="chart_section">
-            <div className="char-bar">
-              <BarChart
-                width={1000}
-                height={300}
-                data={gData}
-                loading={isLoading}
-              >
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis
-                  dataKey="leadSourceTypeName"
-                  tickSize={2}
-                  padding={{ right: 90 }}
-                  label={{
-                    value: "Source",
-                    position: "insideBottomRight",
-                    offset: -5,
-                  }}
-                />
-
-                <YAxis
-                  width={50}
-                  tickSize={2}
-                  label={{
-                    value: "Lead",
-                    offset: 6,
-                    angle: -90,
-                    position: "insideLeft",
-                  }}
-                />
-                <Tooltip />
-
-                <Bar barSize={60} dataKey="totalLeadSentToUaa">
-                  {gData.map((entry, index) => {
-                    const color = getGrapFillColor(entry.leadSourceTypeName);
-                    return <Cell fill={color} />;
-                  })}
-                </Bar>
-              </BarChart>
+            <div className="date_rage">
+              <RangePicker
+                onChange={onChange}
+                value={[dayjs(fromDate ? fromDate : dayjs().add(-1,"month")), dayjs(toDate ? toDate : dayjs())]}
+                format={dateFormat}
+                disabledDate={(current) =>
+                  current.isAfter(dayjs().add(-1, "day"))
+                }
+              />
             </div>
-          </div>
+            {/* Dates Section------ */}
 
-          {/* Lead Source Table------ */}
-          <p className="bt_Text">Lead Sources</p>
+            {/* Chart Section------ */}
+            <div className="chart_section">
+              <div className="char-bar">
+                <BarChart
+                  width={900}
+                  height={300}
+                  data={gData}
+                  loading={isLoading}
+                >
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                  <XAxis
+                    dataKey="leadSourceTypeName"
+                    tickSize={2}
+                    padding={{ right: 90 }}
+                    label={{
+                      value: "Source Type",
+                      position: "insideBottomRight",
+                      offset: -2,
+                    }}
+                  />
 
-          <div className="card">
-            <DataTable
-              key={tData.id}
-              value={tData}
-              // loading={isLoading}
-              tableStyle={{ minWidth: "50rem" }}
-            >
-              <Column
-                field="index"
-                header="SL No."
-                body={renderIndexColum}
-              ></Column>
-              <Column field="leadSourceName" header="Source"></Column>
-              <Column field="totalLeadSentToUaa" header="TO UAA"></Column>
-              <Column field="totalLeadPending" header="Pending"></Column>
-              <Column field="totalLead" header="Total"></Column>
-            </DataTable>
-          </div>
-        </Layout>
-        }
+                  <YAxis
+                    width={50}
+                    tickSize={2}
+                    label={{
+                      value: "Lead",
+                      offset: -1,
+                      angle: -90,
+                      position: "insideLeft",
+                    }}
+                  />
+                  <Tooltip />
+
+                  <Bar barSize={60} dataKey="totalLeadSentToUaa">
+                    {gData.map((entry, index) => {
+                      const color = getGrapFillColor(entry.leadSourceTypeName);
+                      return <Cell fill={color} />;
+                    })}
+                  </Bar>
+                </BarChart>
+              </div>
+            </div>
+
+            {/* Lead Source Table------ */}
+            <p className="bt_Text">Lead Sources</p>
+
+            <div className="card">
+              <DataTable
+                key={tData.id}
+                value={tData}
+                // loading={isLoading}
+                tableStyle={{ minWidth: "50rem" }}
+              >
+                <Column
+                  field="index"
+                  header="SL No."
+                  body={renderIndexColum}
+                ></Column>
+                <Column field="leadSourceName" header="Source"></Column>
+                <Column field="totalLeadSentToUaa" header="TO MyLife"></Column>
+                <Column field="totalLeadPending" header="Pending"></Column>
+                <Column field="totalLead" header="Total"></Column>
+              </DataTable>
+            </div>
+          </>
+        )}
+      </Layout>
     </>
   );
 };
