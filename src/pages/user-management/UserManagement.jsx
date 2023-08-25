@@ -20,10 +20,7 @@ const UserManagement = () => {
   const [isLoading, setLoading] = useState(false);
 
   // Spin
-  const antIcon = (
-    <Loader isLoading={true}
-    />
-  );
+  const antIcon = <Loader isLoading={true} />;
 
   // Data Fetching
   const [role, setRole] = useState([]);
@@ -36,7 +33,6 @@ const UserManagement = () => {
     console.log("search click");
   };
   const onFinish = (values) => {
-
     const payload = {
       username: values?.username,
       email: values?.email,
@@ -316,6 +312,7 @@ const UserManagement = () => {
               <div className="um_table">
                 <div>
                   <Table
+                    
                     key={user.id}
                     onChange={onTableChange}
                     columns={columns}
@@ -326,7 +323,7 @@ const UserManagement = () => {
               </div>
 
               {/*  Pagination */}
-              <div className="pgn_ld_sb"></div>
+             
             </div>
           </Layout>
         </>

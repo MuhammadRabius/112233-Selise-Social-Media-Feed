@@ -152,6 +152,8 @@ const AddLeadModal = ({
     return () => ac.abort();
   }, []);
 
+
+
   return (
     <>
       <Modal
@@ -184,7 +186,7 @@ const AddLeadModal = ({
                 },
               ]}
             >
-              <Input placeholder="* First Name" className="input_group" />
+              <Input placeholder="* First Name" className="input_group" maxLength={50} />
             </Form.Item>
 
             <Form.Item
@@ -193,7 +195,7 @@ const AddLeadModal = ({
               name="lastname"
               onChange={handleLastName}
             >
-              <Input placeholder="Last Name" className="input_group" />
+              <Input placeholder="Last Name" className="input_group" maxLength={50}/>
             </Form.Item>
 
             <Form.Item
@@ -204,8 +206,11 @@ const AddLeadModal = ({
               rules={[
                 {
                   required: true,
-                  message: "Please input valid mobile number!",
+                  message: "Please Input Valid Phone Number",
                 },
+                {
+                  pattern : /^[1-9][0-9]{9}$/ , message : "Phone number must be 10 digit, exclude 880"
+                }
               ]}
             >
               <Input

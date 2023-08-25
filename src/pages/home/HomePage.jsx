@@ -25,21 +25,6 @@ const { RangePicker } = DatePicker;
 const HomePage = () => {
   const dateFormat = "YYYY-MM-DD";
   const [isLoading, setIsloading] = useState(false);
-  // Spin
-  const antIcon = (
-    <LoadingOutlined
-      style={{
-        fontSize: 44,
-      }}
-      spin
-    />
-  );
-  // Lead Source Grap
-  const renderIndexColum = (rowIndex, column) => {
-    return column.rowIndex + 1;
-  };
-
-  // __Lead Source Data Table__
   const [tData, setTData] = useState([]);
   const [gData, setGData] = useState([]);
   const [toDate, setToDate] = useState(dayjs().format("YYYY-MM-DD"));
@@ -47,12 +32,15 @@ const HomePage = () => {
     dayjs().startOf("month").format("YYYY-MM-DD")
   );
 
-  console.log("toDate", toDate);
-  console.log("fromDate", fromDate);
   // Leads Table----y
   const onChange = (date, dateString) => {
     setToDate(dateString[1]);
     setFormDate(dateString[0]);
+  };
+
+  // Lead Source Grap
+  const renderIndexColum = (rowIndex, column) => {
+    return column.rowIndex + 1;
   };
 
   // Data fetching on table
@@ -93,6 +81,7 @@ const HomePage = () => {
             <p className="bt_Text">Leads Overview</p>
 
             <div className="date_rage">
+       
               <RangePicker
                 onChange={onChange}
                 value={[
@@ -103,9 +92,7 @@ const HomePage = () => {
                 disabledDate={(current) => current.isAfter(dayjs())}
               />
             </div>
-            {/* Dates Section------ */}
 
-            {/* Chart Section------ */}
             <div className="chart_section">
               <div className="char-bar">
                 <small>Leads</small>
@@ -142,7 +129,6 @@ const HomePage = () => {
               </div>
             </div>
 
-            {/* Lead Source Table------ */}
             <p className="bt_Text">Lead Sources</p>
 
             <div className="card">

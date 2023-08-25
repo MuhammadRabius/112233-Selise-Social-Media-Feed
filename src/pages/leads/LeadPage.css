@@ -10,7 +10,7 @@
 /* Upper Content Search and Add Btn */
 
 .lead_S_Btn {
-  margin-top: 50px;
+  margin-top: 25px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,7 +33,7 @@
   font-size: 14px;
   border: none !important;
   box-shadow: none !important;
-  
+
 }
 
 
@@ -68,7 +68,7 @@
 /*  Lead Submission table--  */
 
 .__l_sub_table {
-  margin-top: 50px;
+  margin-top: 40px;
 }
 
 /* TH */
@@ -141,21 +141,23 @@
   /* height: 25px; */
   padding-left: 20px;
 }
+
 .addLeadModal .ant-input-group-addon {
   border-radius: 0px !important;
   background: none !important;
   border-width: 0px 0px 2px 0px !important;
   border-color: #0090DA !important;
-  padding: 1px 1px 1px 20px!important;
+  padding: 1px 1px 1px 20px !important;
 
 }
+
 .addLeadModal .ant-input-group .ant-input {
   box-shadow: none !important;
   border-width: 0px 0px 2px 0px !important;
   border-color: #0090DA !important;
   border-radius: 0px !important;
   padding: 4px 3px !important;
-  
+
 }
 
 
@@ -230,7 +232,7 @@
   border: 0;
 }
 
-.policy_btn span{
+.policy_btn span {
   color: #FFFFFF;
 
 }
@@ -284,7 +286,8 @@
 }
 
 .pgn_ld_sb {
-  margin: 70px 0px 40px 0px;
+  margin-top: 3%;
+  margin-bottom: 2%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -315,7 +318,7 @@
 
 .pgn_ld_sb .anticon-right {
   color: #007ABC !important;
-  
+
 }
 
 /* @media screen and (max-width: 1366px) {

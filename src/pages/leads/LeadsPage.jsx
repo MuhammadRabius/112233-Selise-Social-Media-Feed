@@ -37,7 +37,6 @@ const LeadsPage = () => {
   // console.log("filterStatus", filterStatus);
 
   const phoneNumberSearch = (e) => {
-
     setFilterData(leadListView);
     setSearchInput(e?.target?.value);
   };
@@ -79,18 +78,7 @@ const LeadsPage = () => {
   const onSearchClick = async (e) => {
     try {
       setLoading(true);
-      if (searchInput?.length !== 13) {
-        return (
-          message.warning(
-            "Please Inset 13 Digit Mobile Number e.g 88017-XXXXXXXX"
-          ),
-          setLoading(false)
-        );
-      } else{
         getApiCall()
-
-      }
-
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -118,7 +106,7 @@ const LeadsPage = () => {
     try {
       setLoading(true);
 
-      const leadDisplay = searchInput.length === 13 ? await leadListWithPagination(0, p_Size,searchInput) : await leadListWithPagination(p_Number, p_Size,searchInput);
+      const leadDisplay = searchInput.length === 13 ?  await leadListWithPagination(0, p_Size,searchInput) : await leadListWithPagination(p_Number, p_Size,searchInput);
       setLeadListView(leadDisplay?.data?.data?.items);
       setTotal(leadDisplay?.data?.data?.totalItems);
       set_P_Number(...p_Number, leadDisplay?.data?.data?.pageNumber);
@@ -135,7 +123,7 @@ const LeadsPage = () => {
     getApiCall()
 
     return () => ac.abort();
-  }, [callBack, p_Number, p_Size, searchInput]);
+  }, [callBack, p_Number, p_Size]);
 
   // const getFilterData = useMemo(() =>  {
 
@@ -299,7 +287,7 @@ const LeadsPage = () => {
             <div className="lead-search">
               <Input
                 onChange={phoneNumberSearch}
-                placeholder="Search by 13 digit Phone No. e.g 88017-XXXXXXXX  "
+                placeholder="Search by 11 digit Phone No. e.g 017-XXXXXXXX  "
                 className="filterlead"
                 type="text"
                 name="fname"
@@ -327,6 +315,7 @@ const LeadsPage = () => {
           <div className="__l_sub_table">
             <div>
               <Table
+                size="small"
                 key={leadListView.totalItems}
                 loading={isLoading}
                 columns={columns}

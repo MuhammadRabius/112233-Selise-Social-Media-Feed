@@ -18,7 +18,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar-container">
       <div className="sidebar-header">
-        <img src={logo} className="sidebar-logo" alt="logo" width={120} />
+      <NavLink to={"/"}><img src={logo} className="sidebar-logo" alt="logo" width={120} /></NavLink>
       </div>
       <div className="sidebar-userinfo mt-4 text-center text-white">
         <h6>{user === null ? "Test User" : user.name}</h6>

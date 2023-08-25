@@ -243,11 +243,12 @@ const LeadUpdateModal = ({
                   {
                     <small style={{ color: "red" }}>
                       Mobile number must be 10 digits, exclude 880. i.e
-                      1405628226
+                      14XXXXXXXX
                     </small>
                   }
                 </Form.Item>
               )}
+              
 
               <Form.Item name="email">
                 {" "}

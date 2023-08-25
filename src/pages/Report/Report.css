@@ -5,11 +5,10 @@
 }
 
 .reportContainer {
-    margin-top: 64px;
+    margin-top: 40px;
 }
 
-.report_form {
-   
+.report_form { 
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 20px;

@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
-import { DatePicker, Input, Form, message, Select, Spin, Space } from "antd";
+import { DatePicker, Input, Form, message, Select } from "antd";
 import "./Report.css";
 import dayjs from "dayjs";
 import { getCount, getReport, getSource } from "./Service/Report_Service";
 import { LoadingOutlined } from "@ant-design/icons";
-import { validatePhoneNumber } from "../../Validation/Validation";
 import {
   LeadCountStatus,
-  mobileVaidation,
-  phoneStatus,
 } from "../../global_state/action";
 import Loader from "../../components/Loader/Loader.tsx";
 const { Option } = Select;
@@ -21,8 +18,6 @@ const Report = () => {
   const [endDate, setEndDate] = useState("");
   const [leadSourceId, setLeadId] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [updatePhon, setUpdatePhon] = useState("");
-  const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
   const [leadSorce, setLeadSource] = useState([]);
   const [callBack, setCallBack] = useState(false);
@@ -36,22 +31,12 @@ const Report = () => {
     setLeadId(e);
   };
 
-  console.log("dataCount", dataCount);
-  // Spin
-  const antIcon = (
-    <LoadingOutlined
-      style={{
-        fontSize: 24,
-      }}
-      spin
-    />
-  );
+  
 
   const onFinish = async (values) => {
     if (
       values?.mobileNumber !== undefined &&
-      values?.mobileNumber !== "" &&
-      values?.mobileNumber?.length !== 10
+      values?.mobileNumber?.charAt(0)=== "0"
     ) {
       return message.warning(
         "Please input valid mobile number. Must be 10 digit exclude 880"
@@ -203,7 +188,14 @@ const Report = () => {
                   type="email"
                 />
               </Form.Item>
-              <Form.Item label="" name="mobileNumber">
+              <Form.Item label="" name="mobileNumber" 
+              rules={[
+                
+                {
+                  pattern : /^[1-9][0-9]{9}$/ , message : "Phone number must be 10 digit, exclude 880"
+                }
+              ]}
+              >
                 <Input
                   value={phoneNumber}
                   onChange={(e) =>
@@ -212,8 +204,7 @@ const Report = () => {
                   className="_input_group"
                   addonBefore="880"
                   placeholder="1777345678"
-                  type="number"
-                  min={1}
+                  maxLength={10}
                 />
               </Form.Item>
             </div>
