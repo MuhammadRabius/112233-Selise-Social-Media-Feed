@@ -11,6 +11,7 @@ import {
 import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
 import Loader from "../../components/Loader/Loader.tsx";
+import { debounce } from 'lodash';
 
 
 const LeadsPage = () => {
@@ -18,28 +19,35 @@ const LeadsPage = () => {
   const [callBack, setCallBack] = useState(false);
   // Filter Issues
   const [searchInput, setSearchInput] = useState("");
-  const [filterStatus, setFilterStatus] = useState(false);
-  const [filterData, setFilterData] = useState([]);
+ 
   // setup Field Data from API
   const [leadListView, setLeadListView] = useState([]);
   const [p_Number, set_P_Number] = useState(0);
-  const [fiterPgNum, setFiterPgNum] = useState(0);
   const [p_Size, set_P_Size] = useState(10);
   const [totalPages, setTotal] = useState(0);
-  const [filterTotal, setFilterTotal] = useState(0);
   const frontPaginationNumber = p_Number + 1;
   // Table Sorting
   const [sortedInfo, setSortedInfo] = useState({});
 
+  console.log("frontPaginationNumber",frontPaginationNumber)
   // console.log("p_Size", p_Size);
 
   // console.log("totalPages", totalPages);
   // console.log("filterStatus", filterStatus);
 
+  // Search Component
+  const debouncedSearch = debounce((s_value) => {
+    setSearchInput(s_value);
+    console.log("dataINput",s_value)
+  }, 1000);
+  
   const phoneNumberSearch = (e) => {
-    setFilterData(leadListView);
-    setSearchInput(e?.target?.value);
+    debouncedSearch(e?.target?.value)
   };
+  const onSearchClick = async (e) => {
+    getApiCall();
+  };
+
 
   // Modal Section ----------
 
@@ -55,6 +63,7 @@ const LeadsPage = () => {
     setAddLead(true);
   };
 
+
   // Update Single Lead ModaL
 
   const [updateLeadModal, setUpdateLeadModal] = useState(false);
@@ -69,27 +78,11 @@ const LeadsPage = () => {
     setUpdateLeadModal(false);
   };
 
-  // const filterT = ()=>{
-  //   setTotal
-  // }
-
-  // console.log("filterPhoneData", filterData);
-
-  const onSearchClick = async (e) => {
-    try {
-      setLoading(true);
-        getApiCall()
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-    }
-  };
+ 
 
   // setIndexNumber
 
   const onPaginationChange = (pageNumber, pageSize) => {
-
-    
     const pageNum = pageNumber - 1;
     set_P_Number(pageNum)
     set_P_Size(pageSize);
@@ -106,7 +99,7 @@ const LeadsPage = () => {
     try {
       setLoading(true);
 
-      const leadDisplay = searchInput.length === 13 ?  await leadListWithPagination(0, p_Size,searchInput) : await leadListWithPagination(p_Number, p_Size,searchInput);
+      const leadDisplay = searchInput.length !== "" ?  await leadListWithPagination(0, p_Size,searchInput) : await leadListWithPagination(p_Number, p_Size,searchInput);
       setLeadListView(leadDisplay?.data?.data?.items);
       setTotal(leadDisplay?.data?.data?.totalItems);
       set_P_Number(...p_Number, leadDisplay?.data?.data?.pageNumber);
@@ -123,7 +116,7 @@ const LeadsPage = () => {
     getApiCall()
 
     return () => ac.abort();
-  }, [callBack, p_Number, p_Size]);
+  }, [callBack, p_Number, p_Size,searchInput]);
 
   // const getFilterData = useMemo(() =>  {
 
@@ -291,7 +284,7 @@ const LeadsPage = () => {
                 className="filterlead"
                 type="text"
                 name="fname"
-                maxLength={13}
+                // maxLength={13}
               />
               <span style={{ cursor: "pointer" }} onClick={onSearchClick}>
                 <i
