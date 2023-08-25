@@ -19,7 +19,7 @@ import { getGrapFillColor } from "../../global_state/action";
 import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
 import { LoadingOutlined } from "@ant-design/icons";
 import Loader from "../../components/Loader/Loader.tsx";
-dayjs.extend(customParseFormat)
+dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 
 const HomePage = () => {
@@ -44,7 +44,7 @@ const HomePage = () => {
   const [gData, setGData] = useState([]);
   const [toDate, setToDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [fromDate, setFormDate] = useState(
-    dayjs().startOf("month").format("YYYY-MM-DD") 
+    dayjs().startOf("month").format("YYYY-MM-DD")
   );
 
   console.log("toDate", toDate);
@@ -95,11 +95,12 @@ const HomePage = () => {
             <div className="date_rage">
               <RangePicker
                 onChange={onChange}
-                value={[dayjs(fromDate ? fromDate : dayjs().add(-1,"month")), dayjs(toDate ? toDate : dayjs())]}
+                value={[
+                  dayjs(fromDate ? fromDate : dayjs().add(-1, "month")),
+                  dayjs(toDate ? toDate : dayjs()),
+                ]}
                 format={dateFormat}
-                disabledDate={(current) =>
-                  current.isAfter(dayjs().add(-1, "day"))
-                }
+                disabledDate={(current) => current.isAfter(dayjs())}
               />
             </div>
             {/* Dates Section------ */}
@@ -107,6 +108,7 @@ const HomePage = () => {
             {/* Chart Section------ */}
             <div className="chart_section">
               <div className="char-bar">
+                <small>Leads</small>
                 <BarChart
                   width={900}
                   height={300}
@@ -121,21 +123,14 @@ const HomePage = () => {
                     label={{
                       value: "Source Type",
                       position: "insideBottomRight",
-                      offset: -2,
+                      // offset: -1,
+                      fill: "black",
+                      fontSize: "12",
+                      fontWeight: "500",
                     }}
                   />
 
-                  <YAxis
-                    width={50}
-                    tickSize={2}
-                    label={{
-                      value: "Lead",
-                      offset: -1,
-                      angle: -90,
-                      position: "insideLeft",
-                    }}
-                  />
-                  <Tooltip />
+                  <YAxis width={50} tickSize={2} />
 
                   <Bar barSize={60} dataKey="totalLeadSentToUaa">
                     {gData.map((entry, index) => {
