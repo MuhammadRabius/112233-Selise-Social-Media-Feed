@@ -1,10 +1,7 @@
-.bt_Text {
-    font-size: 18px;
-    font-weight: 600;
-}
+@import url('../../App.css');
 
 .um_container {
-   margin-top: 40px;
+    margin-top: 40px;
 }
 
 .um_form {
@@ -22,7 +19,7 @@
     border-color: #0090DA !important;
     border-radius: 0px !important;
     padding-left: 24px;
-   
+
 }
 
 .um_form .ant-select-selector {
@@ -32,13 +29,13 @@
     border-color: #0090DA !important;
     border-radius: 0px !important;
     padding-left: 24px !important;
-  
+
 }
 
 
 
 .um_f_part {
-    margin-top: 20px;
+
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     justify-content: space-between;
@@ -79,7 +76,7 @@
 .create_btn {
     margin-top: 40px;
     text-align: center;
-    font-style: Noto Sans;
+    font-style: 'NotoSans-Bold';
     font-weight: 500;
     font-size: 14PX;
     letter-spacing: 0px;
@@ -94,6 +91,21 @@
 .um_table {
     margin-top: 20px;
 }
+
+/* Ant Table */
+
+.ant-table.ant-table-small .ant-table-thead tr th {
+    color: var(--metlife-darkest-gray);
+    font-style: "NotoSans-Bold";
+    font-weight: bold;
+}
+
+.ant-table-cell {
+    color: var(--metlife-darkest-gray);
+    font-style: "NotoSans-Regular";
+
+}
+
 
 
 /* pagination */

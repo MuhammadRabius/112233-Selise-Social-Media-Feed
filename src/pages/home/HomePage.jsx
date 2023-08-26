@@ -31,7 +31,7 @@ const HomePage = () => {
   const [fromDate, setFormDate] = useState(
     dayjs().startOf("month").format("YYYY-MM-DD")
   );
-  
+
   // Leads Table----y
   const onChange = (date, dateString) => {
     setToDate(dateString[1]);
@@ -53,12 +53,12 @@ const HomePage = () => {
         if (toDate && fromDate) {
           setIsloading(true);
           // Table API
-          const tableDisplay = await getLeadSource(fromDate,toDate);
+          const tableDisplay = await getLeadSource(fromDate, toDate);
           setTData(tableDisplay.data.data);
 
           // Grap API
 
-          const typeDisplay = await getLeadSourceType(fromDate,toDate);
+          const typeDisplay = await getLeadSourceType(fromDate, toDate);
           setGData(typeDisplay.data.data);
         }
         setIsloading(false);
@@ -81,7 +81,6 @@ const HomePage = () => {
             <p className="bt_Text">Leads Overview</p>
 
             <div className="date_rage">
-       
               <RangePicker
                 onChange={onChange}
                 defaultValue={[dayjs(fromDate), dayjs(toDate)]}
@@ -100,6 +99,7 @@ const HomePage = () => {
                   loading={isLoading}
                 >
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                  <Tooltip />
                   <XAxis
                     dataKey="leadSourceTypeName"
                     tickSize={2}

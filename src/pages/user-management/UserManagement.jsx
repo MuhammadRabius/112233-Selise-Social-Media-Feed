@@ -312,7 +312,6 @@ const UserManagement = () => {
               <div className="um_table">
                 <div>
                   <Table
-                    
                     key={user.id}
                     onChange={onTableChange}
                     columns={columns}
@@ -323,7 +322,6 @@ const UserManagement = () => {
               </div>
 
               {/*  Pagination */}
-             
             </div>
           </Layout>
         </>

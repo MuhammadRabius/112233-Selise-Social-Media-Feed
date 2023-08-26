@@ -11,15 +11,14 @@ import {
 import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
 import Loader from "../../components/Loader/Loader.tsx";
-import { debounce } from 'lodash';
-
+import { debounce } from "lodash";
 
 const LeadsPage = () => {
   const [isLoading, setLoading] = useState(false);
   const [callBack, setCallBack] = useState(false);
   // Filter Issues
   const [searchInput, setSearchInput] = useState("");
- 
+
   // setup Field Data from API
   const [leadListView, setLeadListView] = useState([]);
   const [p_Number, set_P_Number] = useState(0);
@@ -29,7 +28,7 @@ const LeadsPage = () => {
   // Table Sorting
   const [sortedInfo, setSortedInfo] = useState({});
 
-  console.log("frontPaginationNumber",frontPaginationNumber)
+  console.log("frontPaginationNumber", frontPaginationNumber);
   // console.log("p_Size", p_Size);
 
   // console.log("totalPages", totalPages);
@@ -38,16 +37,15 @@ const LeadsPage = () => {
   // Search Component
   const debouncedSearch = debounce((s_value) => {
     setSearchInput(s_value);
-    console.log("dataINput",s_value)
+    console.log("dataINput", s_value);
   }, 1000);
-  
+
   const phoneNumberSearch = (e) => {
-    debouncedSearch(e?.target?.value)
+    debouncedSearch(e?.target?.value);
   };
   const onSearchClick = async (e) => {
     getApiCall();
   };
-
 
   // Modal Section ----------
 
@@ -63,7 +61,6 @@ const LeadsPage = () => {
     setAddLead(true);
   };
 
-
   // Update Single Lead ModaL
 
   const [updateLeadModal, setUpdateLeadModal] = useState(false);
@@ -78,13 +75,11 @@ const LeadsPage = () => {
     setUpdateLeadModal(false);
   };
 
- 
-
   // setIndexNumber
 
   const onPaginationChange = (pageNumber, pageSize) => {
     const pageNum = pageNumber - 1;
-    set_P_Number(pageNum)
+    set_P_Number(pageNum);
     set_P_Size(pageSize);
   };
 
@@ -95,11 +90,14 @@ const LeadsPage = () => {
 
   // Api Calling ----------
 
-  const getApiCall = async () =>  {
+  const getApiCall = async () => {
     try {
       setLoading(true);
 
-      const leadDisplay = searchInput.length !== "" ?  await leadListWithPagination(0, p_Size,searchInput) : await leadListWithPagination(p_Number, p_Size,searchInput);
+      const leadDisplay =
+        searchInput.length !== ""
+          ? await leadListWithPagination(0, p_Size, searchInput)
+          : await leadListWithPagination(p_Number, p_Size, searchInput);
       setLeadListView(leadDisplay?.data?.data?.items);
       setTotal(leadDisplay?.data?.data?.totalItems);
       set_P_Number(...p_Number, leadDisplay?.data?.data?.pageNumber);
@@ -109,14 +107,14 @@ const LeadsPage = () => {
     } catch (err) {
       setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     const ac = new AbortController();
-    getApiCall()
+    getApiCall();
 
     return () => ac.abort();
-  }, [callBack, p_Number, p_Size,searchInput]);
+  }, [callBack, p_Number, p_Size, searchInput]);
 
   // const getFilterData = useMemo(() =>  {
 
@@ -326,7 +324,7 @@ const LeadsPage = () => {
             <Pagination
               showQuickJumper
               current={frontPaginationNumber}
-              total={ totalPages}
+              total={totalPages}
               onChange={onPaginationChange}
             />
           </div>

@@ -152,8 +152,6 @@ const AddLeadModal = ({
     return () => ac.abort();
   }, []);
 
-
-
   return (
     <>
       <Modal
@@ -184,9 +182,18 @@ const AddLeadModal = ({
                   required: true,
                   message: "Please input your First Name!",
                 },
+                {
+                  pattern: "^[a-zA-Zs]{5,350}$",
+                  message:
+                    "Invalid name. Name must be 5 to 350 characters long and should not contain special characters.",
+                },
               ]}
             >
-              <Input placeholder="* First Name" className="input_group" maxLength={50} />
+              <Input
+                placeholder="* First Name"
+                className="input_group"
+                maxLength={50}
+              />
             </Form.Item>
 
             <Form.Item
@@ -194,8 +201,19 @@ const AddLeadModal = ({
               validateFirst={true}
               name="lastname"
               onChange={handleLastName}
+              rules={[
+                {
+                  pattern: "^[a-zA-Zs]{5,350}$",
+                  message:
+                    "Name must be 5 to 350 characters long and should not contain special characters.",
+                },
+              ]}
             >
-              <Input placeholder="Last Name" className="input_group" maxLength={50}/>
+              <Input
+                placeholder="Last Name"
+                className="input_group"
+                maxLength={50}
+              />
             </Form.Item>
 
             <Form.Item
@@ -209,8 +227,9 @@ const AddLeadModal = ({
                   message: "Please Input Valid Phone Number",
                 },
                 {
-                  pattern : /^[1-9][0-9]{9}$/ , message : "Phone number must be 10 digit, exclude 880"
-                }
+                  pattern: /^[1-9][0-9]{9}$/,
+                  message: "Phone number must be 10 digit, exclude 880",
+                },
               ]}
             >
               <Input
@@ -225,6 +244,12 @@ const AddLeadModal = ({
               name="email"
               validateFirst={true}
               onChange={handleEmail}
+              rules={[
+                {
+                  pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$",
+                  message: "Invalid email address.",
+                },
+              ]}
             >
               <Input type="email" placeholder="Email" className="input_group" />
             </Form.Item>

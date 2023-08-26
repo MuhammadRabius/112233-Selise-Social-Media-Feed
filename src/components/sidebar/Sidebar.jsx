@@ -22,7 +22,7 @@ const Sidebar = () => {
       </div>
       <div className="sidebar-userinfo mt-4 text-center text-white">
         <h6>{user === null ? "Test User" : user.name}</h6>
-        <p style={{ color: "#F2F2F2" , fontSize:'14px',textTransform: "capitalize" }}>{username}</p>
+        <p className="user_display">{username}</p>
       </div>
 
       <div className="sidebar">

@@ -1,17 +1,4 @@
-:root {
-
-    /* Colors: */
-    --metlife-medium-gray: #A7A8AA;
-    --metlife-darkest-gray: #333333;
-    --metlife-dark-gray: #75787B;
-    --metlife-blue-2: #007ABC;
-    --black: #000000;
-    --metlife-gray: #D9D9D9;
-    --metlife-light-gray: #F2F2F2;
-
-    /* font-style */
-
-}
+@import url('../../App.css');
 
 .login-container {
     width: 100%;
@@ -25,7 +12,7 @@
 }
 
 .login-card {
-    width: 450px;
+    max-width:25%;
     height: 450px;
     margin-top: 7%;
     background: #FFFFFF 0% 0% no-repeat padding-box;
@@ -37,7 +24,23 @@
 .metlife-logo {
     display: flex;
     justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+  
    
+}
+.sign_text{
+  text-align: center;
+  font-size: 18px;
+  font-family: "MetLifeCircular-Bold",sans-serif;
+  font-weight: bold;
+  letter-spacing: 1.1px;
+}
+.enter_text{
+   
+    text-align: center;
+    font-family: "NotoSans-Bold",sans-serif;
+    font-size: 14px;
 }
 
 .form-control {
@@ -70,6 +73,7 @@
 .__lw_text{
     color: #6E6E6E;
     font-size: 14px;
+    font-family: "NotoSans-Regular",sans-serif;
 
 }
 ._lw_text{

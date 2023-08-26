@@ -1,14 +1,12 @@
-.bt_Text {
+@import url('../../App.css');
 
-    font-size: 18px;
-    font-weight: 600;
-}
+
 
 /* Date Range--- */
 .date_rage {
     display: flex;
     justify-content: flex-end;
-    margin-top: 5px;
+    margin-top: 2px;
     line-height: 2px;
 
 }
@@ -26,6 +24,7 @@
     border-width: 0px 0px 2px 0px !important;
     width: 470px;
     height: 54px;
+  
 }
 
 .ant-picker-focused {
@@ -51,7 +50,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 30px 0px;
+    margin-top: 20px;
 }
 
 .char-bar {
@@ -66,7 +65,7 @@
     font-weight: 500;
 }
 .recharts-cartesian-axis-line {
-    stroke: black;
+    stroke: var(--black);
 
 }
 
@@ -74,8 +73,7 @@
 /* Lead Source Table Properties  */
 
 .card {
-    margin-top: 25px;
-    margin-bottom: 65px;
+    margin: 20px 0px;
     border: none !important;
 }
 
@@ -90,7 +88,8 @@
     border: 0px solid #dee2e6 !important;
     border-width: 0px 0 2px 0 !important;
     text-align: center !important;
-    color: #333333;
+    color: var(--metlife-darkest-gray);
+    font-style: 'NotoSans-Bold';
     background: white !important;
     transition: box-shadow 0.2s;
 
@@ -107,7 +106,8 @@
     margin-left: 15px;
 }
 .p-datatable .p-datatable-tbody tr td {
-    color: #333333;
+    font-style: 'NotoSans-Regular';
+    color: var(--metlife-darkest-gray) 0% 0% no-repeat padding-box;
     border-width: 0px 0 2px 0 !important;
     padding: 0.7rem !important;
 

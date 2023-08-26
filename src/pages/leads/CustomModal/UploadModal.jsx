@@ -94,6 +94,7 @@ const UploadModal = ({
                   required: true,
                   message: "Please select an Excel file to upload!",
                 },
+                
               ]}
             >
               <Dragger

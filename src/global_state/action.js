@@ -1,5 +1,4 @@
-import { message } from "antd";
-
+import dayjs from "dayjs";
 // date generate
 
 export const getDate = (d) => {
@@ -61,34 +60,33 @@ export const LeadCountStatus = (type) => {
 };
 
 
-// File Download for Error Excel File
+//  Error Excel File base64
 export const ErrorExcelFileDownload= (base64) => {
-
   var mediaType =
 
     "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,";
 
   var a = document.createElement("a");
-
   a.href = mediaType + base64;
-
   a.id = "abc";
-
-  //a.href = mediaType+userInp;
-
   var date = new Date().toJSON().slice(0, 10);
-
-  // var date = new Date();
-
   a.download = `ErrorLeads ${date}.xlsx`;
-
   a.textContent = "Download file!";
-
-  // console.log(a);
-
   document.body.appendChild(a);
-
   document.getElementById("abc")?.click();
-
 }
 
+// Report Excel Download 
+
+export const ReportExcelDownload = (file)=>{
+  // const url = window.URL.createObjectURL(new Blob([res?.data]));
+  const url = window.URL.createObjectURL(new Blob([file]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute(
+        "download",
+        `LeadCount-Report ${dayjs().format("YYYY-MM-DD")}.xlsx`
+      );
+      document.body.appendChild(link);
+      link.click();
+}
