@@ -109,7 +109,7 @@ const HomePage = () => {
                       position: "insideBottomRight",
                       // offset: -1,
                       fill: "black",
-                      fontSize: "12",
+                      fontSize: "14px",
                       fontWeight: "500",
                     }}
                   />
@@ -141,7 +141,7 @@ const HomePage = () => {
                   body={renderIndexColum}
                 ></Column>
                 <Column field="leadSourceName" header="Source"></Column>
-                <Column field="totalLeadSentToUaa" header="TO MyLife"></Column>
+                <Column field="totalLeadSentToUaa" header="To MyLife"></Column>
                 <Column field="totalLeadPending" header="Pending"></Column>
                 <Column field="totalLead" header="Total"></Column>
               </DataTable>

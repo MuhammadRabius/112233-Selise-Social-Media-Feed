@@ -118,9 +118,10 @@ const AddLeadModal = ({
         message.success(sendSingleLead.data.message);
         setCallBack(!callBack);
         setLoading(false);
-        setAddLead(false);
         form.resetFields();
         if (btnTypes === "singleExit") {
+          setAddLead (false);
+          
         }
         setFaStatus(null);
       } catch (error) {
@@ -185,7 +186,7 @@ const AddLeadModal = ({
                 {
                   pattern: "^[a-zA-Zs]{5,350}$",
                   message:
-                    "Invalid name. Name must be 5 to 350 characters long and should not contain special characters.",
+                    "Name must be 5 to 350 characters long and should not contain special characters.",
                 },
               ]}
             >
@@ -203,9 +204,9 @@ const AddLeadModal = ({
               onChange={handleLastName}
               rules={[
                 {
-                  pattern: "^[a-zA-Zs]{5,350}$",
+                  pattern: "^[a-zA-Zs]{3,350}$",
                   message:
-                    "Name must be 5 to 350 characters long and should not contain special characters.",
+                    "Name must be 3 to 350 characters long and should not contain special characters.",
                 },
               ]}
             >
@@ -320,7 +321,7 @@ const AddLeadModal = ({
                     </Radio.Group>
 
                     <Input
-                      value={faCode}
+                      value={faYesNO === "no" ? "Lead will submitted with new FA request" : faCode }
                       placeholder="FA Code"
                       className="input_group"
                       readOnly

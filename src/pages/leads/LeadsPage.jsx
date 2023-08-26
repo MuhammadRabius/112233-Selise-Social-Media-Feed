@@ -97,7 +97,7 @@ const LeadsPage = () => {
       const leadDisplay =
         searchInput.length !== ""
           ? await leadListWithPagination(0, p_Size, searchInput)
-          : await leadListWithPagination(p_Number, p_Size, searchInput);
+          : await leadListWithPagination(p_Number, p_Size,searchInput);
       setLeadListView(leadDisplay?.data?.data?.items);
       setTotal(leadDisplay?.data?.data?.totalItems);
       set_P_Number(...p_Number, leadDisplay?.data?.data?.pageNumber);

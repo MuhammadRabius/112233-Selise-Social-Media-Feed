@@ -175,9 +175,8 @@ const Report = () => {
                   name="email"
                   rules={[
                     {
-                      pattern: "^[a-zA-Zs]{5,350}$",
-                      message:
-                        "Name must be 5 to 350 characters long and should not contain special characters.",
+                      pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$",
+                      message: "Invalid email address.",
                     },
                   ]}
                 >
