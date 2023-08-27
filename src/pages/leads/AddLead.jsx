@@ -34,7 +34,7 @@ const AddLeadModal = ({
   const handleCancel = () => {
     form.resetFields();
     // setFaStatus(null);
-    setFaCode("");
+    setFaCode(0);
     setAddLead(false);
   };
 
@@ -50,7 +50,7 @@ const AddLeadModal = ({
   const [faStatus, setFaStatus] = useState(null);
   const [faYesNO, setFaYesNo] = useState("yes");
   const newFaReq = faYesNO === "yes" ? true : false;
-  const [faCode, setFaCode] = useState("");
+  const [faCode, setFaCode] = useState(0);
   const [remark, setRemak] = useState("");
 
   const handleName = (e) => {
@@ -334,18 +334,22 @@ const AddLeadModal = ({
                 ) : null}
               </Spin>
             </Form.Item>
-            {faCode === null ? (
-              <div style={{ marginTop: "10px", marginBottom: "15px" }}>
-                <p style={{ color: "#6E6E6E" }}>
+            {(faCode === null || faCode === "")  ? (
+              <div style={{ marginBottom: "2px" }}>
+                <p style={{ color: "#6E6E6E" ,textAlign:"end"}}>
                   FA Status :{" "}
-                  <Tag color="#f50">FA Inactive. New FA will be assigned</Tag>
+                  <Tag color="#f50">FA Inactive</Tag>
                 </p>
               </div>
             ) : null}
-            {faCode === null || faCode === "" ? (
-              <Form.Item label="" name="facode">
-                <Input placeholder="FA Code" className="input_group" readOnly />
-              </Form.Item>
+            {faCode === null || faCode === "" || faCode ===0 ? (
+              
+                <Input value={
+                  (faCode === null || faCode === "")
+                    ? "New FA will be assigned"
+                    : null
+                } placeholder="FA Code" className="input_group" readOnly  style={{marginBottom: "15px" }}/>
+              
             ) : null}
 
             <Form.Item label="" name="remark">
