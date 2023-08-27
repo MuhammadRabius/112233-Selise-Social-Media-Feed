@@ -178,7 +178,15 @@ const LeadUpdateModal = ({
       ) :
           <div className="_modal_body">
             <Form form={form} onFinish={onFinish} autoComplete="off">
-              <Form.Item name="firstName" validateFirst={true}>
+              <Form.Item name="firstName" validateFirst={true} 
+              rules={[
+                {
+                  pattern: "^[a-zA-Z\s]{3,350}$",
+                  message:
+                    "Name must be 3 to 350 characters long and should not contain special characters.",
+                },
+              ]}
+              >
                 {" "}
                 <Input
                   className="input_group"

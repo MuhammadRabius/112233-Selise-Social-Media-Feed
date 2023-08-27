@@ -184,9 +184,9 @@ const AddLeadModal = ({
                   message: "Please input your First Name!",
                 },
                 {
-                  pattern: "^[a-zA-Zs]{5,350}$",
+                  pattern: "^[a-zA-Z\s]{3,350}$",
                   message:
-                    "Name must be 5 to 350 characters long and should not contain special characters.",
+                    "Name must be 3 to 350 characters long and should not contain special characters.",
                 },
               ]}
             >
@@ -204,7 +204,7 @@ const AddLeadModal = ({
               onChange={handleLastName}
               rules={[
                 {
-                  pattern: "^[a-zA-Zs]{3,350}$",
+                  pattern: "^[a-zA-Z\s]{3,350}$",
                   message:
                     "Name must be 3 to 350 characters long and should not contain special characters.",
                 },
