@@ -21,8 +21,6 @@ const LeadUpdateModal = ({
 }) => {
   const [form] = Form.useForm();
   const nameRegex = /^[\w\s!@#$%^&*()\-+=<>?/,.:;'"[\]{}|~]{5,350}$/;
-
-
   const handleCancel = () => {
     onCancel();
     form.resetFields();
