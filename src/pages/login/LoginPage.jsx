@@ -10,7 +10,7 @@ import { message } from "antd";
 import { Navigate} from "react-router-dom";
 import TextInput from "../../components/inputs/TextInput";
 import { LoadingOutlined } from "@ant-design/icons";
-import Loader from "../../components/Loader/Loader.tsx";
+import Loader from "../../components/Loader/Loader.js";
 
 const LoginPage = () => {
   const [isLoading, setIsloading] = useState(false);

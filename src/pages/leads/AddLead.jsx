@@ -17,7 +17,7 @@ import {
   findFinicalAgent,
 } from "./Service/lead_service";
 import "./LeadPage.css";
-import Loader from "../../components/Loader/Loader.tsx";
+import Loader from "../../components/Loader/Loader.js";
 
 const AddLeadModal = ({
   open,
@@ -33,7 +33,8 @@ const AddLeadModal = ({
   const { TextArea } = Input;
   const handleCancel = () => {
     form.resetFields();
-    setFaStatus(null);
+    // setFaStatus(null);
+    setFaCode("");
     setAddLead(false);
   };
 
@@ -85,8 +86,8 @@ const AddLeadModal = ({
       if (findPolicy) {
         setLoading(true);
         const faRes = await findFinicalAgent(findPolicy);
-        setFaCode(faRes?.data?.data?.agentCode);
-        setFaStatus(faRes?.data?.data?.active);
+        setFaCode(faRes?.data?.data?.FaCode);
+        // setFaStatus(faRes?.data?.data?.active);
         setLoading(false);
       }
     } catch (err) {
@@ -120,8 +121,7 @@ const AddLeadModal = ({
         setLoading(false);
         form.resetFields();
         if (btnTypes === "singleExit") {
-          setAddLead (false);
-          
+          setAddLead(false);
         }
         setFaStatus(null);
       } catch (error) {
@@ -298,7 +298,7 @@ const AddLeadModal = ({
                     FIND
                   </Button>
                 </div>
-                {faStatus === true ? (
+                {faCode ? (
                   <div className="_ex_P">
                     <div
                       style={{
@@ -321,7 +321,11 @@ const AddLeadModal = ({
                     </Radio.Group>
 
                     <Input
-                      value={faYesNO === "no" ? "Lead will submitted with new FA request" : faCode }
+                      value={
+                        faYesNO === "no"
+                          ? "Lead will submitted with new FA request"
+                          : faCode
+                      }
                       placeholder="FA Code"
                       className="input_group"
                       readOnly
@@ -330,15 +334,15 @@ const AddLeadModal = ({
                 ) : null}
               </Spin>
             </Form.Item>
-            {faStatus === false ? (
+            {faCode === null ? (
               <div style={{ marginTop: "10px", marginBottom: "15px" }}>
                 <p style={{ color: "#6E6E6E" }}>
                   FA Status :{" "}
-                  <Tag color="#f50">FA Inactive. New FA will be attached</Tag>
+                  <Tag color="#f50">FA Inactive. New FA will be assigned</Tag>
                 </p>
               </div>
             ) : null}
-            {faStatus === null ? (
+            {faCode === null || faCode === "" ? (
               <Form.Item label="" name="facode">
                 <Input placeholder="FA Code" className="input_group" readOnly />
               </Form.Item>

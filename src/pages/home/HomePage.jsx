@@ -18,7 +18,7 @@ import "./homePage.css";
 import { getGrapFillColor } from "../../global_state/action";
 import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
 import { LoadingOutlined } from "@ant-design/icons";
-import Loader from "../../components/Loader/Loader.tsx";
+import Loader from "../../components/Loader/Loader.js";
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 

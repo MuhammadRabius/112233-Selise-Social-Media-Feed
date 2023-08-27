@@ -2,14 +2,8 @@ import React from "react";
 import "./loader.css";
 import Backdrop from "@mui/material/Backdrop";
 
-interface props {
-  isLoading: boolean;
-  message?: string;
-  backDrop?: boolean;
-  handleClose?: () => void;
-}
 
-const Loader: React.FC<props> = ({ isLoading, backDrop, handleClose }) => {
+const Loader = ({ isLoading, backDrop, handleClose }) => {
   if (!isLoading) return null;
 
   return (
