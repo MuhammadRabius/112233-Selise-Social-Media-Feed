@@ -90,8 +90,8 @@ const HomePage = () => {
             </div>
 
             <div className="chart_section">
+            <small>Leads</small>
               <div className="char-bar">
-                <small>Leads</small>
                 <BarChart
                   width={900}
                   height={300}
@@ -110,7 +110,7 @@ const HomePage = () => {
                       // offset: -1,
                       fill: "black",
                       fontSize: "14px",
-                      fontWeight: "500",
+                      fontWeight: "700",
                     }}
                   />
 

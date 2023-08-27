@@ -2,7 +2,7 @@
 
 .bt_Text {
     font-size: 18px;
-    font-style: 'MetLifeCircular-Bold';
+    font-family: 'MetLifeCircular-Bold',sans-serif;
     font-weight: 700;
 }
 
