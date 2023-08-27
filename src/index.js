@@ -24,16 +24,10 @@ import "primereact/resources/primereact.min.css";
 // import LeadSubmission from "./pages/leadsubmission/LeadSubmission";
 import UserManagement from "./pages/user-management/UserManagement";
 import Report from "./pages/Report/Report";
-// import { UserProvider } from "./components/Context/UserContext";
-// import Demo from "./pages/Demo/Demo";
 
-// axios.defaults.baseURL =  "http://10.40.92.245:8200";
 // axios.defaults.baseURL =  "http://10.69.13.7:8200";
-// axios.defaults.baseURL =  "http://10.68.13.20:8200";
-axios.defaults.baseURL =
-  "https://qa.eclaims.metlife.com.bd/public/ulm-api-external";
-// axios.defaults.baseURL =  "http://10.40.92.200:8200";
-// axios.defaults.baseURL = "http://10.40.92.27:8200";
+axios.defaults.baseURL ="https://qa.eclaims.metlife.com.bd/public/ulm-api-external";
+
 axios.defaults.headers.common["Authorization"] =
   "Bearer " + localStorage.getItem("access-token");
 axios.defaults.headers.post["Content-Type"] = "application/json";

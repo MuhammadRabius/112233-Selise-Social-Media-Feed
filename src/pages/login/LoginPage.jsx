@@ -1,13 +1,16 @@
-import { useState,useContext } from "react";
+import { useState } from "react";
 import "./loginPage.css";
 import { Formik, Field, Form, ErrorMessage } from "formik";
+
 import * as Yup from "yup";
 import logo from "../../assets/img/metlifelogo.png";
 import { userLogin } from "../../services/AuthService";
 import jwt_decode from "jwt-decode";
-import { message,Skeleton,Alert } from "antd";
+import { message } from "antd";
 import { Navigate} from "react-router-dom";
 import TextInput from "../../components/inputs/TextInput";
+import { LoadingOutlined } from "@ant-design/icons";
+import Loader from "../../components/Loader/Loader.tsx";
 
 const LoginPage = () => {
   const [isLoading, setIsloading] = useState(false);
@@ -28,21 +31,30 @@ const LoginPage = () => {
     return <Navigate to="/" replace />;
   }
 
-  return (
-    <Skeleton loading={isLoading} size="large" active
-    paragraph={{
-      rows: 10,
-    }}>  
+  // Spin
+  const antIcon = (
+    <LoadingOutlined
+      style={{
+        fontSize: 24,
+      }}
+      spin
+      />
+      );
+      
+      return <>
+     {isLoading ? (
+        <Loader isLoading={isLoading} />
+      ) : 
     <div className="login-container">
       <div className="login-card">
         <div className="metlife-logo mt-4">
           <img src={logo} width={120} alt="logo" />
         </div>
 
-        <h6 className="text-center mt-4" style={{ margin: "0" }}>
+        <h6 className="sign_text" >
           Sign into your account
         </h6>
-        <p className="text-center">
+        <p className="enter_text mt-2 mb-5">
           <small> Enter your Active Directory ID</small>
         </p>
         <Formik
@@ -110,8 +122,9 @@ const LoginPage = () => {
         </Formik>
       </div>
     </div>
-    </Skeleton>
-  );
+        }
+   
+  </>;
 };
 
 export default LoginPage;

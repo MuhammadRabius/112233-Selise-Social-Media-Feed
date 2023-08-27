@@ -1,16 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Table,
-  Radio,
-  Modal,
-  Form,
-  Input,
-  Select,
-  Button,
-  message,
-  Pagination,
-  Spin,
-} from "antd";
+import { Modal, Form, Input, Select, Button, message, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 import {
@@ -18,6 +7,8 @@ import {
   leadListByID,
   leadUpdateByID,
 } from "./Service/lead_service";
+import { phonePrefix } from "../../global_state/action";
+import Loader from "../../components/Loader/Loader.tsx";
 
 const LeadUpdateModal = ({
   open,
@@ -26,6 +17,7 @@ const LeadUpdateModal = ({
   setUpdateLeadModal,
   callBack,
   setCallBack,
+  isLoading
 }) => {
   const [form] = Form.useForm();
 
@@ -40,10 +32,13 @@ const LeadUpdateModal = ({
 
   const handleCancel = () => {
     onCancel();
+    form.resetFields();
   };
 
   const { Option } = Select;
   const { TextArea } = Input;
+  const [phoneError, setPhoneError] = useState("");
+  const [district, setDistrict] = useState("")
   const [districtAPI, setDistrictAPI] = useState([]);
   const [loading, setLoading] = useState(false);
   const [listViewData, setListbyIdData] = useState({
@@ -60,13 +55,25 @@ const LeadUpdateModal = ({
     remarks: "",
   });
 
-  const [district, setDistrict] = useState({
-    districtName: "",
-  });
+  console.log("district",listViewData.districtName)
+
+
+
+  // payloadContactMagic
+
+  const phonePrefixZero =
+    listViewData?.contactNo?.charAt(0) === "0" || null
+      ? `880${listViewData?.contactNo?.substring(1)}`
+      : `880${listViewData?.contactNo}`;
+  const contactNumber =
+    listViewData?.contactNo?.charAt(0) === "8" || null
+      ? `${listViewData?.contactNo}`
+      : phonePrefixZero;
+
 
   // District ----
+ 
   const onDistrictChange = (value) => {
-    console.log("values", value);
     setListbyIdData({ ...listViewData, districtName: value });
   };
 
@@ -75,7 +82,7 @@ const LeadUpdateModal = ({
     customerFirstname: listViewData?.firstName,
     customerLastname: listViewData?.lastName,
     // customerContactNo: listViewData?.contactNo,
-    customerContactNo: `88${listViewData?.contactNo}`,
+    customerContactNo: contactNumber,
     district: listViewData?.districtName,
     customerEmail: listViewData?.email,
     customerPolicyNumber: listViewData?.customerPolicyNumber,
@@ -86,26 +93,36 @@ const LeadUpdateModal = ({
 
   // Update All and Exit Call
   const onFinish = async () => {
-
-    if(listViewData?.firstName && listViewData?.contactNo && listViewData?.districtName){
+    if (
+      listViewData?.firstName &&
+      contactNumber?.length === 13 &&
+      listViewData?.districtName 
+    ) {
       try {
         setLoading(true);
-        
+
         const res = await leadUpdateByID(singleID, payload);
         if (res?.data?.status === false) {
           message.error(res.data.message);
         }
-  
+
         setCallBack(!callBack);
         setLoading(false);
         setUpdateLeadModal(false);
       } catch (error) {
         setLoading(false);
         error.response.data.details[0] &&
-        message.error(error.response.data.details[0]);
+          message.error(error.response.data.details[0]);
       }
+    } else {
+      listViewData?.districtName === null ?
+       message.error(
+        "Please insert District"
+      ) :
+      message.error(
+        "Please input valid mobile number. Must be 10 digit exclude 880"
+      );
     }
-    
   };
 
   // Data Fetching by ID
@@ -126,7 +143,7 @@ const LeadUpdateModal = ({
             lastName: leadDisplay?.data?.data?.lastName,
             contactNo: leadDisplay?.data?.data?.contactNo,
             email: leadDisplay?.data?.data?.email,
-            districtName: leadDisplay?.data?.data?.districtName,
+            districtName : leadDisplay?.data?.data?.districtName,
             customerPolicyNumber: leadDisplay?.data?.data?.customerPolicyNumber,
             faCode: leadDisplay?.data?.data?.faCode,
             leadSourceName: leadDisplay?.data?.data?.leadSourceName,
@@ -134,16 +151,12 @@ const LeadUpdateModal = ({
             newFaRequest: leadDisplay?.data?.data?.newFaRequest,
             remarks: leadDisplay?.data?.data?.remarks,
           });
-          setDistrict({
-            ...listViewData,
-            districtName: leadDisplay?.data?.data?.districtName,
-          });
-        }
-
+          setDistrict(leadDisplay?.data?.data?.districtName)
+        };
         setLoading(false);
+        
       } catch (err) {
         setLoading(false);
-        console.error("Something went wrong");
       }
     })();
 
@@ -160,12 +173,15 @@ const LeadUpdateModal = ({
         onCancel={handleCancel}
         footer={false}
       >
-        <Spin indicator={antIcon} spinning={loading}>
+      {isLoading ? (
+        <Loader isLoading={isLoading} />
+      ) :
           <div className="_modal_body">
             <Form form={form} onFinish={onFinish} autoComplete="off">
               <Form.Item name="firstName" validateFirst={true}>
                 {" "}
                 <Input
+                  className="input_group"
                   type="text"
                   placeholder="* First Name"
                   value={listViewData?.firstName}
@@ -181,29 +197,63 @@ const LeadUpdateModal = ({
               <Form.Item name="lastName">
                 {" "}
                 <Input
+                  className="input_group"
                   placeholder="Last Name"
                   value={listViewData?.lastName}
                   disabled
                 />
               </Form.Item>
-              <Form.Item name="contactNo" validateFirst={true}>
-                {" "}
-                <Input
-                  addonBefore="+88"
-                  maxLength={11}
-                  placeholder="* Mobile Number"
-                  value={listViewData?.contactNo}
-                  onChange={(e) =>
-                    setListbyIdData({
-                      ...listViewData,
-                      contactNo: e.target.value,
-                    })
+
+              {(listViewData?.contactNo?.length === 11 ||
+                listViewData?.contactNo?.length === 13) &&
+              (listViewData?.contactNo?.charAt(0) === "0" ||
+                listViewData?.contactNo?.charAt(0) === "8") ? (
+                <Form.Item name="contactNo">
+                  {" "}
+                  <Input
+                    addonBefore="880"
+                    // className="input_group"
+                    maxLength={10}
+                    placeholder="* Mobile Number"
+                    value={phonePrefix(listViewData?.contactNo)}
+                    onChange={(e) =>
+                      setListbyIdData({
+                        ...listViewData,
+                        contactNo: e.target.value,
+                      })
+                    }
+                  />
+                </Form.Item>
+              ) : (
+                <Form.Item name="contactNo">
+                  {" "}
+                  <Input
+                    addonBefore="880"
+                    // className="input_group"
+                    maxLength={10}
+                    placeholder="* Mobile Number"
+                    value={phonePrefix(listViewData?.contactNo)}
+                    onChange={(e) =>
+                      setListbyIdData({
+                        ...listViewData,
+                        contactNo: e.target.value,
+                      })
+                    }
+                  />
+                  {
+                    <small style={{ color: "red" }}>
+                      Mobile number must be 10 digits, exclude 880. i.e
+                      14XXXXXXXX
+                    </small>
                   }
-                />
-              </Form.Item>
+                </Form.Item>
+              )}
+              
+
               <Form.Item name="email">
                 {" "}
                 <Input
+                  className="input_group"
                   type="text"
                   placeholder="Email"
                   value={listViewData?.email}
@@ -211,37 +261,21 @@ const LeadUpdateModal = ({
                 />
               </Form.Item>
 
-              <Form.Item
-                label=""
-                name="districtName"
-                validateFirst={true}
-                // rules={[
-                //   {
-                //     required: true,
-                //     message: "Please Select District!",
-                //   },
-                // ]}
-              >
-                <select
-                  className="districtChange"
-                  placeholder={`${listViewData?.districtName}`}
-                  onChange={(e) => onDistrictChange(e.target.value)}
-                  allowClear
-                  showSearch
-                  initialValue={listViewData?.districtName}
-                >
-                  {districtAPI.map((_d) => {
-                    return (
-                      <>
-                        <option key={_d.id} value={_d.nameEnglish}>
-                          {_d.labelEnglish}
-                        </option>
-                      </>
-                    );
-                  })}
-                  }
-                </select>
-              </Form.Item>
+              {listViewData?.districtName === null ? (
+                <small style={{ color: "red" }}>Please Select District</small>
+              ) : null}
+
+              <Select
+              className="districtChange"
+                allowClear
+                showSearch
+                value={listViewData?.districtName}
+                onChange={onDistrictChange}
+                options={districtAPI.map((_d) => ({
+                  label: _d.labelEnglish,
+                  value: _d.nameEnglish,
+                }))}
+              />
 
               <Form.Item
                 label=""
@@ -250,6 +284,7 @@ const LeadUpdateModal = ({
               >
                 <div className="exiting_policy">
                   <Input
+                    className="input_group"
                     disabled
                     className="policy_input"
                     placeholder="Existing Policy Number (If Any)"
@@ -262,6 +297,7 @@ const LeadUpdateModal = ({
 
               <Form.Item label="" name="facode">
                 <Input
+                  className="input_group"
                   placeholder="FA Code"
                   disabled
                   value={listViewData?.faCode}
@@ -286,7 +322,7 @@ const LeadUpdateModal = ({
               </Form.Item>
             </Form>
           </div>
-        </Spin>
+              }
       </Modal>
     </>
   );

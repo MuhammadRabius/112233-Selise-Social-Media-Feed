@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 import {
   BarChart,
   Bar,
@@ -12,33 +13,18 @@ import {
 } from "recharts";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { DatePicker, Spin,message } from "antd";
+import { DatePicker, Spin, message } from "antd";
 import "./homePage.css";
 import { getGrapFillColor } from "../../global_state/action";
 import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
 import { LoadingOutlined } from "@ant-design/icons";
-
+import Loader from "../../components/Loader/Loader.tsx";
+dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 
 const HomePage = () => {
   const dateFormat = "YYYY-MM-DD";
   const [isLoading, setIsloading] = useState(false);
-  // Spin
-  const antIcon = (
-    <LoadingOutlined
-      style={{
-        fontSize: 44,
-      }}
-      spin
-    />
-  );
-  // Lead Source Grap
-  const renderIndexColum = (rowIndex, column) => {
-    return column.rowIndex + 1;
-  };
-
-
-  // __Lead Source Data Table__
   const [tData, setTData] = useState([]);
   const [gData, setGData] = useState([]);
   const [toDate, setToDate] = useState(dayjs().format("YYYY-MM-DD"));
@@ -50,6 +36,11 @@ const HomePage = () => {
   const onChange = (date, dateString) => {
     setToDate(dateString[1]);
     setFormDate(dateString[0]);
+  };
+
+  // Lead Source Grap
+  const renderIndexColum = (rowIndex, column) => {
+    return column.rowIndex + 1;
   };
 
   // Data fetching on table
@@ -74,7 +65,7 @@ const HomePage = () => {
       })();
     } catch (err) {
       setIsloading(false);
-      err.respose.data.message && message.error(err.respose.data.message)
+      err.response.data.message && message.error(err.response.data.message);
     }
 
     return () => ac.abort();
@@ -82,92 +73,84 @@ const HomePage = () => {
 
   return (
     <>
-      <Spin indicator={antIcon} spinning={isLoading}>
-        <Layout pageName={"Dashboard"}>
-          <p className="bt_Text">Leads Overview</p>
-          {/* Date Pickup Filter  */}
+      <Layout pageName={"Dashboard"}>
+        {isLoading ? (
+          <Loader isLoading={isLoading} />
+        ) : (
+          <>
+            <p className="bt_Text">Leads Overview</p>
 
-          <div className="date_rage">
-            <RangePicker
-              onChange={onChange}
-              defaultValue={[dayjs().startOf("month"), dayjs()]}
-              format={dateFormat}
-            />
-          </div>
-          {/* Dates Section------ */}
-
-          {/* Chart Section------ */}
-          <div className="chart_section">
-            <div className="char-bar">
-              <BarChart
-                width={1000}
-                height={300}
-                data={gData}
-                loading={isLoading}
-              >
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis
-                  dataKey="leadSourceTypeName"
-                  tickSize={2}
-                  padding={{ right: 90 }}
-                  label={{
-                    value: "Source",
-                    position: "insideBottomRight",
-                    offset: -5,
-                  }}
-                />
-
-                <YAxis
-                  width={50}
-                  tickSize={2}
-                  label={{
-                    value: "Lead",
-                    offset: 6,
-                    angle: -90,
-                    position: "insideLeft",
-                  }}
-                />
-                <Tooltip />
-
-                <Bar barSize={60} dataKey="totalLeadSentToUaa">
-                  {gData.map((entry, index) => {
-                    const color = getGrapFillColor(entry.leadSourceTypeName);
-                    return <Cell fill={color} />;
-                  })}
-                </Bar>
-              </BarChart>
+            <div className="date_rage">
+              <RangePicker
+                onChange={onChange}
+                defaultValue={[dayjs(fromDate), dayjs(toDate)]}
+                format={dateFormat}
+                disabledDate={(current) => current.isAfter(dayjs())}
+              />
             </div>
-          </div>
 
-          {/* Lead Source Table------ */}
-          <p className="bt_Text">Lead Sources</p>
+            <div className="chart_section">
+              <div className="char-bar">
+                <small>Leads</small>
+                <BarChart
+                  width={900}
+                  height={300}
+                  data={gData}
+                  loading={isLoading}
+                >
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                  <Tooltip />
+                  <XAxis
+                    dataKey="leadSourceTypeName"
+                    tickSize={2}
+                    padding={{ right: 90 }}
+                    label={{
+                      value: "Source Type",
+                      position: "insideBottomRight",
+                      // offset: -1,
+                      fill: "black",
+                      fontSize: "14px",
+                      fontWeight: "500",
+                    }}
+                  />
 
-          <div className="card">
-            <DataTable
-              key={tData.id}
-              value={tData}
-              loading={isLoading}
-              tableStyle={{ minWidth: "50rem" }}
-            >
-              <Column
-                field="index"
-                header="SL No."
-                body={renderIndexColum}
-              ></Column>
-              <Column field="leadSourceName" header="Source"></Column>
-              <Column field="totalLeadSentToUaa" header="TO UAA"></Column>
-              <Column field="totalLeadPending" header="Pending"></Column>
-              <Column field="totalLead" header="Total"></Column>
-            </DataTable>
-          </div>
+                  <YAxis width={50} tickSize={2} />
 
-          {/* Modal Section */}
-        </Layout>
-      </Spin>
+                  <Bar barSize={60} dataKey="totalLeadSentToUaa">
+                    {gData.map((entry, index) => {
+                      const color = getGrapFillColor(entry.leadSourceTypeName);
+                      return <Cell fill={color} />;
+                    })}
+                  </Bar>
+                </BarChart>
+              </div>
+            </div>
+
+            <p className="bt_Text">Lead Sources</p>
+
+            <div className="card">
+              <DataTable
+                key={tData.id}
+                value={tData}
+                // loading={isLoading}
+                tableStyle={{ minWidth: "50rem" }}
+              >
+                <Column
+                  field="index"
+                  header="SL No."
+                  body={renderIndexColum}
+                ></Column>
+                <Column field="leadSourceName" header="Source"></Column>
+                <Column field="totalLeadSentToUaa" header="To MyLife"></Column>
+                <Column field="totalLeadPending" header="Pending"></Column>
+                <Column field="totalLead" header="Total"></Column>
+              </DataTable>
+            </div>
+          </>
+        )}
+      </Layout>
     </>
   );
 };
 
 export default HomePage;
-
-

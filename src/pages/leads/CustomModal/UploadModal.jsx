@@ -3,8 +3,17 @@ import { Modal, Form, Upload, Button, Spin, message } from "antd";
 import { UploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import "./UploadModal.css";
 import { bulkExcelUpload } from "../Service/lead_service";
+import { ErrorExcelFileDownload } from "../../../global_state/action";
+import Loader from "../../../components/Loader/Loader.tsx";
 
-const UploadModal = ({ open, onCancel, onSubmit, setBulkUpModal,callBack,setCallBack }) => {
+const UploadModal = ({
+  open,
+  onCancel,
+  onSubmit,
+  setBulkUpModal,
+  callBack,
+  setCallBack,
+}) => {
   const [form] = Form.useForm();
   const { Dragger } = Upload;
   const [isLoading, setLoading] = useState(false);
@@ -26,7 +35,6 @@ const UploadModal = ({ open, onCancel, onSubmit, setBulkUpModal,callBack,setCall
 
   // File Upload Content
   const onFinish = async (values) => {
-    console.log(values);
     const data = values?.file?.fileList[0]?.originFileObj;
 
     try {
@@ -40,8 +48,12 @@ const UploadModal = ({ open, onCancel, onSubmit, setBulkUpModal,callBack,setCall
             "Content-Type": "multipart/form-data",
           },
         });
-
-        message.success(response.data.message);
+        if (response.data.data !== null) {
+          ErrorExcelFileDownload(response?.data?.data);
+        }
+        response?.data?.message === true
+          ? message.success(response?.data?.message)
+          : message.error(response?.data?.message);
         form.resetFields();
         setCallBack(!callBack);
         setBulkUpModal(false);
@@ -55,11 +67,11 @@ const UploadModal = ({ open, onCancel, onSubmit, setBulkUpModal,callBack,setCall
     }
   };
 
-
-
   return (
     <>
-      <Spin indicator={antIcon} spinning={isLoading}>
+      {isLoading ? (
+        <Loader isLoading={isLoading} />
+      ) : (
         <Modal
           className="bulk_up_container"
           title="BULK UPLOAD"
@@ -82,6 +94,7 @@ const UploadModal = ({ open, onCancel, onSubmit, setBulkUpModal,callBack,setCall
                   required: true,
                   message: "Please select an Excel file to upload!",
                 },
+                
               ]}
             >
               <Dragger
@@ -109,7 +122,7 @@ const UploadModal = ({ open, onCancel, onSubmit, setBulkUpModal,callBack,setCall
             </Form.Item>
           </Form>
         </Modal>
-      </Spin>
+      )}
     </>
   );
 };

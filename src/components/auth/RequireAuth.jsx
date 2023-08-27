@@ -8,10 +8,8 @@ function RequireAuth() {
   let location = useLocation();
 
   if (!isLogin) {
-    console.log("user not login");
     return <Navigate to="/login" state={{ from: location }} />;
   }
-  console.log("user is login");
   return <Outlet />;
 }
 

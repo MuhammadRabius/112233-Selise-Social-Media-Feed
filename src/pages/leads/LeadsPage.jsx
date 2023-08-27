@@ -1,211 +1,65 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
-import moment from "moment";
-import { Paginator } from "primereact/paginator";
-import {
-  Table,
-  Radio,
-  Modal,
-  Form,
-  Input,
-  Select,
-  Button,
-  message,
-  Pagination,
-} from "antd";
+import { Table, Input, Pagination, message } from "antd";
 import UploadModal from "./CustomModal/UploadModal";
 import LeadUpdateModal from "./LeadUpdateModal";
 import {
-  getDistrict,
-  submitLeadManual,
-  leadList,
+  leadListWithPagination,
+  leadListByFiltering,
 } from "./Service/lead_service";
 import "./LeadPage.css";
+import AddLeadModal from "./AddLead";
+import Loader from "../../components/Loader/Loader.tsx";
+import { debounce } from "lodash";
 
 const LeadsPage = () => {
-  const { Option } = Select;
-  const { TextArea } = Input;
-  const [form] = Form.useForm();
   const [isLoading, setLoading] = useState(false);
   const [callBack, setCallBack] = useState(false);
+  // Filter Issues
+  const [searchInput, setSearchInput] = useState("");
 
-  // Search by Phonee
-  const [filterDate, setFilterData] = useState([]);
-  const onSearchPhone = (e) => {
-    const _s_v = e.target.value;
-    setFilterData(_s_v);
+  // setup Field Data from API
+  const [leadListView, setLeadListView] = useState([]);
+  const [p_Number, set_P_Number] = useState(0);
+  const [p_Size, set_P_Size] = useState(10);
+  const [totalPages, setTotal] = useState(0);
+  const frontPaginationNumber = p_Number + 1;
+  // Table Sorting
+  const [sortedInfo, setSortedInfo] = useState({});
+
+  console.log("frontPaginationNumber", frontPaginationNumber);
+  // console.log("p_Size", p_Size);
+
+  // console.log("totalPages", totalPages);
+  // console.log("filterStatus", filterStatus);
+
+  // Search Component
+  const debouncedSearch = debounce((s_value) => {
+    setSearchInput(s_value);
+    console.log("dataINput", s_value);
+  }, 1000);
+
+  const phoneNumberSearch = (e) => {
+    debouncedSearch(e?.target?.value);
   };
-  const onSearchClick = (e) => {
-    // const filterTable = data.filter(data.mn === filterDate);
-    // console.log("filter phone", filterTable);
+  const onSearchClick = async (e) => {
+    getApiCall();
   };
 
   // Modal Section ----------
 
   // Bulk component
   const [isBulkModal, setBulkUpModal] = useState(false);
-
   const showBUModal = () => {
     setBulkUpModal(true);
   };
 
   // add lead component
-  const [addLead, setAddLead] = useState(false);
+  const [isAddLead, setAddLead] = useState(false);
   const showADModal = () => {
     setAddLead(true);
   };
-
-  const handleCancel = () => {
-    form.resetFields();
-    setAddLead(false);
-  };
-
-  // setup Field Data from API
-  const [districtAPI, setDistrictAPI] = useState([]);
-  const [singleLeadSubmit, setSingleLeadSubmit] = useState([]);
-  const [leadListView, setLeadListView] = useState([]);
-  const [p_Number, set_P_Number] = useState(0);
-  const [p_Size, set_P_Size] = useState(10);
-  const [total, setTotal] = useState(0);
-
-  const onChange = (pageNumber, pageSize) => {
-    set_P_Number(pageNumber);
-    set_P_Size(pageSize);
-  };
-  // Table Sorting
-  const [sortedInfo, setSortedInfo] = useState({});
-  // Table Data
-  const onTableChange = (pagination, filters, sorter, extra) => {
-    setSortedInfo(sorter);
-  };
-
-  const setcontactNoSort = () => {
-    setSortedInfo({
-      order: "descend",
-      columnKey: "contactNo",
-    });
-  };
-
-  // Form Field onChange Setup-----
-  const [fname, setFName] = useState("");
-  const [lastname, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [faq, setFAQ] = useState("");
-  const [remark, setRemak] = useState("");
-  const [district, setDistrict] = useState("");
-  const [findPolicy, setPolicyNumber] = useState("");
-
-  const handleName = (e) => {
-    setFName(e.target.value);
-  };
-  const handleLastName = (e) => {
-    setLastName(e.target.value);
-  };
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePhoneNumber = (e) => {
-    setPhoneNumber(e.target.value);
-  };
-  const handleFAQ = (e) => {
-    setFAQ(e.target.value);
-  };
-  const handleRemrk = (e) => {
-    setRemak(e.target.value);
-  };
-  // District ----
-  const onDistrictChange = (values) => {
-    setDistrict(values);
-  };
-
-  // Radio FAQ
-  const [value, setValue] = useState("yes");
-  const onFAQChange = (e) => {
-    console.log("radio checked", e.target.value);
-    setValue(e.target.value);
-  };
-
-  // Find On Set Data----
-  const onPolicySearch = (_v) => {
-    setPolicyNumber(_v.target.value);
-  };
-  const onPolicyFind = (_v) => {
-    console.log("policy click");
-    try {
-      // const findPolicy =
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // Submission payload-------------
-  const payload = {
-    customerFirstname: fname || "",
-    customerLastname: lastname || "",
-    // customerContactNo: phoneNumber,
-    customerContactNo: `88${phoneNumber}`,
-    district: district,
-    customerEmail: email || "",
-    customerPolicyNumber: "",
-    faCode: faq || "",
-    newFaRequest: true,
-    remarks: remark || "",
-  };
-
-
-
-  // Submit All and Exit Call
-  const onFinish = async (btnTypes,values) => {
-   
-    if(fname && phoneNumber && district ){
-      try {
-        setLoading(true);
-        const sendSingleLead = await submitLeadManual(payload);
-        message.success(sendSingleLead.data.message);
-        setCallBack(!callBack);
-        setLoading(false);
-        form.resetFields();
-        if (btnTypes === "singleExit" ){
-          setAddLead(false); 
-        }
-      } catch (error) {
-        setLoading(false);
-        error.response.data.details[0] &&
-        message.error(error.response.data.details[0]);
-      }
-    }
-  };
-
-  // Api Calling ----------
-
-  useEffect(() => {
-    const ac = new AbortController();
-
-    (async () => {
-      try {
-        setLoading(true);
-
-        const districtDisplay = await getDistrict();
-        setDistrictAPI(districtDisplay.data.data);
-
-        const leadDisplay = await leadList(p_Number, p_Size);
-        setTotal(leadDisplay?.data?.data?.totalItems);
-        setLeadListView(leadDisplay?.data?.data?.items);
-        set_P_Number(...p_Number, leadDisplay?.data?.data?.pageNumber);
-        set_P_Size(...p_Size, leadDisplay?.data?.data?.pageSize);
-
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-        
-      }
-    })();
-
-    return () => ac.abort();
-  }, [callBack, p_Number, p_Size]);
 
   // Update Single Lead ModaL
 
@@ -218,9 +72,61 @@ const LeadsPage = () => {
   };
 
   const updateModalCancel = () => {
-    form.resetFields();
     setUpdateLeadModal(false);
   };
+
+  // setIndexNumber
+
+  const onPaginationChange = (pageNumber, pageSize) => {
+    const pageNum = pageNumber - 1;
+    set_P_Number(pageNum);
+    set_P_Size(pageSize);
+  };
+
+  // Table Data
+  const onTableChange = (pagination, filters, sorter, extra) => {
+    setSortedInfo(sorter);
+  };
+
+  // Api Calling ----------
+
+  const getApiCall = async () => {
+    try {
+      setLoading(true);
+
+      const leadDisplay =
+        searchInput.length !== ""
+          ? await leadListWithPagination(0, p_Size, searchInput)
+          : await leadListWithPagination(p_Number, p_Size,searchInput);
+      setLeadListView(leadDisplay?.data?.data?.items);
+      setTotal(leadDisplay?.data?.data?.totalItems);
+      set_P_Number(...p_Number, leadDisplay?.data?.data?.pageNumber);
+      set_P_Size(...p_Size, leadDisplay?.data?.data?.pageSize);
+
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const ac = new AbortController();
+    getApiCall();
+
+    return () => ac.abort();
+  }, [callBack, p_Number, p_Size, searchInput]);
+
+  // const getFilterData = useMemo(() =>  {
+
+  //   let d = leadListView;
+
+  //   if (search) {
+  //       d = leadListView.filter(data => data.name.includes(search) || data.phone.includes(search))
+  //   }
+
+  //   return d
+
+  // }, [search])
 
   // Data Table Colum
 
@@ -228,17 +134,19 @@ const LeadsPage = () => {
     {
       title: "Date",
       dataIndex: "leadDate",
-      sorter: (a, b) =>  (a?.leadDate) - (b?.leadDate),
+      key: "leadDate",
+      sorter: (a, b) => new Date(a.leadDate) - new Date(b.leadDate),
       sortOrder: sortedInfo.columnKey === "leadDate" ? sortedInfo.order : null,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "First Name",
       dataIndex: "firstName",
       key: "firstName",
-      sorter: (a, b) => a?.firstName?.length - b?.firstName?.length,
+      sorter: (a, b) => a?.firstName.localeCompare(b?.firstName),
       sortOrder: sortedInfo.columnKey === "firstName" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
-      responsive: ["sm"]
+      responsive: ["sm"],
     },
     {
       title: "Last Name",
@@ -248,7 +156,7 @@ const LeadsPage = () => {
       sortOrder: sortedInfo.columnKey === "lastName" ? sortedInfo.order : null,
       ellipsis: true,
       sortDirections: ["descend", "ascend"],
-      responsive: ["sm"]
+      responsive: ["sm"],
     },
     {
       title: "Mobile No",
@@ -258,7 +166,7 @@ const LeadsPage = () => {
       sortOrder: sortedInfo.columnKey === "contactNo" ? sortedInfo.order : null,
       ellipsis: true,
       sortDirections: ["descend", "ascend"],
-      responsive: ["sm"]
+      responsive: ["sm"],
     },
     {
       title: "Email",
@@ -267,7 +175,7 @@ const LeadsPage = () => {
       sorter: (a, b) => a?.email?.length - b?.email?.length,
       sortOrder: sortedInfo.columnKey === "email" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
-      responsive: ["sm"]
+      responsive: ["sm"],
     },
     {
       title: "District",
@@ -278,7 +186,7 @@ const LeadsPage = () => {
         sortedInfo.columnKey === "districtName" ? sortedInfo.order : null,
       ellipsis: true,
       sortDirections: ["descend", "ascend"],
-      responsive: ["sm"]
+      responsive: ["sm"],
 
       // sorter: {
       //   compare: (a, b) => a.english - b.english,
@@ -294,7 +202,7 @@ const LeadsPage = () => {
         sortedInfo.columnKey === "leadSourceName" ? sortedInfo.order : null,
       ellipsis: true,
       sortDirections: ["descend", "ascend"],
-      responsive: ["sm"]
+      responsive: ["sm"],
       // sorter: {
       //   compare: (a, b) => a.english - b.english,
       //   multiple: 1,
@@ -368,12 +276,13 @@ const LeadsPage = () => {
           {/* Add and Search Section-------------------------- */}
           <div className="lead_S_Btn">
             <div className="lead-search">
-              <input
-                onChange={onSearchPhone}
-                placeholder="Search by Phone no.  "
+              <Input
+                onChange={phoneNumberSearch}
+                placeholder="Search by 11 digit Phone No. e.g 017-XXXXXXXX  "
                 className="filterlead"
                 type="text"
                 name="fname"
+                // maxLength={13}
               />
               <span style={{ cursor: "pointer" }} onClick={onSearchClick}>
                 <i
@@ -397,6 +306,7 @@ const LeadsPage = () => {
           <div className="__l_sub_table">
             <div>
               <Table
+                size="small"
                 key={leadListView.totalItems}
                 loading={isLoading}
                 columns={columns}
@@ -409,20 +319,15 @@ const LeadsPage = () => {
           </div>
 
           {/* Lead Generation Pagination */}
+
           <div className="pgn_ld_sb">
             <Pagination
-            
               showQuickJumper
-              defaultCurrent={p_Number}
-              // total={Math.ceil(total)}
-              total={total}
-              onChange={onChange}
+              current={frontPaginationNumber}
+              total={totalPages}
+              onChange={onPaginationChange}
             />
           </div>
-
-          {/* Modal Section ------*/}
-
-          {/* Bulk Upload----------- */}
 
           {isBulkModal && (
             <UploadModal
@@ -434,174 +339,16 @@ const LeadsPage = () => {
             />
           )}
 
-          {/* Add Lead --------------*/}
-          <div>
-            <Modal
-              className="addLeadModal"
-              key="addlead"
-              title="ADD LEADS"
-              open={addLead}
-              onCancel={handleCancel}
-              footer={false}
-            >
-              <div className="_modal_body">
-                <Form
-                  form={form}
-                  layout="vertical"
-                  initialValues={{
-                    remember: true,
-                  }}
-                  // onFinish={onFinish}
-                  autoComplete="off"
-                >
-                  <Form.Item
-                    label=""
-                    name="firstname"
-                    validateFirst={true}
-                    onChange={handleName}
-                    required
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your First Name!",
-                      },
-                    ]}
-                  >
-                    <Input placeholder="* First Name" />
-                  </Form.Item>
-
-                  <Form.Item
-                    label=""
-                    validateFirst={true}
-                    name="lastname"
-                    onChange={handleLastName}
-                  >
-                    <Input placeholder="Last Name" />
-                  </Form.Item>
-
-                  <Form.Item
-                    label=""
-                    name="mobilenumber"
-                
-                    validateFirst={true}
-                    onChange={handlePhoneNumber}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input valid mobile number!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      addonBefore="+88"
-                      maxLength={11}
-                      placeholder={`* Mobile 
-              8801777-777524`}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    label=""
-                    name="email"
-                    validateFirst={true}
-                    onChange={handleEmail}
-                  >
-                    <Input type="email" placeholder="Email" />
-                  </Form.Item>
-
-                  <Form.Item
-                    label=""
-                    name="district"
-                    validateFirst={true}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please Select District!",
-                      },
-                    ]}
-                  >
-                    <Select
-                      placeholder=" * District"
-                      onChange={onDistrictChange}
-                      allowClear
-                      showSearch
-                    >
-                      {districtAPI.map((_d) => {
-                        return (
-                          <>
-                            <Option key={_d.id} value={_d.nameEnglish}>
-                              {_d.labelEnglish}
-                            </Option>
-                          </>
-                        );
-                      })}
-                      }
-                    </Select>
-                  </Form.Item>
-
-                  <Form.Item label="" validateFirst={true} name="policy">
-                    <div className="exiting_policy">
-                      <Input
-                        onChange={onPolicySearch}
-                        className="policy_input"
-                        placeholder="Existing Policy Number (If Any)"
-                      />
-                      <Button onClick={onPolicyFind} className="policy_btn ">
-                        FIND
-                      </Button>
-                    </div>
-                    {findPolicy ? (
-                      <div className="_ex_P">
-                        <span style={{ color: "#6E6E6E" }}>
-                          Lead Submit with new FA ?
-                        </span>
-                        <Radio.Group onChange={onFAQChange} value={value}>
-                          <Radio value="yes">YES</Radio>
-                          <Radio value="no">NO</Radio>
-                        </Radio.Group>
-                      </div>
-                    ) : null}
-                  </Form.Item>
-
-                  <Form.Item label="" name="facode">
-                    <Input placeholder="FA Code" onChange={handleFAQ} />
-                  </Form.Item>
-
-                  <Form.Item label="" name="remark">
-                    <TextArea
-                      onChange={handleRemrk}
-                      className="custom_remark"
-                      showCount
-                      maxLength={1000}
-                      style={{ resize: "none" }}
-                      placeholder="Remark"
-                    />
-                  </Form.Item>
-
-                  <div className="sub_btn_group">
-                    <Form.Item>
-                      <button
-                        htmlType="submit"
-                        onClick={()=>onFinish("singleCon")}
-                        className="sub_btn me-4"
-                      >
-                        SUBMIT
-                      </button>
-                    </Form.Item>
-                    <Form.Item>
-                      <button 
-                      htmlType="submit" 
-                      onClick={()=>onFinish("singleExit")}
-                       className="sub_btn">
-                        SUBMIT & CLOSE
-                      </button>
-                    </Form.Item>
-                  </div>
-                </Form>
-              </div>
-            </Modal>
-          </div>
-
-          {/* Single Lead Update --------------*/}
+          {isAddLead && (
+            <AddLeadModal
+              open={isAddLead}
+              setAddLead={setAddLead}
+              callBack={callBack}
+              setCallBack={setCallBack}
+              setLoading={setLoading}
+              isLoading={isLoading}
+            />
+          )}
         </div>
       </Layout>
 

@@ -1,38 +1,100 @@
-.App {
-  text-align: center;
+@font-face {
+  font-family: 'MetLifeCircular-Bold';
+  src: url('./assets/fonts/MetLifeCircular-Bold.otf') format('.otf'),
+      
+   
+}
+@font-face {
+  font-family: 'MetLifeCircular-Light';
+  src: url('./assets/fonts/MetLifeCircular-Light.otf') format('MetLifeCircular-Light.otf'),
+      
+   
+}
+@font-face {
+  font-family: 'MetLifeCircular-Medium';
+  src: url('./assets/fonts/MetLifeCircular-Medium.otf') format('.otf'),
+      
+   
+}
+@font-face {
+  font-family: 'MetLifeCircular-MediumItalic';
+  src: url('./assets/fonts/MetLifeCircular-MediumItalic.otf') format('.otf'),
+      
+   
+}
+@font-face {
+  font-family: 'MetLifeCircular-Normal';
+  src: url('./assets/fonts/MetLifeCircular-Normal.otf') format('.otf'),
+      
+   
+}
+@font-face {
+  font-family: 'MetLifeCircular-NormalItalic';
+  src: url('./assets/fonts/MetLifeCircular-NormalItalic.otf') format('.otf'),
+      
+   
+}
+@font-face {
+  font-family: 'NanumGothic';
+  src: url('./assets/fonts/NanumGothic.otf') format('.otf'),
+      
+   
+}
+@font-face {
+  font-family: 'NanumGothicBold';
+  src: url('./assets/fonts/NanumGothicBold.otf') format('.otf'),
+      
+   
+}
+@font-face {
+  font-family: 'NanumGothicExtraBold';
+  src: url('./assets/fonts/NanumGothicExtraBold.otf') format('.otf'),
+      
+   
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+@font-face {
+  font-family: 'NanumGothicLight';
+  src: url('./assets/fonts/NanumGothicLight.otf') format('.otf'),
+      
+   
+}
+@font-face {
+  font-family: 'NotoSans-Bold';
+  src: url('./assets/fonts/NotoSans-Bold.ttf') format('.ttf'),
+      
+   
+}
+@font-face {
+  font-family: 'NotoSans-BoldItalic';
+  src: url('./assets/fonts/NotoSans-BoldItalic.ttf') format('.ttf'),
+         
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+@font-face {
+  font-family: 'NotoSans-Italic';
+  src: url('./assets/fonts/NotoSans-Italic.ttf') format('.ttf'),
+      
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+@font-face {
+  font-family: 'NotoSans-Regular';
+  src: url('./assets/fonts/NotoSans-Regular.ttf') format('.ttf'),
+      
+   
 }
 
-.App-link {
-  color: #61dafb;
-}
+:root {
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  /* Colors: */
+  --metlife-medium-gray: #A7A8AA;
+  --metlife-darkest-gray: #333333;
+  --metlife-dark-gray: #75787B;
+  --metlife-blue-2: #007ABC;
+  --black: #000000;
+  --metlife-gray: #D9D9D9;
+  --metlife-light-gray: #F2F2F2;
+
+
+
 }
