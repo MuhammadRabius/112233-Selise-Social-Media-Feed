@@ -20,15 +20,8 @@ const LeadUpdateModal = ({
   isLoading
 }) => {
   const [form] = Form.useForm();
+  const nameRegex = /^[\w\s!@#$%^&*()\-+=<>?/,.:;'"[\]{}|~]{5,350}$/;
 
-  const antIcon = (
-    <LoadingOutlined
-      style={{
-        fontSize: 24,
-      }}
-      spin
-    />
-  );
 
   const handleCancel = () => {
     onCancel();
@@ -181,9 +174,9 @@ const LeadUpdateModal = ({
               <Form.Item name="firstName" validateFirst={true} 
               rules={[
                 {
-                  pattern: "^[a-zA-Z\s]{3,350}$",
+                  pattern: nameRegex,
                   message:
-                    "Name must be 3 to 350 characters long and should not contain special characters.",
+                    "Name must be 3 to 350 characters long ",
                 },
               ]}
               >

@@ -29,6 +29,7 @@ const AddLeadModal = ({
   isLoading,
 }) => {
   const [form] = Form.useForm();
+  const nameRegex = /^[\w\s!@#$%^&*()\-+=<>?/,.:;'"[\]{}|~]{5,350}$/;
   const { Option } = Select;
   const { TextArea } = Input;
   const handleCancel = () => {
@@ -184,9 +185,9 @@ const AddLeadModal = ({
                   message: "Please input your First Name!",
                 },
                 {
-                  pattern: "^[a-zA-Z\s]{3,350}$",
+                  pattern: nameRegex,
                   message:
-                    "Name must be 3 to 350 characters long and should not contain special characters.",
+                    "Name must be 3 to 350 characters long ",
                 },
               ]}
             >
@@ -204,9 +205,9 @@ const AddLeadModal = ({
               onChange={handleLastName}
               rules={[
                 {
-                  pattern: "^[a-zA-Z\s]{3,350}$",
+                  pattern: nameRegex,
                   message:
-                    "Name must be 3 to 350 characters long and should not contain special characters.",
+                    "Name must be 3 to 350 characters long ",
                 },
               ]}
             >
