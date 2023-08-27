@@ -20,9 +20,9 @@ beforeAll(() => {
   
 test("Reports Download on ec", () => {
   render(
-    <BrowserRouter>
+   
       <Report />
-    </BrowserRouter>
+ 
   );
 
  
