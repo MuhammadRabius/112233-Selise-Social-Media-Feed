@@ -89,23 +89,21 @@
     position: absolute;
     bottom: 0;
     opacity: 1;
-    height: 40px;  
-    border: 0px solid gray;
     width: 100%;
-    border-width: 1px 0px 0px 0px;
- 
-   
-
+    border: 0px solid darkgray;
+    border-width: 2px 0px 0px 0px;
 }
 
 .account-logout p{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    color: var(--metlife-light-gray) 0% 0% no-repeat padding-box;
+    gap: 8px;
+    text-decoration: none;
+    text-align: center;
+    color: #333333;
     font-family: 'NotoSans-Bold' , sans-serif;
     font-weight: 500;
     font-size: 15px;
-    margin-top: 20px;
+    height: 50px;
 }
