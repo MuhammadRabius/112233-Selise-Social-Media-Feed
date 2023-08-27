@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
-import Loader from "../../components/Loader/Loader.js";
+import Loader from "../../components/Loader/Loader";
 import { Input, Form, Select, Table, message, Spin, Pagination } from "antd";
 import { NavLink } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
