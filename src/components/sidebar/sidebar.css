@@ -88,17 +88,24 @@
     cursor: pointer;
     position: absolute;
     bottom: 0;
-    margin-left: 57px;
-    height: 30px;
     opacity: 1;
+    height: 40px;  
+    border: 0px solid gray;
+    width: 100%;
+    border-width: 1px 0px 0px 0px;
+ 
+   
+
+}
+
+.account-logout p{
     display: flex;
-    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    height: 50px;
-    text-decoration: none;
-    color: #333333;
     gap: 10px;
-    font-style: 'NotoSans-Bold' , sans-serif;
+    color: var(--metlife-light-gray) 0% 0% no-repeat padding-box;
+    font-family: 'NotoSans-Bold' , sans-serif;
     font-weight: 500;
     font-size: 15px;
+    margin-top: 20px;
 }
