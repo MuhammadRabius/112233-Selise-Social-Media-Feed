@@ -10,11 +10,11 @@ import { message } from "antd";
 import { Navigate} from "react-router-dom";
 import TextInput from "../../components/inputs/TextInput";
 import { LoadingOutlined } from "@ant-design/icons";
-import Loader from "../../components/Loader/Loader";
+import Loader from "../../components/Loader/Loader.js";
 
 const LoginPage = () => {
   const [isLoading, setIsloading] = useState(false);
-
+  const [errorMessage,setErrorMassage]=useState('')
 
 
 
@@ -66,7 +66,8 @@ const LoginPage = () => {
               const res = await userLogin(values);
 
               if (res.data.status === false) {
-                message.error(res.data.message);
+                // message.error(res.data.message);
+                setErrorMassage(res.data.message)
                 setIsloading(false);
               }
               const token = res.data.data.token;
@@ -99,6 +100,9 @@ const LoginPage = () => {
                 placeholder={"Password"}
                 classes={"mt-2"}
               />   
+             {
+              errorMessage && <div data-testid="login-error"><p id="error"  style={{marginTop:'20px',color:'red'}}>{errorMessage}</p></div>  
+             }
               <button
                 type="submit"
                 disabled={isLoading}
@@ -106,7 +110,7 @@ const LoginPage = () => {
               >
                 LOGIN
               </button> 
-
+              
               <p className="mt-3">
                 <small className="__lw_text">
                   Your <span className="_lw_text">Active Directory ID</span> is

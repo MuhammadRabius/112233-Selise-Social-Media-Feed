@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { getCount, getReport, getSource } from "./Service/Report_Service";
 import { LoadingOutlined } from "@ant-design/icons";
 import { LeadCountStatus, ReportExcelDownload } from "../../global_state/action";
-import Loader from "../../components/Loader/Loader";
+import Loader from "../../components/Loader/Loader.js";
 const { Option } = Select;
 
 const Report = () => {
@@ -191,7 +191,7 @@ const Report = () => {
                   name="mobileNumber"
                   rules={[
                     {
-                      pattern: /^[1-9][0-9]{9}$/,
+                      pattern: /^(?!880|0)\d{10}$/,
                       message: "Phone number must be 10 digit, exclude 880",
                     },
                   ]}

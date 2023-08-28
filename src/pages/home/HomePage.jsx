@@ -18,7 +18,7 @@ import "./homePage.css";
 import { getGrapFillColor } from "../../global_state/action";
 import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
 import { LoadingOutlined } from "@ant-design/icons";
-import Loader from "../../components/Loader/Loader";
+import Loader from "../../components/Loader/Loader.js";
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 
@@ -90,8 +90,8 @@ const HomePage = () => {
             </div>
 
             <div className="chart_section">
-              <div className="char-bar">
-                <small>Leads</small>
+            <div className="char-bar">
+            <small>Leads</small>
                 <BarChart
                   width={900}
                   height={300}
@@ -110,7 +110,7 @@ const HomePage = () => {
                       // offset: -1,
                       fill: "black",
                       fontSize: "14px",
-                      fontWeight: "500",
+                      fontWeight: "700",
                     }}
                   />
 

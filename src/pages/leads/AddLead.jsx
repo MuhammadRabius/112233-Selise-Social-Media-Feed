@@ -17,7 +17,7 @@ import {
   findFinicalAgent,
 } from "./Service/lead_service";
 import "./LeadPage.css";
-import Loader from "../../components/Loader/Loader";
+import Loader from "../../components/Loader/Loader.js";
 
 const AddLeadModal = ({
   open,
@@ -29,7 +29,7 @@ const AddLeadModal = ({
   isLoading,
 }) => {
   const [form] = Form.useForm();
-  const nameRegex = /^[\w\s!@#$%^&*()\-+=<>?/,.:;'"[\]{}|~]{5,350}$/;
+  const nameRegex = /^[\w\s!@#$%^&*()\-+=<>?/,.:;'"[\]{}|~]{3,350}$/;
   const { Option } = Select;
   const { TextArea } = Input;
   const handleCancel = () => {
@@ -54,6 +54,7 @@ const AddLeadModal = ({
   const [faCode, setFaCode] = useState(0);
   const [remark, setRemak] = useState("");
 
+  
   const handleName = (e) => {
     setFName(e.target.value);
   };
@@ -113,7 +114,8 @@ const AddLeadModal = ({
 
   // Submit All and Exit Call
   const onFinish = async (btnTypes, values) => {
-    if (fname && phoneNumber && district) {
+
+    if (fname && phoneNumber.length ===10 && district) {
       try {
         setLoading(true);
         const sendSingleLead = await submitLeadManual(leadSubPayload);
@@ -124,7 +126,8 @@ const AddLeadModal = ({
         if (btnTypes === "singleExit") {
           setAddLead(false);
         }
-        setFaStatus(null);
+        setFaCode(0);
+        setPolicyNumber("")
       } catch (error) {
         setLoading(false);
         error?.response?.data?.details[0] &&
@@ -229,7 +232,7 @@ const AddLeadModal = ({
                   message: "Please Input Valid Phone Number",
                 },
                 {
-                  pattern: /^[1-9][0-9]{9}$/,
+                  pattern: /^(?!880|0)\d{10}$/,
                   message: "Phone number must be 10 digit, exclude 880",
                 },
               ]}
@@ -335,23 +338,20 @@ const AddLeadModal = ({
                 ) : null}
               </Spin>
             </Form.Item>
-            {(faCode === null || faCode === "")  ? (
+            {(faCode === null || faCode === "")   ? (
               <div style={{ marginBottom: "2px" }}>
                 <p style={{ color: "#6E6E6E" ,textAlign:"end"}}>
                   FA Status :{" "}
                   <Tag color="#f50">FA Inactive</Tag>
                 </p>
-              </div>
-            ) : null}
-            {faCode === null || faCode === "" || faCode ===0 ? (
-              
                 <Input value={
                   (faCode === null || faCode === "")
                     ? "New FA will be assigned"
                     : null
                 } placeholder="FA Code" className="input_group" readOnly  style={{marginBottom: "15px" }}/>
-              
+              </div>
             ) : null}
+            {faCode === 0  ? <Form.Item> <Input placeholder="FA Code" className="input_group"readOnly/> </Form.Item>:null}
 
             <Form.Item label="" name="remark">
               <TextArea

@@ -8,7 +8,7 @@ import {
   leadUpdateByID,
 } from "./Service/lead_service";
 import { phonePrefix } from "../../global_state/action";
-import Loader from "../../components/Loader/Loader";
+import Loader from "../../components/Loader/Loader.js";
 
 const LeadUpdateModal = ({
   open,
@@ -224,7 +224,13 @@ const LeadUpdateModal = ({
                   />
                 </Form.Item>
               ) : (
-                <Form.Item name="contactNo">
+                <Form.Item name="contactNo"
+                 rules={[
+                  {
+                    pattern: /^(?!880|0)\d{10}$/,
+                    message: "Phone number must be 10 digit, exclude 880",
+                  },
+                ]}>
                   {" "}
                   <Input
                     addonBefore="880"
@@ -239,7 +245,7 @@ const LeadUpdateModal = ({
                       })
                     }
                   />
-                  {
+                  { 
                     <small style={{ color: "red" }}>
                       Mobile number must be 10 digits, exclude 880. i.e
                       14XXXXXXXX

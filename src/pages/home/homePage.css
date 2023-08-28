@@ -48,7 +48,8 @@
 /* Lead Source Chart Properties  */
 .chart_section {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    /* flex-direction: column; */
     align-items: center;
     margin-top: 20px;
 }
@@ -61,8 +62,9 @@
 }
 .chart_section small{
     margin-left: 6%;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 15px;
+    font-weight: 700;
+    /* transform: rotate(-90deg); */
 }
 .recharts-cartesian-axis-line {
     stroke: var(--black);

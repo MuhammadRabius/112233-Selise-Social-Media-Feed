@@ -10,7 +10,7 @@ import {
 } from "./Service/lead_service";
 import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
-import Loader from "../../components/Loader/Loader";
+import Loader from "../../components/Loader/Loader.js";
 import { debounce } from "lodash";
 
 const LeadsPage = () => {
@@ -33,7 +33,7 @@ const LeadsPage = () => {
   // Search Component
   const debouncedSearch = debounce((s_value) => {
     setSearchInput(s_value);
-    console.log("dataINput", s_value);
+    // console.log("dataINput", s_value);
   }, 1000);
 
   const phoneNumberSearch = (e) => {
@@ -84,6 +84,7 @@ const LeadsPage = () => {
     setSortedInfo(sorter);
   };
 
+
   // Api Calling ----------
 
   const getApiCall = async () => {
@@ -91,7 +92,7 @@ const LeadsPage = () => {
       setLoading(true);
 
       const leadDisplay =
-        searchInput.length !== ""
+        searchInput.length !== 0
           ? await leadListWithPagination(0, p_Size, searchInput)
           : await leadListWithPagination(p_Number, p_Size,searchInput);
       setLeadListView(leadDisplay?.data?.data?.items);
