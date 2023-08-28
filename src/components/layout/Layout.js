@@ -1,10 +1,11 @@
+
 import Sidebar from "../sidebar/Sidebar";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./layout.css";
 const Layout = ({ children,pageName }) => {
   return (
-    
+  
     <div className="app-layout">
       <Sidebar />
       <div className="layout-container">
@@ -15,6 +16,7 @@ const Layout = ({ children,pageName }) => {
         <div className="layout-children-container">{children}</div>
       </div>
     </div>
+    
   );
 };
 

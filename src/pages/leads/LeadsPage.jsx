@@ -10,7 +10,7 @@ import {
 } from "./Service/lead_service";
 import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
-import Loader from "../../components/Loader/Loader.js";
+import Loader from "../../components/Loader/Loader";
 import { debounce } from "lodash";
 
 const LeadsPage = () => {
@@ -28,11 +28,7 @@ const LeadsPage = () => {
   // Table Sorting
   const [sortedInfo, setSortedInfo] = useState({});
 
-  console.log("frontPaginationNumber", frontPaginationNumber);
-  // console.log("p_Size", p_Size);
 
-  // console.log("totalPages", totalPages);
-  // console.log("filterStatus", filterStatus);
 
   // Search Component
   const debouncedSearch = debounce((s_value) => {

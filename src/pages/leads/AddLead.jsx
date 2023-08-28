@@ -17,7 +17,7 @@ import {
   findFinicalAgent,
 } from "./Service/lead_service";
 import "./LeadPage.css";
-import Loader from "../../components/Loader/Loader.js";
+import Loader from "../../components/Loader/Loader";
 
 const AddLeadModal = ({
   open,
@@ -29,11 +29,13 @@ const AddLeadModal = ({
   isLoading,
 }) => {
   const [form] = Form.useForm();
+  const nameRegex = /^[\w\s!@#$%^&*()\-+=<>?/,.:;'"[\]{}|~]{5,350}$/;
   const { Option } = Select;
   const { TextArea } = Input;
   const handleCancel = () => {
     form.resetFields();
-    setFaStatus(null);
+    // setFaStatus(null);
+    setFaCode(0);
     setAddLead(false);
   };
 
@@ -49,7 +51,7 @@ const AddLeadModal = ({
   const [faStatus, setFaStatus] = useState(null);
   const [faYesNO, setFaYesNo] = useState("yes");
   const newFaReq = faYesNO === "yes" ? true : false;
-  const [faCode, setFaCode] = useState("");
+  const [faCode, setFaCode] = useState(0);
   const [remark, setRemak] = useState("");
 
   const handleName = (e) => {
@@ -85,8 +87,8 @@ const AddLeadModal = ({
       if (findPolicy) {
         setLoading(true);
         const faRes = await findFinicalAgent(findPolicy);
-        setFaCode(faRes?.data?.data?.agentCode);
-        setFaStatus(faRes?.data?.data?.active);
+        setFaCode(faRes?.data?.data?.FaCode);
+        // setFaStatus(faRes?.data?.data?.active);
         setLoading(false);
       }
     } catch (err) {
@@ -120,8 +122,7 @@ const AddLeadModal = ({
         setLoading(false);
         form.resetFields();
         if (btnTypes === "singleExit") {
-          setAddLead (false);
-          
+          setAddLead(false);
         }
         setFaStatus(null);
       } catch (error) {
@@ -184,9 +185,9 @@ const AddLeadModal = ({
                   message: "Please input your First Name!",
                 },
                 {
-                  pattern: "^[a-zA-Zs]{5,350}$",
+                  pattern: nameRegex,
                   message:
-                    "Name must be 5 to 350 characters long and should not contain special characters.",
+                    "Name must be 3 to 350 characters long ",
                 },
               ]}
             >
@@ -204,9 +205,9 @@ const AddLeadModal = ({
               onChange={handleLastName}
               rules={[
                 {
-                  pattern: "^[a-zA-Zs]{3,350}$",
+                  pattern: nameRegex,
                   message:
-                    "Name must be 3 to 350 characters long and should not contain special characters.",
+                    "Name must be 3 to 350 characters long ",
                 },
               ]}
             >
@@ -298,7 +299,7 @@ const AddLeadModal = ({
                     FIND
                   </Button>
                 </div>
-                {faStatus === true ? (
+                {faCode ? (
                   <div className="_ex_P">
                     <div
                       style={{
@@ -321,7 +322,11 @@ const AddLeadModal = ({
                     </Radio.Group>
 
                     <Input
-                      value={faYesNO === "no" ? "Lead will submitted with new FA request" : faCode }
+                      value={
+                        faYesNO === "no"
+                          ? "Lead will submitted with new FA request"
+                          : faCode
+                      }
                       placeholder="FA Code"
                       className="input_group"
                       readOnly
@@ -330,18 +335,22 @@ const AddLeadModal = ({
                 ) : null}
               </Spin>
             </Form.Item>
-            {faStatus === false ? (
-              <div style={{ marginTop: "10px", marginBottom: "15px" }}>
-                <p style={{ color: "#6E6E6E" }}>
+            {(faCode === null || faCode === "")  ? (
+              <div style={{ marginBottom: "2px" }}>
+                <p style={{ color: "#6E6E6E" ,textAlign:"end"}}>
                   FA Status :{" "}
-                  <Tag color="#f50">FA Inactive. New FA will be attached</Tag>
+                  <Tag color="#f50">FA Inactive</Tag>
                 </p>
               </div>
             ) : null}
-            {faStatus === null ? (
-              <Form.Item label="" name="facode">
-                <Input placeholder="FA Code" className="input_group" readOnly />
-              </Form.Item>
+            {faCode === null || faCode === "" || faCode ===0 ? (
+              
+                <Input value={
+                  (faCode === null || faCode === "")
+                    ? "New FA will be assigned"
+                    : null
+                } placeholder="FA Code" className="input_group" readOnly  style={{marginBottom: "15px" }}/>
+              
             ) : null}
 
             <Form.Item label="" name="remark">

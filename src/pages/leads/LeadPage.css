@@ -245,7 +245,9 @@
   border-color: #007ABC !important;
   border-inline-end-width: 2px !important;
 }
-
+.ant-input-data-count{
+  left: 0 !important;
+}
 .sub_btn_group {
   display: flex;
   justify-content: flex-end;

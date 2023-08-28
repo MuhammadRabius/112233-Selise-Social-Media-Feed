@@ -1,65 +1,96 @@
-// import { render, screen } from '@testing-library/react';
-// import LoginPage from './LoginPage';
+import { render,screen, fireEvent } from '@testing-library/react';
+import { act } from 'react-dom/test-utils';
+import { message } from 'antd';
 
-// test('renders learn react link', () => {
-//     render(<LoginPage />);
+import { Formik, Form } from 'formik';
+import LoginPage from './LoginPage';
 
-//   });
 
-import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react";
-import { Message } from "antd";
-import LoginPage from "./LoginPage";
-
-// Mock the message component
-jest.mock('antd',()=>({
-  ...jest.requireActual('antd'),
-  Message:{
-    error : jest.fn(),
+jest.mock('antd', () => ({
+  message: {
+    success: jest.fn(),
+    error: jest.fn(),
   },
 }));
 
-describe("Login Component", () => {
-  it("renders login form correctly", () => {
-    const { getByPlaceholderText, getByText } = render(<LoginPage />);
-    const usernameInput = screen.getByPlaceholderText("Active Directory ID");
-    const passwordInput = screen.getByPlaceholderText("Password");
-    const loginButton = screen.getByText("LOGIN");
+describe('Login Page', () => {
+  test('submits the form successfully', async () => {
+    const userLoginMock = jest.fn(); // Mock the userLogin function
 
-    expect(usernameInput).toBeInTheDocument();
-    expect(passwordInput).toBeInTheDocument();
-    expect(loginButton).toBeInTheDocument();
+    // Render the component
+    const { getByLabelText, getByText, getByTestId } = render(
+      <LoginPage userLogin={userLoginMock} />
+    );
+
+    // Fill in the form inputs
+    fireEvent.change(screen.getByPlaceholderText('Active Directory ID'), {
+      target: { value: 'username' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Password'), {
+      target: { value: 'password' },
+    });
+
+    // Mock the successful userLogin response
+    const successfulResponse = {
+      data: {
+        status: true,
+        message: 'Login successful',
+        data: {
+          token: 'your-access-token',
+          username: 'username',
+        },
+      },
+    };
+    userLoginMock.mockResolvedValue(successfulResponse);
+
+    await act(async () => {
+      // Submit the form
+      fireEvent.submit(screen.getByText('LOGIN'));
+    });
+
+    // Assertions
+    // expect(message.success).toHaveBeenCalledWith('Login successful');
+    expect(window.location.pathname).toBe('/');
+    expect(message.error).not.toHaveBeenCalled();
+    // You can add more assertions based on the expected behavior after form submission
   });
 
-  // it("displays error message for invalid credentials", async () => {
-  //   const { getByText, getByPlaceholderText, } = await render(<LoginPage />);
-  //   const usernameInput = screen.getByPlaceholderText("Active Directory ID");
-  //   const passwordInput = screen.getByPlaceholderText("Password");
-  //   const loginButton = screen.getByText("LOGIN");
+  test('displays error message on login failure', async () => {
+    const userLoginMock = jest.fn(); // Mock the userLogin function
 
-  //   fireEvent.change(usernameInput, {
-  //     target: { value: "Username is required" },
-  //   });
-  //   fireEvent.change(passwordInput, {
-  //     target: { value: "Password is required" },
-  //   });
-  //   fireEvent.click(loginButton);
+    // Render the component
+    const { getByLabelText, getByTestId, getByText } = render(
+      <LoginPage userLogin={userLoginMock} />
+    );
 
-  //   const errorMessage =  screen.getByTestId('login-error')
-  //   expect(errorMessage).toBeInTheDocument();
-  // });
+    // Fill in the form inputs
+    fireEvent.change(screen.getByPlaceholderText('Active Directory ID'), {
+      target: { value: 'username' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('Password'), {
+      target: { value: 'password' },
+    });
 
-  // it('calls onLogin with correct username for valid credentials', () => {
-  //   const onLoginMock = jest.fn();
-  //   const { getByPlaceholderText, getByText } = render(<LoginPage onLogin={onLoginMock} />);
-  //   const usernameInput = screen.getByPlaceholderText('Active Directory ID');
-  //   const passwordInput = screen.getByPlaceholderText('Password');
-  //   const loginButton = screen.getByText('LOGIN');
-  
-  //   fireEvent.change(usernameInput, { target: { value: '' } });
-  //   fireEvent.change(passwordInput, { target: { value: '' } });
-  //   fireEvent.click(loginButton);
-  
-  //   expect(onLoginMock).toHaveBeenCalledWith();
-  // });
+    // Mock the failed userLogin response
+    const failedResponse = {
+      data: {
+        status: false,
+        message: 'Authentication failed!',
+      },
+    };
+    userLoginMock.mockResolvedValue(failedResponse);
+
+    await act(async () => {
+      // Submit the form
+      fireEvent.submit(screen.getByText('LOGIN'));
+    });
+
+    // Assertions
+    // expect(userLoginMock).toHaveBeenCalledWith({
+    //   username: 'rabiussanym',
+    //   password: 'Cse491093',
+    // });
+    expect(message.error).toHaveBeenCalledTimes(1);
+    // expect(message.error).toHaveBeenCalledWith('Authentication failed!');
+  });
 });

@@ -3,8 +3,6 @@ import { useLocation, Navigate, Outlet } from "react-router-dom";
 function RequireAuth() {
   let isLogin = localStorage.getItem('access-token') !== null;
 
-  isLogin = true;
-
   let location = useLocation();
 
   if (!isLogin) {

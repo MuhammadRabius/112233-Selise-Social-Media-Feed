@@ -8,7 +8,7 @@ import {
   leadUpdateByID,
 } from "./Service/lead_service";
 import { phonePrefix } from "../../global_state/action";
-import Loader from "../../components/Loader/Loader.js";
+import Loader from "../../components/Loader/Loader";
 
 const LeadUpdateModal = ({
   open,
@@ -20,16 +20,7 @@ const LeadUpdateModal = ({
   isLoading
 }) => {
   const [form] = Form.useForm();
-
-  const antIcon = (
-    <LoadingOutlined
-      style={{
-        fontSize: 24,
-      }}
-      spin
-    />
-  );
-
+  const nameRegex = /^[\w\s!@#$%^&*()\-+=<>?/,.:;'"[\]{}|~]{5,350}$/;
   const handleCancel = () => {
     onCancel();
     form.resetFields();
@@ -178,7 +169,15 @@ const LeadUpdateModal = ({
       ) :
           <div className="_modal_body">
             <Form form={form} onFinish={onFinish} autoComplete="off">
-              <Form.Item name="firstName" validateFirst={true}>
+              <Form.Item name="firstName" validateFirst={true} 
+              rules={[
+                {
+                  pattern: nameRegex,
+                  message:
+                    "Name must be 3 to 350 characters long ",
+                },
+              ]}
+              >
                 {" "}
                 <Input
                   className="input_group"
