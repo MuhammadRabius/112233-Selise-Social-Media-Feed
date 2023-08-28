@@ -82,7 +82,7 @@ const HomePage = () => {
 
             <div className="date_rage">
               <RangePicker
-                data-testid="date-picker"
+                // data-testid="date-picker"
                 onChange={onChange}
                 defaultValue={[dayjs(fromDate), dayjs(toDate)]}
                 format={dateFormat}
