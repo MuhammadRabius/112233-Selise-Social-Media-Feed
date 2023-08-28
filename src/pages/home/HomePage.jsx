@@ -82,6 +82,7 @@ const HomePage = () => {
 
             <div className="date_rage">
               <RangePicker
+                data-testid="date-picker"
                 onChange={onChange}
                 defaultValue={[dayjs(fromDate), dayjs(toDate)]}
                 format={dateFormat}
@@ -90,9 +91,10 @@ const HomePage = () => {
             </div>
 
             <div className="chart_section">
-            <div className="char-bar">
-            <small>Leads</small>
+              <div className="char-bar">
+                <small>Leads</small>
                 <BarChart
+                  data-testid="bar-chart"
                   width={900}
                   height={300}
                   data={gData}
@@ -130,6 +132,7 @@ const HomePage = () => {
 
             <div className="card">
               <DataTable
+                data-testid="table"
                 key={tData.id}
                 value={tData}
                 // loading={isLoading}
