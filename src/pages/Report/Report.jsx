@@ -191,7 +191,7 @@ const Report = () => {
                   name="mobileNumber"
                   rules={[
                     {
-                      pattern: /^[1-9][0-9]{9}$/,
+                      pattern: /^(?!880|0)\d{10}$/,
                       message: "Phone number must be 10 digit, exclude 880",
                     },
                   ]}

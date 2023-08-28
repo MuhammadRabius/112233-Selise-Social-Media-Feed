@@ -91,8 +91,8 @@ const HomePage = () => {
             </div>
 
             <div className="chart_section">
-              <div className="char-bar">
-                <small>Leads</small>
+            <div className="char-bar">
+            <small>Leads</small>
                 <BarChart
                   data-testid="bar-chart"
                   width={900}

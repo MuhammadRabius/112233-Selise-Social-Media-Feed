@@ -19,14 +19,7 @@ const UploadModal = ({
   const [isLoading, setLoading] = useState(false);
 
   // Spin
-  const antIcon = (
-    <LoadingOutlined
-      style={{
-        fontSize: 24,
-      }}
-      spin
-    />
-  );
+  
   // Modal X btn-----
   const handleCancel = () => {
     form.resetFields();
@@ -53,7 +46,7 @@ const UploadModal = ({
         }
         response?.data?.message === true
           ? message.success(response?.data?.message)
-          : message.error(response?.data?.message);
+          : message.warning(response?.data?.message);
         form.resetFields();
         setCallBack(!callBack);
         setBulkUpModal(false);

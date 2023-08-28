@@ -76,7 +76,8 @@ const Sidebar = () => {
       </div>
     
       <div className="account-logout" onClick={onLogoutClick}>
-         <p> <LogoutOutlined style={{color:"#007ABC",width:"11px",height:"16px"}}/> Account Logout</p>
+      <p ><LogoutOutlined style={{color:"#007ABC",width:"11px",height:"16px"}}/> Account Logout</p>
+    
       </div>
     </div>
   );
