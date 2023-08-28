@@ -17,7 +17,6 @@ import {
   findFinicalAgent,
 } from "./Service/lead_service";
 import "./LeadPage.css";
-import Loader from "../../components/Loader/Loader.js";
 
 const AddLeadModal = ({
   open,

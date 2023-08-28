@@ -10,7 +10,6 @@ import {
 } from "./Service/lead_service";
 import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
-import Loader from "../../components/Loader/Loader.js";
 import { debounce } from "lodash";
 
 const LeadsPage = () => {
