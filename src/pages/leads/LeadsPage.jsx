@@ -32,7 +32,7 @@ const LeadsPage = () => {
   // Search Component
   const debouncedSearch = debounce((s_value) => {
     setSearchInput(s_value);
-    // console.log("dataINput", s_value);
+    set_P_Number(0)
   }, 1000);
 
   const phoneNumberSearch = (e) => {
@@ -92,7 +92,7 @@ const LeadsPage = () => {
 
       const leadDisplay =
         searchInput.length !== 0
-          ? await leadListWithPagination(0, p_Size, searchInput)
+          ? await leadListWithPagination(p_Number, p_Size, searchInput)
           : await leadListWithPagination(p_Number, p_Size,searchInput);
       setLeadListView(leadDisplay?.data?.data?.items);
       setTotal(leadDisplay?.data?.data?.totalItems);
