@@ -10,7 +10,6 @@ import {
 } from "./Service/lead_service";
 import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
-import Loader from "../../components/Loader/Loader";
 import { debounce } from "lodash";
 
 const LeadsPage = () => {
@@ -33,15 +32,14 @@ const LeadsPage = () => {
   // Search Component
   const debouncedSearch = debounce((s_value) => {
     setSearchInput(s_value);
-    set_P_Number(0)
+    // console.log("dataINput", s_value);
   }, 1000);
 
   const phoneNumberSearch = (e) => {
     debouncedSearch(e?.target?.value);
   };
   const onSearchClick = async (e) => {
-    debouncedSearch();
-
+    getApiCall();
   };
 
   // Modal Section ----------
@@ -85,6 +83,7 @@ const LeadsPage = () => {
     setSortedInfo(sorter);
   };
 
+
   // Api Calling ----------
 
   const getApiCall = async () => {
@@ -92,8 +91,8 @@ const LeadsPage = () => {
       setLoading(true);
 
       const leadDisplay =
-        searchInput.length !== ""
-          ? await leadListWithPagination(p_Number, p_Size, searchInput)
+        searchInput.length !== 0
+          ? await leadListWithPagination(0, p_Size, searchInput)
           : await leadListWithPagination(p_Number, p_Size,searchInput);
       setLeadListView(leadDisplay?.data?.data?.items);
       setTotal(leadDisplay?.data?.data?.totalItems);
@@ -348,7 +347,7 @@ const LeadsPage = () => {
           )}
         </div>
       </Layout>
-
+                                                      
       {updateLeadModal && (
         <LeadUpdateModal
           key={singleID}
