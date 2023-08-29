@@ -11,7 +11,7 @@ import {
   userList,
   createUser,
 } from "./Service/um_service";
-import Loader from "../../components/Loader/Loader";
+import Loader from "../../components/loader/Loader";
 const { Option } = Select;
 const { Search } = Input;
 const UserManagement = () => {

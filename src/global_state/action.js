@@ -22,29 +22,23 @@ export const getGrapFillColor = (typeName) => {
   }
 };
 
-
-
 // Update Modal Mobile Number CharAt Validation
 
-export const phonePrefix =(prefix)=>{
-  
+export const phonePrefix = (prefix) => {
   switch (prefix.charAt(0)) {
-    
     case "8":
       return prefix.replace(/^880/g, "");
-      
+
     case "0":
       return prefix.replace(/^0/g, "");
-     
 
     default:
       return prefix;
   }
-}
-// Report Mobile Validation
+};
 
 
-// Report Mobile Validation
+// Report "Lead Data Count Status"
 
 export const LeadCountStatus = (type) => {
   switch (type) {
@@ -59,11 +53,9 @@ export const LeadCountStatus = (type) => {
   }
 };
 
-
 //  Error Excel File base64
-export const ErrorExcelFileDownload= (base64) => {
+export const ErrorExcelFileDownload = (base64) => {
   var mediaType =
-
     "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,";
 
   var a = document.createElement("a");
@@ -74,19 +66,19 @@ export const ErrorExcelFileDownload= (base64) => {
   a.textContent = "Download file!";
   document.body.appendChild(a);
   document.getElementById("abc")?.click();
-}
+};
 
-// Report Excel Download 
+// Report Excel Download
 
-export const ReportExcelDownload = (file)=>{
+export const ReportExcelDownload = (file) => {
   // const url = window.URL.createObjectURL(new Blob([res?.data]));
   const url = window.URL.createObjectURL(new Blob([file]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute(
-        "download",
-        `LeadCount-Report ${dayjs().format("YYYY-MM-DD")}.xlsx`
-      );
-      document.body.appendChild(link);
-      link.click();
-}
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute(
+    "download",
+    `LeadCount-Report ${dayjs().format("YYYY-MM-DD")}.xlsx`
+  );
+  document.body.appendChild(link);
+  link.click();
+};
