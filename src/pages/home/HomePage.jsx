@@ -13,11 +13,10 @@ import {
 } from "recharts";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { DatePicker, Spin, message } from "antd";
+import { DatePicker, message } from "antd";
 import "./homePage.css";
 import { getGrapFillColor } from "../../global_state/action";
 import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
-import { LoadingOutlined } from "@ant-design/icons";
 import Loader from "../../components/loader/Loader";
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
@@ -78,76 +77,80 @@ const HomePage = () => {
           <Loader isLoading={isLoading} />
         ) : (
           <>
-            <p className="bt_Text">Leads Overview</p>
-
-            <div className="date_rage">
-              <RangePicker
-                // data-testid="date-picker"
-                onChange={onChange}
-                defaultValue={[dayjs(fromDate), dayjs(toDate)]}
-                format={dateFormat}
-                disabledDate={(current) => current.isAfter(dayjs())}
-              />
-            </div>
-
-            <div className="chart_section">
-            <div className="char-bar">
-            <small>Leads</small>
-                <BarChart
-                  data-testid="bar-chart"
-                  width={900}
-                  height={300}
-                  data={gData}
-                  loading={isLoading}
-                >
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <Tooltip />
-                  <XAxis
-                    dataKey="leadSourceTypeName"
-                    tickSize={2}
-                    padding={{ right: 90 }}
-                    label={{
-                      value: "Source Type",
-                      position: "insideBottomRight",
-                      // offset: -1,
-                      fill: "black",
-                      fontSize: "14px",
-                      fontWeight: "700",
-                    }}
-                  />
-
-                  <YAxis width={50} tickSize={2} />
-
-                  <Bar barSize={60} dataKey="totalLeadSentToUaa">
-                    {gData.map((entry, index) => {
-                      const color = getGrapFillColor(entry.leadSourceTypeName);
-                      return <Cell fill={color} />;
-                    })}
-                  </Bar>
-                </BarChart>
+            <div data-testid="dashboard-mock">
+              {" "}
+              <p className="bt_Text">Leads Overview</p>
+              <div className="date_rage">
+                <RangePicker
+                  // data-testid="date-picker"
+                  onChange={onChange}
+                  defaultValue={[dayjs(fromDate), dayjs(toDate)]}
+                  format={dateFormat}
+                  disabledDate={(current) => current.isAfter(dayjs())}
+                />
               </div>
-            </div>
+              <div className="chart_section">
+                <div className="char-bar">
+                  <small>Leads</small>
+                  <BarChart
+                    data-testid="bar-chart"
+                    width={900}
+                    height={300}
+                    data={gData}
+                    loading={isLoading}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                    <Tooltip />
+                    <XAxis
+                      dataKey="leadSourceTypeName"
+                      tickSize={2}
+                      padding={{ right: 90 }}
+                      label={{
+                        value: "Source Type",
+                        position: "insideBottomRight",
+                        // offset: -1,
+                        fill: "black",
+                        fontSize: "14px",
+                        fontWeight: "700",
+                      }}
+                    />
 
-            <p className="bt_Text">Lead Sources</p>
+                    <YAxis width={50} tickSize={2} />
 
-            <div className="card">
-              <DataTable
-                data-testid="table"
-                key={tData.id}
-                value={tData}
-                // loading={isLoading}
-                tableStyle={{ minWidth: "50rem" }}
-              >
-                <Column
-                  field="index"
-                  header="SL No."
-                  body={renderIndexColum}
-                ></Column>
-                <Column field="leadSourceName" header="Source"></Column>
-                <Column field="totalLeadSentToUaa" header="To MyLife"></Column>
-                <Column field="totalLeadPending" header="Pending"></Column>
-                <Column field="totalLead" header="Total"></Column>
-              </DataTable>
+                    <Bar barSize={60} dataKey="totalLeadSentToUaa">
+                      {gData.map((entry, index) => {
+                        const color = getGrapFillColor(
+                          entry.leadSourceTypeName
+                        );
+                        return <Cell fill={color} />;
+                      })}
+                    </Bar>
+                  </BarChart>
+                </div>
+              </div>
+              <p className="bt_Text">Lead Sources</p>
+              <div className="card">
+                <DataTable
+                  data-testid="table"
+                  key={tData.id}
+                  value={tData}
+                  // loading={isLoading}
+                  tableStyle={{ minWidth: "50rem" }}
+                >
+                  <Column
+                    field="index"
+                    header="SL No."
+                    body={renderIndexColum}
+                  ></Column>
+                  <Column field="leadSourceName" header="Source"></Column>
+                  <Column
+                    field="totalLeadSentToUaa"
+                    header="To MyLife"
+                  ></Column>
+                  <Column field="totalLeadPending" header="Pending"></Column>
+                  <Column field="totalLead" header="Total"></Column>
+                </DataTable>
+              </div>
             </div>
           </>
         )}

@@ -44,7 +44,7 @@ module.exports = {
 //     },
 //   },
   moduleDirectories: ["node_modules", "src"],
-//   testMatch: ["**/__tests__/**/*.[jt]s?(x), **/?(*.)+(spec|test).[tj]s?(x)"],
+  // testMatch: ["**/__tests__/**/*.[jt]s?(x), **/?(*.)+(spec|test).[tj]s?(x)"],
   transformIgnorePatterns: [
     "node_modules/(?!variables/.*)",
     "node_modules/(?!react-file-drops)",
@@ -56,7 +56,7 @@ module.exports = {
   //   "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
   //     "<rootDir>/fileTransformer.js",
   // },
-
+  "moduleFileExtensions": ["json", "js", "jsx", "ts", "tsx", "cjs"],
   transform: {
     "^.+\\.[t|j]sx?$": "babel-jest"
   }
