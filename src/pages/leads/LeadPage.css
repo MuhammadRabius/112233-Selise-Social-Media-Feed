@@ -15,7 +15,9 @@
   border-width: 0 0 2px;
   border-image: linear-gradient(to right, #0090DA, #A4CE4E) 1;
   border-style: solid;
-
+  display:flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .filterlead {
@@ -35,11 +37,12 @@
   font-weight: bolder;
 }
 
-.pi .pi-search {
+.pi-search {
   width: 18px;
-  height: 18px;
+  height: 21px;
   color: #0090DA;
   opacity: 1;
+  
 }
 
 .btn_group {

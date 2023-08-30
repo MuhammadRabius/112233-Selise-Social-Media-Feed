@@ -11,6 +11,8 @@ import {
 import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
 import { debounce } from "lodash";
+import { SearchOutlined } from "@ant-design/icons";
+
 
 const LeadsPage = () => {
   const [isLoading, setLoading] = useState(false);
@@ -112,17 +114,7 @@ const LeadsPage = () => {
     return () => ac.abort();
   }, [callBack, p_Number, p_Size, searchInput]);
 
-  // const getFilterData = useMemo(() =>  {
-
-  //   let d = leadListView;
-
-  //   if (search) {
-  //       d = leadListView.filter(data => data.name.includes(search) || data.phone.includes(search))
-  //   }
-
-  //   return d
-
-  // }, [search])
+ 
 
   // Data Table Colum
 
@@ -281,10 +273,8 @@ const LeadsPage = () => {
                 // maxLength={13}
               />
               <span style={{ cursor: "pointer" }} onClick={onSearchClick}>
-                <i
-                  className="pi pi-search"
-                  style={{ color: "var(--primary-color)" }}
-                ></i>
+                
+              <SearchOutlined className="pi-search"/>
               </span>
             </div>
 
