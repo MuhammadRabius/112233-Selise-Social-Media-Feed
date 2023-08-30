@@ -6,8 +6,7 @@ import dayjs from "dayjs";
 import { getCount, getReport, getSource } from "./Service/Report_Service";
 import { LoadingOutlined } from "@ant-design/icons";
 import { LeadCountStatus, ReportExcelDownload } from "../../global_state/action";
-import Loader from "../../components/Loader/Loader";
-
+import Loader from "../../components/loader/Loader";
 const { Option } = Select;
 
 const Report = () => {

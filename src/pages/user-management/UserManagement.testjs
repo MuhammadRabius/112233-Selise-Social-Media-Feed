@@ -1,0 +1,12 @@
+import { BrowserRouter } from "react-router-dom";
+import { render, screen } from "@testing-library/react";
+import { BrowserRouter as Router } from "react-router-dom";
+
+import UserManagement from "./UserManagement";
+test("renders UserManagement page", () => {
+  render(
+    <Router>
+      <UserManagement />
+    </Router>
+  );
+});

@@ -347,7 +347,7 @@ const LeadsPage = () => {
           )}
         </div>
       </Layout>
-
+                                                      
       {updateLeadModal && (
         <LeadUpdateModal
           key={singleID}

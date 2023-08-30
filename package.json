@@ -46,7 +46,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --clearCache && cross-env NODE_OPTIONS=--experimental-vm-modules npx jest --verbose && jest --watchAll --detectOpenHandles",
+    "test": "jest --clearCache && cross-env NODE_OPTIONS=--experimental-vm-modules npx jest --verbose --collectCoverageFrom='src/components/**/*.{js,jsx}' --collectCoverageFrom='!src/components/**/*.{Loader}.{js,jsx}'",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

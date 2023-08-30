@@ -8,7 +8,7 @@ import {
   leadUpdateByID,
 } from "./Service/lead_service";
 import { phonePrefix } from "../../global_state/action";
-import Loader from "../../components/Loader/Loader";
+import Loader from "../../components/loader/Loader";
 
 const LeadUpdateModal = ({
   open,

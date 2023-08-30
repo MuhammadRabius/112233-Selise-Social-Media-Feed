@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
-
 import { Input, Form, Select, Table, message, Spin, Pagination } from "antd";
 import { NavLink } from "react-router-dom";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -12,7 +11,7 @@ import {
   userList,
   createUser,
 } from "./Service/um_service";
-import Loader from "../../components/Loader/Loader";
+import Loader from "../../components/loader/Loader";
 const { Option } = Select;
 const { Search } = Input;
 const UserManagement = () => {

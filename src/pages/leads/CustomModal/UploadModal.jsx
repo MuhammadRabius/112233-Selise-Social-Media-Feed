@@ -4,7 +4,7 @@ import { UploadOutlined, LoadingOutlined } from "@ant-design/icons";
 import "./UploadModal.css";
 import { bulkExcelUpload } from "../Service/lead_service";
 import { ErrorExcelFileDownload } from "../../../global_state/action";
-import Loader from "../../../components/Loader/Loader";
+import Loader from "../../../components/loader/Loader";
 
 const UploadModal = ({
   open,

@@ -18,7 +18,7 @@ import "./homePage.css";
 import { getGrapFillColor } from "../../global_state/action";
 import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
 import { LoadingOutlined } from "@ant-design/icons";
-import Loader from "../../components/Loader/Loader";
+import Loader from "../../components/loader/Loader";
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 
@@ -82,6 +82,7 @@ const HomePage = () => {
 
             <div className="date_rage">
               <RangePicker
+                // data-testid="date-picker"
                 onChange={onChange}
                 defaultValue={[dayjs(fromDate), dayjs(toDate)]}
                 format={dateFormat}
@@ -93,6 +94,7 @@ const HomePage = () => {
             <div className="char-bar">
             <small>Leads</small>
                 <BarChart
+                  data-testid="bar-chart"
                   width={900}
                   height={300}
                   data={gData}
@@ -130,6 +132,7 @@ const HomePage = () => {
 
             <div className="card">
               <DataTable
+                data-testid="table"
                 key={tData.id}
                 value={tData}
                 // loading={isLoading}
