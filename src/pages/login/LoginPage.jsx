@@ -60,7 +60,8 @@ const LoginPage = () => {
         message.success(res.data.message);
         setIsloading(false);
       } catch (error) {
-        console.log(error)
+        console.log(error);
+        
         // error?.response?.data?.details[0] &&
         //   message.error(error?.response?.data?.details[0]);
         setIsloading(false);
