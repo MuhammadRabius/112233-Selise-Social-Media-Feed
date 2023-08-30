@@ -1,7 +1,7 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./loginPage.css";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-
+import queryString from "query-string";
 import * as Yup from "yup";
 import logo from "../../assets/img/metlifelogo.png";
 import { userLogin } from "../../services/AuthService";
@@ -11,10 +11,13 @@ import { Navigate } from "react-router-dom";
 import TextInput from "../../components/inputs/TextInput";
 import { LoadingOutlined } from "@ant-design/icons";
 import Loader from "../../components/loader/Loader";
+import { useSearchParams } from 'react-router-dom'
 
 const LoginPage = () => {
   const [isLoading, setIsloading] = useState(false);
   const [errorMessage, setErrorMassage] = useState("");
+  const a = useSearchParams();
+  console.log("a",a)
 
   const LoginSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
@@ -25,36 +28,45 @@ const LoginPage = () => {
 
   const token = localStorage.getItem("access-token");
 
-  if (token !== null) {
-    return <Navigate to="/" replace />;
-  }
+  // const params = window.location.search;
+  // const { code, session_state } = ;
 
-  const handleSubmit=async(values)=>{
-    try {
-      setIsloading(true);
-      const res = await userLogin(values);
+// console.log("code + session_state",code ,session_state)
 
-      if (res.data.status === false) {
-        // message.error(res.data.message);
-        setErrorMassage(res.data.message);
+  // Api Calling ----------
+
+  useEffect(() => {
+    if (token !== null) {
+      return <Navigate to="/" replace />;
+    }
+
+    (async () => {
+      try {
+        setIsloading(true);
+        const res = await userLogin();
+
+        if (res.data.status === false) {
+          // message.error(res.data.message);
+          setErrorMassage(res.data.message);
+          setIsloading(false);
+        }
+        const token = res.data.data.token;
+        const username = res.data.data.username;
+        localStorage.setItem("access-token", token);
+        const user = jwt_decode(token);
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("username", JSON.stringify(username));
+        window.location.href = "/";
+        message.success(res.data.message);
+        setIsloading(false);
+      } catch (error) {
+        console.log(error)
+        // error?.response?.data?.details[0] &&
+        //   message.error(error?.response?.data?.details[0]);
         setIsloading(false);
       }
-      const token = res.data.data.token;
-      const username = res.data.data.username;
-      localStorage.setItem("access-token", token);
-      const user = jwt_decode(token);
-      localStorage.setItem("user", JSON.stringify(user));
-      localStorage.setItem("username", JSON.stringify(username));
-      window.location.href = "/";
-      message.success(res.data.message);
-      setIsloading(false);
-    } catch (error) {
-      error?.response?.data?.details[0] &&
-      message.error(error?.response?.data?.details[0])
-      setIsloading(false);
-    }
-  }
-  
+    })();
+  }, []);
 
   return (
     <>
@@ -74,8 +86,7 @@ const LoginPage = () => {
             <Formik
               initialValues={{ username: "", password: "" }}
               validationSchema={LoginSchema}
-              onSubmit={handleSubmit}
-                
+              // onSubmit={handleSubmit}
             >
               <Form>
                 <div className="login-input-group mt-3">
@@ -122,3 +133,35 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
+
+// if (token !== null) {
+//   return <Navigate to="/" replace />;
+// }
+
+// const handleSubmit=async(values)=>{
+//   try {
+//     setIsloading(true);
+//     const res = await userLogin(values);
+
+//     if (res.data.status === false) {
+//       // message.error(res.data.message);
+//       setErrorMassage(res.data.message);
+//       setIsloading(false);
+//     }
+//     const token = res.data.data.token;
+//     const username = res.data.data.username;
+//     localStorage.setItem("access-token", token);
+//     const user = jwt_decode(token);
+//     localStorage.setItem("user", JSON.stringify(user));
+//     localStorage.setItem("username", JSON.stringify(username));
+//     window.location.href = "/";
+//     message.success(res.data.message);
+//     setIsloading(false);
+//   } catch (error) {
+//     error?.response?.data?.details[0] &&
+//     message.error(error?.response?.data?.details[0])
+//     setIsloading(false);
+//   }
+// }
+
