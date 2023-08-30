@@ -11,7 +11,7 @@
     position: fixed;
 }
 
-.login-card {
+/* .login-card {
     width: 450px;
     height: 450px;
     margin-top: 7%;
@@ -19,7 +19,19 @@
     box-shadow: 2px 2px 14px #00000029;
     border-radius: 8px;
     opacity: 1;
+} */
+
+.login-card {
+    width: 100%;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+
 }
+
+
 
 .metlife-logo {
     display: flex;
@@ -30,12 +42,18 @@
    
 }
 .sign_text{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+/* .sign_text{
   text-align: center;
   font-size: 18px;
   font-family: "MetLifeCircular-Bold",sans-serif;
   font-weight: bold;
   letter-spacing: 1.1px;
-}
+} */
 .enter_text{
    
     text-align: center;
