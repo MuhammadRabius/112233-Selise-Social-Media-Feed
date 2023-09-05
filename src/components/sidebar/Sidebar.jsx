@@ -13,6 +13,7 @@ const Sidebar = () => {
   const onLogoutClick = (e) => {
     localStorage.clear();
     window.location.reload();
+    // window.location.href = "https://login.microsoftonline.com/ca56a4a5-e300-406a-98ff-7e36a0baac5b/oauth2/v2.0/logout";
   };
 
   return (
