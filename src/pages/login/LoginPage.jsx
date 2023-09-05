@@ -22,7 +22,7 @@ const LoginPage = () => {
   const code = urlParams.get("code");
   const session_state = urlParams.get("session_state");
   const navigate = useNavigate()
-  console.log("document.cookies", code);
+  console.log("document.cookies", document.cookies);
 
   const token = localStorage.getItem("access-token");
   if (token !== null) {
@@ -61,16 +61,12 @@ const LoginPage = () => {
           setLoading(false);
           return;
         }
-
+       
         // window.location.href = azureUrl;
       } catch (error) {
         console.log("error", error);
         setLoading(false);
-        deleteCookie(code);
-        deleteCookie(session_state);
-
-        console.log("azureUrl", azureUrl)
-        navigate(azureUrl)
+      
         // window.location.href = azureUrl;
 
         // error?.response?.data?.details[0] &&
