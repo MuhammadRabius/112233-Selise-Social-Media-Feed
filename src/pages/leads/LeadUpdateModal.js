@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Input, Select, Button, message, Spin } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
-
 import {
   getDistrict,
   leadListByID,
@@ -26,9 +24,7 @@ const LeadUpdateModal = ({
     form.resetFields();
   };
 
-  const { Option } = Select;
   const { TextArea } = Input;
-  const [phoneError, setPhoneError] = useState("");
   const [district, setDistrict] = useState("")
   const [districtAPI, setDistrictAPI] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -46,7 +42,6 @@ const LeadUpdateModal = ({
     remarks: "",
   });
 
-  console.log("district",listViewData.districtName)
 
 
 

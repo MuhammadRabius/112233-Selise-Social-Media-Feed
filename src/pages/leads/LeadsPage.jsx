@@ -1,13 +1,10 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
-import { Table, Input, Pagination, message } from "antd";
+import { Table, Input, Pagination } from "antd";
 import UploadModal from "./CustomModal/UploadModal";
 import LeadUpdateModal from "./LeadUpdateModal";
-import {
-  leadListWithPagination,
-  leadListByFiltering,
-} from "./Service/lead_service";
+import {leadListWithPagination} from "./Service/lead_service";
 import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
 import { debounce } from "lodash";
@@ -34,7 +31,7 @@ const LeadsPage = () => {
   // Search Component
   const debouncedSearch = debounce((s_value) => {
     setSearchInput(s_value);
-    // console.log("dataINput", s_value);
+    set_P_Number(0);
   }, 1000);
 
   const phoneNumberSearch = (e) => {
@@ -92,10 +89,7 @@ const LeadsPage = () => {
     try {
       setLoading(true);
 
-      const leadDisplay =
-        searchInput.length !== 0
-          ? await leadListWithPagination(0, p_Size, searchInput)
-          : await leadListWithPagination(p_Number, p_Size,searchInput);
+      const leadDisplay = await leadListWithPagination(p_Number, p_Size,searchInput);
       setLeadListView(leadDisplay?.data?.data?.items);
       setTotal(leadDisplay?.data?.data?.totalItems);
       set_P_Number(...p_Number, leadDisplay?.data?.data?.pageNumber);
@@ -109,12 +103,12 @@ const LeadsPage = () => {
 
   useEffect(() => {
     const ac = new AbortController();
-    getApiCall();
+        getApiCall();
 
     return () => ac.abort();
   }, [callBack, p_Number, p_Size, searchInput]);
 
- 
+  
 
   // Data Table Colum
 
@@ -176,10 +170,7 @@ const LeadsPage = () => {
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
 
-      // sorter: {
-      //   compare: (a, b) => a.english - b.english,
-      //   multiple: 1,
-      // },
+      
     },
     {
       title: "Sources",
