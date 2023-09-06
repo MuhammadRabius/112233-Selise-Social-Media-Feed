@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
-import { Input, Form, Select, Table, message, Spin, Pagination } from "antd";
+import { Input, Form, Select, Table, message, Spin } from "antd";
 import { NavLink } from "react-router-dom";
-import { LoadingOutlined } from "@ant-design/icons";
+import Loader from "../../components/loader/Loader";
 import "./UserManagement.css";
 import {
   getLocations,
@@ -11,10 +11,9 @@ import {
   userList,
   createUser,
 } from "./Service/um_service";
-import Loader from "../../components/loader/Loader";
-const { Option } = Select;
-const { Search } = Input;
+
 const UserManagement = () => {
+  const { Option } = Select;
   const [form] = Form.useForm();
   const [callBack, setCallBack] = useState(false);
   const [isLoading, setLoading] = useState(false);

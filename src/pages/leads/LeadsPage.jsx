@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
-import { Table, Input, Pagination, message } from "antd";
+import { Table, Input, Pagination } from "antd";
 import UploadModal from "./CustomModal/UploadModal";
 import LeadUpdateModal from "./LeadUpdateModal";
 import {
-  leadListWithPagination,
-  leadListByFiltering,
+  leadListWithPagination
 } from "./Service/lead_service";
 import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
@@ -32,6 +31,7 @@ const LeadsPage = () => {
   // Search Component
   const debouncedSearch = debounce((s_value) => {
     setSearchInput(s_value);
+    set_P_Number(0);
     // console.log("dataINput", s_value);
   }, 1000);
 
@@ -92,7 +92,7 @@ const LeadsPage = () => {
 
       const leadDisplay =
         searchInput.length !== 0
-          ? await leadListWithPagination(0, p_Size, searchInput)
+          ? await leadListWithPagination(p_Number, p_Size, searchInput)
           : await leadListWithPagination(p_Number, p_Size,searchInput);
       setLeadListView(leadDisplay?.data?.data?.items);
       setTotal(leadDisplay?.data?.data?.totalItems);
@@ -107,22 +107,12 @@ const LeadsPage = () => {
 
   useEffect(() => {
     const ac = new AbortController();
-    getApiCall();
+        getApiCall();
 
     return () => ac.abort();
   }, [callBack, p_Number, p_Size, searchInput]);
 
-  // const getFilterData = useMemo(() =>  {
-
-  //   let d = leadListView;
-
-  //   if (search) {
-  //       d = leadListView.filter(data => data.name.includes(search) || data.phone.includes(search))
-  //   }
-
-  //   return d
-
-  // }, [search])
+  
 
   // Data Table Colum
 
@@ -184,10 +174,7 @@ const LeadsPage = () => {
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
 
-      // sorter: {
-      //   compare: (a, b) => a.english - b.english,
-      //   multiple: 1,
-      // },
+      
     },
     {
       title: "Sources",
