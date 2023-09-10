@@ -1,29 +1,49 @@
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { render, screen } from "@testing-library/react";
 import Report from "./Report";
 
-beforeAll(() => {
-    Object.defineProperty(window, "matchMedia", {
-      writable: true,
-      value: jest.fn().mockImplementation((query) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: jest.fn(), // Deprecated
-        removeListener: jest.fn(), // Deprecated
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-      })),
-    });
-  });
-  
-test("Reports Download on ec", () => {
-  render(
-   
-      <Report />
- 
-  );
+// const mockUsedNavigate = jest.fn();
+// jest.mock("react-router-dom", () => ({
+//   ...jest.requireActual("react-router-dom"),
+//   useNavigate: () => mockUsedNavigate,
+// }));
 
- 
+// const data = [{
+//   "startDate":
+// }]
+
+describe("Check Content", () => {
+  it("Check Report", () => {
+    render(
+      <Router>
+        <Report isLoad={"false"} />
+      </Router>
+    );
+
+    const label = screen.getByTestId("report_mock");
+    expect(label.textContent).toBe("Report");
+  });
+
+  it("render Form all Components", () => {
+    render(
+      <Router>
+        <Report isLoad={"false"} />
+      </Router>
+    );
+    const startDay = screen.getByTestId("start-day");
+    const endDay = screen.getByTestId("end-day");
+    const select = screen.getByTestId("source_select");
+    const email = screen.getByTestId("report-email");
+    const mobile = screen.getByTestId("report-mobileNo");
+
+    expect(startDay).toBeInTheDocument();
+    expect(endDay).toBeInTheDocument();
+    expect(select).toBeInTheDocument();
+    expect(email).toBeInTheDocument();
+    expect(mobile).toBeInTheDocument();
+  });
 });
+
+// describe("render Form all components", () => {
+
+// });

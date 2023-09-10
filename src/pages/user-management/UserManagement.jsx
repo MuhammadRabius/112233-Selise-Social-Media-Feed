@@ -12,11 +12,13 @@ import {
   createUser,
 } from "./Service/um_service";
 
-const UserManagement = () => {
+const UserManagement = (props) => {
   const { Option } = Select;
   const [form] = Form.useForm();
   const [callBack, setCallBack] = useState(false);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(
+    props.isLoad === "false" ? false : true
+  );
 
   // Spin
   const antIcon = <Loader isLoading={true} />;
@@ -29,7 +31,7 @@ const UserManagement = () => {
 
   // Search Compnent
   const onSearchClick = (e) => {
-    console.log("search click");
+    // console.log("search click");
   };
   const onFinish = (values) => {
     const payload = {
@@ -42,7 +44,7 @@ const UserManagement = () => {
 
     try {
       (async () => {
-        setLoading(true);
+        setLoading(props.isLoad === "false" ? false : true);
 
         const res = await createUser(payload);
         message.success(res.data.message);
@@ -72,7 +74,7 @@ const UserManagement = () => {
 
     (async () => {
       try {
-        setLoading(true);
+        setLoading(props.isLoad === "false" ? false : true);
         //location dropdown calling
         const districtDisplay = await getLocations();
         setLocation(districtDisplay.data.data);
@@ -84,12 +86,10 @@ const UserManagement = () => {
         setRole(roleDisplay.data.data);
         //
         const userDisplay = await userList();
-
         setUser(userDisplay.data.data);
         setLoading(false);
       } catch (err) {
         setLoading(false);
-        console.error("Something went wrong");
       }
     })();
 
@@ -172,7 +172,8 @@ const UserManagement = () => {
         <>
           {" "}
           <Layout pageName={"User Management"}>
-            <p className="bt_Text">User Management</p>
+            <p className="bt_Text" data-testid="um-mock"
+            >User Management</p>
 
             <div className="um_container">
               <Form
@@ -194,7 +195,9 @@ const UserManagement = () => {
                       },
                     ]}
                   >
-                    <Input className="input_group" placeholder="Username" />
+                    <Input className="input_group" placeholder="Username" 
+                    data-testid= "username-mock"
+                    />
                   </Form.Item>
 
                   <Form.Item
@@ -207,7 +210,8 @@ const UserManagement = () => {
                       },
                     ]}
                   >
-                    <Select allowClear showSearch placeholder="Department!">
+                    <Select allowClear showSearch placeholder="Department!" data-testid= "dep-mock"
+                    >
                       {department.map((_d) => {
                         return (
                           <>
@@ -233,7 +237,7 @@ const UserManagement = () => {
                       },
                     ]}
                   >
-                    <Input className="input_group" placeholder="Email" />
+                    <Input className="input_group" placeholder="Email" data-testid= "email-mock" />
                   </Form.Item>
                   <Form.Item
                     name="location"
@@ -245,7 +249,7 @@ const UserManagement = () => {
                       },
                     ]}
                   >
-                    <Select allowClear showSearch placeholder="Role!">
+                    <Select allowClear showSearch placeholder="Role!" data-testid= "role-mock">
                       {role.map((_d) => {
                         return (
                           <>
@@ -268,7 +272,7 @@ const UserManagement = () => {
                       },
                     ]}
                   >
-                    <Select allowClear showSearch placeholder="Location!">
+                    <Select allowClear showSearch placeholder="Location!" data-testid= "location-mock">
                       {location.map((_d) => {
                         return (
                           <>
