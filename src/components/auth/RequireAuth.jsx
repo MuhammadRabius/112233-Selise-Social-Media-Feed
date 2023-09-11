@@ -9,7 +9,6 @@ function RequireAuth() {
   let location = useLocation();
 
   if (!isLogin) {
-    //  <Navigate to='/login' state={{ from: location }} />
     window.location.href = azureUrl;
     return null;
   }
