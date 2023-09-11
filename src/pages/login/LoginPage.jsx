@@ -12,8 +12,10 @@ import TextInput from "../../components/inputs/TextInput";
 import { LoadingOutlined } from "@ant-design/icons";
 import Loader from "../../components/loader/Loader";
 
-const LoginPage = () => {
-  const [isLoading, setIsloading] = useState(false);
+const LoginPage = ({isLoad}) => {
+  const [isLoading, setLoading] = useState(
+    isLoad === "false" ? false : true
+  );
   const [errorMessage,setErrorMassage]=useState('')
 
 
@@ -62,14 +64,12 @@ const LoginPage = () => {
           validationSchema={LoginSchema}
           onSubmit={async (values) => {
             try {
-              setIsloading(true);
+              setLoading(isLoad === "false" ? false : true);
               const res = await userLogin(values);
-              
-
               if (res.data.status === false) {
                 // message.error(res.data.message);
                 setErrorMassage(res.data.message)
-                setIsloading(false);
+                setLoading(false);
               }
               const token = res.data.data.token;
               const username = res.data.data.username;
@@ -79,12 +79,12 @@ const LoginPage = () => {
               localStorage.setItem("username", JSON.stringify(username));
               window.location.href = "/";
               message.success(res.data.message);
-              setIsloading(false);
+              setLoading(false);
               
             } catch (e) {
               message.error(e.res.data.message);
-              setIsloading(false);
-              console.log(e);
+              setLoading(false);
+            
             }
           }}
         >

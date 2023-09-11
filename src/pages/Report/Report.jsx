@@ -11,7 +11,7 @@ import {
 import Loader from "../../components/loader/Loader";
 const { Option } = Select;
 
-const Report = (props) => {
+const Report = ({isLoad}) => {
   const [form] = Form.useForm();
   const [dataCount, setDataCount] = useState(null);
   const [startDate, setStartDate] = useState("");
@@ -19,7 +19,7 @@ const Report = (props) => {
   const [leadSourceId, setLeadId] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isLoading, setLoading] = useState(
-    props.isLoad === "false" ? false : true
+   isLoad === "false" ? false : true
   );
   const [leadSorce, setLeadSource] = useState([]);
   const [callBack, setCallBack] = useState(false);
@@ -81,7 +81,7 @@ const Report = (props) => {
 
     (async () => {
       try {
-        setLoading(props.isLoad === "false" ? false : true);
+        setLoading(isLoad === "false" ? false : true);
         //
         const leadSource = await getSource();
         setLeadSource(leadSource?.data?.data);
@@ -231,7 +231,7 @@ const Report = (props) => {
                     }`}{" "}
                   </span>
                   <Form.Item>
-                    <button className="submit_btn" htmltype="submit">
+                    <button className="submit_btn" htmlType="submit" data-testid="submit-mock">
                       DOWNLOAD IN EXCEL
                     </button>
                   </Form.Item>

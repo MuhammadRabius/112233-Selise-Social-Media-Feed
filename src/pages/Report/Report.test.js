@@ -1,5 +1,7 @@
 import { BrowserRouter as Router } from "react-router-dom";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
+import userEvent from '@testing-library/user-event';
+import fetchMock from 'jest-fetch-mock';
 import Report from "./Report";
 
 // const mockUsedNavigate = jest.fn();
@@ -11,6 +13,13 @@ import Report from "./Report";
 // const data = [{
 //   "startDate":
 // }]
+beforeEach(() => {
+  fetchMock.resetMocks();
+});
+
+beforeEach(() => {
+  fetchMock.mockResponseOnce('', { status: 200, headers: { 'content-type': 'application/octet-stream' } });
+});
 
 describe("Check Content", () => {
   it("Check Report", () => {
@@ -44,6 +53,40 @@ describe("Check Content", () => {
   });
 });
 
-// describe("render Form all components", () => {
 
-// });
+describe('YourFormComponent', () => {
+  test('should trigger download excel on form submission', async () => {
+      const onFinishMock = jest.fn();
+   
+    // Render the form component
+    render(<Router>
+      <Report isLoad={"false"} onClick={onFinishMock}/>
+    </Router>);
+
+    // Fill in the form fields
+    const startDay = screen.getByTestId("start-day");
+    const endDay = screen.getByTestId("end-day");
+ 
+
+  const testStart=  userEvent.type(startDay, '2023-09-01');
+  const testEnd=   userEvent.type(endDay, '2023-09-10');
+   
+   
+
+    // Submit the form
+    const button = screen.getByTestId('submit-mock');
+    fireEvent.click(button);
+    expect(onFinishMock).toHaveBeenCalled();
+    // Verify that the download functionality is triggered
+    // You can use a mocking library like jest-fetch-mock to mock the fetch request and the response
+    // expect(fetch).toHaveBeenCalledWith(`api/leads/reports?fromDate=${testStart}&toDate=${testEnd}&leadSourceId=&email=&phoneNumber=`, 
+    // {
+    //   method: 'GET',
+    //   body: JSON.stringify({
+    //     startDate: '2023-09-01',
+    //     endDate: '2023-09-10',
+        
+    //   }),
+    // });
+  });
+});

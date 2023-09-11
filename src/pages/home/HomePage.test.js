@@ -40,9 +40,10 @@ describe("HomePage", () => {
 // DatePicker
 describe("RangePicker", () => {
   it("should be possible to set a start and end date", async () => {
+    const onChange = jest.fn();
     render(
       <Route>
-        <HomePage isLoad={"false"} />
+        <HomePage isLoad={"false"} onChange ={onChange}/>
       </Route>
     );
 
@@ -159,5 +160,6 @@ describe("render HomePage leadTable", () => {
     expect(Pending).toBeInTheDocument();
     expect(Total).toBeInTheDocument();
   });
+
 });
 

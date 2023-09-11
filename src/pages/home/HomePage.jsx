@@ -39,7 +39,7 @@ const HomePage = ({isLoad,onChange,disabledDate,testData}) => {
     setFormDate(dateString[0]);
   };
 
-  // Lead Source Grap
+  // Lead Source table Index
   const renderIndexColum = (rowIndex, column) => {
     return column.rowIndex + 1;
   };
