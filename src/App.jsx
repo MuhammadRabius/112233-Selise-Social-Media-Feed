@@ -15,9 +15,9 @@ const App = () => {
     <>
       <Routes>
         
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
         <Route element={<RequireAuth />}>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/dashboard" element={<HomePage />} />
           <Route path="/leads" element={<LeadsPage />} />
           <Route path="/usermanagement" element={<UserManagement />} />
           <Route path="/report" element={<Report />} />
@@ -29,10 +29,3 @@ const App = () => {
 
 export default App;
 
-
-// const HomePage = lazy(() => import('./pages/home/HomePage'));
-// const LeadsPage = lazy(() => import('./pages/leads/LeadsPage'));
-// const LoginPage = lazy(() => import('./pages/login/LoginPage'));
-// const Report = lazy(() => import('./pages/Report/Report'));
-// const UserManagement = lazy(() => import('./pages/user-management/UserManagement'));
-// <Route path="/login" element={<LoginPage />} />
