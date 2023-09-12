@@ -47,7 +47,7 @@ const LoginPage = () => {
       try {
         setLoading(true);
         const res = await userLogin(payload);
-        if (res.data.status === false) {
+        if (res.data.status === true) {
           const token = res.data.data.token;
           const username = res.data.data.username;
           localStorage.setItem("access-token", token);
@@ -59,8 +59,8 @@ const LoginPage = () => {
           setLoading(false);
           return;
         }
-       
-        // window.location.href = azureUrl;
+        setLoading(false);
+        window.location.href = azureUrl;
       } catch (error) {
         console.log("error", error);
         setLoading(false);
