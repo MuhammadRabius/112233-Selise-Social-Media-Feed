@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
+import { HashRouter} from 'react-router-dom';
 import axios from "axios";
 import App from "./App";
 import "./index.css";
@@ -21,9 +22,9 @@ axios.defaults.headers.post["Content-Type"] = "application/json";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <HashRouter>
       <App />
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 );
 
