@@ -34,7 +34,7 @@ const Sidebar = () => {
                 className={({ isActive, isPending }) =>
                   isActive ? "nav-active" : ""
                 }
-                to={"/dashboard"}
+                to={"/"}
               >
                 &nbsp; Dashboard
               </NavLink>
