@@ -1,6 +1,8 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
 import { Message } from "antd";
+
+
 import LoginPage from "./LoginPage";
 
 // Mock the message component
@@ -11,9 +13,11 @@ jest.mock('antd',()=>({
   },
 }));
 
+
+
 describe("Login Component", () => {
   it("renders login form correctly", () => {
-    const { getByPlaceholderText, getByText } = render(<LoginPage />);
+    const { getByPlaceholderText, getByText } = render(<LoginPage isLoad ="false" />);
     const usernameInput = screen.getByPlaceholderText("Active Directory ID");
     const passwordInput = screen.getByPlaceholderText("Password");
     const loginButton = screen.getByText("LOGIN");
@@ -25,7 +29,7 @@ describe("Login Component", () => {
   
   it('calls onLogin with correct username for valid credentials', () => {
     const onLoginMock = jest.fn();
-    const { getByPlaceholderText, getByText } = render(<LoginPage onLogin={onLoginMock} />);
+    const { getByPlaceholderText, getByText } = render(<LoginPage onLogin={onLoginMock} isLoad ="false"/>);
     const usernameInput = screen.getByPlaceholderText('Active Directory ID');
     const passwordInput = screen.getByPlaceholderText('Password');
     const loginButton = screen.getByText('LOGIN');
@@ -38,7 +42,8 @@ describe("Login Component", () => {
   });
 
   it("displays error message for invalid credentials", async () => {
-    const { getByText, getByPlaceholderText, } = await render(<LoginPage />);
+    const onLoginMock = jest.fn();
+    const { getByText, getByPlaceholderText, } = await render(<LoginPage onLogin={onLoginMock} isLoad ="false" />);
     const usernameInput = screen.getByPlaceholderText("Active Directory ID");
     const passwordInput = screen.getByPlaceholderText("Password");
     const loginButton = screen.getByText("LOGIN");

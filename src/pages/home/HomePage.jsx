@@ -21,9 +21,11 @@ import Loader from "../../components/loader/Loader";
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 
-const HomePage = () => {
+const HomePage = ({isLoad,onChange,disabledDate,testData}) => {
   const dateFormat = "YYYY-MM-DD";
-  const [isLoading, setIsloading] = useState(false);
+  const [isLoading, setLoading] = useState(
+    isLoad === "false" ? false : true
+  );
   const [tData, setTData] = useState([]);
   const [gData, setGData] = useState([]);
   const [toDate, setToDate] = useState(dayjs().format("YYYY-MM-DD"));
@@ -32,12 +34,12 @@ const HomePage = () => {
   );
 
   // Leads Table----y
-  const onChange = (date, dateString) => {
+  const onDateChange = (date, dateString) => {
     setToDate(dateString[1]);
     setFormDate(dateString[0]);
   };
 
-  // Lead Source Grap
+  // Lead Source table Index
   const renderIndexColum = (rowIndex, column) => {
     return column.rowIndex + 1;
   };
@@ -50,7 +52,7 @@ const HomePage = () => {
     try {
       (async () => {
         if (toDate && fromDate) {
-          setIsloading(true);
+          setLoading(isLoad === "false" ? false : true);
           // Table API
           const tableDisplay = await getLeadSource(fromDate, toDate);
           setTData(tableDisplay.data.data);
@@ -60,10 +62,10 @@ const HomePage = () => {
           const typeDisplay = await getLeadSourceType(fromDate, toDate);
           setGData(typeDisplay.data.data);
         }
-        setIsloading(false);
+        setLoading(false);
       })();
     } catch (err) {
-      setIsloading(false);
+      setLoading(false);
       err.response.data.message && message.error(err.response.data.message);
     }
 
@@ -77,30 +79,30 @@ const HomePage = () => {
           <Loader isLoading={isLoading} />
         ) : (
           <>
-            <div data-testid="dashboard-mock">
+            <div className="homePage-content" data-testid="dashboard-mock">
               {" "}
-              <p className="bt_Text">Leads Overview</p>
+              <p className="bt_Text" data-testid="home-graph">Leads Overview</p>
               <div className="date_rage">
                 <RangePicker
-                  // data-testid="date-picker"
-                  onChange={onChange}
+                  data-testid="date-picker"
+                  onChange={onDateChange || onChange}
                   defaultValue={[dayjs(fromDate), dayjs(toDate)]}
                   format={dateFormat}
-                  disabledDate={(current) => current.isAfter(dayjs())}
+                  disabledDate={(current) => current.isAfter(dayjs() || disabledDate)}
                 />
               </div>
-              <div className="chart_section">
+              <div className="chart_section"  data-testid="chartContent-mock">
                 <div className="char-bar">
                   <small>Leads</small>
                   <BarChart
-                    data-testid="bar-chart"
-                    width={900}
-                    height={300}
-                    data={gData}
-                    loading={isLoading}
+                  width={900}
+                  height={300}
+                  data={gData ||testData}
+                  // loading={isLoading}
+                  // data-testid="bar-chart"
                   >
                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                    <Tooltip />
+                    <Tooltip data-testid="tooltip" />
                     <XAxis
                       dataKey="leadSourceTypeName"
                       tickSize={2}
@@ -128,10 +130,10 @@ const HomePage = () => {
                   </BarChart>
                 </div>
               </div>
-              <p className="bt_Text">Lead Sources</p>
+              <p className="bt_Text" data-testid="home-table">Lead Sources</p>
               <div className="card">
                 <DataTable
-                  data-testid="table"
+                  data-testid="table-mock"
                   key={tData.id}
                   value={tData}
                   // loading={isLoading}

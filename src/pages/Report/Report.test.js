@@ -1,29 +1,92 @@
-import { BrowserRouter } from "react-router-dom";
-import { render, screen } from "@testing-library/react";
+import { BrowserRouter as Router } from "react-router-dom";
+import { render, screen, fireEvent } from "@testing-library/react";
+import userEvent from '@testing-library/user-event';
+import fetchMock from 'jest-fetch-mock';
 import Report from "./Report";
 
-beforeAll(() => {
-    Object.defineProperty(window, "matchMedia", {
-      writable: true,
-      value: jest.fn().mockImplementation((query) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: jest.fn(), // Deprecated
-        removeListener: jest.fn(), // Deprecated
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-      })),
-    });
-  });
-  
-test("Reports Download on ec", () => {
-  render(
-   
-      <Report />
- 
-  );
+// const mockUsedNavigate = jest.fn();
+// jest.mock("react-router-dom", () => ({
+//   ...jest.requireActual("react-router-dom"),
+//   useNavigate: () => mockUsedNavigate,
+// }));
 
+// const data = [{
+//   "startDate":
+// }]
+beforeEach(() => {
+  fetchMock.resetMocks();
+});
+
+beforeEach(() => {
+  fetchMock.mockResponseOnce('', { status: 200, headers: { 'content-type': 'application/octet-stream' } });
+});
+
+describe("Check Content", () => {
+  it("Check Report", () => {
+    render(
+      <Router>
+        <Report isLoad={"false"} />
+      </Router>
+    );
+
+    const label = screen.getByTestId("report_mock");
+    expect(label.textContent).toBe("Report");
+  });
+
+  it("render Form all Components", () => {
+    render(
+      <Router>
+        <Report isLoad={"false"} />
+      </Router>
+    );
+    const startDay = screen.getByTestId("start-day");
+    const endDay = screen.getByTestId("end-day");
+    const select = screen.getByTestId("source_select");
+    const email = screen.getByTestId("report-email");
+    const mobile = screen.getByTestId("report-mobileNo");
+
+    expect(startDay).toBeInTheDocument();
+    expect(endDay).toBeInTheDocument();
+    expect(select).toBeInTheDocument();
+    expect(email).toBeInTheDocument();
+    expect(mobile).toBeInTheDocument();
+  });
+});
+
+
+describe('YourFormComponent', () => {
+  test('should trigger download excel on form submission', async () => {
+      const onFinishMock = jest.fn();
+   
+    // Render the form component
+    render(<Router>
+      <Report isLoad={"false"} onClick={onFinishMock}/>
+    </Router>);
+
+    // Fill in the form fields
+    const startDay = screen.getByTestId("start-day");
+    const endDay = screen.getByTestId("end-day");
  
+
+  const testStart=  userEvent.type(startDay, '2023-09-01');
+  const testEnd=   userEvent.type(endDay, '2023-09-10');
+   
+   
+
+    // Submit the form
+    const button = screen.getByTestId('submit-mock');
+    fireEvent.click(button);
+    expect(onFinishMock).toHaveBeenCalled();
+    // Verify that the download functionality is triggered
+    // You can use a mocking library like jest-fetch-mock to mock the fetch request and the response
+    // expect(fetch).toHaveBeenCalledWith(`api/leads/reports?fromDate=${testStart}&toDate=${testEnd}&leadSourceId=&email=&phoneNumber=`, 
+    // {
+    //   method: 'GET',
+    //   body: JSON.stringify({
+    //     startDate: '2023-09-01',
+    //     endDate: '2023-09-10',
+        
+    //   }),
+    // });
+  });
 });

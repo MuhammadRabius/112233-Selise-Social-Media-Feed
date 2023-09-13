@@ -4,18 +4,23 @@ import { DatePicker, Input, Form, message, Select } from "antd";
 import "./Report.css";
 import dayjs from "dayjs";
 import { getCount, getReport, getSource } from "./Service/Report_Service";
-import { LeadCountStatus, ReportExcelDownload } from "../../global_state/action";
+import {
+  LeadCountStatus,
+  ReportExcelDownload,
+} from "../../global_state/action";
 import Loader from "../../components/loader/Loader";
 const { Option } = Select;
 
-const Report = () => {
+const Report = ({isLoad}) => {
   const [form] = Form.useForm();
   const [dataCount, setDataCount] = useState(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [leadSourceId, setLeadId] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(
+   isLoad === "false" ? false : true
+  );
   const [leadSorce, setLeadSource] = useState([]);
   const [callBack, setCallBack] = useState(false);
   const onChangeStart = (date, dateString) => {
@@ -62,7 +67,7 @@ const Report = () => {
         { responseType: "blob" },
         { "Content-Type": "application/octet-stream" }
       );
-      ReportExcelDownload(res?.data)
+      ReportExcelDownload(res?.data);
       setCallBack(!callBack);
       setLoading(false);
     } catch (error) {
@@ -76,7 +81,7 @@ const Report = () => {
 
     (async () => {
       try {
-        setLoading(true);
+        setLoading(isLoad === "false" ? false : true);
         //
         const leadSource = await getSource();
         setLeadSource(leadSource?.data?.data);
@@ -98,131 +103,141 @@ const Report = () => {
         <Loader isLoading={isLoading} />
       ) : (
         <Layout pageName={"Report"}>
-          <p className="bt_Text">Report</p>
-          <div className="reportContainer">
-            <Form
-              form={form}
-              initialValues={{
-                remember: true,
-              }}
-              onFinish={onFinish}
-              autoComplete="off"
-            >
-              <div className="report_form">
-                <Form.Item
-                  label=""
-                  name="startdate"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input Start Date!",
-                    },
-                  ]}
-                >
-                  <DatePicker
-                    className="_input_group"
-                    onChange={onChangeStart}
-                    format={`YYYY-MM-DD`}
-                    suffixIcon={false}
-                    placeholder="Start Day!"
-                    disabledDate={(current) =>
-                      current.isAfter(dayjs().add(-1, "day"))
-                    }
-                  />
-                </Form.Item>
-                <Form.Item
-                  label=""
-                  name="enddate"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input End Date!",
-                    },
-                  ]}
-                >
-                  <DatePicker
-                    className="_input_group"
-                    onChange={onChangeEnd}
-                    format={`YYYY-MM-DD`}
-                    suffixIcon={false}
-                    placeholder="End Day!"
-                    disabledDate={(current) => current.isAfter(dayjs())}
-                  />
-                </Form.Item>
-
-                <Form.Item name="leadsource" label="">
-                  <Select
-                    allowClear
-                    showSearch
-                    placeholder="Source Type"
-                    onChange={onChangeSourceType}
+          <div className="reportComponent_mock">
+            <p className="bt_Text" data-testid="report_mock">
+              Report
+            </p>
+            <div className="reportContainer">
+              <Form
+                form={form}
+                initialValues={{
+                  remember: true,
+                }}
+                onFinish={onFinish}
+                autoComplete="off"
+              >
+                <div className="report_form">
+                  <Form.Item
+                    label=""
+                    name="startdate"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input Start Date!",
+                      },
+                    ]}
                   >
-                    {leadSorce.map((_d) => {
-                      return (
-                        <>
-                          <Option key={_d?.id} value={_d?.id}>
-                            {_d?.name}
-                          </Option>
-                        </>
-                      );
-                    })}
-                  </Select>
-                </Form.Item>
+                    <DatePicker
+                      data-testid="start-day"
+                      className="_input_group"
+                      onChange={onChangeStart}
+                      format={`YYYY-MM-DD`}
+                      suffixIcon={false}
+                      placeholder="Start Day"
+                      disabledDate={(current) =>
+                        current.isAfter(dayjs().add(-1, "day"))
+                      }
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label=""
+                    name="enddate"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input End Date!",
+                      },
+                    ]}
+                  >
+                    <DatePicker
+                      data-testid="end-day"
+                      className="_input_group"
+                      onChange={onChangeEnd}
+                      format={`YYYY-MM-DD`}
+                      suffixIcon={false}
+                      placeholder="End Day"
+                      disabledDate={(current) => current.isAfter(dayjs())}
+                    />
+                  </Form.Item>
 
-                <Form.Item
-                  label=""
-                  name="email"
-                  rules={[
-                    {
-                      pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$",
-                      message: "Invalid email address.",
-                    },
-                  ]}
-                >
-                  <Input
-                    className="_input_group"
-                    placeholder="Email"
-                    type="email"
-                  />
-                </Form.Item>
-                <Form.Item
-                  label=""
-                  name="mobileNumber"
-                  rules={[
-                    {
-                      pattern: /^(?!880|0)\d{10}$/,
-                      message: "Phone number must be 10 digit, exclude 880",
-                    },
-                  ]}
-                >
-                  <Input
-                    value={phoneNumber}
-                    onChange={(e) =>
-                      setPhoneNumber(e.target.value.replace(/^0/g, ""))
-                    }
-                    className="_input_group"
-                    addonBefore="880"
-                    placeholder="1777345678"
-                    maxLength={10}
-                  />
-                </Form.Item>
-              </div>
+                  <Form.Item name="leadsource" label="">
+                    <Select
+                      allowClear
+                      showSearch
+                      placeholder="Source Type"
+                      data-testid="source_select"
+                      onChange={onChangeSourceType}
+                    >
+                      {leadSorce.map((_d) => {
+                        return (
+                          <>
+                            <Option key={_d?.id} value={_d?.id}>
+                              {_d?.name}
+                            </Option>
+                          </>
+                        );
+                      })}
+                    </Select>
+                  </Form.Item>
 
-              <div className="footer_part">
-                <span className="spanText">
-                  {`Total Lead Count : ${
-                    dataCount === 0 || dataCount === null
-                      ? `${LeadCountStatus(dataCount)}`
-                      : `${dataCount}`
-                  }`}{" "}
-                </span>
-                <Form.Item>
-                  <button className="submit_btn" htmltype="submit">
-                    DOWNLOAD IN EXCEL
-                  </button>
-                </Form.Item>
-              </div>
-            </Form>
+                  <Form.Item
+                    label=""
+                    name="email"
+                    rules={[
+                      {
+                        pattern:
+                          "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$",
+                        message: "Invalid email address.",
+                      },
+                    ]}
+                  >
+                    <Input
+                      className="_input_group"
+                      placeholder="Email"
+                      type="email"
+                      data-testid="report-email"
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label=""
+                    name="mobileNumber"
+                    rules={[
+                      {
+                        pattern: /^(?!880|0)\d{10}$/,
+                        message: "Phone number must be 10 digit, exclude 880",
+                      },
+                    ]}
+                  >
+                    <Input
+                      data-testid="report-mobileNo"
+                      value={phoneNumber}
+                      onChange={(e) =>
+                        setPhoneNumber(e.target.value.replace(/^0/g, ""))
+                      }
+                      className="_input_group"
+                      addonBefore="880"
+                      placeholder="177XXXXXXX"
+                      maxLength={10}
+                    />
+                  </Form.Item>
+                </div>
+
+                <div className="footer_part">
+                  <span className="spanText" data-testid="lead-count-mock">
+                    {`Total Lead Count : ${
+                      dataCount === 0 || dataCount === null
+                        ? `${LeadCountStatus(dataCount)}`
+                        : `${dataCount}`
+                    }`}{" "}
+                  </span>
+                  <Form.Item>
+                    <button className="submit_btn" htmlType="submit" data-testid="submit-mock">
+                      DOWNLOAD IN EXCEL
+                    </button>
+                  </Form.Item>
+                </div>
+              </Form>
+            </div>
           </div>
         </Layout>
       )}
