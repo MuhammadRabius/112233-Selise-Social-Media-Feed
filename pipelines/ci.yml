@@ -52,9 +52,9 @@ steps:
       enableVeracodeScan: true
       veracodeServiceConnection: 'Veracode'
       veracodeAppProfile: '13639_BD - Unified Lead Management'
-      veracodeSandboxName: 'ULM-FrontEnd'
+      veracodeSandboxName: 'ULM-FE'
       veracodeFailBuildOnPolicyFail: true
-      veracodeUploadDir: $(Build.SourcesDirectory)
+      veracodeUploadDir: './build'
       acrARMConnection: '13639-ULM-ServiceConnection'
       acrHostName: 'acr13553s1dv01.azurecr.io'
       acrRepoName: 'ulm-app'
