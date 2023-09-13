@@ -39,8 +39,8 @@ steps:
       projectName: 'ULM-CLient'
       componentName: 'ULM_Client'
       nodejsVersion: ${{parameters.nodejsVersion}}
-      disableUnitTests: true
-      disableSonarScan: true
+      disableUnitTests: false
+      disableSonarScan: false
       sonarInstance: 'SonarQube'
       sonarProjectKey: ''
       sonarProjectName: ''
