@@ -172,8 +172,9 @@ const UserManagement = (props) => {
         <>
           {" "}
           <Layout pageName={"User Management"}>
-            <p className="bt_Text" data-testid="um-mock"
-            >User Management</p>
+            <p className="bt_Text" data-testid="um-mock">
+              User Management
+            </p>
 
             <div className="um_container">
               <Form
@@ -195,8 +196,10 @@ const UserManagement = (props) => {
                       },
                     ]}
                   >
-                    <Input className="input_group" placeholder="Username" 
-                    data-testid= "username-mock"
+                    <Input
+                      className="input_group"
+                      placeholder="Username"
+                      data-testid="username-mock"
                     />
                   </Form.Item>
 
@@ -210,7 +213,11 @@ const UserManagement = (props) => {
                       },
                     ]}
                   >
-                    <Select allowClear showSearch placeholder="Department!" data-testid= "dep-mock"
+                    <Select
+                      allowClear
+                      showSearch
+                      placeholder="Department!"
+                      data-testid="dep-mock"
                     >
                       {department.map((_d) => {
                         return (
@@ -237,7 +244,11 @@ const UserManagement = (props) => {
                       },
                     ]}
                   >
-                    <Input className="input_group" placeholder="Email" data-testid= "email-mock" />
+                    <Input
+                      className="input_group"
+                      placeholder="Email"
+                      data-testid="email-mock"
+                    />
                   </Form.Item>
                   <Form.Item
                     name="location"
@@ -249,7 +260,12 @@ const UserManagement = (props) => {
                       },
                     ]}
                   >
-                    <Select allowClear showSearch placeholder="Role!" data-testid= "role-mock">
+                    <Select
+                      allowClear
+                      showSearch
+                      placeholder="Role!"
+                      data-testid="role-mock"
+                    >
                       {role.map((_d) => {
                         return (
                           <>
@@ -272,7 +288,12 @@ const UserManagement = (props) => {
                       },
                     ]}
                   >
-                    <Select allowClear showSearch placeholder="Location!" data-testid= "location-mock">
+                    <Select
+                      allowClear
+                      showSearch
+                      placeholder="Location!"
+                      data-testid="location-mock"
+                    >
                       {location.map((_d) => {
                         return (
                           <>
@@ -315,6 +336,7 @@ const UserManagement = (props) => {
               <div className="um_table">
                 <div>
                   <Table
+                    size="small"
                     key={user.id}
                     onChange={onTableChange}
                     columns={columns}
