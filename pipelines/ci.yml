@@ -48,10 +48,10 @@ steps:
         sonar.sourceEncoding=UTF-8
         sonar.exclusions=**/node_modules/**
         sonar.typescript.exclusions=**/node_modules/**
-      enableVeracodeScan: false
+      enableVeracodeScan: true
       veracodeServiceConnection: 'Veracode'
-      veracodeAppProfile: ''
-      veracodeSandboxName: ''
+      veracodeAppProfile: '13639_BD - Unified Lead Management'
+      veracodeSandboxName: 'ULM-FE'
       veracodeFailBuildOnPolicyFail: true
       veracodeUploadDir: '.'
       acrARMConnection: '13639-ULM-ServiceConnection'
