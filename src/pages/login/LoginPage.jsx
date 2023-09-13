@@ -35,7 +35,7 @@ const LoginPage = () => {
   // Api Calling ----------
 
   useEffect(() => {
-    if (code) {
+   
       (async () => {
         try {
           setLoading(true);
@@ -54,20 +54,21 @@ const LoginPage = () => {
             return;
           }
           setLoading(false);
-          window.location.href = azureUrl;
         } catch (error) {
           console.log("error", error);
+          setTimeout(() => {
+            window.location.replace("https://login.microsoftonline.com/ca56a4a5-e300-406a-98ff-7e36a0baac5b/oauth2/v2.0/logout")
+          }, 2000)
           setLoading(false);
 
-          window.location.href = azureUrl;
 
-          error?.response?.data?.details[0] &&
-            message.error(error?.response?.data?.details[0]);
+          // error?.response?.data?.details[0] &&
+          //   message.error(error?.response?.data?.details[0]);
         }
       })();
     }
     
-  }, [code]);
+  , [code]);
 
   if (token !== null) {
     <Navigate to="/dashboard" replace />;
@@ -91,7 +92,7 @@ const LoginPage = () => {
                 <img src={logo} width={120} alt="logo" />
               </div>
               <div className="sign_text">
-                <h6> Redirecting to Login</h6>
+                <h6> <span style={{color:"red"}}>Authentication Failed .</span> Redirecting to Login</h6>
                 <ReloadOutlined spin /> ...
               </div>
             </div>
