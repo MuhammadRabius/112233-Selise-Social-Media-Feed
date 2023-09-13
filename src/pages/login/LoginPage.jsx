@@ -55,13 +55,12 @@ const LoginPage = () => {
           }
           setLoading(false);
         } catch (error) {
-          // console.log("error", error);
+          setLoading(false);
           setTimeout(() => {
             window.location.replace("https://login.microsoftonline.com/ca56a4a5-e300-406a-98ff-7e36a0baac5b/oauth2/v2.0/logout")
           }, 2000)
-          setLoading(false);
-
-
+          
+          
           // error?.response?.data?.details[0] &&
           //   message.error(error?.response?.data?.details[0]);
         }
