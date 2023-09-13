@@ -55,7 +55,7 @@ const LoginPage = () => {
           }
           setLoading(false);
         } catch (error) {
-          console.log("error", error);
+          // console.log("error", error);
           setTimeout(() => {
             window.location.replace("https://login.microsoftonline.com/ca56a4a5-e300-406a-98ff-7e36a0baac5b/oauth2/v2.0/logout")
           }, 2000)
