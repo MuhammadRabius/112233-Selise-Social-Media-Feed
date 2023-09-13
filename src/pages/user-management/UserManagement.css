@@ -109,44 +109,47 @@
 
 
 /* pagination */
-.pgn_ld_sb {
+.um_table .ant-table-wrapper .ant-table-pagination.ant-pagination {
     margin-top: 3%;
     margin-bottom: 2%;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: "MetLifeCircular-Medium", sans-serif;
 }
 
-.pgn_ld_sb .ant-pagination-item {
+.um_table .ant-pagination-item {
     min-width: 40px !important;
     height: 40px !important;
     border-radius: 19px !important;
     line-height: 38px !important;
+    border-color: #A7A8AA !important;
+
 }
 
-.pgn_ld_sb .ant-pagination-item-active {
+.um_table .ant-pagination-item-active {
     background: #007ABC !important;
     border-color: #007ABC !important;
     color: #FFFFFF !important;
     font-size: 14px !important;
 }
 
-.pgn_ld_sb .ant-pagination-options-quick-jumper {
+.um_table .ant-pagination-options-quick-jumper {
     margin-inline-start: 85px !important;
 }
 
-.pgn_ld_sb .ant-pagination-options-quick-jumper input {
+.um_table .ant-pagination-options-quick-jumper input {
     border-width: 2px !important;
     border-color: #007ABC !important;
 }
 
-.pgn_ld_sb .ant-select-selector {
+.um_table .ant-select-selector {
     margin-right: 45px;
     border-width: 2px !important;
     border-color: #007ABC !important;
 }
 
-.pgn_ld_sb .anticon-right {
+.um_table .anticon-right {
     color: #007ABC !important;
 }
 

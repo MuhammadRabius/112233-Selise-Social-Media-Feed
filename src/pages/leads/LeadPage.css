@@ -58,10 +58,21 @@
 }
 
 
+/* table_filtering */
+
+.filter_tableStatus{
+  margin-top: 10px;
+
+}
+.filter_select .ant-select-selector{  
+  border-color: #0090DA !important;
+  border-width:2px !important;
+}
+
 /*  Lead Submission table--  */
 
 .__l_sub_table {
-  margin-top: 40px;
+  margin-top: 15px;
 }
 
 /* TH */
@@ -287,55 +298,54 @@
 
 /* Pagination */
 
-.ant-table-wrapper .ant-table-pagination.ant-pagination {
-  margin: 16px 0;
-  justify-content: center;
-  margin-top: 5%;
-}
 
-.pgn_ld_sb {
+
+.lead-pagination {
   margin-top: 3%;
   margin-bottom: 2%;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: "MetLifeCircular-Medium",sans-serif;
 }
-/* .pgn_ld_sb .ant-pagination .ant-pagination-item a{
-  border: #007ABC !important
-} */
 
-.pgn_ld_sb .ant-pagination-item {
-  min-width: 70px !important;
+.lead-pagination .ant-pagination-item {
+  min-width: 40px !important;
   height: 40px !important;
   border-radius: 19px !important;
-  line-height: 45px !important;
-  border-color: var(--metlife-medium-gray) ;
-  border-width: 2px;
+  line-height: 38px !important;
+  border-color: #A7A8AA !important;
+
 }
 
-.pgn_ld_sb .ant-pagination-item-active {
+.lead-pagination .ant-pagination-item-active {
   background: #007ABC !important;
   border-color: #007ABC !important;
   color: #FFFFFF !important;
   font-size: 14px !important;
 }
 
-.pgn_ld_sb .ant-pagination-options-quick-jumper {
-  margin-inline-start: 285px !important;
+.lead-pagination .ant-pagination-options-quick-jumper {
+  margin-inline-start: 85px !important;
 }
 
-.pgn_ld_sb .ant-pagination-options-quick-jumper input {
+.lead-pagination .ant-pagination-options-quick-jumper input {
   border-width: 2px !important;
   border-color: #007ABC !important;
 }
 
-.pgn_ld_sb .anticon-right {
-  color: #007ABC !important;
+.lead-pagination .ant-select-selector {
+  margin-right: 45px;
+  border-width: 2px !important;
+  border-color: #007ABC !important;
+}
 
+.lead-pagination .anticon-right {
+  color: #007ABC !important;
 }
 
 /* @media screen and (max-width: 1366px) {
-  .pgn_ld_sb .ant-pagination-options-quick-jumper {
+  .lead-pagination .ant-pagination-options-quick-jumper {
     margin-inline-start: 350px !important;
   }
 } */

@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
-import { Table, Input, Pagination } from "antd";
+import { Table, Input, Pagination,Select } from "antd";
 import UploadModal from "./CustomModal/UploadModal";
 import LeadUpdateModal from "./LeadUpdateModal";
-import {
-  leadListWithPagination
-} from "./Service/lead_service";
+import { leadListWithPagination } from "./Service/lead_service";
 import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
 import { debounce } from "lodash";
@@ -25,8 +23,8 @@ const LeadsPage = () => {
   const frontPaginationNumber = p_Number + 1;
   // Table Sorting
   const [sortedInfo, setSortedInfo] = useState({});
-
-
+  const [tableStatus,setTableStatus]=useState('all');
+  console.log("tableStatus",tableStatus)
 
   // Search Component
   const debouncedSearch = debounce((s_value) => {
@@ -83,14 +81,17 @@ const LeadsPage = () => {
     setSortedInfo(sorter);
   };
 
-
   // Api Calling ----------
 
   const getApiCall = async () => {
     try {
       setLoading(true);
 
-      const leadDisplay = await leadListWithPagination(p_Number, p_Size,searchInput);
+      const leadDisplay = await leadListWithPagination(
+        p_Number,
+        p_Size,
+        searchInput
+      );
       setLeadListView(leadDisplay?.data?.data?.items);
       setTotal(leadDisplay?.data?.data?.totalItems);
       set_P_Number(...p_Number, leadDisplay?.data?.data?.pageNumber);
@@ -104,12 +105,10 @@ const LeadsPage = () => {
 
   useEffect(() => {
     const ac = new AbortController();
-        getApiCall();
+    getApiCall();
 
     return () => ac.abort();
   }, [callBack, p_Number, p_Size, searchInput]);
-
-  
 
   // Data Table Colum
 
@@ -137,7 +136,7 @@ const LeadsPage = () => {
       key: "lastName",
       sorter: (a, b) => a?.lastName?.length - b?.lastName?.length,
       sortOrder: sortedInfo.columnKey === "lastName" ? sortedInfo.order : null,
-      ellipsis: true,
+
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
     },
@@ -147,7 +146,7 @@ const LeadsPage = () => {
       key: "contactNo",
       sorter: (a, b) => a?.contactNo - b?.contactNo,
       sortOrder: sortedInfo.columnKey === "contactNo" ? sortedInfo.order : null,
-      ellipsis: true,
+
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
     },
@@ -167,11 +166,9 @@ const LeadsPage = () => {
       sorter: (a, b) => a?.districtName?.length - b?.districtName?.length,
       sortOrder:
         sortedInfo.columnKey === "districtName" ? sortedInfo.order : null,
-      ellipsis: true,
+
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
-
-      
     },
     {
       title: "Sources",
@@ -180,13 +177,9 @@ const LeadsPage = () => {
       sorter: (a, b) => a?.leadSourceName?.length - b?.leadSourceName?.length,
       sortOrder:
         sortedInfo.columnKey === "leadSourceName" ? sortedInfo.order : null,
-      ellipsis: true,
+
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
-      // sorter: {
-      //   compare: (a, b) => a.english - b.english,
-      //   multiple: 1,
-      // },
     },
     {
       title: "Status",
@@ -195,7 +188,7 @@ const LeadsPage = () => {
       sorter: (a, b) => a?.leadStatus?.length - b?.leadStatus?.length,
       sortOrder:
         sortedInfo.columnKey === "leadStatus" ? sortedInfo.order : null,
-      ellipsis: true,
+
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
       render: (leadStatus) => {
@@ -282,12 +275,37 @@ const LeadsPage = () => {
             </div>
           </div>
 
+          <div className="filter_tableStatus">
+            <Select
+             className="filter_select"
+              defaultValue={tableStatus}
+              style={{
+                width: "150px",
+              }}
+              onChange={(value) => setTableStatus(value)}
+              options={[
+                {
+                  value: "all",
+                  label: "All",
+                },
+                {
+                  value: "Sent To UAA",
+                  label: "Sent To UAA",
+                },
+                {
+                  value: "Not Verified",
+                  label: "Not Verified",
+                },
+              ]}
+            />
+          </div>
+
           {/* Lead Submission Table View---------- */}
           <div className="__l_sub_table">
             <div>
               <Table
                 size="small"
-                key={leadListView.totalItems}
+                rowKey={"1"}
                 loading={isLoading}
                 columns={columns}
                 dataSource={leadListView}
@@ -300,7 +318,7 @@ const LeadsPage = () => {
 
           {/* Lead Generation Pagination */}
 
-          <div className="pgn_ld_sb">
+          <div className="lead-pagination">
             <Pagination
               showQuickJumper
               current={frontPaginationNumber}
@@ -331,7 +349,7 @@ const LeadsPage = () => {
           )}
         </div>
       </Layout>
-                                                      
+
       {updateLeadModal && (
         <LeadUpdateModal
           key={singleID}

@@ -103,17 +103,20 @@ const UserManagement = (props) => {
     setSortedInfo(sorter);
   };
 
+  const serial = Array.from({length: 1000000},(_,index)=> ({sl : index+1}))
+  const dataWithSerial = user.map((item,index)=>({
+    ...item,
+    ...serial[index],
+  }))
+
   const columns = [
     {
       title: "SL",
-      dataIndex: "key",
-      key: "key",
-      sorter: (a, b) => a.id - b.id,
-      render: (id, record, index) => {
-        ++index;
-        return index;
-      },
-      showSorterTooltip: false,
+      dataIndex: "sl",
+      key: "sl",  
+      sorter: (a, b) => a.sl - b.sl,
+      sortOrder: sortedInfo.columnKey === "sl" ? sortedInfo.order : null,
+
     },
     {
       title: "Username",
@@ -121,7 +124,7 @@ const UserManagement = (props) => {
       key: "username",
       sorter: (a, b) => a?.username?.length - b?.username?.length,
       sortOrder: sortedInfo.columnKey === "username" ? sortedInfo.order : null,
-      ellipsis: true,
+    
     },
     {
       title: "Role",
@@ -129,7 +132,7 @@ const UserManagement = (props) => {
       key: "role",
       sorter: (a, b) => a?.role?.length - b?.role?.length,
       sortOrder: sortedInfo.columnKey === "role" ? sortedInfo.order : null,
-      ellipsis: true,
+      
     },
     {
       title: "Email",
@@ -137,7 +140,7 @@ const UserManagement = (props) => {
       key: "email",
       sorter: (a, b) => a?.email?.length - b?.email?.length,
       sortOrder: sortedInfo.columnKey === "email" ? sortedInfo.order : null,
-      ellipsis: true,
+     
     },
     {
       title: "Department",
@@ -146,7 +149,7 @@ const UserManagement = (props) => {
       sorter: (a, b) => a?.department?.length - b?.department?.length,
       sortOrder:
         sortedInfo.columnKey === "department" ? sortedInfo.order : null,
-      ellipsis: true,
+      
     },
     {
       title: "Location",
@@ -154,7 +157,7 @@ const UserManagement = (props) => {
       key: "location",
       sorter: (a, b) => a?.location?.length - b?.location?.length,
       sortOrder: sortedInfo.columnKey === "location" ? sortedInfo.order : null,
-      ellipsis: true,
+    
     },
     {
       title: "Action",
@@ -315,10 +318,11 @@ const UserManagement = (props) => {
               <div className="um_table">
                 <div>
                   <Table
-                    key={user.id}
+                    
+                    rowKey={user.id}
                     onChange={onTableChange}
                     columns={columns}
-                    dataSource={user}
+                    dataSource={dataWithSerial}
                     loading={isLoading}
                   />
                 </div>
