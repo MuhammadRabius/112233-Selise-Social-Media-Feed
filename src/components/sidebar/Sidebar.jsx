@@ -9,7 +9,7 @@ const Sidebar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const username = JSON.parse(localStorage.getItem("username"));
  
-
+   
   const onLogoutClick = (e) => {
     localStorage.clear();
     window.location.replace("https://login.microsoftonline.com/ca56a4a5-e300-406a-98ff-7e36a0baac5b/oauth2/v2.0/logout")
