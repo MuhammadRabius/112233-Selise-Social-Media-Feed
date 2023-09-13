@@ -49,7 +49,7 @@ steps:
         sonar.sourceEncoding=UTF-8
         sonar.exclusions=**/node_modules/**
         sonar.typescript.exclusions=**/node_modules/**
-      enableVeracodeScan: false
+      enableVeracodeScan: true
       veracodeServiceConnection: 'Veracode'
       veracodeAppProfile: '13639_BD - Unified Lead Management'
       veracodeSandboxName: 'ULM-FE'
