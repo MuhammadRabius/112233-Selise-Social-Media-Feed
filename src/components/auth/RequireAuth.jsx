@@ -9,8 +9,9 @@ function RequireAuth() {
   let location = useLocation();
 
   if (!isLogin) {
-    window.location.href = azureUrl;
+    window.location.replace(azureUrl);
     return null;
+    ;
   }
 
   return <Outlet />;
