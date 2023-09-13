@@ -20,17 +20,18 @@ parameters:
     default: 16.16
 
 steps:
-  # - task: CmdLine@2
-  #   inputs:
-  #     script: |
-  #       sudo npm install -g npm@latest
-  # - task: Npm@1
-  #   displayName: 'Cache Clean'
-  #   inputs:
-  #     command: custom
-  #     verbose: false
-  #     customCommand: 'cache clean --force'
-  #     workingDir: '$(Build.SourcesDirectory)'
+  #  - task: CmdLine@2
+  #    inputs:
+  #      script: |
+  #        sudo npm install -g npm@latest
+  #  - task: Npm@1
+  #    displayName: 'Cache Clean'
+  #    inputs:
+  #      command: custom
+  #      verbose: false
+  #      customCommand: 'cache clean --force'
+  #      workingDir: '$(Build.SourcesDirectory)'
+       
   - template: "./nodejs/ci.yml@templates"
     parameters:
       packageManager: npm
@@ -39,19 +40,19 @@ steps:
       projectName: 'ULM-CLient'
       componentName: 'ULM_Client'
       nodejsVersion: ${{parameters.nodejsVersion}}
-      disableUnitTests: true
-      disableSonarScan: true
+      disableUnitTests: false
+      disableSonarScan: false
       sonarInstance: 'SonarQube'
-      sonarProjectKey: ''
-      sonarProjectName: ''
+      sonarProjectKey: 'BangladeshART_13639_ulm_client'
+      sonarProjectName: 'BangladeshART_13639_ulm_client'
       sonarExtraProperties: |
         sonar.sourceEncoding=UTF-8
         sonar.exclusions=**/node_modules/**
         sonar.typescript.exclusions=**/node_modules/**
       enableVeracodeScan: false
       veracodeServiceConnection: 'Veracode'
-      veracodeAppProfile: ''
-      veracodeSandboxName: ''
+      veracodeAppProfile: '13639_BD - Unified Lead Management'
+      veracodeSandboxName: 'ULM-FE'
       veracodeFailBuildOnPolicyFail: true
       veracodeUploadDir: '.'
       acrARMConnection: '13639-ULM-ServiceConnection'
