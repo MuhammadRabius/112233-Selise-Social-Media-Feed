@@ -43,8 +43,8 @@ steps:
       disableUnitTests: false
       disableSonarScan: false
       sonarInstance: 'SonarQube'
-      sonarProjectKey: ''
-      sonarProjectName: ''
+      sonarProjectKey: 'BangladeshART_13639_ulm_client'
+      sonarProjectName: 'BangladeshART_13639_ulm_client'
       sonarExtraProperties: |
         sonar.sourceEncoding=UTF-8
         sonar.exclusions=**/node_modules/**
