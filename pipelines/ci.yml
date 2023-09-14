@@ -54,7 +54,7 @@ steps:
       veracodeAppProfile: '13639_BD - Unified Lead Management'
       veracodeSandboxName: 'ULM-FrontEnd'
       veracodeFailBuildOnPolicyFail: true
-      veracodeUploadDir: './build/static/js/main.*.js.map'
+      veracodeUploadDir: './build/static/js/*'
       acrARMConnection: '13639-ULM-ServiceConnection'
       acrHostName: 'acr13553s1dv01.azurecr.io'
       acrRepoName: 'ulm-app'
