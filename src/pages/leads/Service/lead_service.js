@@ -11,7 +11,7 @@ export const bulkExcelUpload = async (file, header) => {
   return await axios.post(`/api/leads/bulk`, file, header);
 };
 
-export const leadListWithPagination = async (pageNumber, pageSize,contactNumber) => {
+export const leadListWithPagination = async (pageNumber, pageSize,contactNumber,leadStatus) => {
   return await axios.get(
     `/api/leads?pageNumber=${pageNumber}&pageSize=${pageSize}&contactNumber=${contactNumber}`
   );
@@ -37,4 +37,8 @@ export const leadUpdateByID = async (id, payload) => {
 
 export const findFinicalAgent = async (faCode) => {
   return await axios.get(`api/leads/agents?policyNumber=${faCode}`);
+};
+
+export const getLeadStatus = async () => {
+  return await axios.get(`/api/leads/status`);
 };

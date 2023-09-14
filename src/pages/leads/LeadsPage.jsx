@@ -4,7 +4,7 @@ import Layout from "../../components/layout/Layout";
 import { Table, Input, Pagination,Select } from "antd";
 import UploadModal from "./CustomModal/UploadModal";
 import LeadUpdateModal from "./LeadUpdateModal";
-import { leadListWithPagination } from "./Service/lead_service";
+import { getLeadStatus, leadListWithPagination } from "./Service/lead_service";
 import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
 import { debounce } from "lodash";
@@ -23,8 +23,9 @@ const LeadsPage = () => {
   const frontPaginationNumber = p_Number + 1;
   // Table Sorting
   const [sortedInfo, setSortedInfo] = useState({});
-  const [tableStatus,setTableStatus]=useState('all');
-  console.log("tableStatus",tableStatus)
+  const [tableStatus,setTableStatus]=useState([]);
+  const [leadStatus,setLeadStatus]=useState("all" ? "" : 0)
+  
 
   // Search Component
   const debouncedSearch = debounce((s_value) => {
@@ -90,13 +91,16 @@ const LeadsPage = () => {
       const leadDisplay = await leadListWithPagination(
         p_Number,
         p_Size,
-        searchInput
+        searchInput,
+        leadStatus
       );
       setLeadListView(leadDisplay?.data?.data?.items);
       setTotal(leadDisplay?.data?.data?.totalItems);
       set_P_Number(...p_Number, leadDisplay?.data?.data?.pageNumber);
       set_P_Size(...p_Size, leadDisplay?.data?.data?.pageSize);
-
+      
+    
+     
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -105,10 +109,23 @@ const LeadsPage = () => {
 
   useEffect(() => {
     const ac = new AbortController();
+    // lead Table
     getApiCall();
 
+    // Lead Status
+    (async () => {
+      try {
+        setLoading( true);
+        const leadStatusDisplay = await getLeadStatus();
+        setTableStatus(leadStatusDisplay.data.data)
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+      }
+    })();
+   
     return () => ac.abort();
-  }, [callBack, p_Number, p_Size, searchInput]);
+  }, [callBack, p_Number, p_Size, searchInput,leadStatus]);
 
   // Data Table Colum
 
@@ -255,7 +272,6 @@ const LeadsPage = () => {
                 className="filterlead"
                 type="text"
                 name="fname"
-                // maxLength={13}
               />
               <span style={{ cursor: "pointer" }} onClick={onSearchClick}>
                 <i
@@ -277,27 +293,24 @@ const LeadsPage = () => {
 
           <div className="filter_tableStatus">
             <Select
-             className="filter_select"
-              defaultValue={tableStatus}
+              className="filter_select"
+              defaultValue={"all"}
               style={{
                 width: "150px",
               }}
-              onChange={(value) => setTableStatus(value)}
-              options={[
-                {
-                  value: "all",
-                  label: "All",
-                },
-                {
-                  value: "Sent To UAA",
-                  label: "Sent To UAA",
-                },
-                {
-                  value: "Not Verified",
-                  label: "Not Verified",
-                },
-              ]}
-            />
+              onChange={(value) => setLeadStatus(value)}
+            >
+              <Select.Option value={"all"}>All</Select.Option>
+              {tableStatus.map((_d) => {
+                return (
+                  <>
+                    <Select.Option key={_d.id} value={_d.id}>
+                      {_d.name}
+                    </Select.Option>
+                  </>
+                );
+              })}
+            </Select>
           </div>
 
           {/* Lead Submission Table View---------- */}
