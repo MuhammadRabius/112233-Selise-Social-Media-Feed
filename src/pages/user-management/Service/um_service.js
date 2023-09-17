@@ -1,23 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const getLocations = async () => {
-
-    return await axios.get(`/api/locations`);
-}
+  return await axios.get(`/api/locations`);
+};
 export const getRole = async () => {
-
-    return await axios.get(`/api/roles`);
-}
+  return await axios.get(`/api/roles`);
+};
 export const getDepartment = async () => {
-
-    return await axios.get(`/api/departments`);
-}
+  return await axios.get(`/api/departments`);
+};
 
 export const createUser = async (payload) => {
-
-    return await axios.post(`/api/users`,payload);
-}
+  return await axios.post(`/api/users`, payload);
+};
 export const userList = async () => {
-
-    return await axios.get(`/api/users`);
-}
+  return await axios.get(`/api/users`);
+};

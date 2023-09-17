@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Modal, Form, Upload, Button, Spin, message } from "antd";
-import { UploadOutlined, LoadingOutlined } from "@ant-design/icons";
+import { Modal, Form, Upload, Button, message } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import "./UploadModal.css";
 import { bulkExcelUpload } from "../Service/lead_service";
 import { ErrorExcelFileDownload } from "../../../global_state/action";
@@ -18,20 +18,15 @@ const UploadModal = ({
   const { Dragger } = Upload;
   const [isLoading, setLoading] = useState(false);
 
-  // Spin
-  
-  // Modal X btn-----
   const handleCancel = () => {
     form.resetFields();
     onCancel();
   };
 
-  // File Upload Content
   const onFinish = async (values) => {
     const data = values?.file?.fileList[0]?.originFileObj;
 
     try {
-      // Create a new FormData object and append the file to it
       setLoading(true);
       if (data) {
         const formData = new FormData();
@@ -87,7 +82,6 @@ const UploadModal = ({
                   required: true,
                   message: "Please select an Excel file to upload!",
                 },
-                
               ]}
             >
               <Dragger

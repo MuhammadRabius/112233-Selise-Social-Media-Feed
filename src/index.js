@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
-// import { HashRouter} from 'react-router-dom';
 import axios from "axios";
 import App from "./App";
 import "./index.css";
@@ -11,9 +10,7 @@ import "primereact/resources/primereact.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 //axios.defaults.baseURL =  "http://10.69.13.7:8200";
 axios.defaults.baseURL =  "https://dev.ulm.api.metlife.com.bd";
-// axios.defaults.baseURL =  "http://10.40.93.204:8200";
-// axios.defaults.baseURL =  "http://10.69.13.7:8200";
-// axios.defaults.baseURL =  "http://10.40.92.249:8200";
+
 
 
 axios.defaults.headers.common["Authorization"] =

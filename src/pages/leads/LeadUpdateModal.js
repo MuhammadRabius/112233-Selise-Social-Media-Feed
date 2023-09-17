@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Form, Input, Select, Button, message, Spin } from "antd";
+import { Modal, Form, Input, Select, Button, message } from "antd";
 import {
   getDistrict,
   leadListByID,
@@ -15,7 +15,7 @@ const LeadUpdateModal = ({
   setUpdateLeadModal,
   callBack,
   setCallBack,
-  isLoading
+  isLoading,
 }) => {
   const [form] = Form.useForm();
   const nameRegex = /^[\w\s!@#$%^&*()\-+=<>?/,.:;'"[\]{}|~]{5,350}$/;
@@ -25,7 +25,7 @@ const LeadUpdateModal = ({
   };
 
   const { TextArea } = Input;
-  const [district, setDistrict] = useState("")
+  const [district, setDistrict] = useState("");
   const [districtAPI, setDistrictAPI] = useState([]);
   const [loading, setLoading] = useState(false);
   const [listViewData, setListbyIdData] = useState({
@@ -42,11 +42,6 @@ const LeadUpdateModal = ({
     remarks: "",
   });
 
-
-
-
-  // payloadContactMagic
-
   const phonePrefixZero =
     listViewData?.contactNo?.charAt(0) === "0" || null
       ? `880${listViewData?.contactNo?.substring(1)}`
@@ -56,9 +51,6 @@ const LeadUpdateModal = ({
       ? `${listViewData?.contactNo}`
       : phonePrefixZero;
 
-
-  // District ----
- 
   const onDistrictChange = (value) => {
     setListbyIdData({ ...listViewData, districtName: value });
   };
@@ -67,7 +59,6 @@ const LeadUpdateModal = ({
   const payload = {
     customerFirstname: listViewData?.firstName,
     customerLastname: listViewData?.lastName,
-    // customerContactNo: listViewData?.contactNo,
     customerContactNo: contactNumber,
     district: listViewData?.districtName,
     customerEmail: listViewData?.email,
@@ -77,12 +68,11 @@ const LeadUpdateModal = ({
     remarks: listViewData?.remarks,
   };
 
-  // Update All and Exit Call
   const onFinish = async () => {
     if (
       listViewData?.firstName &&
       contactNumber?.length === 13 &&
-      listViewData?.districtName 
+      listViewData?.districtName
     ) {
       try {
         setLoading(true);
@@ -101,17 +91,14 @@ const LeadUpdateModal = ({
           message.error(error.response.data.details[0]);
       }
     } else {
-      listViewData?.districtName === null ?
-       message.error(
-        "Please insert District"
-      ) :
-      message.error(
-        "Please input valid mobile number. Must be 10 digit exclude 880"
-      );
+      listViewData?.districtName === null
+        ? message.error("Please insert District")
+        : message.error(
+            "Please input valid mobile number. Must be 10 digit exclude 880"
+          );
     }
   };
 
-  // Data Fetching by ID
   useEffect(() => {
     const ac = new AbortController();
 
@@ -129,7 +116,7 @@ const LeadUpdateModal = ({
             lastName: leadDisplay?.data?.data?.lastName,
             contactNo: leadDisplay?.data?.data?.contactNo,
             email: leadDisplay?.data?.data?.email,
-            districtName : leadDisplay?.data?.data?.districtName,
+            districtName: leadDisplay?.data?.data?.districtName,
             customerPolicyNumber: leadDisplay?.data?.data?.customerPolicyNumber,
             faCode: leadDisplay?.data?.data?.faCode,
             leadSourceName: leadDisplay?.data?.data?.leadSourceName,
@@ -137,10 +124,9 @@ const LeadUpdateModal = ({
             newFaRequest: leadDisplay?.data?.data?.newFaRequest,
             remarks: leadDisplay?.data?.data?.remarks,
           });
-          setDistrict(leadDisplay?.data?.data?.districtName)
-        };
+          setDistrict(leadDisplay?.data?.data?.districtName);
+        }
         setLoading(false);
-        
       } catch (err) {
         setLoading(false);
       }
@@ -159,19 +145,20 @@ const LeadUpdateModal = ({
         onCancel={handleCancel}
         footer={false}
       >
-      {isLoading ? (
-        <Loader isLoading={isLoading} />
-      ) :
+        {isLoading ? (
+          <Loader isLoading={isLoading} />
+        ) : (
           <div className="_modal_body">
             <Form form={form} onFinish={onFinish} autoComplete="off">
-              <Form.Item name="firstName" validateFirst={true} 
-              rules={[
-                {
-                  pattern: nameRegex,
-                  message:
-                    "Name must be 3 to 350 characters long ",
-                },
-              ]}
+              <Form.Item
+                name="firstName"
+                validateFirst={true}
+                rules={[
+                  {
+                    pattern: nameRegex,
+                    message: "Name must be 3 to 350 characters long ",
+                  },
+                ]}
               >
                 {" "}
                 <Input
@@ -206,7 +193,6 @@ const LeadUpdateModal = ({
                   {" "}
                   <Input
                     addonBefore="880"
-                    // className="input_group"
                     maxLength={10}
                     placeholder="* Mobile Number"
                     value={phonePrefix(listViewData?.contactNo)}
@@ -219,13 +205,15 @@ const LeadUpdateModal = ({
                   />
                 </Form.Item>
               ) : (
-                <Form.Item name="contactNo"
-                 rules={[
-                  {
-                    pattern: /^(?!880|0)\d{10}$/,
-                    message: "Phone number must be 10 digit, exclude 880",
-                  },
-                ]}>
+                <Form.Item
+                  name="contactNo"
+                  rules={[
+                    {
+                      pattern: /^(?!880|0)\d{10}$/,
+                      message: "Phone number must be 10 digit, exclude 880",
+                    },
+                  ]}
+                >
                   {" "}
                   <Input
                     addonBefore="880"
@@ -240,7 +228,7 @@ const LeadUpdateModal = ({
                       })
                     }
                   />
-                  { 
+                  {
                     <small style={{ color: "red" }}>
                       Mobile number must be 10 digits, exclude 880. i.e
                       14XXXXXXXX
@@ -248,7 +236,6 @@ const LeadUpdateModal = ({
                   }
                 </Form.Item>
               )}
-              
 
               <Form.Item name="email">
                 {" "}
@@ -266,7 +253,7 @@ const LeadUpdateModal = ({
               ) : null}
 
               <Select
-              className="districtChange"
+                className="districtChange"
                 allowClear
                 showSearch
                 value={listViewData?.districtName}
@@ -322,7 +309,7 @@ const LeadUpdateModal = ({
               </Form.Item>
             </Form>
           </div>
-              }
+        )}
       </Modal>
     </>
   );

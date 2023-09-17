@@ -12,27 +12,32 @@ import {
   createUser,
 } from "./Service/um_service";
 
-const UserManagement = (props) => {
+const UserManagement = ({ isLoad,values}) => {
   const { Option } = Select;
   const [form] = Form.useForm();
   const [callBack, setCallBack] = useState(false);
-  const [isLoading, setLoading] = useState(
-    props.isLoad === "false" ? false : true
-  );
-
-  // Spin
-  const antIcon = <Loader isLoading={true} />;
-
-  // Data Fetching
+  const [isLoading, setLoading] = useState(isLoad === "false" ? false : true);
   const [role, setRole] = useState([]);
   const [department, setDepartment] = useState([]);
   const [location, setLocation] = useState([]);
   const [user, setUser] = useState([]);
-
-  // Search Compnent
-  const onSearchClick = (e) => {
-    // console.log("search click");
+  const [sortedInfo, setSortedInfo] = useState({});
+  
+  const onTableChange = (sorter) => {
+    setSortedInfo(sorter);
   };
+  
+  const serial = Array.from({ length: 1000000 }, (_, index) => ({
+    sl: index + 1,
+  }));
+  const dataWithSerial = user.map((item, index) => ({
+    ...item,
+    ...serial[index],
+  }));
+  
+  const antIcon = <Loader isLoading={true} />;
+ 
+  const onSearchClick = (e) => {};
   const onFinish = (values) => {
     const payload = {
       username: values?.username,
@@ -41,11 +46,11 @@ const UserManagement = (props) => {
       departmentId: values?.department,
       locationId: values?.location,
     };
+    
 
     try {
       (async () => {
-        setLoading(props.isLoad === "false" ? false : true);
-
+        setLoading(isLoad === "false" ? false : true);
         const res = await createUser(payload);
         message.success(res.data.message);
         setCallBack(!callBack);
@@ -54,27 +59,15 @@ const UserManagement = (props) => {
       })();
     } catch (error) {
       setLoading(false);
-      console.log(error.message);
-      // err.respose.data.message && message.error(err.respose.data.message)
     }
   };
 
-  // Page Pagination
-  const [first, setFirst] = useState(0);
-  const [rows, setRows] = useState(10);
-
-  const onPageChange = (event) => {
-    setFirst(event.first);
-    setRows(event.rows);
-  };
-
-  //  api calling ---
   useEffect(() => {
     const ac = new AbortController();
 
     (async () => {
       try {
-        setLoading(props.isLoad === "false" ? false : true);
+        setLoading(isLoad === "false" ? false : true);
         //location dropdown calling
         const districtDisplay = await getLocations();
         setLocation(districtDisplay.data.data);
@@ -96,27 +89,13 @@ const UserManagement = (props) => {
     return () => ac.abort();
   }, [callBack]);
 
-  // sorting
-  const [sortedInfo, setSortedInfo] = useState({});
-  // Table Data
-  const onTableChange = (pagination, filters, sorter, extra) => {
-    setSortedInfo(sorter);
-  };
-
-  const serial = Array.from({length: 1000000},(_,index)=> ({sl : index+1}))
-  const dataWithSerial = user.map((item,index)=>({
-    ...item,
-    ...serial[index],
-  }))
-
   const columns = [
     {
       title: "SL",
       dataIndex: "sl",
-      key: "sl",  
+      key: "sl",
       sorter: (a, b) => a.sl - b.sl,
       sortOrder: sortedInfo.columnKey === "sl" ? sortedInfo.order : null,
-
     },
     {
       title: "Username",
@@ -124,7 +103,6 @@ const UserManagement = (props) => {
       key: "username",
       sorter: (a, b) => a?.username?.length - b?.username?.length,
       sortOrder: sortedInfo.columnKey === "username" ? sortedInfo.order : null,
-    
     },
     {
       title: "Role",
@@ -132,7 +110,6 @@ const UserManagement = (props) => {
       key: "role",
       sorter: (a, b) => a?.role?.length - b?.role?.length,
       sortOrder: sortedInfo.columnKey === "role" ? sortedInfo.order : null,
-      
     },
     {
       title: "Email",
@@ -140,7 +117,6 @@ const UserManagement = (props) => {
       key: "email",
       sorter: (a, b) => a?.email?.length - b?.email?.length,
       sortOrder: sortedInfo.columnKey === "email" ? sortedInfo.order : null,
-     
     },
     {
       title: "Department",
@@ -149,7 +125,6 @@ const UserManagement = (props) => {
       sorter: (a, b) => a?.department?.length - b?.department?.length,
       sortOrder:
         sortedInfo.columnKey === "department" ? sortedInfo.order : null,
-      
     },
     {
       title: "Location",
@@ -157,7 +132,6 @@ const UserManagement = (props) => {
       key: "location",
       sorter: (a, b) => a?.location?.length - b?.location?.length,
       sortOrder: sortedInfo.columnKey === "location" ? sortedInfo.order : null,
-    
     },
     {
       title: "Action",
@@ -166,6 +140,7 @@ const UserManagement = (props) => {
       render: (states) => <NavLink>Edit</NavLink>,
     },
   ];
+
 
   return (
     <>
@@ -339,7 +314,6 @@ const UserManagement = (props) => {
               <div className="um_table">
                 <div>
                   <Table
-                    
                     rowKey={user.id}
                     onChange={onTableChange}
                     columns={columns}

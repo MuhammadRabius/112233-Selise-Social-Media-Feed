@@ -75,14 +75,12 @@ const Report = ({isLoad}) => {
     }
   };
 
-  //  api calling ---
   useEffect(() => {
     const ac = new AbortController();
 
     (async () => {
       try {
         setLoading(isLoad === "false" ? false : true);
-        //
         const leadSource = await getSource();
         setLeadSource(leadSource?.data?.data);
 

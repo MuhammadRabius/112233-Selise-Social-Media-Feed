@@ -14,15 +14,7 @@
     background-size: 100%;
 }
 
-/* .login-card {
-    width: 450px;
-    height: 450px;
-    margin-top: 7%;
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    box-shadow: 2px 2px 14px #00000029;
-    border-radius: 8px;
-    opacity: 1;
-} */
+
 
 .login-card {
     width: 100%;
@@ -30,37 +22,32 @@
     display: flex;
     justify-content: center;
     align-items: center;
-   
 
 }
-
-
 
 .metlife-logo {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 25px;
-  
-   
+
+
 }
-.sign_text{
+
+.sign_text {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 10px;
+    font-family: "MetLifeCircular-Bold", sans-serif;
+
 }
-/* .sign_text{
-  text-align: center;
-  font-size: 18px;
-  font-family: "MetLifeCircular-Bold",sans-serif;
-  font-weight: bold;
-  letter-spacing: 1.1px;
-} */
-.enter_text{
-   
+
+
+.enter_text {
+
     text-align: center;
-    font-family: "NotoSans-Bold",sans-serif;
+    font-family: "NotoSans-Bold", sans-serif;
     font-size: 14px;
 }
 
@@ -91,16 +78,16 @@
     border: 0;
 }
 
-.__lw_text{
+.__lw_text {
     color: #6E6E6E;
     font-size: 14px;
-    font-style: "NotoSans-Regular",sans-serif;
+    font-style: "NotoSans-Regular", sans-serif;
 
 }
-._lw_text{
+
+._lw_text {
     color: #000000;
     font-weight: bolder;
-    font-style: "NotoSans-Regular",sans-serif;
+    font-style: "NotoSans-Regular", sans-serif;
 
 }
-

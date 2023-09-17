@@ -1,6 +1,5 @@
 @import url('../../App.css');
 
-/* Upper Content Search and Add Btn */
 
 .lead_S_Btn {
   margin-top: 25px;
@@ -15,7 +14,7 @@
   border-width: 0 0 2px;
   border-image: linear-gradient(to right, #0090DA, #A4CE4E) 1;
   border-style: solid;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -42,7 +41,7 @@
   height: 21px;
   color: #0090DA;
   opacity: 1;
-  
+
 }
 
 .btn_group {
@@ -61,29 +60,29 @@
 }
 
 
-/* table_filtering */
 
-.filter_tableStatus{
+.filter_tableStatus {
   margin-top: 10px;
 
 }
-.filter_select .ant-select-selector{  
+
+.filter_select .ant-select-selector {
   box-shadow: none !important;
   border-inline-end-width: 0px !important;
   border-width: 0px 0px 2px 0px !important;
   border-color: #0090DA !important;
   border-radius: 0px !important;
-  font-family: "NotoSans-Bold",sans-serif;
+  font-family: "NotoSans-Bold", sans-serif;
   height: 30px !important;
 }
 
-/*  Lead Submission table--  */
+
 
 .__l_sub_table {
   margin-top: 15px;
 }
 
-/* TH */
+
 .ant-table-wrapper .ant-table-thead>tr>th {
   background: white !important;
   border-bottom: 1px solid #A7A8AA !important;
@@ -97,7 +96,7 @@
   color: #007ABC;
 }
 
-/* TR */
+
 .ant-table-wrapper .ant-table-tbody>tr>td {
 
   border-bottom: 1px solid #A7A8AA !important;
@@ -114,7 +113,6 @@
 
 
 
-/* Modal */
 .addLeadModal .ant-modal-content {
   width: 574px;
   padding: 0px 0px 16px 0px;
@@ -262,9 +260,11 @@
   border-color: #007ABC !important;
   border-inline-end-width: 2px !important;
 }
-.ant-input-data-count{
+
+.ant-input-data-count {
   left: 0 !important;
 }
+
 .sub_btn_group {
   display: flex;
   justify-content: flex-end;
@@ -289,20 +289,20 @@
 
 }
 
-/* Ant Table */
 
-.ant-table.ant-table-small .ant-table-thead tr th{
+.ant-table.ant-table-small .ant-table-thead tr th {
   color: var(--metlife-darkest-gray);
-  font-family: "NotoSans-Bold",sans-serif;
-  
-}
-.ant-table-cell{
-  color: var(--metlife-darkest-gray);
-  font-family: "NotoSans-Regular",sans-serif;
+  font-family: "NotoSans-Bold", sans-serif;
 
 }
 
-/* Pagination */
+.ant-table-cell {
+  color: var(--metlife-darkest-gray);
+  font-family: "NotoSans-Regular", sans-serif;
+
+}
+
+
 
 
 
@@ -312,7 +312,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "MetLifeCircular-Medium",sans-serif;
+  font-family: "MetLifeCircular-Medium", sans-serif;
 }
 
 .lead-pagination .ant-pagination-item {
@@ -349,9 +349,3 @@
 .lead-pagination .anticon-right {
   color: #007ABC !important;
 }
-
-/* @media screen and (max-width: 1366px) {
-  .lead-pagination .ant-pagination-options-quick-jumper {
-    margin-inline-start: 350px !important;
-  }
-} */

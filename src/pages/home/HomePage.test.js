@@ -1,17 +1,17 @@
 import { BrowserRouter as Route } from "react-router-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
 import HomePage from "./HomePage";
-import userEvent from '@testing-library/user-event';
-import { DatePicker } from 'antd';
+import userEvent from "@testing-library/user-event";
+import { DatePicker } from "antd";
 import { findRenderedDOMComponentWithClass } from "react-dom/test-utils";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { getLeadSource } from "./Service/homepage_action";
-const axios = require('axios');
-const app = require('./Service/homepage_action');
-const request = require('supertest');
-jest.mock('axios');
-axios.get.mockResolvedValue({ data: { message: 'Mocked response' }});
+const axios = require("axios");
+const app = require("./Service/homepage_action");
+const request = require("supertest");
+jest.mock("axios");
+axios.get.mockResolvedValue({ data: { message: "Mocked response" } });
 describe("HomePage", () => {
   it("render HomePage", () => {
     render(
@@ -37,13 +37,12 @@ describe("HomePage", () => {
   });
 });
 
-// DatePicker
 describe("RangePicker", () => {
   it("should be possible to set a start and end date", async () => {
     const onChange = jest.fn();
     render(
       <Route>
-        <HomePage isLoad={"false"} onChange ={onChange}/>
+        <HomePage isLoad={"false"} onChange={onChange} />
       </Route>
     );
 
@@ -74,21 +73,15 @@ describe("RangePicker", () => {
 
     const input = screen.getByPlaceholderText("End date");
     const disabledDateStr = dayjs().add(-2, "days").format("YYYY-MM-DD");
-  
 
     fireEvent.change(input, { target: { value: disabledDateStr } });
     fireEvent.keyDown(input, { key: "Enter" });
 
     expect(onChange).not.toHaveBeenCalled();
-    
   });
 });
 
-
-// Graph Testing
-
 describe("render HomePage barchart", () => {
-  
   it("BarGraph", () => {
     render(
       <Route>
@@ -99,7 +92,7 @@ describe("render HomePage barchart", () => {
     const container = screen.getByTestId("chartContent-mock");
     expect(container).toHaveClass("chart_section");
   });
-  
+
   // it("BarGraph", () => {
 
   //   const testData = [
@@ -107,7 +100,7 @@ describe("render HomePage barchart", () => {
   //     {leadSourceTypeName: "Paid", totalLeadSentToUaa: 2078},
   //     {leadSourceTypeName: "Agent Led", totalLeadSentToUaa: 0}
   //   ];
-    
+
   //   render(
   //     <Route>
   //       <HomePage isLoad={"false"} data={testData}/>
@@ -129,9 +122,7 @@ describe("render HomePage barchart", () => {
   // });
 });
 
-// Lead Table Testing
 describe("render HomePage leadTable", () => {
-  
   it("tableContent", () => {
     render(
       <Route>
@@ -149,17 +140,15 @@ describe("render HomePage leadTable", () => {
       </Route>
     );
 
-    const SLNo = screen.getByText('SL No.');
-    const Source = screen.getByText('Source');
-    const ToMyLife = screen.getByText('To MyLife');
-    const Pending = screen.getByText('Pending');
-    const Total = screen.getByText('Total');
+    const SLNo = screen.getByText("SL No.");
+    const Source = screen.getByText("Source");
+    const ToMyLife = screen.getByText("To MyLife");
+    const Pending = screen.getByText("Pending");
+    const Total = screen.getByText("Total");
     expect(SLNo).toBeInTheDocument();
     expect(Source).toBeInTheDocument();
     expect(ToMyLife).toBeInTheDocument();
     expect(Pending).toBeInTheDocument();
     expect(Total).toBeInTheDocument();
   });
-
 });
-

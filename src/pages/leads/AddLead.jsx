@@ -33,7 +33,6 @@ const AddLeadModal = ({
   const { TextArea } = Input;
   const handleCancel = () => {
     form.resetFields();
-    // setFaStatus(null);
     setFaCode(0);
     setAddLead(false);
   };
@@ -47,13 +46,11 @@ const AddLeadModal = ({
   const [email, setEmail] = useState("");
   const [district, setDistrict] = useState("");
   const [findPolicy, setPolicyNumber] = useState("");
-  const [faStatus, setFaStatus] = useState(null);
   const [faYesNO, setFaYesNo] = useState("yes");
   const newFaReq = faYesNO === "yes" ? true : false;
   const [faCode, setFaCode] = useState(0);
   const [remark, setRemak] = useState("");
 
-  
   const handleName = (e) => {
     setFName(e.target.value);
   };
@@ -71,37 +68,31 @@ const AddLeadModal = ({
   const handleRemrk = (e) => {
     setRemak(e.target.value);
   };
-  // District ----
+
   const onDistrictChange = (values) => {
     setDistrict(values);
   };
 
-  // Radio FAQ
   const onFAQChange = (e) => {
     setFaYesNo(e?.target?.value);
   };
 
-  // Find FinicalAgent By Policy Number
   const onPolicyFind = async (_v) => {
     try {
       if (findPolicy) {
         setLoading(true);
         const faRes = await findFinicalAgent(findPolicy);
         setFaCode(faRes?.data?.data?.FaCode);
-        // setFaStatus(faRes?.data?.data?.active);
         setLoading(false);
       }
     } catch (err) {
       setLoading(false);
-      // console.log(err);
     }
   };
 
-  // Submission payload-------------
   const leadSubPayload = {
     customerFirstname: fname || "",
     customerLastname: lastname || "",
-    // customerContactNo: phoneNumber,
     customerContactNo: `880${phoneNumber}`,
     district: district,
     customerEmail: email || "",
@@ -111,10 +102,8 @@ const AddLeadModal = ({
     remarks: remark || "",
   };
 
-  // Submit All and Exit Call
   const onFinish = async (btnTypes, values) => {
-
-    if (fname && phoneNumber.length ===10 && district) {
+    if (fname && phoneNumber.length === 10 && district) {
       try {
         setLoading(true);
         const sendSingleLead = await submitLeadManual(leadSubPayload);
@@ -126,7 +115,7 @@ const AddLeadModal = ({
           setAddLead(false);
         }
         setFaCode(0);
-        setPolicyNumber("")
+        setPolicyNumber("");
       } catch (error) {
         setLoading(false);
         error?.response?.data?.details[0] &&
@@ -134,8 +123,6 @@ const AddLeadModal = ({
       }
     }
   };
-
-  // Api Calling ----------
 
   useEffect(() => {
     const ac = new AbortController();
@@ -188,8 +175,7 @@ const AddLeadModal = ({
                 },
                 {
                   pattern: nameRegex,
-                  message:
-                    "Name must be 3 to 350 characters long ",
+                  message: "Name must be 3 to 350 characters long ",
                 },
               ]}
             >
@@ -208,8 +194,7 @@ const AddLeadModal = ({
               rules={[
                 {
                   pattern: nameRegex,
-                  message:
-                    "Name must be 3 to 350 characters long ",
+                  message: "Name must be 3 to 350 characters long ",
                 },
               ]}
             >
@@ -237,7 +222,6 @@ const AddLeadModal = ({
               ]}
             >
               <Input
-                // className='contactNumber'
                 addonBefore="880"
                 maxLength={10}
                 placeholder={`* 17XXXXXXXX`}
@@ -337,20 +321,34 @@ const AddLeadModal = ({
                 ) : null}
               </Spin>
             </Form.Item>
-            {(faCode === null || faCode === "")   ? (
+            {faCode === null || faCode === "" ? (
               <div style={{ marginBottom: "2px" }}>
-                <p style={{ color: "#6E6E6E" ,textAlign:"end"}}>
-                  FA Status :{" "}
-                  <Tag color="#f50">FA Inactive</Tag>
+                <p style={{ color: "#6E6E6E", textAlign: "end" }}>
+                  FA Status : <Tag color="#f50">FA Inactive</Tag>
                 </p>
-                <Input value={
-                  (faCode === null || faCode === "")
-                    ? "New FA will be assigned"
-                    : null
-                } placeholder="FA Code" className="input_group" readOnly  style={{marginBottom: "15px" }}/>
+                <Input
+                  value={
+                    faCode === null || faCode === ""
+                      ? "New FA will be assigned"
+                      : null
+                  }
+                  placeholder="FA Code"
+                  className="input_group"
+                  readOnly
+                  style={{ marginBottom: "15px" }}
+                />
               </div>
             ) : null}
-            {faCode === 0  ? <Form.Item> <Input placeholder="FA Code" className="input_group"readOnly/> </Form.Item>:null}
+            {faCode === 0 ? (
+              <Form.Item>
+                {" "}
+                <Input
+                  placeholder="FA Code"
+                  className="input_group"
+                  readOnly
+                />{" "}
+              </Form.Item>
+            ) : null}
 
             <Form.Item label="" name="remark">
               <TextArea

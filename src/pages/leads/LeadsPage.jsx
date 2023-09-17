@@ -10,25 +10,22 @@ import AddLeadModal from "./AddLead";
 import { debounce } from "lodash";
 import { SearchOutlined } from "@ant-design/icons";
 
-
 const LeadsPage = () => {
   const [isLoading, setLoading] = useState(false);
   const [callBack, setCallBack] = useState(false);
-  // Filter Issues
+
   const [searchInput, setSearchInput] = useState("");
 
-  // setup Field Data from API
   const [leadListView, setLeadListView] = useState([]);
   const [p_Number, set_P_Number] = useState(0);
   const [p_Size, set_P_Size] = useState(10);
   const [totalPages, setTotal] = useState(0);
   const frontPaginationNumber = p_Number + 1;
-  // Table Sorting
+
   const [sortedInfo, setSortedInfo] = useState({});
   const [tableStatus, setTableStatus] = useState([]);
   const [leadStatusId, setLeadStatusId] = useState("all" ? "" : 0);
 
-  // Search Component
   const debouncedSearch = debounce((s_value) => {
     setSearchInput(s_value);
     set_P_Number(0);
@@ -41,21 +38,15 @@ const LeadsPage = () => {
     getApiCall();
   };
 
-  // Modal Section ----------
-
-  // Bulk component
   const [isBulkModal, setBulkUpModal] = useState(false);
   const showBUModal = () => {
     setBulkUpModal(true);
   };
 
-  // add lead component
   const [isAddLead, setAddLead] = useState(false);
   const showADModal = () => {
     setAddLead(true);
   };
-
-  // Update Single Lead ModaL
 
   const [updateLeadModal, setUpdateLeadModal] = useState(false);
   const [singleID, setSingleID] = useState(0);
@@ -69,20 +60,15 @@ const LeadsPage = () => {
     setUpdateLeadModal(false);
   };
 
-  // setIndexNumber
-
   const onPaginationChange = (pageNumber, pageSize) => {
     const pageNum = pageNumber - 1;
     set_P_Number(pageNum);
     set_P_Size(pageSize);
   };
 
-  // Table Data
   const onTableChange = (pagination, filters, sorter, extra) => {
     setSortedInfo(sorter);
   };
-
-  // Api Calling ----------
 
   const getApiCall = useCallback(async () => {
     try {
@@ -110,12 +96,9 @@ const LeadsPage = () => {
 
   useEffect(() => {
     const ac = new AbortController();
-    // lead Table
     getApiCall();
     return () => ac.abort();
   }, [getApiCall]);
-
-  // Data Table Colum
 
   const columns = [
     {
@@ -251,7 +234,6 @@ const LeadsPage = () => {
         <div className="lead-container">
           <p className="bt_Text">Lead Submission</p>
 
-          {/* Add and Search Section-------------------------- */}
           <div className="lead_S_Btn">
             <div className="lead-search">
               <Input
@@ -262,8 +244,7 @@ const LeadsPage = () => {
                 name="fname"
               />
               <span style={{ cursor: "pointer" }} onClick={onSearchClick}>
-                
-              <SearchOutlined className="pi-search"/>
+                <SearchOutlined className="pi-search" />
               </span>
             </div>
 
@@ -299,7 +280,6 @@ const LeadsPage = () => {
             </Select>
           </div>
 
-          {/* Lead Submission Table View---------- */}
           <div className="__l_sub_table">
             <div>
               <Table

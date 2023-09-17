@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-// date generate
+
 
 export const getDate = (d) => {
   const date = new Date(d);
@@ -22,7 +22,6 @@ export const getGrapFillColor = (typeName) => {
   }
 };
 
-// Update Modal Mobile Number CharAt Validation
 
 export const phonePrefix = (prefix) => {
   switch (prefix.charAt(0)) {
@@ -38,7 +37,6 @@ export const phonePrefix = (prefix) => {
 };
 
 
-// Report "Lead Data Count Status"
 
 export const LeadCountStatus = (type) => {
   switch (type) {
@@ -53,7 +51,6 @@ export const LeadCountStatus = (type) => {
   }
 };
 
-//  Error Excel File base64
 export const ErrorExcelFileDownload = (base64) => {
   var mediaType =
     "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,";
@@ -68,10 +65,8 @@ export const ErrorExcelFileDownload = (base64) => {
   document.getElementById("abc")?.click();
 };
 
-// Report Excel Download
 
 export const ReportExcelDownload = (file) => {
-  // const url = window.URL.createObjectURL(new Blob([res?.data]));
   const url = window.URL.createObjectURL(new Blob([file]));
   const link = document.createElement("a");
   link.href = url;

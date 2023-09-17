@@ -14,18 +14,16 @@ import {
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { DatePicker, message } from "antd";
-import "./homePage.css";
 import { getGrapFillColor } from "../../global_state/action";
 import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
 import Loader from "../../components/loader/Loader";
+import "./homePage.css";
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 
-const HomePage = ({isLoad,onChange,disabledDate,testData}) => {
+const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
   const dateFormat = "YYYY-MM-DD";
-  const [isLoading, setLoading] = useState(
-    isLoad === "false" ? false : true
-  );
+  const [isLoading, setLoading] = useState(isLoad === "false" ? false : true);
   const [tData, setTData] = useState([]);
   const [gData, setGData] = useState([]);
   const [toDate, setToDate] = useState(dayjs().format("YYYY-MM-DD"));
@@ -33,18 +31,14 @@ const HomePage = ({isLoad,onChange,disabledDate,testData}) => {
     dayjs().startOf("month").format("YYYY-MM-DD")
   );
 
-  // Leads Table----y
   const onDateChange = (date, dateString) => {
     setToDate(dateString[1]);
     setFormDate(dateString[0]);
   };
 
-  // Lead Source table Index
   const renderIndexColum = (rowIndex, column) => {
     return column.rowIndex + 1;
   };
-
-  // Data fetching on table
 
   useEffect(() => {
     const ac = new AbortController();
@@ -81,26 +75,24 @@ const HomePage = ({isLoad,onChange,disabledDate,testData}) => {
           <>
             <div className="homePage-content" data-testid="dashboard-mock">
               {" "}
-              <p className="bt_Text" data-testid="home-graph">Leads Overview</p>
+              <p className="bt_Text" data-testid="home-graph">
+                Leads Overview
+              </p>
               <div className="date_rage">
                 <RangePicker
                   data-testid="date-picker"
                   onChange={onDateChange || onChange}
                   defaultValue={[dayjs(fromDate), dayjs(toDate)]}
                   format={dateFormat}
-                  disabledDate={(current) => current.isAfter(dayjs() || disabledDate)}
+                  disabledDate={(current) =>
+                    current.isAfter(dayjs() || disabledDate)
+                  }
                 />
               </div>
-              <div className="chart_section"  data-testid="chartContent-mock">
+              <div className="chart_section" data-testid="chartContent-mock">
                 <div className="char-bar">
                   <small>Leads</small>
-                  <BarChart
-                  width={900}
-                  height={300}
-                  data={gData ||testData}
-                  // loading={isLoading}
-                  // data-testid="bar-chart"
-                  >
+                  <BarChart width={900} height={300} data={gData || testData}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
                     <Tooltip data-testid="tooltip" />
                     <XAxis
@@ -130,13 +122,14 @@ const HomePage = ({isLoad,onChange,disabledDate,testData}) => {
                   </BarChart>
                 </div>
               </div>
-              <p className="bt_Text" data-testid="home-table">Lead Sources</p>
+              <p className="bt_Text" data-testid="home-table">
+                Lead Sources
+              </p>
               <div className="card">
                 <DataTable
                   data-testid="table-mock"
                   key={tData.id}
                   value={tData}
-                  // loading={isLoading}
                   tableStyle={{ minWidth: "50rem" }}
                 >
                   <Column

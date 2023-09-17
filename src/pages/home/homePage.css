@@ -2,7 +2,6 @@
 
 
 
-/* Date Range--- */
 .date_rage {
     display: flex;
     justify-content: flex-end;
@@ -24,7 +23,7 @@
     border-width: 0px 0px 2px 0px !important;
     width: 470px;
     height: 54px;
-  
+
 }
 
 .ant-picker-focused {
@@ -45,11 +44,9 @@
     color: #0090DA !important;
 }
 
-/* Lead Source Chart Properties  */
 .chart_section {
     display: flex;
     justify-content: center;
-    /* flex-direction: column; */
     align-items: center;
     margin-top: 20px;
 }
@@ -57,22 +54,23 @@
 .char-bar {
     margin: 10px 0px;
 }
-.recharts-surface{
+
+.recharts-surface {
     margin-top: 10px;
 }
-.chart_section small{
+
+.chart_section small {
     margin-left: 6%;
     font-size: 15px;
     font-weight: 700;
-    /* transform: rotate(-90deg); */
 }
+
 .recharts-cartesian-axis-line {
     stroke: var(--black);
 
 }
 
 
-/* Lead Source Table Properties  */
 
 .card {
     margin: 20px 0px;
@@ -84,7 +82,6 @@
 }
 
 
-/* Title */
 .p-datatable .p-datatable-thead tr th {
     padding: 0.7rem !important;
     border: 0px solid #dee2e6 !important;
@@ -97,16 +94,12 @@
 
 }
 
-.p-column-header-content {
-    /* display: flex;
-    justify-content: center; */
 
-}
 
-/* Table row */
-.p-datatable .p-datatable-tbody{
+.p-datatable .p-datatable-tbody {
     margin-left: 15px;
 }
+
 .p-datatable .p-datatable-tbody tr td {
     font-style: 'NotoSans-Regular';
     color: var(--metlife-darkest-gray) 0% 0% no-repeat padding-box;
