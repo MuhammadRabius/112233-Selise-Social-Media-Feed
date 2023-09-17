@@ -90,7 +90,7 @@ const LoginPage = () => {
                 status === 200 ? <>
                 <h6>Redirecting to Dashboard</h6>
                 <ReloadOutlined spin /> ...
-                </> : <><h6> <span style={{ color: "red" }}>User not found !</span> Redirecting to Login</h6>
+                </> : <><h6> Redirecting to Login</h6>
                 <ReloadOutlined spin /> ...</>
               }
                 

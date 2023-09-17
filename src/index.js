@@ -12,8 +12,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 //axios.defaults.baseURL =  "http://10.69.13.7:8200";
 axios.defaults.baseURL =  "https://dev.ulm.api.metlife.com.bd";
 // axios.defaults.baseURL =  "http://10.40.93.204:8200";
-// axios.defaults.baseURL =
-//   "https://qa.eclaims.metlife.com.bd/public/ulm-api-external";
+// axios.defaults.baseURL =  "http://10.69.13.7:8200";
+// axios.defaults.baseURL =  "http://10.40.92.249:8200";
+
 
 axios.defaults.headers.common["Authorization"] =
   "Bearer " + localStorage.getItem("access-token");
