@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
-import { Table, Input, Pagination,Select } from "antd";
+import { Table, Input, Pagination, Select } from "antd";
 import UploadModal from "./CustomModal/UploadModal";
 import LeadUpdateModal from "./LeadUpdateModal";
 import { getLeadStatus, leadListWithPagination } from "./Service/lead_service";
@@ -23,9 +23,8 @@ const LeadsPage = () => {
   const frontPaginationNumber = p_Number + 1;
   // Table Sorting
   const [sortedInfo, setSortedInfo] = useState({});
-  const [tableStatus,setTableStatus]=useState([]);
-  const [leadStatus,setLeadStatus]=useState("all" ? "" : 0)
-  
+  const [tableStatus, setTableStatus] = useState([]);
+  const [leadStatusId, setLeadStatusId] = useState("all" ? "" : 0);
 
   // Search Component
   const debouncedSearch = debounce((s_value) => {
@@ -84,48 +83,36 @@ const LeadsPage = () => {
 
   // Api Calling ----------
 
-  const getApiCall = async () => {
+  const getApiCall = useCallback(async () => {
     try {
       setLoading(true);
+
+      const leadStatusDisplay = await getLeadStatus();
+      setTableStatus(leadStatusDisplay.data.data);
 
       const leadDisplay = await leadListWithPagination(
         p_Number,
         p_Size,
         searchInput,
-        leadStatus
+        leadStatusId
       );
       setLeadListView(leadDisplay?.data?.data?.items);
       setTotal(leadDisplay?.data?.data?.totalItems);
       set_P_Number(...p_Number, leadDisplay?.data?.data?.pageNumber);
       set_P_Size(...p_Size, leadDisplay?.data?.data?.pageSize);
-      
-    
-     
+
       setLoading(false);
     } catch (err) {
       setLoading(false);
     }
-  };
+  }, [callBack, p_Number, p_Size, searchInput, leadStatusId]);
 
   useEffect(() => {
     const ac = new AbortController();
     // lead Table
     getApiCall();
-
-    // Lead Status
-    (async () => {
-      try {
-        setLoading( true);
-        const leadStatusDisplay = await getLeadStatus();
-        setTableStatus(leadStatusDisplay.data.data)
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-      }
-    })();
-   
     return () => ac.abort();
-  }, [callBack, p_Number, p_Size, searchInput,leadStatus]);
+  }, [getApiCall]);
 
   // Data Table Colum
 
@@ -298,7 +285,7 @@ const LeadsPage = () => {
               style={{
                 width: "150px",
               }}
-              onChange={(value) => setLeadStatus(value)}
+              onChange={(value) => setLeadStatusId(value)}
             >
               <Select.Option value={"all"}>All</Select.Option>
               {tableStatus.map((_d) => {

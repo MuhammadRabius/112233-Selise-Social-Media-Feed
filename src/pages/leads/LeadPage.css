@@ -65,8 +65,13 @@
 
 }
 .filter_select .ant-select-selector{  
+  box-shadow: none !important;
+  border-inline-end-width: 0px !important;
+  border-width: 0px 0px 2px 0px !important;
   border-color: #0090DA !important;
-  border-width:2px !important;
+  border-radius: 0px !important;
+  font-family: "NotoSans-Bold",sans-serif;
+  height: 30px !important;
 }
 
 /*  Lead Submission table--  */
@@ -142,7 +147,6 @@
   border-width: 0px 0px 2px 0px !important;
   border-color: #0090DA !important;
   border-radius: 0px !important;
-  /* height: 25px; */
   padding-left: 20px;
 }
 
@@ -172,7 +176,6 @@
   border-color: #0090DA !important;
   border-radius: 0px !important;
   width: 100%;
-  /* padding-left: 20px !important; */
   height: 40px !important;
   margin-bottom: 10px;
 }
@@ -287,12 +290,12 @@
 
 .ant-table.ant-table-small .ant-table-thead tr th{
   color: var(--metlife-darkest-gray);
-  font-style: "NotoSans-Bold";
-  font-weight: bold;
+  font-family: "NotoSans-Bold",sans-serif;
+  
 }
 .ant-table-cell{
   color: var(--metlife-darkest-gray);
-  font-style: "NotoSans-Regular";
+  font-family: "NotoSans-Regular",sans-serif;
 
 }
 

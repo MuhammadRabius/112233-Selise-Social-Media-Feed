@@ -58,10 +58,12 @@ const LoginPage = ({ isLoad }) => {
                   }
                   const token = res.data.data.token;
                   const username = res.data.data.username;
+                  const expiration = res.data.data.expiration;
                   localStorage.setItem("access-token", token);
                   const user = jwt_decode(token);
                   localStorage.setItem("user", JSON.stringify(user));
                   localStorage.setItem("username", JSON.stringify(username));
+                  localStorage.setItem("expiration", JSON.stringify(expiration));
                   window.location.href = "/";
                   message.success(res.data.message);
                   setLoading(false);
