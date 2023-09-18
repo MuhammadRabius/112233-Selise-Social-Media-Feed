@@ -62,7 +62,7 @@ const LoginPage = () => {
         }
       })();
     }
-  }, [code]);
+  }, [code]); 
 
   return (
     <>
