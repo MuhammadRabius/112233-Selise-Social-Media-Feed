@@ -231,8 +231,8 @@ const LeadsPage = () => {
   return (
     <>
       <Layout pageName={"Leads"}>
-        <div className="lead-container">
-          <p className="bt_Text">Lead Submission</p>
+        <div className="lead-container" >
+          <p className="bt_Text" data-testid="leads-mock">Lead Submission</p>
 
           <div className="lead_S_Btn">
             <div className="lead-search">
