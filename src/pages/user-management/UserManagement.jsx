@@ -194,7 +194,8 @@ const UserManagement = ({ isLoad,values}) => {
                     <Select
                       allowClear
                       showSearch
-                      placeholder="Department!"
+                      placeholder="Department"
+                      id="user-department"
                       data-testid="dep-mock"
                     >
                       {department.map((_d) => {
@@ -241,7 +242,8 @@ const UserManagement = ({ isLoad,values}) => {
                     <Select
                       allowClear
                       showSearch
-                      placeholder="Role!"
+                      placeholder="Role"
+                      id="user-role"
                       data-testid="role-mock"
                     >
                       {role.map((_d) => {
@@ -269,7 +271,8 @@ const UserManagement = ({ isLoad,values}) => {
                     <Select
                       allowClear
                       showSearch
-                      placeholder="Location!"
+                      placeholder="Location"
+                      id="user-location"
                       data-testid="location-mock"
                     >
                       {location.map((_d) => {
