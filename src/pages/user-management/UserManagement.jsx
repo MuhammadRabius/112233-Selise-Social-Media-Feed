@@ -209,16 +209,16 @@ const UserManagement = (props) => {
                     rules={[
                       {
                         required: true,
-                        message: "Please Select Department!",
+                        message: "Please Select Department",
                       },
                     ]}
                   >
-                    <Select allowClear showSearch placeholder="Department!" data-testid= "dep-mock"
+                    <Select allowClear showSearch placeholder="Department" data-testid= "dep-mock" optionFilterProp="label"
                     >
                       {department.map((_d) => {
                         return (
                           <>
-                            <Option key={_d.id} value={_d.id}>
+                            <Option key={_d.id} value={_d.id} label={_d.name}>
                               {_d.name}
                             </Option>
                           </>
@@ -233,7 +233,7 @@ const UserManagement = (props) => {
                     rules={[
                       {
                         required: true,
-                        message: "Please input valid email!",
+                        message: "Please input valid email",
                       },
                       {
                         type: "email",
@@ -252,11 +252,11 @@ const UserManagement = (props) => {
                       },
                     ]}
                   >
-                    <Select allowClear showSearch placeholder="Role!" data-testid= "role-mock">
+                    <Select allowClear showSearch placeholder="Role" data-testid= "role-mock" optionFilterProp="label">
                       {role.map((_d) => {
                         return (
                           <>
-                            <Option key={_d.id} value={_d.id}>
+                            <Option key={_d.id} value={_d.id} label={_d.name}>
                               {_d.name}
                             </Option>
                           </>
@@ -271,15 +271,15 @@ const UserManagement = (props) => {
                     rules={[
                       {
                         required: true,
-                        message: "Please Select Role!",
+                        message: "Please Select Role",
                       },
                     ]}
                   >
-                    <Select allowClear showSearch placeholder="Location!" data-testid= "location-mock">
+                    <Select allowClear showSearch placeholder="Location" data-testid= "location-mock" optionFilterProp="label">
                       {location.map((_d) => {
                         return (
                           <>
-                            <Option key={_d.id} value={_d.id}>
+                            <Option key={_d.id} value={_d.id} label={_d.name}>
                               {_d.name}
                             </Option>
                           </>

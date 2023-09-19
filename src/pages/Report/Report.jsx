@@ -164,6 +164,7 @@ const Report = ({isLoad}) => {
                     <Select
                       allowClear
                       showSearch
+                      optionFilterProp="label"
                       placeholder="Source Type"
                       data-testid="source_select"
                       onChange={onChangeSourceType}
@@ -171,7 +172,7 @@ const Report = ({isLoad}) => {
                       {leadSorce.map((_d) => {
                         return (
                           <>
-                            <Option key={_d?.id} value={_d?.id}>
+                            <Option key={_d?.id} value={_d?.id} label={_d?.name}>
                               {_d?.name}
                             </Option>
                           </>
