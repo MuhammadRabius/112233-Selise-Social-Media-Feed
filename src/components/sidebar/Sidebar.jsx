@@ -13,7 +13,7 @@ const Sidebar = () => {
    
   const onLogoutClick = (e) => {
     localStorage.clear();
-    window.location.replace(azureLogoutUrl)
+    window.location.href = azureLogoutUrl;
   };
 
   return (
