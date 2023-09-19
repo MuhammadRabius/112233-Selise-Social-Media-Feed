@@ -267,7 +267,7 @@ const UserManagement = ({ isLoad,values}) => {
                         message: "Please Select Role!",
                       },
                     ]}
-                  >
+                  > 
                     <Select
                       allowClear
                       showSearch
