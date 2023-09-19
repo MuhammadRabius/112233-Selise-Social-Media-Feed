@@ -11,16 +11,14 @@ import {
 import Loader from "../../components/loader/Loader";
 const { Option } = Select;
 
-const Report = ({isLoad}) => {
+const Report = ({ isLoad }) => {
   const [form] = Form.useForm();
   const [dataCount, setDataCount] = useState(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [leadSourceId, setLeadId] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [isLoading, setLoading] = useState(
-   isLoad === "false" ? false : true
-  );
+  const [isLoading, setLoading] = useState(isLoad === "false" ? false : true);
   const [leadSorce, setLeadSource] = useState([]);
   const [callBack, setCallBack] = useState(false);
   const onChangeStart = (date, dateString) => {
@@ -162,6 +160,7 @@ const Report = ({isLoad}) => {
                     <Select
                       allowClear
                       showSearch
+                      optionFilterProp="label"
                       placeholder="Source Type"
                       data-testid="source_select"
                       onChange={onChangeSourceType}
@@ -169,7 +168,11 @@ const Report = ({isLoad}) => {
                       {leadSorce.map((_d) => {
                         return (
                           <>
-                            <Option key={_d?.id} value={_d?.id}>
+                            <Option
+                              key={_d?.id}
+                              value={_d?.id}
+                              label={_d?.name}
+                            >
                               {_d?.name}
                             </Option>
                           </>
@@ -229,7 +232,11 @@ const Report = ({isLoad}) => {
                     }`}{" "}
                   </span>
                   <Form.Item>
-                    <button className="submit_btn" htmlType="submit" data-testid="submit-mock">
+                    <button
+                      className="submit_btn"
+                      htmlType="submit"
+                      data-testid="submit-mock"
+                    >
                       DOWNLOAD IN EXCEL
                     </button>
                   </Form.Item>

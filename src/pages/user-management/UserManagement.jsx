@@ -12,7 +12,7 @@ import {
   createUser,
 } from "./Service/um_service";
 
-const UserManagement = ({ isLoad,values}) => {
+const UserManagement = ({ isLoad, values }) => {
   const { Option } = Select;
   const [form] = Form.useForm();
   const [callBack, setCallBack] = useState(false);
@@ -22,11 +22,11 @@ const UserManagement = ({ isLoad,values}) => {
   const [location, setLocation] = useState([]);
   const [user, setUser] = useState([]);
   const [sortedInfo, setSortedInfo] = useState({});
-  
+
   const onTableChange = (sorter) => {
     setSortedInfo(sorter);
   };
-  
+
   const serial = Array.from({ length: 1000000 }, (_, index) => ({
     sl: index + 1,
   }));
@@ -34,9 +34,9 @@ const UserManagement = ({ isLoad,values}) => {
     ...item,
     ...serial[index],
   }));
-  
+
   const antIcon = <Loader isLoading={true} />;
- 
+
   const onSearchClick = (e) => {};
   const onFinish = (values) => {
     const payload = {
@@ -46,7 +46,6 @@ const UserManagement = ({ isLoad,values}) => {
       departmentId: values?.department,
       locationId: values?.location,
     };
-    
 
     try {
       (async () => {
@@ -141,7 +140,6 @@ const UserManagement = ({ isLoad,values}) => {
     },
   ];
 
-
   return (
     <>
       {isLoading ? (
@@ -187,7 +185,7 @@ const UserManagement = ({ isLoad,values}) => {
                     rules={[
                       {
                         required: true,
-                        message: "Please Select Department!",
+                        message: "Please Select Department",
                       },
                     ]}
                   >
@@ -195,13 +193,13 @@ const UserManagement = ({ isLoad,values}) => {
                       allowClear
                       showSearch
                       placeholder="Department"
-                      id="user-department"
                       data-testid="dep-mock"
+                      optionFilterProp="label"
                     >
                       {department.map((_d) => {
                         return (
                           <>
-                            <Option key={_d.id} value={_d.id}>
+                            <Option key={_d.id} value={_d.id} label={_d.name}>
                               {_d.name}
                             </Option>
                           </>
@@ -216,7 +214,7 @@ const UserManagement = ({ isLoad,values}) => {
                     rules={[
                       {
                         required: true,
-                        message: "Please input valid email!",
+                        message: "Please input valid email",
                       },
                       {
                         type: "email",
@@ -243,13 +241,13 @@ const UserManagement = ({ isLoad,values}) => {
                       allowClear
                       showSearch
                       placeholder="Role"
-                      id="user-role"
                       data-testid="role-mock"
+                      optionFilterProp="label"
                     >
                       {role.map((_d) => {
                         return (
                           <>
-                            <Option key={_d.id} value={_d.id}>
+                            <Option key={_d.id} value={_d.id} label={_d.name}>
                               {_d.name}
                             </Option>
                           </>
@@ -264,21 +262,21 @@ const UserManagement = ({ isLoad,values}) => {
                     rules={[
                       {
                         required: true,
-                        message: "Please Select Role!",
+                        message: "Please Select Role",
                       },
                     ]}
-                  > 
+                  >
                     <Select
                       allowClear
                       showSearch
                       placeholder="Location"
-                      id="user-location"
                       data-testid="location-mock"
+                      optionFilterProp="label"
                     >
                       {location.map((_d) => {
                         return (
                           <>
-                            <Option key={_d.id} value={_d.id}>
+                            <Option key={_d.id} value={_d.id} label={_d.name}>
                               {_d.name}
                             </Option>
                           </>
