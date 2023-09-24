@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Form, Input, Select, Button, message, Spin } from "antd";
+import { Modal, Form, Input, Select, Button, message } from "antd";
 import {
   getDistrict,
   leadListByID,

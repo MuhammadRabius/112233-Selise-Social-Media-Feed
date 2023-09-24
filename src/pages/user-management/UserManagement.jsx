@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
-import { Input, Form, Select, Table, message, Spin } from "antd";
+import { Input, Form, Select, Table, message, Spin, Switch } from "antd";
 import { NavLink } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import "./UserManagement.css";
@@ -10,7 +10,9 @@ import {
   getDepartment,
   userList,
   createUser,
+  userActiveStatus,
 } from "./Service/um_service";
+import UpdateUserModal from "./UpdateUserModal/UpdateUserModal";
 
 const UserManagement = (props) => {
   const { Option } = Select;
@@ -19,15 +21,32 @@ const UserManagement = (props) => {
   const [isLoading, setLoading] = useState(
     props.isLoad === "false" ? false : true
   );
-
-  // Spin
-  const antIcon = <Loader isLoading={true} />;
-
-  // Data Fetching
   const [role, setRole] = useState([]);
   const [department, setDepartment] = useState([]);
   const [location, setLocation] = useState([]);
   const [user, setUser] = useState([]);
+  const [activeStatus, setUserActiveInactive] = useState(null);
+  const [activeId, setActiveId] = useState("");
+  const antIcon = <Loader isLoading={true} />;
+
+  // add lead component
+  const [userUpdate, setUserUpdate] = useState(false);
+  const [userId, setUserId] = useState(0);
+  const showModal = (id) => {
+    setUserId(id);
+    setUserUpdate(true);
+  };
+
+  const onStatusClicked = async (v, id) => {
+    setUserActiveInactive(v);
+    setActiveId(id);
+    try {
+      const userStatus = await userActiveStatus(id);
+      setCallBack(!callBack);
+    } catch (err) {
+      console.log("data ", v, id);
+    }
+  };
 
   // Search Compnent
   const onSearchClick = (e) => {
@@ -54,18 +73,8 @@ const UserManagement = (props) => {
       })();
     } catch (error) {
       setLoading(false);
-      console.log(error.message);
       // err.respose.data.message && message.error(err.respose.data.message)
     }
-  };
-
-  // Page Pagination
-  const [first, setFirst] = useState(0);
-  const [rows, setRows] = useState(10);
-
-  const onPageChange = (event) => {
-    setFirst(event.first);
-    setRows(event.rows);
   };
 
   //  api calling ---
@@ -87,6 +96,10 @@ const UserManagement = (props) => {
         //
         const userDisplay = await userList();
         setUser(userDisplay.data.data);
+        
+        // const userStatus = await userActiveStatus(activeId);
+        // setUserActiveInactive(userStatus?.data?.data?.active);
+        
         setLoading(false);
       } catch (err) {
         setLoading(false);
@@ -103,20 +116,21 @@ const UserManagement = (props) => {
     setSortedInfo(sorter);
   };
 
-  const serial = Array.from({length: 1000000},(_,index)=> ({sl : index+1}))
-  const dataWithSerial = user.map((item,index)=>({
+  const serial = Array.from({ length: 1000000 }, (_, index) => ({
+    sl: index + 1,
+  }));
+  const dataWithSerial = user.map((item, index) => ({
     ...item,
     ...serial[index],
-  }))
+  }));
 
   const columns = [
     {
       title: "SL",
       dataIndex: "sl",
-      key: "sl",  
+      key: "sl",
       sorter: (a, b) => a.sl - b.sl,
       sortOrder: sortedInfo.columnKey === "sl" ? sortedInfo.order : null,
-
     },
     {
       title: "Username",
@@ -124,7 +138,6 @@ const UserManagement = (props) => {
       key: "username",
       sorter: (a, b) => a?.username?.length - b?.username?.length,
       sortOrder: sortedInfo.columnKey === "username" ? sortedInfo.order : null,
-    
     },
     {
       title: "Role",
@@ -132,7 +145,6 @@ const UserManagement = (props) => {
       key: "role",
       sorter: (a, b) => a?.role?.length - b?.role?.length,
       sortOrder: sortedInfo.columnKey === "role" ? sortedInfo.order : null,
-      
     },
     {
       title: "Email",
@@ -140,7 +152,6 @@ const UserManagement = (props) => {
       key: "email",
       sorter: (a, b) => a?.email?.length - b?.email?.length,
       sortOrder: sortedInfo.columnKey === "email" ? sortedInfo.order : null,
-     
     },
     {
       title: "Department",
@@ -149,7 +160,6 @@ const UserManagement = (props) => {
       sorter: (a, b) => a?.department?.length - b?.department?.length,
       sortOrder:
         sortedInfo.columnKey === "department" ? sortedInfo.order : null,
-      
     },
     {
       title: "Location",
@@ -157,13 +167,33 @@ const UserManagement = (props) => {
       key: "location",
       sorter: (a, b) => a?.location?.length - b?.location?.length,
       sortOrder: sortedInfo.columnKey === "location" ? sortedInfo.order : null,
-    
+    },
+    {
+      title: "Edit",
+      dataIndex: "action",
+      key: "key",
+      render: (states, _data) => {
+        return _data?.username !== "SystemUser" ? (
+          <>
+            <NavLink onClick={(e) => showModal(_data.userId)}>Edit</NavLink>
+          </>
+        ) : null;
+      },
     },
     {
       title: "Action",
-      dataIndex: "action",
-      key: "key",
-      render: (states) => <NavLink>Edit</NavLink>,
+      dataIndex: "active",
+      key: "active",
+      render: (states, _data) => {
+      
+        return ( 
+          <Switch
+          checked={_data?.active}
+          onClick={(v) => onStatusClicked(v, _data.userId)}
+          loading={isLoading}
+        />
+          )
+      },
     },
   ];
 
@@ -175,8 +205,9 @@ const UserManagement = (props) => {
         <>
           {" "}
           <Layout pageName={"User Management"}>
-            <p className="bt_Text" data-testid="um-mock"
-            >User Management</p>
+            <p className="bt_Text" data-testid="um-mock">
+              User Management
+            </p>
 
             <div className="um_container">
               <Form
@@ -198,8 +229,10 @@ const UserManagement = (props) => {
                       },
                     ]}
                   >
-                    <Input className="input_group" placeholder="Username" 
-                    data-testid= "username-mock"
+                    <Input
+                      className="input_group"
+                      placeholder="Username"
+                      data-testid="username-mock"
                     />
                   </Form.Item>
 
@@ -213,7 +246,12 @@ const UserManagement = (props) => {
                       },
                     ]}
                   >
-                    <Select allowClear showSearch placeholder="Department" data-testid= "dep-mock" optionFilterProp="label"
+                    <Select
+                      allowClear
+                      showSearch
+                      placeholder="Department"
+                      data-testid="dep-mock"
+                      optionFilterProp="label"
                     >
                       {department.map((_d) => {
                         return (
@@ -240,7 +278,11 @@ const UserManagement = (props) => {
                       },
                     ]}
                   >
-                    <Input className="input_group" placeholder="Email" data-testid= "email-mock" />
+                    <Input
+                      className="input_group"
+                      placeholder="Email"
+                      data-testid="email-mock"
+                    />
                   </Form.Item>
                   <Form.Item
                     name="location"
@@ -252,7 +294,13 @@ const UserManagement = (props) => {
                       },
                     ]}
                   >
-                    <Select allowClear showSearch placeholder="Role" data-testid= "role-mock" optionFilterProp="label">
+                    <Select
+                      allowClear
+                      showSearch
+                      placeholder="Role"
+                      data-testid="role-mock"
+                      optionFilterProp="label"
+                    >
                       {role.map((_d) => {
                         return (
                           <>
@@ -275,7 +323,13 @@ const UserManagement = (props) => {
                       },
                     ]}
                   >
-                    <Select allowClear showSearch placeholder="Location" data-testid= "location-mock" optionFilterProp="label">
+                    <Select
+                      allowClear
+                      showSearch
+                      placeholder="Location"
+                      data-testid="location-mock"
+                      optionFilterProp="label"
+                    >
                       {location.map((_d) => {
                         return (
                           <>
@@ -292,7 +346,7 @@ const UserManagement = (props) => {
                 <div className="um_f_part">
                   <div className="lead-search">
                     <input
-                      placeholder="Search by Phone no.  "
+                      placeholder="Search by username/email  "
                       className="filterlead"
                       type="text"
                       name="fname"
@@ -318,7 +372,6 @@ const UserManagement = (props) => {
               <div className="um_table">
                 <div>
                   <Table
-                    
                     rowKey={user.id}
                     onChange={onTableChange}
                     columns={columns}
@@ -332,6 +385,21 @@ const UserManagement = (props) => {
             </div>
           </Layout>
         </>
+      )}
+
+      {UpdateUserModal && (
+        <UpdateUserModal
+          key={userId}
+          userId={userId}
+          open={userUpdate}
+          onCancel={() => setUserUpdate(false)}
+          setUpdateLeadModal={setUserUpdate}
+          callBack={callBack}
+          setCallBack={setCallBack}
+          role={role}
+          location={location}
+          department={department}
+        />
       )}
     </>
   );

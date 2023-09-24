@@ -35,7 +35,6 @@
 
 
 .um_f_part {
-
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     justify-content: space-between;
@@ -96,13 +95,13 @@
 
 .ant-table.ant-table-small .ant-table-thead tr th {
     color: var(--metlife-darkest-gray);
-    font-style: "NotoSans-Bold";
+    font-family: "NotoSans-Bold",sans-serif;
     font-weight: bold;
 }
 
 .ant-table-cell {
     color: var(--metlife-darkest-gray);
-    font-style: "NotoSans-Regular";
+    font-family: "NotoSans-Regular",sans-serif;
 
 }
 

@@ -1,0 +1,34 @@
+trigger: none
+resources:
+  pipelines:
+    - pipeline: 13639-ULM-Client-CI # Name of the pipeline resource
+      source: EAI-13639-ULM/CI/13639-ULM-Client-CI # Name of the triggering pipeline
+      trigger:
+        branches:
+          include:
+          - releases/*
+          - release/*
+  repositories:
+    - repository: templates
+      type: git
+      ref: refs/heads/develop
+      name: DevOps-Patterns-Practices-Examples/azdo-pipeline-templates
+      trigger: none
+
+pool:
+  name: 'Linux APAC'
+
+variables:
+  k8sDescriptorsDir: '$(Pipeline.Workspace)/13639-ULM-Client-CI/drop/manifest/kubernetes'
+  serviceName: '13639-ULM-CLIENT'
+  IMAGE_TAG: $(resources.pipeline.13639-ULM-Client-CI.runName)
+
+stages:
+  - template: ./common-cd/stages/k8s-stage-cd.yml@templates
+    parameters:
+      stageName: Dev
+      environmentName: 13639-DEV
+      serviceName: ${{variables.serviceName}}
+      armServiceConnection: '13639-ULM-ServiceConnection'
+      azureResourceGroup: 'RG_13639_BDULM_DEV'
+      kubernetesCluster: 'AZAPACSA01KUB13639DV01'
