@@ -21,6 +21,10 @@ export const userList = async () => {
 
     return await axios.get(`/api/users`);
 }
+export const userById = async (id) => {
+
+    return await axios.get(`/api/users/${id}`,);
+}
 
 export const userUpdateInformation = async(id,payload)=>{
     return await axios.put(`api/users/${id}`,payload)
@@ -29,3 +33,4 @@ export const userUpdateInformation = async(id,payload)=>{
 export const userActiveStatus = async (id)=>{
     return await axios.patch(`api/users/${id}`)
 }
+

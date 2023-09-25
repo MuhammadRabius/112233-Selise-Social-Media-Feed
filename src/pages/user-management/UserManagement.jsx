@@ -30,11 +30,11 @@ const UserManagement = (props) => {
   const antIcon = <Loader isLoading={true} />;
 
   // add lead component
-  const [userUpdate, setUserUpdate] = useState(false);
-  const [userId, setUserId] = useState(0);
+  const [userUpdate, setUserUpdateModal] = useState(false);
+  const [userId, setUserId] = useState(null);
   const showModal = (id) => {
     setUserId(id);
-    setUserUpdate(true);
+    setUserUpdateModal(true);
   };
 
   const onStatusClicked = async (v, id) => {
@@ -96,9 +96,6 @@ const UserManagement = (props) => {
         //
         const userDisplay = await userList();
         setUser(userDisplay.data.data);
-        
-        // const userStatus = await userActiveStatus(activeId);
-        // setUserActiveInactive(userStatus?.data?.data?.active);
         
         setLoading(false);
       } catch (err) {
@@ -392,8 +389,7 @@ const UserManagement = (props) => {
           key={userId}
           userId={userId}
           open={userUpdate}
-          onCancel={() => setUserUpdate(false)}
-          setUpdateLeadModal={setUserUpdate}
+          setUpdateLeadModal={setUserUpdateModal}
           callBack={callBack}
           setCallBack={setCallBack}
           role={role}

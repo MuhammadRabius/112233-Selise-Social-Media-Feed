@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Form, Input, Select, message } from "antd";
-import Loader from "../../../components/loader/Loader";
+import { Modal, Form, Input, Select, message, Spin } from "antd";
 import "./UpdateUser.css";
-import { userUpdateInformation } from "../Service/um_service";
+import { userById, userUpdateInformation } from "../Service/um_service";
+import { LocManage, depManage, roleManage } from "../../../global_state/action";
 const UpdateUserModal = ({
   open,
   onCancel,
   userId,
-  setUserUpdate,
+  setUpdateLeadModal,
   callBack,
   setCallBack,
   isLoading,
@@ -17,8 +17,9 @@ const UpdateUserModal = ({
 }) => {
   const [form] = Form.useForm();
   const handleCancel = () => {
-    onCancel();
+    
     form.resetFields();
+    setUpdateLeadModal(false)
   };
 
   const [loading, setLoading] = useState(false);
@@ -37,9 +38,9 @@ const UpdateUserModal = ({
     const payload = {
       username: userData?.username,
       email: userData?.email,
-      roleId: userData?.roleId,
-      departmentId: userData?.departmentId,
-      locationId: userData?.locationId,
+      roleId: roleManage(userData?.roleId),
+      departmentId: depManage(userData?.departmentId),
+      locationId: LocManage(userData?.locationId),
     };
 
     try {
@@ -48,8 +49,10 @@ const UpdateUserModal = ({
       message.success(res.data.message);
       setCallBack(!callBack);
       form.resetFields();
+      setUpdateLeadModal(false)
       setLoading(false);
     } catch (error) {
+      message.error("Something went wrong")
       setLoading(false);
     }
   };
@@ -61,7 +64,17 @@ const UpdateUserModal = ({
     (async () => {
       try {
         setLoading(true);
+        const userDisplay = await userById(userId);
+        setUserData({
+          ...userData,
+          username: userDisplay?.data?.data?.username,
+          email: userDisplay?.data?.data?.email,
+          roleId: userDisplay?.data?.data?.role,
+          departmentId: userDisplay?.data?.data?.department,
+          locationId: userDisplay?.data?.data?.location,
+        });
 
+        
         setLoading(false);
       } catch (err) {
         setLoading(false);
@@ -81,23 +94,21 @@ const UpdateUserModal = ({
         onCancel={handleCancel}
         footer={false}
       >
-        {isLoading ? (
-          <Loader isLoading={isLoading} />
-        ) : (
+        <Spin spinning={loading}>
           <div className="um_modal_body">
             <Form form={form} onFinish={onFinish} autoComplete="off">
-              <Form.Item name="lastName" noStyle>
+              <Form.Item name="username" noStyle>
                 {" "}
                 <Input
                   className="selectChange"
                   placeholder="Username"
                   value={userData?.username}
-                  disabled
+                  readOnly
                 />
               </Form.Item>
 
-              {userData?.districtName === null ? (
-                <small style={{ color: "red" }}>Please Select District</small>
+              {userData?.departmentId === null ? (
+                <small style={{ color: "red" }}>Please Select Department</small>
               ) : null}
 
               <Select
@@ -108,7 +119,7 @@ const UpdateUserModal = ({
                 onChange={(value) =>
                   setUserData({
                     ...userData,
-                    departmentId: value,
+                    departmentId:(value),
                   })
                 }
                 placeholder="Department"
@@ -135,8 +146,8 @@ const UpdateUserModal = ({
                 />
               </Form.Item>
 
-              {userData?.districtName === null ? (
-                <small style={{ color: "red" }}>Please Select District</small>
+              {userData?.roleId === null ? (
+                <small style={{ color: "red" }}>Please Select Role</small>
               ) : null}
 
               <Select
@@ -148,7 +159,7 @@ const UpdateUserModal = ({
                 onChange={(value) =>
                   setUserData({
                     ...userData,
-                    roleId: value,
+                    roleId: (value),
                   })
                 }
                 optionFilterProp="label"
@@ -158,11 +169,12 @@ const UpdateUserModal = ({
                 }))}
               />
 
-              {userData?.districtName === null ? (
-                <small style={{ color: "red" }}>Please Select District</small>
+              {userData?.locationId === null ? (
+                <small style={{ color: "red" }}>Please Select Location</small>
               ) : null}
 
               <Select
+              
                 className="selectChange"
                 allowClear
                 showSearch
@@ -171,7 +183,7 @@ const UpdateUserModal = ({
                 onChange={(value) =>
                   setUserData({
                     ...userData,
-                    locationId: value,
+                    locationId: (value),
                   })
                 }
                 optionFilterProp="label"
@@ -190,7 +202,7 @@ const UpdateUserModal = ({
               </Form.Item>
             </Form>
           </div>
-        )}
+        </Spin>
       </Modal>
     </>
   );
