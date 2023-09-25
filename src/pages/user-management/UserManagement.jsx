@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
-import { Input, Form, Select, Table, message, Spin } from "antd";
+import { Input, Form, Select, Table, message, Spin, Switch } from "antd";
 import { NavLink } from "react-router-dom";
 import Loader from "../../components/loader/Loader";
 import "./UserManagement.css";
@@ -10,7 +10,9 @@ import {
   getDepartment,
   userList,
   createUser,
+  userActiveStatus,
 } from "./Service/um_service";
+import UpdateUserModal from "./UpdateUserModal/UpdateUserModal";
 
 const UserManagement = ({ isLoad, values }) => {
   const { Option } = Select;
@@ -21,7 +23,28 @@ const UserManagement = ({ isLoad, values }) => {
   const [department, setDepartment] = useState([]);
   const [location, setLocation] = useState([]);
   const [user, setUser] = useState([]);
-  const [sortedInfo, setSortedInfo] = useState({});
+  const [activeStatus, setUserActiveInactive] = useState(null);
+  const [activeId, setActiveId] = useState("");
+  const antIcon = <Loader isLoading={true} />;
+
+  // add lead component
+  const [userUpdate, setUserUpdateModal] = useState(false);
+  const [userId, setUserId] = useState(null);
+  const showModal = (id) => {
+    setUserId(id);
+    setUserUpdateModal(true);
+  };
+
+  const onStatusClicked = async (v, id) => {
+    setUserActiveInactive(v);
+    setActiveId(id);
+    try {
+      const userStatus = await userActiveStatus(id);
+      setCallBack(!callBack);
+    } catch (err) {
+      console.log("data ", v, id);
+    }
+  };
 
   const onTableChange = (sorter) => {
     setSortedInfo(sorter);
@@ -34,8 +57,6 @@ const UserManagement = ({ isLoad, values }) => {
     ...item,
     ...serial[index],
   }));
-
-  const antIcon = <Loader isLoading={true} />;
 
   const onSearchClick = (e) => {};
   const onFinish = (values) => {
@@ -61,24 +82,26 @@ const UserManagement = ({ isLoad, values }) => {
     }
   };
 
+  //  api calling ---
   useEffect(() => {
     const ac = new AbortController();
 
     (async () => {
       try {
         setLoading(isLoad === "false" ? false : true);
-        //location dropdown calling
+       
         const districtDisplay = await getLocations();
         setLocation(districtDisplay.data.data);
-        //department dropdown calling
+       
         const locationDisplay = await getDepartment();
         setDepartment(locationDisplay.data.data);
-        // role dropdown calling
+     
         const roleDisplay = await getRole();
         setRole(roleDisplay.data.data);
         //
         const userDisplay = await userList();
         setUser(userDisplay.data.data);
+
         setLoading(false);
       } catch (err) {
         setLoading(false);
@@ -87,6 +110,9 @@ const UserManagement = ({ isLoad, values }) => {
 
     return () => ac.abort();
   }, [callBack]);
+
+  // sorting
+  const [sortedInfo, setSortedInfo] = useState({});
 
   const columns = [
     {
@@ -133,10 +159,32 @@ const UserManagement = ({ isLoad, values }) => {
       sortOrder: sortedInfo.columnKey === "location" ? sortedInfo.order : null,
     },
     {
-      title: "Action",
+      title: "Edit",
       dataIndex: "action",
       key: "key",
-      render: (states) => <NavLink>Edit</NavLink>,
+      render: (states, _data) => {
+        return _data?.username !== "SystemUser" ? (
+          <>
+            <NavLink onClick={(e) => showModal(_data.userId)}>Edit</NavLink>
+          </>
+        ) : null;
+      },
+    },
+    {
+      title: "Action",
+      dataIndex: "active",
+      key: "active",
+      render: (active, _data) => {
+        return _data?.username !== "SystemUser" ? (
+          <>
+            <Switch
+              checked={_data?.active}
+              onClick={(v) => onStatusClicked(v, _data.userId)}
+              loading={isLoading}
+            />
+          </>
+        ) : null;
+      },
     },
   ];
 
@@ -289,7 +337,7 @@ const UserManagement = ({ isLoad, values }) => {
                 <div className="um_f_part">
                   <div className="lead-search">
                     <input
-                      placeholder="Search by Phone no.  "
+                      placeholder="Search by username/email  "
                       className="filterlead"
                       type="text"
                       name="fname"
@@ -328,6 +376,20 @@ const UserManagement = ({ isLoad, values }) => {
             </div>
           </Layout>
         </>
+      )}
+
+      {UpdateUserModal && (
+        <UpdateUserModal
+          key={userId}
+          userId={userId}
+          open={userUpdate}
+          setUpdateLeadModal={setUserUpdateModal}
+          callBack={callBack}
+          setCallBack={setCallBack}
+          role={role}
+          location={location}
+          department={department}
+        />
       )}
     </>
   );

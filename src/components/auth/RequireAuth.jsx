@@ -7,7 +7,6 @@ function RequireAuth() {
   let isLogin = localStorage.getItem("access-token") !== null;
 
   if (!isLogin) {
-    sessionStorage.clear()
     window.location.replace(azureUrl);
     return null;
     ;
