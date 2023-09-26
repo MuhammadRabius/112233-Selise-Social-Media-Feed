@@ -14,6 +14,9 @@
   
 }
 
+.um_modal_body .ant-form-item {
+  margin-bottom: 0px !important;
+}
 .um_modal_body .ant-select-selector {
   padding-left: 10px !important;
 }

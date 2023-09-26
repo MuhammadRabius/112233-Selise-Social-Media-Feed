@@ -135,6 +135,7 @@ const UserManagement = ({ isLoad, values }) => {
       key: "role",
       sorter: (a, b) => a?.role?.length - b?.role?.length,
       sortOrder: sortedInfo.columnKey === "role" ? sortedInfo.order : null,
+      
     },
     {
       title: "Email",
