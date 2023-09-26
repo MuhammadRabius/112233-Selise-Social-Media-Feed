@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Modal, Form, Input, Select, message, Spin } from "antd";
 import "./UpdateUser.css";
 import { userById, userUpdateInformation } from "../Service/um_service";
-import { LocManage, depManage, roleManage } from "../../../global_state/action";
+import {
+  LocManage,
+  StringManaged,
+  depManage,
+  roleManage,
+} from "../../../global_state/action";
 const UpdateUserModal = ({
   open,
   onCancel,
@@ -17,9 +22,8 @@ const UpdateUserModal = ({
 }) => {
   const [form] = Form.useForm();
   const handleCancel = () => {
-    
     form.resetFields();
-    setUpdateLeadModal(false)
+    setUpdateLeadModal(false);
   };
 
   const [loading, setLoading] = useState(false);
@@ -38,9 +42,15 @@ const UpdateUserModal = ({
     const payload = {
       username: userData?.username,
       email: userData?.email,
-      roleId: roleManage(userData?.roleId),
-      departmentId: depManage(userData?.departmentId),
-      locationId: LocManage(userData?.locationId),
+      roleId: userData?.roleId?.length
+        ? StringManaged(role, userData?.roleId)
+        : userData?.roleId,
+      departmentId: userData?.departmentId?.length
+        ? StringManaged(department, userData?.departmentId)
+        : userData?.departmentId,
+      locationId: userData?.locationId?.length
+        ? StringManaged(location, userData?.locationId)
+        : userData?.locationId,
     };
 
     try {
@@ -49,10 +59,11 @@ const UpdateUserModal = ({
       message.success(res.data.message);
       setCallBack(!callBack);
       form.resetFields();
-      setUpdateLeadModal(false)
+      setUpdateLeadModal(false);
       setLoading(false);
     } catch (error) {
-      message.error("Something went wrong")
+      error?.response?.data?.details[0] &&
+        message.error(error?.response?.data?.details[0]);
       setLoading(false);
     }
   };
@@ -74,7 +85,6 @@ const UpdateUserModal = ({
           locationId: userDisplay?.data?.data?.location,
         });
 
-        
         setLoading(false);
       } catch (err) {
         setLoading(false);
@@ -96,7 +106,14 @@ const UpdateUserModal = ({
       >
         <Spin spinning={loading}>
           <div className="um_modal_body">
-            <Form form={form} onFinish={onFinish} autoComplete="off">
+            <Form
+              form={form}
+              onFinish={onFinish}
+              autoComplete="off"
+              initialValues={{
+                remember: true,
+              }}
+            >
               <Form.Item name="username" noStyle>
                 {" "}
                 <Input
@@ -119,7 +136,7 @@ const UpdateUserModal = ({
                 onChange={(value) =>
                   setUserData({
                     ...userData,
-                    departmentId:(value),
+                    departmentId: value,
                   })
                 }
                 placeholder="Department"
@@ -130,11 +147,19 @@ const UpdateUserModal = ({
                 }))}
               />
 
-              <Form.Item name="email" noStyle>
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$",
+                    message: "Invalid email address.",
+                  },
+                ]}
+              >
                 {" "}
                 <Input
                   className="selectChange"
-                  type="text"
+                  type="email"
                   placeholder="Email"
                   value={userData?.email}
                   onChange={(e) =>
@@ -143,6 +168,7 @@ const UpdateUserModal = ({
                       email: e.target.value,
                     })
                   }
+                  required
                 />
               </Form.Item>
 
@@ -159,7 +185,7 @@ const UpdateUserModal = ({
                 onChange={(value) =>
                   setUserData({
                     ...userData,
-                    roleId: (value),
+                    roleId: value,
                   })
                 }
                 optionFilterProp="label"
@@ -174,7 +200,6 @@ const UpdateUserModal = ({
               ) : null}
 
               <Select
-              
                 className="selectChange"
                 allowClear
                 showSearch
@@ -183,7 +208,7 @@ const UpdateUserModal = ({
                 onChange={(value) =>
                   setUserData({
                     ...userData,
-                    locationId: (value),
+                    locationId: value,
                   })
                 }
                 optionFilterProp="label"

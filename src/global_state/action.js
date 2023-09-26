@@ -82,36 +82,11 @@ export const ReportExcelDownload = (file) => {
   link.click();
 };
 
-export const roleManage = (role) => {
-  switch (role) {
-    case "Admin":
-      return 1;
-
-    default:
-      return role;
-  }
-};
-export const depManage = (department) => {
-  switch (department) {
-    case "Marketing":
-      return 1;
-    case "Management":
-      return 2;
-    case "Call Center":
-      return 3;
-    case "Hr":
-      return 4;
-
-    default:
-      return department;
-  }
-};
-export const LocManage = (Location) => {
-  switch (Location) {
-    case "Head Office":
-      return 1;
-
-    default:
-      return Location;
-  }
+export const StringManaged = (data, pString) => {
+  const stringMapping = {};
+  data.forEach((d) => {
+    stringMapping[d.name] = d.id;
+  });
+  const selectedStringId= stringMapping[pString];
+  return selectedStringId;
 };
