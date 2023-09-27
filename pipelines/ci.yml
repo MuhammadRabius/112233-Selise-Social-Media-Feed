@@ -3,7 +3,7 @@ trigger:
    #- releases/*
    #- feature/*
 pool:
-  name: Default
+  name: Linux
 
 resources:
   repositories:
