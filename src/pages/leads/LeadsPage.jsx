@@ -8,30 +8,35 @@ import { getLeadStatus, leadListWithPagination } from "./Service/lead_service";
 import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
 import { debounce } from "lodash";
+import { SearchOutlined } from "@ant-design/icons";
 
 const LeadsPage = () => {
   const [isLoading, setLoading] = useState(false);
   const [callBack, setCallBack] = useState(false);
-  // Filter Issues
+
   const [searchInput, setSearchInput] = useState("");
 
-  // setup Field Data from API
   const [leadListView, setLeadListView] = useState([]);
   const [p_Number, set_P_Number] = useState(0);
   const [p_Size, set_P_Size] = useState(10);
   const [totalPages, setTotal] = useState(0);
   const frontPaginationNumber = p_Number + 1;
-  // Table Sorting
+
   const [sortedInfo, setSortedInfo] = useState({});
   const [tableStatus, setTableStatus] = useState([]);
-  const [leadStatusId, setLeadStatusId] = useState("all" ? "" : 0);
+  const [leadStatusId, setLeadStatusId] = useState("all");
 
-  // Search Component
+  
+
   const debouncedSearch = debounce((s_value) => {
     setSearchInput(s_value);
     set_P_Number(0);
-    // console.log("dataINput", s_value);
   }, 1000);
+
+  const onLeadStatusChange=(v)=>{
+    setLeadStatusId(v);
+    set_P_Number(0);
+  }
 
   const phoneNumberSearch = (e) => {
     debouncedSearch(e?.target?.value);
@@ -40,21 +45,15 @@ const LeadsPage = () => {
     getApiCall();
   };
 
-  // Modal Section ----------
-
-  // Bulk component
   const [isBulkModal, setBulkUpModal] = useState(false);
   const showBUModal = () => {
     setBulkUpModal(true);
   };
 
-  // add lead component
   const [isAddLead, setAddLead] = useState(false);
   const showADModal = () => {
     setAddLead(true);
   };
-
-  // Update Single Lead ModaL
 
   const [updateLeadModal, setUpdateLeadModal] = useState(false);
   const [singleID, setSingleID] = useState(0);
@@ -68,20 +67,15 @@ const LeadsPage = () => {
     setUpdateLeadModal(false);
   };
 
-  // setIndexNumber
-
   const onPaginationChange = (pageNumber, pageSize) => {
     const pageNum = pageNumber - 1;
     set_P_Number(pageNum);
     set_P_Size(pageSize);
   };
 
-  // Table Data
   const onTableChange = (pagination, filters, sorter, extra) => {
     setSortedInfo(sorter);
   };
-
-  // Api Calling ----------
 
   const getApiCall = useCallback(async () => {
     try {
@@ -89,12 +83,12 @@ const LeadsPage = () => {
 
       const leadStatusDisplay = await getLeadStatus();
       setTableStatus(leadStatusDisplay.data.data);
-
+      const updateLeadStatusId = leadStatusId === "all" ? "" : leadStatusId;
       const leadDisplay = await leadListWithPagination(
         p_Number,
         p_Size,
         searchInput,
-        leadStatusId
+        updateLeadStatusId
       );
       setLeadListView(leadDisplay?.data?.data?.items);
       setTotal(leadDisplay?.data?.data?.totalItems);
@@ -109,12 +103,9 @@ const LeadsPage = () => {
 
   useEffect(() => {
     const ac = new AbortController();
-    // lead Table
     getApiCall();
     return () => ac.abort();
   }, [getApiCall]);
-
-  // Data Table Colum
 
   const columns = [
     {
@@ -247,10 +238,9 @@ const LeadsPage = () => {
   return (
     <>
       <Layout pageName={"Leads"}>
-        <div className="lead-container">
-          <p className="bt_Text">Lead Submission</p>
+        <div className="lead-container" >
+          <p className="bt_Text" data-testid="leads-mock">Lead Submission</p>
 
-          {/* Add and Search Section-------------------------- */}
           <div className="lead_S_Btn">
             <div className="lead-search">
               <Input
@@ -261,10 +251,7 @@ const LeadsPage = () => {
                 name="fname"
               />
               <span style={{ cursor: "pointer" }} onClick={onSearchClick}>
-                <i
-                  className="pi pi-search"
-                  style={{ color: "var(--primary-color)" }}
-                ></i>
+                <SearchOutlined className="pi-search" />
               </span>
             </div>
 
@@ -281,13 +268,13 @@ const LeadsPage = () => {
           <div className="filter_tableStatus">
             <Select
               className="filter_select"
-              defaultValue={"all"}
+              value={leadStatusId}
               style={{
                 width: "150px",
               }}
-              onChange={(value) => setLeadStatusId(value)}
+              onChange={(value) => onLeadStatusChange(value)}
             >
-              <Select.Option value={"all"}>All</Select.Option>
+              <Select.Option value="all">All</Select.Option>
               {tableStatus.map((_d) => {
                 return (
                   <>
@@ -300,7 +287,6 @@ const LeadsPage = () => {
             </Select>
           </div>
 
-          {/* Lead Submission Table View---------- */}
           <div className="__l_sub_table">
             <div>
               <Table
