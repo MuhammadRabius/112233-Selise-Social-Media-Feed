@@ -3,7 +3,7 @@ trigger:
    #- releases/*
    #- feature/*
 pool:
-  name: 'Default-EMEA'
+  name: 'Linux'
 
 resources:
   repositories:
