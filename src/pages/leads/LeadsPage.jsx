@@ -31,6 +31,11 @@ const LeadsPage = () => {
     set_P_Number(0);
   }, 1000);
 
+  const onLeadStatusChange=(v)=>{
+    setLeadStatusId(v);
+    set_P_Number(0);
+  }
+
   const phoneNumberSearch = (e) => {
     debouncedSearch(e?.target?.value);
   };
@@ -265,7 +270,7 @@ const LeadsPage = () => {
               style={{
                 width: "150px",
               }}
-              onChange={(value) => setLeadStatusId(value)}
+              onChange={(value) => onLeadStatusChange(value)}
             >
               <Select.Option value={"all"}>All</Select.Option>
               {tableStatus.map((_d) => {
