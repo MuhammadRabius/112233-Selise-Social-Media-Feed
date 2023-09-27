@@ -24,7 +24,9 @@ const LeadsPage = () => {
 
   const [sortedInfo, setSortedInfo] = useState({});
   const [tableStatus, setTableStatus] = useState([]);
-  const [leadStatusId, setLeadStatusId] = useState("all" ? "" : 0);
+  const [leadStatusId, setLeadStatusId] = useState("all");
+
+  
 
   const debouncedSearch = debounce((s_value) => {
     setSearchInput(s_value);
@@ -81,12 +83,12 @@ const LeadsPage = () => {
 
       const leadStatusDisplay = await getLeadStatus();
       setTableStatus(leadStatusDisplay.data.data);
-
+      const updateLeadStatusId = leadStatusId === "all" ? "" : leadStatusId;
       const leadDisplay = await leadListWithPagination(
         p_Number,
         p_Size,
         searchInput,
-        leadStatusId
+        updateLeadStatusId
       );
       setLeadListView(leadDisplay?.data?.data?.items);
       setTotal(leadDisplay?.data?.data?.totalItems);
@@ -266,13 +268,13 @@ const LeadsPage = () => {
           <div className="filter_tableStatus">
             <Select
               className="filter_select"
-              defaultValue={"all"}
+              value={leadStatusId}
               style={{
                 width: "150px",
               }}
               onChange={(value) => onLeadStatusChange(value)}
             >
-              <Select.Option value={"all"}>All</Select.Option>
+              <Select.Option value="all">All</Select.Option>
               {tableStatus.map((_d) => {
                 return (
                   <>
