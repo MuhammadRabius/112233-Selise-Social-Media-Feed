@@ -24,13 +24,13 @@ steps:
   #    inputs:
   #      script: |
   #        sudo npm install -g npm@latest
-  #  - task: Npm@1
-  #    displayName: 'Cache Clean'
-  #    inputs:
-  #      command: custom
-  #      verbose: false
-  #      customCommand: 'cache clean --force'
-  #      workingDir: '$(Build.SourcesDirectory)'
+   - task: Npm@1
+     displayName: 'Cache Clean'
+     inputs:
+       command: custom
+       verbose: false
+       customCommand: 'cache clean --force'
+       workingDir: '$(Build.SourcesDirectory)'
        
   - template: "./nodejs/ci.yml@templates"
     parameters:
