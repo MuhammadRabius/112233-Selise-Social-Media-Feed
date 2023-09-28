@@ -59,3 +59,7 @@ steps:
       acrHostName: 'acr13553s1dv01.azurecr.io'
       acrRepoName: 'ulm-app'
       dockerFilePath: $(Build.SourcesDirectory)
+
+  - task: CmdLine@2
+    inputs:
+      script: 'npm show mui versions'
