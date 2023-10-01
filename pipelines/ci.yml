@@ -3,7 +3,7 @@ trigger:
    #- releases/*
    #- feature/*
 pool:
-  name: 'Linux'
+  name: 'Linux APAC'
 
 resources:
   repositories:
