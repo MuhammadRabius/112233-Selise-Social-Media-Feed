@@ -8,10 +8,7 @@ import "./index.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-//axios.defaults.baseURL =  "http://10.69.13.7:8200";
 axios.defaults.baseURL =  "https://dev.ulm.api.metlife.com.bd";
-
-
 
 axios.defaults.headers.common["Authorization"] =
   "Bearer " + localStorage.getItem("access-token");
