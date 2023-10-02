@@ -16,6 +16,6 @@ const Layout = ({ children,pageName }) => {
       </div>
     </div>
   );
-};
+};    
 
 export default Layout;
