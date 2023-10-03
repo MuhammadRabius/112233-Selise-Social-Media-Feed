@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
-import { Table, Input, Pagination, Select,Tag,Tooltip } from "antd";
+import { Table, Input, Pagination, Select, Tag, Tooltip } from "antd";
 import UploadModal from "./CustomModal/UploadModal";
 import LeadUpdateModal from "./LeadUpdateModal";
 import { getLeadStatus, leadListWithPagination } from "./Service/lead_service";
@@ -27,17 +27,15 @@ const LeadsPage = () => {
   const [tableStatus, setTableStatus] = useState([]);
   const [leadStatusId, setLeadStatusId] = useState("all");
 
-  
-
   const debouncedSearch = debounce((s_value) => {
     setSearchInput(s_value);
     set_P_Number(0);
   }, 1000);
 
-  const onLeadStatusChange=(v)=>{
+  const onLeadStatusChange = (v) => {
     setLeadStatusId(v);
     set_P_Number(0);
-  }
+  };
 
   const phoneNumberSearch = (e) => {
     debouncedSearch(e?.target?.value);
@@ -116,7 +114,7 @@ const LeadsPage = () => {
       sorter: (a, b) => new Date(a.leadDate) - new Date(b.leadDate),
       sortOrder: sortedInfo.columnKey === "leadDate" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
-      width:200,
+      width: 200,
     },
     {
       title: "Full Name",
@@ -125,23 +123,26 @@ const LeadsPage = () => {
       sorter: (a, b) => a?.firstName.localeCompare(b?.firstName),
       sortOrder: sortedInfo.columnKey === "firstName" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
-      width:200,
+      width: 200,
       responsive: ["sm"],
-      render: (firstName,_d) => {
-       return <p>{_d.firstName}{_d.lastName}</p>
-      }
+      render: (firstName, _d) => {
+        return (
+          <p>
+            {_d.firstName}
+            {_d.lastName}
+          </p>
+        );
+      },
     },
-    
+
     {
       title: "Mobile No",
       dataIndex: "contactNo",
       key: "contactNo",
       sorter: (a, b) => a?.contactNo - b?.contactNo,
       sortOrder: sortedInfo.columnKey === "contactNo" ? sortedInfo.order : null,
-      
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
-      
     },
     {
       title: "Email",
@@ -151,7 +152,6 @@ const LeadsPage = () => {
       sortOrder: sortedInfo.columnKey === "email" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
-    
     },
     {
       title: "District",
@@ -160,7 +160,7 @@ const LeadsPage = () => {
       sorter: (a, b) => a?.districtName?.length - b?.districtName?.length,
       sortOrder:
         sortedInfo.columnKey === "districtName" ? sortedInfo.order : null,
-     
+
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
     },
@@ -182,33 +182,31 @@ const LeadsPage = () => {
       sorter: (a, b) => a?.leadStatus?.length - b?.leadStatus?.length,
       sortOrder:
         sortedInfo.columnKey === "leadStatus" ? sortedInfo.order : null,
-      width:80,
+      width: 80,
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
       render: (leadStatus) => {
         return (
           <Tooltip title={`${leadStatus}`}>
-          <div
-               style={{
-                 width: "12px",
-                 height: "12px",
-                  background: ErrorColorCode(leadStatus),
-                 border: "1px solid #FFFFFF",
-                 borderRadius: "14px",
+            <div
+              style={{
+                width: "12px",
+                height: "12px",
+                background: ErrorColorCode(leadStatus),
+                border: "1px solid #FFFFFF",
+                borderRadius: "14px",
                 marginLeft: "15px",
-               }}
+              }}
             ></div>
-            </Tooltip>
-        )
-        
-        
+          </Tooltip>
+        );
       },
     },
     {
       title: "Action",
       dataIndex: "action",
       sortDirections: ["descend", "ascend"],
-      width:80,
+      width: 80,
       responsive: ["sm"],
       render: (states, _data) => {
         return _data?.leadStatus === "Not Verified" ? (
@@ -226,20 +224,26 @@ const LeadsPage = () => {
       title: "Validation Message",
       dataIndex: "validationErrorMessage",
       key: "validationErrorMessage",
-      width: 'auto',
+      width: "auto",
       render: (validationErrorMessage) => {
-       return validationErrorMessage.map((_d)=>{
-         return <Tag style={{ display: 'block' }} color="red">{_d}</Tag>
-        })
-      }
+        return validationErrorMessage.map((_d) => {
+          return (
+            <Tag style={{ display: "block" }} color="red">
+              {_d}
+            </Tag>
+          );
+        });
+      },
     },
   ];
 
   return (
     <>
       <Layout pageName={"Leads"}>
-        <div className="lead-container" >
-          <p className="bt_Text" data-testid="leads-mock">Lead Submission</p>
+        <div className="lead-container">
+          <p className="bt_Text" data-testid="leads-mock">
+            Lead Submission
+          </p>
 
           <div className="lead_S_Btn">
             <div className="lead-search">
@@ -298,8 +302,8 @@ const LeadsPage = () => {
                 pagination={false}
                 onChange={onTableChange}
                 tableLayout="auto"
-                scroll ={{
-                  x:500
+                scroll={{
+                  x: 500,
                 }}
               />
             </div>
