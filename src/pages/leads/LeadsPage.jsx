@@ -114,7 +114,6 @@ const LeadsPage = () => {
       sorter: (a, b) => new Date(a.leadDate) - new Date(b.leadDate),
       sortOrder: sortedInfo.columnKey === "leadDate" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
-      width: 200,
     },
     {
       title: "Full Name",
@@ -123,7 +122,7 @@ const LeadsPage = () => {
       sorter: (a, b) => a?.firstName.localeCompare(b?.firstName),
       sortOrder: sortedInfo.columnKey === "firstName" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
-      width: 200,
+
       responsive: ["sm"],
       render: (firstName, _d) => {
         return (
@@ -171,7 +170,7 @@ const LeadsPage = () => {
       sorter: (a, b) => a?.leadSourceName?.length - b?.leadSourceName?.length,
       sortOrder:
         sortedInfo.columnKey === "leadSourceName" ? sortedInfo.order : null,
-      width: 100,
+
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
     },
@@ -357,5 +356,5 @@ const LeadsPage = () => {
     </>
   );
 };
-  
+
 export default LeadsPage;
