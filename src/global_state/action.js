@@ -85,3 +85,17 @@ export const StringManaged = (data, pString) => {
   const selectedStringId= stringMapping[pString];
   return selectedStringId;
 };
+
+
+export const ErrorColorCode = (leads) => {
+  switch (leads) {
+    case "Not Verified":
+      return "#D42123";
+
+    case "Verified":
+      return "#FFBF00";
+
+    default:
+      return "#A4CE4E";
+  }
+};

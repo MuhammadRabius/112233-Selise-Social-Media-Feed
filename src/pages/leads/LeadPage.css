@@ -295,6 +295,7 @@
   font-family: "NotoSans-Bold", sans-serif;
 
 }
+<<<<<<< HEAD
 
 .ant-table-cell {
   color: var(--metlife-darkest-gray);
@@ -303,6 +304,12 @@
 }
 
 
+=======
+.ant-tag-red{
+  margin-bottom: 3px !important;
+}
+/* Pagination */
+>>>>>>> 14b9e018e55053b7d1a7c062eb2afbbeb51e88c0
 
 
 

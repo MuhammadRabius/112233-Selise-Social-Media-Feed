@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
-import { Table, Input, Pagination, Select } from "antd";
+import { Table, Input, Pagination, Select,Tag,Tooltip } from "antd";
 import UploadModal from "./CustomModal/UploadModal";
 import LeadUpdateModal from "./LeadUpdateModal";
 import { getLeadStatus, leadListWithPagination } from "./Service/lead_service";
@@ -9,6 +9,7 @@ import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
 import { debounce } from "lodash";
 import { SearchOutlined } from "@ant-design/icons";
+import { ErrorColorCode } from "../../global_state/action";
 
 const LeadsPage = () => {
   const [isLoading, setLoading] = useState(false);
@@ -117,24 +118,18 @@ const LeadsPage = () => {
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "First Name",
+      title: "Full Name",
       dataIndex: "firstName",
       key: "firstName",
       sorter: (a, b) => a?.firstName.localeCompare(b?.firstName),
       sortOrder: sortedInfo.columnKey === "firstName" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
+      render: (firstName,_d) => {
+       return <p>{_d.firstName}{_d.lastName}</p>
+      }
     },
-    {
-      title: "Last Name",
-      dataIndex: "lastName",
-      key: "lastName",
-      sorter: (a, b) => a?.lastName?.length - b?.lastName?.length,
-      sortOrder: sortedInfo.columnKey === "lastName" ? sortedInfo.order : null,
-
-      sortDirections: ["descend", "ascend"],
-      responsive: ["sm"],
-    },
+    
     {
       title: "Mobile No",
       dataIndex: "contactNo",
@@ -187,33 +182,22 @@ const LeadsPage = () => {
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
       render: (leadStatus) => {
-        return leadStatus === "Verified" || leadStatus === "Sent To UAA" ? (
-          <>
-            <div
-              style={{
-                width: "12px",
-                height: "12px",
-                background: "#A4CE4E",
-                border: "1px solid #FFFFFF",
-                borderRadius: "14px",
+        return (
+          <Tooltip title={`${leadStatus}`}>
+          <div
+               style={{
+                 width: "12px",
+                 height: "12px",
+                  background: ErrorColorCode(leadStatus),
+                 border: "1px solid #FFFFFF",
+                 borderRadius: "14px",
                 marginLeft: "15px",
-              }}
+               }}
             ></div>
-          </>
-        ) : (
-          <>
-            <div
-              style={{
-                width: "12px",
-                height: "12px",
-                background: "#D42123",
-                border: "1px solid #FFFFFF",
-                borderRadius: "14px",
-                marginLeft: "15px",
-              }}
-            ></div>{" "}
-          </>
-        );
+            </Tooltip>
+        )
+        
+        
       },
     },
     {
@@ -232,6 +216,17 @@ const LeadsPage = () => {
           <NavLink disabled>Edit</NavLink>
         );
       },
+    },
+    {
+      title: "Validation Message",
+      dataIndex: "validationErrorMessage",
+      key: "validationErrorMessage",
+      width: 250,
+      render: (validationErrorMessage) => {
+       return validationErrorMessage.map((_d)=>{
+         return <Tag color="red">{_d}</Tag>
+        })
+      }
     },
   ];
 
@@ -291,13 +286,14 @@ const LeadsPage = () => {
             <div>
               <Table
                 size="small"
-                rowKey={"1"}
+                rowKey="key"
                 loading={isLoading}
                 columns={columns}
                 dataSource={leadListView}
                 pagination={false}
                 onChange={onTableChange}
                 tableLayout="fixed"
+               
               />
             </div>
           </div>
