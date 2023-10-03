@@ -221,10 +221,9 @@ const LeadsPage = () => {
       title: "Validation Message",
       dataIndex: "validationErrorMessage",
       key: "validationErrorMessage",
-      width: 250,
       render: (validationErrorMessage) => {
        return validationErrorMessage.map((_d)=>{
-         return <Tag color="red">{_d}</Tag>
+         return <Tag style={{ display: 'block'}} color="red">{_d}</Tag>
         })
       }
     },
@@ -285,7 +284,7 @@ const LeadsPage = () => {
           <div className="__l_sub_table">
             <div>
               <Table
-                size="small"
+                // size="small"
                 rowKey="key"
                 loading={isLoading}
                 columns={columns}
@@ -293,7 +292,7 @@ const LeadsPage = () => {
                 pagination={false}
                 onChange={onTableChange}
                 tableLayout="fixed"
-               
+                scroll={{ x: 'max-content' }} 
               />
             </div>
           </div>

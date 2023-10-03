@@ -299,7 +299,7 @@
 
 }
 .ant-tag-red{
-  margin-bottom: 3px !important;
+  margin-bottom: 4px !important;
 }
 /* Pagination */
 
@@ -349,8 +349,3 @@
   color: #007ABC !important;
 }
 
-/* @media screen and (max-width: 1366px) {
-  .lead-pagination .ant-pagination-options-quick-jumper {
-    margin-inline-start: 350px !important;
-  }
-} */
