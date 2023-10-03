@@ -116,6 +116,7 @@ const LeadsPage = () => {
       sorter: (a, b) => new Date(a.leadDate) - new Date(b.leadDate),
       sortOrder: sortedInfo.columnKey === "leadDate" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
+      width:200,
     },
     {
       title: "Full Name",
@@ -124,6 +125,7 @@ const LeadsPage = () => {
       sorter: (a, b) => a?.firstName.localeCompare(b?.firstName),
       sortOrder: sortedInfo.columnKey === "firstName" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
+      width:200,
       responsive: ["sm"],
       render: (firstName,_d) => {
        return <p>{_d.firstName}{_d.lastName}</p>
@@ -136,9 +138,10 @@ const LeadsPage = () => {
       key: "contactNo",
       sorter: (a, b) => a?.contactNo - b?.contactNo,
       sortOrder: sortedInfo.columnKey === "contactNo" ? sortedInfo.order : null,
-
+      
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
+      
     },
     {
       title: "Email",
@@ -148,6 +151,7 @@ const LeadsPage = () => {
       sortOrder: sortedInfo.columnKey === "email" ? sortedInfo.order : null,
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
+    
     },
     {
       title: "District",
@@ -156,7 +160,7 @@ const LeadsPage = () => {
       sorter: (a, b) => a?.districtName?.length - b?.districtName?.length,
       sortOrder:
         sortedInfo.columnKey === "districtName" ? sortedInfo.order : null,
-
+     
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
     },
@@ -167,7 +171,7 @@ const LeadsPage = () => {
       sorter: (a, b) => a?.leadSourceName?.length - b?.leadSourceName?.length,
       sortOrder:
         sortedInfo.columnKey === "leadSourceName" ? sortedInfo.order : null,
-
+      width: 100,
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
     },
@@ -178,7 +182,7 @@ const LeadsPage = () => {
       sorter: (a, b) => a?.leadStatus?.length - b?.leadStatus?.length,
       sortOrder:
         sortedInfo.columnKey === "leadStatus" ? sortedInfo.order : null,
-
+      width:80,
       sortDirections: ["descend", "ascend"],
       responsive: ["sm"],
       render: (leadStatus) => {
@@ -204,6 +208,7 @@ const LeadsPage = () => {
       title: "Action",
       dataIndex: "action",
       sortDirections: ["descend", "ascend"],
+      width:80,
       responsive: ["sm"],
       render: (states, _data) => {
         return _data?.leadStatus === "Not Verified" ? (
@@ -221,9 +226,10 @@ const LeadsPage = () => {
       title: "Validation Message",
       dataIndex: "validationErrorMessage",
       key: "validationErrorMessage",
+      width: 'auto',
       render: (validationErrorMessage) => {
        return validationErrorMessage.map((_d)=>{
-         return <Tag style={{ display: 'block'}} color="red">{_d}</Tag>
+         return <Tag style={{ display: 'block' }} color="red">{_d}</Tag>
         })
       }
     },
@@ -284,15 +290,17 @@ const LeadsPage = () => {
           <div className="__l_sub_table">
             <div>
               <Table
-                // size="small"
+                size="middle"
                 rowKey="key"
                 loading={isLoading}
                 columns={columns}
                 dataSource={leadListView}
                 pagination={false}
                 onChange={onTableChange}
-                tableLayout="fixed"
-                scroll={{ x: 'max-content' }} 
+                tableLayout="auto"
+                scroll ={{
+                  x:500
+                }}
               />
             </div>
           </div>
