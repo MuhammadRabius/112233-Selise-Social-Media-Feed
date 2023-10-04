@@ -224,11 +224,16 @@ const LeadsPage = () => {
       dataIndex: "validationErrorMessage",
       key: "validationErrorMessage",
       width: "auto",
-      render: (validationErrorMessage) => {
+      render: (validationErrorMessage, _data) => {
         return validationErrorMessage.map((_d) => {
-          return (
+          return _data.leadStatus === "Not Verified" ? (
             <Tag style={{ display: "block" }} color="red">
               {_d}
+            </Tag>
+          ) : (
+            <Tag style={{ display: "block" }} color="red">
+              {" "}
+              <del>{_d}</del>{" "}
             </Tag>
           );
         });
@@ -356,5 +361,5 @@ const LeadsPage = () => {
     </>
   );
 };
-    
+
 export default LeadsPage;
