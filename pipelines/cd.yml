@@ -21,8 +21,7 @@ pool:
 variables:
   k8sDescriptorsDir: '$(Pipeline.Workspace)/13639-ULM-Client-CI/drop/manifest/kubernetes'
   serviceName: '13639-ULM-CLIENT'
-  IMAGE_TAG: '20231003.1'
-  #$(resources.pipeline.13639-ULM-Client-CI.runName)
+  IMAGE_TAG: $(resources.pipeline.13639-ULM-Client-CI.runName)
 
 stages:
   - template: ./common-cd/stages/k8s-stage-cd.yml@templates
