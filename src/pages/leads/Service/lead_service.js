@@ -40,5 +40,5 @@ export const findFinicalAgent = async (faCode) => {
 };
 
 export const getLeadStatus = async () => {
-  return await axios.get(`/api/leads/status`);
+  return await axios.get(`/api/lead-status`);
 };

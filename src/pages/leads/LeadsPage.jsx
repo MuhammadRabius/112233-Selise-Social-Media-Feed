@@ -11,8 +11,8 @@ import { debounce } from "lodash";
 import { SearchOutlined } from "@ant-design/icons";
 import { ErrorColorCode } from "../../global_state/action";
 
-const LeadsPage = () => {
-  const [isLoading, setLoading] = useState(false);
+const LeadsPage = ({isLoad}) => {
+  const [isLoading, setLoading] = useState(isLoad === "false" ? false : true);
   const [callBack, setCallBack] = useState(false);
 
   const [searchInput, setSearchInput] = useState("");

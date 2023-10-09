@@ -22,5 +22,5 @@ export const getCount = async ({
 };
 
 export const getSource = async () => {
-  return await axios.get(`/api/leads/sources`);
+  return await axios.get(`/api/lead-sources`);
 };

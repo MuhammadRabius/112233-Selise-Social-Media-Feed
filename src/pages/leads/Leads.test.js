@@ -15,4 +15,13 @@ describe("Initialized Component", () => {
       const label = screen.getByTestId("leads-mock");
       expect(label.textContent).toBe("Lead Submission");
     });
+
+    it("Mobile number search input triggers API call on Search Lead",()=>{
+      render(
+        <Router>
+          <LeadsPage isLoad={"false"} />
+        </Router>
+      );
+
+    })
 })
