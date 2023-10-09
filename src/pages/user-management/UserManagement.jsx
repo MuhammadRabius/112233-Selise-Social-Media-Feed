@@ -338,7 +338,7 @@ const UserManagement = ({ isLoad, values }) => {
                 <div className="um_f_part">
                   <div className="lead-search">
                     <input
-                      placeholder="Search by username/email  "
+                      placeholder="Search by username,email"
                       className="filterlead"
                       type="text"
                       name="fname"
