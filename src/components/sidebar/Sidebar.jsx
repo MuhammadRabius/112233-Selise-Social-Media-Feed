@@ -10,9 +10,9 @@ const Sidebar = () => {
   const azureLogoutUrl =
     "https://login.microsoftonline.com/ca56a4a5-e300-406a-98ff-7e36a0baac5b/oauth2/v2.0/logout?post_logout_redirect_uri=https%3A%2F%2Flogin.microsoftonline.com%2Fca56a4a5-e300-406a-98ff-7e36a0baac5b%2Foauth2%2Fv2.0%2Fauthorize%3Fclient_id%3D5a6f192a-8f85-4f86-8715-2efa16a9ea41%26response_type%3Dcode%26redirect_uri%3Dhttps%253A%252F%252Fdev.ulm.metlife.com.bd%252F%26response_mode%3Dquery%26scope%3Dhttps%253A%252F%252Fgraph.microsoft.com%252Fuser.read%26sso_reload%3Dtrue";
   const user = JSON.parse(localStorage.getItem("user"));
-  const role = JSON.parse(localStorage.getItem("role"));
-  console.log("role",role)
-  const customRole = "Admin"
+  const authority = JSON.parse(localStorage.getItem("authority"));
+  console.log("authority",authority)
+  
 
   const onLogoutClick = (e) => {
     localStorage.clear();
@@ -28,12 +28,12 @@ const Sidebar = () => {
       </div>
       <div className="sidebar-userinfo mt-4 text-center text-white">
         <h6>{user === null ? "Test User" : user.name}</h6>
-        <p>{user === null ? "" : role}</p>
+        <p>{user === null ? "" : authority}</p>
       </div>
 
       <div className="sidebar">
         <nav className="sidebar-nav">
-          {customRole === "CALL_CENTER" ? (
+          {authority === "CALL_CENTER" ? (
             <ul className="sidebar-nav-ul">
               <li className="">
                 <NavLink
@@ -79,7 +79,7 @@ const Sidebar = () => {
                   &nbsp; Report
                 </NavLink>
               </li>
-              {customRole === "CALL_CENTER" ? null : (
+              {authority === "CALL_CENTER" ? null : (
                 <li className="">
                   <NavLink
                     className={({ isActive, isPending }) =>

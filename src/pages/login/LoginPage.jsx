@@ -47,6 +47,7 @@ const LoginPage = () => {
             const user = jwt_decode(token);
             localStorage.setItem("user", JSON.stringify(user));
             localStorage.setItem("username", JSON.stringify(username));
+            localStorage.setItem("authority", JSON.stringify(authority));
             window.location.href = "/dashboard";
             message.success(res.data.message);
             setLoading(false);

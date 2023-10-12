@@ -11,9 +11,8 @@ import { debounce } from "lodash";
 import { SearchOutlined } from "@ant-design/icons";
 import { ErrorColorCode } from "../../global_state/action";
 
-const LeadsPage = ({isLoad}) => {
-  const role = JSON.parse(localStorage.getItem("role"));
-  const customRole = "Admin"
+const LeadsPage = ({ isLoad }) => {
+  const authority = JSON.parse(localStorage.getItem("authority"));
   const [isLoading, setLoading] = useState(isLoad === "false" ? false : true);
   const [callBack, setCallBack] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -265,11 +264,11 @@ const LeadsPage = ({isLoad}) => {
             </div>
 
             <div className="add-lead-group">
-              {
-                customRole === "CALL_CENTER" ? null : <button className="btn_group me-4" onClick={showBUModal}>
-                BULK UPLOAD
-              </button>
-              }
+              {authority === "CALL_CENTER" ? null : (
+                <button className="btn_group me-4" onClick={showBUModal}>
+                  BULK UPLOAD
+                </button>
+              )}
               <button className="btn_group" onClick={showADModal}>
                 + ADD LEAD
               </button>
