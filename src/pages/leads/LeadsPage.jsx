@@ -13,6 +13,7 @@ import { ErrorColorCode } from "../../global_state/action";
 
 const LeadsPage = ({isLoad}) => {
   const role = JSON.parse(localStorage.getItem("role"));
+  const customRole = "Admin"
   const [isLoading, setLoading] = useState(isLoad === "false" ? false : true);
   const [callBack, setCallBack] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -265,7 +266,7 @@ const LeadsPage = ({isLoad}) => {
 
             <div className="add-lead-group">
               {
-                customRole=== "CALL_CENTER" ? null : <button className="btn_group me-4" onClick={showBUModal}>
+                customRole === "CALL_CENTER" ? null : <button className="btn_group me-4" onClick={showBUModal}>
                 BULK UPLOAD
               </button>
               }
