@@ -12,9 +12,8 @@ const Sidebar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const role = JSON.parse(localStorage.getItem("role"));
 
-  const onLogoutClick = async(e) => {
+  const onLogoutClick = (e) => {
     localStorage.clear();
-    const logout = await userLogout();
     window.location.href = azureLogoutUrl;
   };
 
