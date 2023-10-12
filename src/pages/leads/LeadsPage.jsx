@@ -264,7 +264,7 @@ const LeadsPage = ({ isLoad }) => {
             </div>
 
             <div className="add-lead-group">
-              {authority === "CALL_CENTER" ? null : (
+              {authority === "ROLE_CALL_CENTER" ? null : (
                 <button className="btn_group me-4" onClick={showBUModal}>
                   BULK UPLOAD
                 </button>

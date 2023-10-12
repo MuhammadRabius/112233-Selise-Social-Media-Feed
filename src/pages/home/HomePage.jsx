@@ -47,20 +47,19 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
       (async () => {
         if (toDate && fromDate) {
           setLoading(isLoad === "false" ? false : true);
-          // Table API
           const tableDisplay = await getLeadSource(fromDate, toDate);
           setTData(tableDisplay.data.data);
-
-          // Grap API
-
           const typeDisplay = await getLeadSourceType(fromDate, toDate);
           setGData(typeDisplay.data.data);
+          setLoading(false);
+          return;
         }
-        setLoading(false);
+        
       })();
     } catch (err) {
       setLoading(false);
       err.response.data.message && message.error(err.response.data.message);
+      localStorage.clear();
     }
 
     return () => ac.abort();
@@ -102,7 +101,7 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
                       label={{
                         value: "Source Type",
                         position: "insideBottomRight",
-                        // offset: -1,
+                        
                         fill: "black",
                         fontSize: "14px",
                         fontWeight: "700",

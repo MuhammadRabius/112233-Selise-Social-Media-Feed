@@ -14,8 +14,9 @@ const Sidebar = () => {
   console.log("authority",authority)
   
 
-  const onLogoutClick = (e) => {
+  const onLogoutClick = async(e) => {
     localStorage.clear();
+    const logout = userLogout()
     window.location.href = azureLogoutUrl;
   };
 
@@ -33,7 +34,7 @@ const Sidebar = () => {
 
       <div className="sidebar">
         <nav className="sidebar-nav">
-          {authority === "CALL_CENTER" ? (
+          {authority === "ROLE_CALL_CENTER" ? (
             <ul className="sidebar-nav-ul">
               <li className="">
                 <NavLink
@@ -79,7 +80,7 @@ const Sidebar = () => {
                   &nbsp; Report
                 </NavLink>
               </li>
-              {authority === "CALL_CENTER" ? null : (
+              {authority === "ROLE_CALL_CENTER" ? null : (
                 <li className="">
                   <NavLink
                     className={({ isActive, isPending }) =>
