@@ -40,8 +40,9 @@ const LoginPage = () => {
 
           if (res.data.status === true) {
             setStatus(200);
-            const token = res.data.data.token;
-            const username = res.data.data.username;
+            const token = res?.data?.data?.token;
+            const username = res?.data?.data?.username;
+            const authority = res?.data?.data?.authority[0]?.authority;
             localStorage.setItem("access-token", token);
             const user = jwt_decode(token);
             localStorage.setItem("user", JSON.stringify(user));

@@ -12,7 +12,7 @@ const Sidebar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const role = JSON.parse(localStorage.getItem("role"));
   console.log("role",role)
-
+  const customRole = "Admin"
 
   const onLogoutClick = (e) => {
     localStorage.clear();
@@ -33,7 +33,7 @@ const Sidebar = () => {
 
       <div className="sidebar">
         <nav className="sidebar-nav">
-          {role === "CALL_CENTER" ? (
+          {customRole === "CALL_CENTER" ? (
             <ul className="sidebar-nav-ul">
               <li className="">
                 <NavLink
@@ -79,7 +79,7 @@ const Sidebar = () => {
                   &nbsp; Report
                 </NavLink>
               </li>
-              {role === "CALL_CENTER" ? null : (
+              {customRole === "CALL_CENTER" ? null : (
                 <li className="">
                   <NavLink
                     className={({ isActive, isPending }) =>
