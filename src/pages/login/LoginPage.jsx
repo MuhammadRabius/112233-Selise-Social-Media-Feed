@@ -42,10 +42,14 @@ const LoginPage = () => {
             setStatus(200);
             const token = res.data.data.token;
             const username = res.data.data.username;
+            const role = res.data.data.authority?.authority[0];
+            const expiration = res.data.data.expiration;
             localStorage.setItem("access-token", token);
             const user = jwt_decode(token);
             localStorage.setItem("user", JSON.stringify(user));
             localStorage.setItem("username", JSON.stringify(username));
+            localStorage.setItem("role", JSON.stringify(role));
+            localStorage.setItem("expiration", JSON.stringify(expiration));
             window.location.href = "/dashboard";
             message.success(res.data.message);
             setLoading(false);

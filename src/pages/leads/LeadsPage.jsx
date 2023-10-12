@@ -12,9 +12,9 @@ import { SearchOutlined } from "@ant-design/icons";
 import { ErrorColorCode } from "../../global_state/action";
 
 const LeadsPage = ({isLoad}) => {
+  const role = JSON.parse(localStorage.getItem("role"));
   const [isLoading, setLoading] = useState(isLoad === "false" ? false : true);
   const [callBack, setCallBack] = useState(false);
-
   const [searchInput, setSearchInput] = useState("");
 
   const [leadListView, setLeadListView] = useState([]);
@@ -264,9 +264,11 @@ const LeadsPage = ({isLoad}) => {
             </div>
 
             <div className="add-lead-group">
-              <button className="btn_group me-4" onClick={showBUModal}>
+              {
+                role === "CALL_CENTER" ? null : <button className="btn_group me-4" onClick={showBUModal}>
                 BULK UPLOAD
               </button>
+              }
               <button className="btn_group" onClick={showADModal}>
                 + ADD LEAD
               </button>

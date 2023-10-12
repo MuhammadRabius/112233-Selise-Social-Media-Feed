@@ -4,4 +4,8 @@ const userLogin = (body) => {
   return axios.post("/api/auth/token", body);
 };
 
-export { userLogin };
+const userLogout = () => {
+  return axios.get("api/auth/logout");
+};
+
+export { userLogin, userLogout };

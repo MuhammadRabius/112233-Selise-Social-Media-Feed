@@ -15,6 +15,7 @@ import {
 import UpdateUserModal from "./UpdateUserModal/UpdateUserModal";
 
 const UserManagement = ({ isLoad, values }) => {
+  const username = JSON.parse(localStorage.getItem("username"));
   const { Option } = Select;
   const [form] = Form.useForm();
   const [callBack, setCallBack] = useState(false);
@@ -89,13 +90,13 @@ const UserManagement = ({ isLoad, values }) => {
     (async () => {
       try {
         setLoading(isLoad === "false" ? false : true);
-       
+
         const districtDisplay = await getLocations();
         setLocation(districtDisplay.data.data);
-       
+
         const locationDisplay = await getDepartment();
         setDepartment(locationDisplay.data.data);
-     
+
         const roleDisplay = await getRole();
         setRole(roleDisplay.data.data);
         //
@@ -135,7 +136,6 @@ const UserManagement = ({ isLoad, values }) => {
       key: "role",
       sorter: (a, b) => a?.role?.length - b?.role?.length,
       sortOrder: sortedInfo.columnKey === "role" ? sortedInfo.order : null,
-      
     },
     {
       title: "Email",
@@ -164,7 +164,8 @@ const UserManagement = ({ isLoad, values }) => {
       dataIndex: "action",
       key: "key",
       render: (states, _data) => {
-        return _data?.username !== "SystemUser" ? (
+        return _data?.username !== "SystemUser" ||
+          _data.username === username ? (
           <>
             <NavLink onClick={(e) => showModal(_data.userId)}>Edit</NavLink>
           </>
@@ -176,7 +177,8 @@ const UserManagement = ({ isLoad, values }) => {
       dataIndex: "active",
       key: "active",
       render: (active, _data) => {
-        return _data?.username !== "SystemUser" ? (
+        return _data?.username !== "SystemUser" ||
+          _data.username === username ? (
           <>
             <Switch
               checked={_data?.active}
@@ -378,7 +380,7 @@ const UserManagement = ({ isLoad, values }) => {
           </Layout>
         </>
       )}
-                               
+
       {UpdateUserModal && (
         <UpdateUserModal
           key={userId}
