@@ -57,7 +57,6 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
     } catch (err) {
       setLoading(false);
       err.response.data.message && message.error(err.response.data.message);
-      localStorage.clear();
     }
 
     return () => ac.abort();

@@ -97,7 +97,6 @@ const LeadsPage = ({ isLoad }) => {
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      localStorage.clear();
     }
   }, [callBack, p_Number, p_Size, searchInput, leadStatusId]);
 
