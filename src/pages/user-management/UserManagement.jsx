@@ -16,6 +16,7 @@ import UpdateUserModal from "./UpdateUserModal/UpdateUserModal";
 
 const UserManagement = ({ isLoad, values }) => {
   const username = JSON.parse(localStorage.getItem("username"));
+  console.log("username", username);
   const { Option } = Select;
   const [form] = Form.useForm();
   const [callBack, setCallBack] = useState(false);
@@ -164,12 +165,12 @@ const UserManagement = ({ isLoad, values }) => {
       dataIndex: "action",
       key: "key",
       render: (states, _data) => {
-        return _data?.username !== "SystemUser" ||
-          _data.username === username ? (
+        return _data?.username === "SystemUser" ||
+          _data.username === username ? null : (
           <>
             <NavLink onClick={(e) => showModal(_data.userId)}>Edit</NavLink>
           </>
-        ) : null;
+        );
       },
     },
     {
@@ -177,8 +178,9 @@ const UserManagement = ({ isLoad, values }) => {
       dataIndex: "active",
       key: "active",
       render: (active, _data) => {
-        return _data?.username !== "SystemUser" ||
-          _data.username === username ? (
+        console.log("_data.username", _data.username);
+        return _data?.username === "SystemUser" ||
+          _data.username === username ? null : (
           <>
             <Switch
               checked={_data?.active}
@@ -186,7 +188,7 @@ const UserManagement = ({ isLoad, values }) => {
               loading={isLoading}
             />
           </>
-        ) : null;
+        );
       },
     },
   ];
