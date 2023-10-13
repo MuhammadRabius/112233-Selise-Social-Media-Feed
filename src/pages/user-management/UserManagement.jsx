@@ -14,13 +14,13 @@ import {
 } from "./Service/um_service";
 import UpdateUserModal from "./UpdateUserModal/UpdateUserModal";
 
-const UserManagement = (props) => {
+const UserManagement = ({ isLoad, values }) => {
+  const username = JSON.parse(localStorage.getItem("username"));
+  console.log("username",username)
   const { Option } = Select;
   const [form] = Form.useForm();
   const [callBack, setCallBack] = useState(false);
-  const [isLoading, setLoading] = useState(
-    props.isLoad === "false" ? false : true
-  );
+  const [isLoading, setLoading] = useState(isLoad === "false" ? false : true);
   const [role, setRole] = useState([]);
   const [department, setDepartment] = useState([]);
   const [location, setLocation] = useState([]);
@@ -48,10 +48,19 @@ const UserManagement = (props) => {
     }
   };
 
-  // Search Compnent
-  const onSearchClick = (e) => {
-    // console.log("search click");
+  const onTableChange = (sorter) => {
+    setSortedInfo(sorter);
   };
+
+  const serial = Array.from({ length: 1000000 }, (_, index) => ({
+    sl: index + 1,
+  }));
+  const dataWithSerial = user.map((item, index) => ({
+    ...item,
+    ...serial[index],
+  }));
+
+  const onSearchClick = (e) => {};
   const onFinish = (values) => {
     const payload = {
       username: values?.username,
@@ -63,8 +72,7 @@ const UserManagement = (props) => {
 
     try {
       (async () => {
-        setLoading(props.isLoad === "false" ? false : true);
-
+        setLoading(isLoad === "false" ? false : true);
         const res = await createUser(payload);
         message.success(res.data.message);
         setCallBack(!callBack);
@@ -73,7 +81,6 @@ const UserManagement = (props) => {
       })();
     } catch (error) {
       setLoading(false);
-      // err.respose.data.message && message.error(err.respose.data.message)
     }
   };
 
@@ -83,20 +90,20 @@ const UserManagement = (props) => {
 
     (async () => {
       try {
-        setLoading(props.isLoad === "false" ? false : true);
-        //location dropdown calling
+        setLoading(isLoad === "false" ? false : true);
+
         const districtDisplay = await getLocations();
         setLocation(districtDisplay.data.data);
-        //department dropdown calling
+
         const locationDisplay = await getDepartment();
         setDepartment(locationDisplay.data.data);
-        // role dropdown calling
+
         const roleDisplay = await getRole();
         setRole(roleDisplay.data.data);
         //
         const userDisplay = await userList();
         setUser(userDisplay.data.data);
-        
+
         setLoading(false);
       } catch (err) {
         setLoading(false);
@@ -108,18 +115,6 @@ const UserManagement = (props) => {
 
   // sorting
   const [sortedInfo, setSortedInfo] = useState({});
-  // Table Data
-  const onTableChange = (pagination, filters, sorter, extra) => {
-    setSortedInfo(sorter);
-  };
-
-  const serial = Array.from({ length: 1000000 }, (_, index) => ({
-    sl: index + 1,
-  }));
-  const dataWithSerial = user.map((item, index) => ({
-    ...item,
-    ...serial[index],
-  }));
 
   const columns = [
     {
@@ -142,7 +137,6 @@ const UserManagement = (props) => {
       key: "role",
       sorter: (a, b) => a?.role?.length - b?.role?.length,
       sortOrder: sortedInfo.columnKey === "role" ? sortedInfo.order : null,
-      
     },
     {
       title: "Email",
@@ -171,26 +165,30 @@ const UserManagement = (props) => {
       dataIndex: "action",
       key: "key",
       render: (states, _data) => {
-        return _data?.username !== "SystemUser" ? (
+        return (_data?.username === "SystemUser") ||
+          (_data.username === username )? null : (
           <>
             <NavLink onClick={(e) => showModal(_data.userId)}>Edit</NavLink>
           </>
-        ) : null;
+        ) ;
       },
     },
     {
       title: "Action",
       dataIndex: "active",
       key: "active",
-      render: (states, _data) => {
-      
-        return ( 
-          <Switch
-          checked={_data?.active}
-          onClick={(v) => onStatusClicked(v, _data.userId)}
-          loading={isLoading}
-        />
-          )
+      render: (active, _data) => {
+        console.log("_data.username",_data.username)
+        return (_data?.username === "SystemUser") ||
+         ( _data.username === username )? null : (
+          <>
+            <Switch
+              checked={_data?.active}
+              onClick={(v) => onStatusClicked(v, _data.userId)}
+              loading={isLoading}
+            />
+          </>
+        ) ;
       },
     },
   ];
@@ -344,7 +342,7 @@ const UserManagement = (props) => {
                 <div className="um_f_part">
                   <div className="lead-search">
                     <input
-                      placeholder="Search by username/email  "
+                      placeholder="Search by username,email"
                       className="filterlead"
                       type="text"
                       name="fname"
