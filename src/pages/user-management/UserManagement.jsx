@@ -159,7 +159,7 @@ const UserManagement = ({ isLoad, values }) => {
       key: "location",
       sorter: (a, b) => a?.location?.length - b?.location?.length,
       sortOrder: sortedInfo.columnKey === "location" ? sortedInfo.order : null,
-    },
+    },  
     {
       title: "Edit",
       dataIndex: "action",
