@@ -80,7 +80,7 @@ const Sidebar = () => {
                   &nbsp; Report
                 </NavLink>
               </li>
-              {authority === "ROLE_CALL_CENTER" ? null : (
+              {authority === "ROLE_BUSINESS_ADMIN" ? null : (
                 <li className="">
                   <NavLink
                     className={({ isActive, isPending }) =>

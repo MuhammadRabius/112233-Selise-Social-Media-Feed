@@ -48,7 +48,7 @@ const LoginPage = () => {
             localStorage.setItem("user", JSON.stringify(user));
             localStorage.setItem("username", JSON.stringify(username));
             localStorage.setItem("authority", JSON.stringify(authority));
-            window.location.href = "/dashboard";
+            window.location.href = (authority === "ROLE_CALL_CENTER") ? "/leads" : "/dashboard";
             message.success(res.data.message);
             setLoading(false);
             return;

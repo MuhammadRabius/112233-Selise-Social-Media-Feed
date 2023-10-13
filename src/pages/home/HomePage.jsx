@@ -52,9 +52,7 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
           const typeDisplay = await getLeadSourceType(fromDate, toDate);
           setGData(typeDisplay.data.data);
           setLoading(false);
-          return;
         }
-        
       })();
     } catch (err) {
       setLoading(false);
@@ -101,7 +99,7 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
                       label={{
                         value: "Source Type",
                         position: "insideBottomRight",
-                        
+
                         fill: "black",
                         fontSize: "14px",
                         fontWeight: "700",
