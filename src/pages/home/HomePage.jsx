@@ -17,12 +17,13 @@ import { DatePicker, message } from "antd";
 import { getGrapFillColor } from "../../global_state/action";
 import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
 import Loader from "../../components/loader/Loader";
-import "./homePage.css";
+import LogoutModal from "../../components/SessionOutModal/LogoutModal";
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 
 const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
   const dateFormat = "YYYY-MM-DD";
+  const [logoutModal, setLogoutModal] = useState(false);
   const [isLoading, setLoading] = useState(isLoad === "false" ? false : true);
   const [tData, setTData] = useState([]);
   const [gData, setGData] = useState([]);
@@ -30,7 +31,6 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
   const [fromDate, setFormDate] = useState(
     dayjs().startOf("month").format("YYYY-MM-DD")
   );
-
   const onDateChange = (date, dateString) => {
     setToDate(dateString[1]);
     setFormDate(dateString[0]);
@@ -43,21 +43,26 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
   useEffect(() => {
     const ac = new AbortController();
 
-    try {
-      (async () => {
+    (async () => {
+      try {
         if (toDate && fromDate) {
           setLoading(isLoad === "false" ? false : true);
           const tableDisplay = await getLeadSource(fromDate, toDate);
-          setTData(tableDisplay.data.data);
           const typeDisplay = await getLeadSourceType(fromDate, toDate);
+
+          setTData(tableDisplay.data.data);
           setGData(typeDisplay.data.data);
           setLoading(false);
         }
-      })();
-    } catch (err) {
-      setLoading(false);
-      err.response.data.message && message.error(err.response.data.message);
-    }
+      } catch (error) {
+        if (error.response.status !== 200) {
+          setLogoutModal(true);
+          setLoading(false);
+          return;
+        }
+        setLoading(false);
+      }
+    })();
 
     return () => ac.abort();
   }, [fromDate, toDate]);
@@ -146,6 +151,9 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
           </>
         )}
       </Layout>
+      {logoutModal && (
+        <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />
+      )}
     </>
   );
 };

@@ -68,12 +68,13 @@
     opacity: 1;
 }
 
-.um_f_part .f_btn {
+.f_btn {
     text-align: end;
 }
 
+
 .create_btn {
-    margin-top: 40px;
+    margin-top: 10px;
     text-align: center;
     font-style: 'NotoSans-Bold';
     font-weight: 500;
@@ -108,6 +109,11 @@
 
 
 
+<<<<<<< HEAD
+=======
+
+/* pagination */
+>>>>>>> 725b316d50fb3a7c4d1e643f086c8747b8bd21c9
 .um_table .ant-table-wrapper .ant-table-pagination.ant-pagination {
     margin-top: 3%;
     margin-bottom: 2%;

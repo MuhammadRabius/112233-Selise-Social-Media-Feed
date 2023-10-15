@@ -9,10 +9,12 @@ import {
   ReportExcelDownload,
 } from "../../global_state/action";
 import Loader from "../../components/loader/Loader";
+import LogoutModal from "../../components/SessionOutModal/LogoutModal";
 const { Option } = Select;
 
 const Report = ({ isLoad }) => {
   const [form] = Form.useForm();
+  const [logoutModal, setLogoutModal] = useState(false);
   const [dataCount, setDataCount] = useState(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -84,6 +86,11 @@ const Report = ({ isLoad }) => {
 
         setLoading(false);
       } catch (error) {
+        if (error.response.status !== 200) {
+          setLogoutModal(true);
+          setLoading(false);
+          return;
+        }
         setLoading(false);
         error?.response?.data?.details[0] &&
           message.error(error?.response?.data?.details[0]);
@@ -245,6 +252,10 @@ const Report = ({ isLoad }) => {
             </div>
           </div>
         </Layout>
+      )}
+
+      {logoutModal && (
+        <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />
       )}
     </>
   );

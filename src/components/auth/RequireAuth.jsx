@@ -9,11 +9,9 @@ function RequireAuth() {
   if (!isLogin) {
     window.location.replace(azureUrl);
     return null;
-    ;
   }
 
   return <Outlet />;
 }
 
 export default RequireAuth;
-                                                                        

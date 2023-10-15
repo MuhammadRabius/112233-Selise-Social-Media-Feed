@@ -1,0 +1,39 @@
+.logoutModal .ant-modal-content {
+    padding: 0px;
+}
+
+.logoutModal .ant-modal-title {
+    color: #FFFFFF !important;
+    text-align: center;
+    padding: 17px 0px;
+    background: #0090DA 0% 0% no-repeat padding-box;
+    opacity: 1;
+
+}
+
+.logoutModal .ant-modal-close-x {
+    display: none !important;
+
+}
+
+.logoutModal .ant-modal-body {
+    padding: 2px 12px;
+
+}
+
+.logoutBtn {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-style: Noto Sans;
+    font-weight: 500;
+    font-size: 13PX;
+    letter-spacing: 0px;
+    color: rgba(250, 250, 250, 1);
+    text-transform: capitalize;
+    width: 100px;
+    height: 40px;
+    background: #007ABC;
+    border-radius: 8px;
+    border: 0;
+}
