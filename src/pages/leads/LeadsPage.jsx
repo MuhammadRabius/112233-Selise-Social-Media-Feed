@@ -97,8 +97,8 @@ const LeadsPage = ({ isLoad }) => {
       set_P_Size(...p_Size, leadDisplay?.data?.data?.pageSize);
 
       setLoading(false);
-    } catch (error) {
-      if (error?.response?.status !== 200) {
+    } catch (err) {
+      if (err.response.status !== 200) {
         setLogoutModal(true);
         
       }
