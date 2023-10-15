@@ -262,8 +262,8 @@ const AddLeadModal = ({
                 {districtAPI.map((_d) => {
                   return (
                     <>
-                      <Option key={_d.id} value={_d.nameEnglish}>
-                        {_d.labelEnglish}
+                      <Option key={_d.id} value={_d.districtNameEng}>
+                        {_d.districtNameEng}
                       </Option>
                     </>
                   );

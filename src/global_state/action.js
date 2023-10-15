@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 
-
 export const getDate = (d) => {
   const date = new Date(d);
   return `${date.getDate()}, ${[date.getMonth()]}, ${date.getFullYear()}`;
@@ -22,7 +21,6 @@ export const getGrapFillColor = (typeName) => {
   }
 };
 
-
 export const phonePrefix = (prefix) => {
   switch (prefix.charAt(0)) {
     case "8":
@@ -35,7 +33,6 @@ export const phonePrefix = (prefix) => {
       return prefix;
   }
 };
-
 
 export const LeadCountStatus = (type) => {
   switch (type) {
@@ -64,7 +61,6 @@ export const ErrorExcelFileDownload = (base64) => {
   document.getElementById("abc")?.click();
 };
 
-
 export const ReportExcelDownload = (file) => {
   const url = window.URL.createObjectURL(new Blob([file]));
   const link = document.createElement("a");
@@ -82,10 +78,9 @@ export const StringManaged = (data, pString) => {
   data.forEach((d) => {
     stringMapping[d.name] = d.id;
   });
-  const selectedStringId= stringMapping[pString];
+  const selectedStringId = stringMapping[pString];
   return selectedStringId;
 };
-
 
 export const ErrorColorCode = (leads) => {
   switch (leads) {
@@ -100,3 +95,16 @@ export const ErrorColorCode = (leads) => {
   }
 };
 
+export const RoleUIDashboard = (role) => {
+  switch (role) {
+    case "ROLE_ADMIN":
+      return "Admin";
+    case "ROLE_BUSINESS_ADMIN":
+      return "Business Admin";
+    case "ROLE_CALL_CENTER":
+      return "Call Center";
+
+    default:
+      return null;
+  }
+};
