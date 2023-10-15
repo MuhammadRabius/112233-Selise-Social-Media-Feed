@@ -25,7 +25,7 @@ const LogoutModal = ({ open, setLogoutModal }) => {
         footer={false}
         open={open}
       >
-        <h6 style={{ textAlign: "center" }}>Your session has been running out. <span style={{ color: "red" }}>Please login again.</span></h6>
+        <p style={{ textAlign: "center" }}>Your session has been running out. <span style={{ color: "red" }}>Please login again.</span></p>
         <div style={{ textAlign: "end" }}>
           <Button className="logoutBtn" onClick={onLogoutClick}>
             Logout

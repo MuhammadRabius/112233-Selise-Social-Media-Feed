@@ -105,6 +105,6 @@ export const RoleUIDashboard = (role) => {
       return "Call Center";
 
     default:
-      return null;
+      return role;
   }
 };
