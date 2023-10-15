@@ -14,6 +14,7 @@ import {
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { DatePicker, message } from "antd";
+import "./homePage.css";
 import { getGrapFillColor } from "../../global_state/action";
 import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
 import Loader from "../../components/loader/Loader";
@@ -31,14 +32,18 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
   const [fromDate, setFormDate] = useState(
     dayjs().startOf("month").format("YYYY-MM-DD")
   );
+  // Leads Table----y
   const onDateChange = (date, dateString) => {
     setToDate(dateString[1]);
     setFormDate(dateString[0]);
   };
 
+  // Lead Source table Index
   const renderIndexColum = (rowIndex, column) => {
     return column.rowIndex + 1;
   };
+
+  // Data fetching on table
 
   useEffect(() => {
     const ac = new AbortController();
@@ -47,6 +52,7 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
       try {
         if (toDate && fromDate) {
           setLoading(isLoad === "false" ? false : true);
+          // Table API
           const tableDisplay = await getLeadSource(fromDate, toDate);
           const typeDisplay = await getLeadSourceType(fromDate, toDate);
 
@@ -55,10 +61,9 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
           setLoading(false);
         }
       } catch (error) {
-        if (error.response.status !== 200) {
+        if (error?.response?.status !== 200) {
           setLogoutModal(true);
-          setLoading(false);
-          return;
+          
         }
         setLoading(false);
       }
@@ -93,7 +98,13 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
               <div className="chart_section" data-testid="chartContent-mock">
                 <div className="char-bar">
                   <small>Leads</small>
-                  <BarChart width={900} height={300} data={gData || testData}>
+                  <BarChart
+                    width={900}
+                    height={300}
+                    data={gData || testData}
+                    // loading={isLoading}
+                    // data-testid="bar-chart"
+                  >
                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
                     <Tooltip data-testid="tooltip" />
                     <XAxis
@@ -103,7 +114,7 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
                       label={{
                         value: "Source Type",
                         position: "insideBottomRight",
-
+                        // offset: -1,
                         fill: "black",
                         fontSize: "14px",
                         fontWeight: "700",
@@ -131,6 +142,7 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
                   data-testid="table-mock"
                   key={tData.id}
                   value={tData}
+                  // loading={isLoading}
                   tableStyle={{ minWidth: "50rem" }}
                 >
                   <Column

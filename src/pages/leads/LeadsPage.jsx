@@ -98,10 +98,9 @@ const LeadsPage = ({ isLoad }) => {
 
       setLoading(false);
     } catch (error) {
-      if (error.response.status !== 200) {
+      if (error?.response?.status !== 200) {
         setLogoutModal(true);
-        setLoading(false);
-        return;
+        
       }
       setLoading(false);
     }

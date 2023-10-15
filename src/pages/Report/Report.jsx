@@ -88,8 +88,7 @@ const Report = ({ isLoad }) => {
       } catch (error) {
         if (error.response.status !== 200) {
           setLogoutModal(true);
-          setLoading(false);
-          return;
+          
         }
         setLoading(false);
         error?.response?.data?.details[0] &&

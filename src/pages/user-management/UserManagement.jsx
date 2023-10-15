@@ -113,8 +113,7 @@ const UserManagement = ({ isLoad, values }) => {
       } catch (error) {
         if (error.response.status !== 200) {
           setLogoutModal(true);
-          setLoading(false);
-          return;
+          
         }
         setLoading(false);
       }
