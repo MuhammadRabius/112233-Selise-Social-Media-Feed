@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../../components/layout/Layout";
 import { Input, Form, Select, Table, message, Spin, Switch } from "antd";
 import { NavLink } from "react-router-dom";
+import { debounce } from "lodash";
 import Loader from "../../components/loader/Loader";
 import "./UserManagement.css";
 import {
@@ -13,10 +14,11 @@ import {
   userActiveStatus,
 } from "./Service/um_service";
 import UpdateUserModal from "./UpdateUserModal/UpdateUserModal";
+import LogoutModal from "../../components/SessionOutModal/LogoutModal";
 
 const UserManagement = ({ isLoad, values }) => {
   const username = JSON.parse(localStorage.getItem("username"));
-  console.log("username",username)
+  const [logoutModal, setLogoutModal] = useState(false);
   const { Option } = Select;
   const [form] = Form.useForm();
   const [callBack, setCallBack] = useState(false);
@@ -28,6 +30,7 @@ const UserManagement = ({ isLoad, values }) => {
   const [activeStatus, setUserActiveInactive] = useState(null);
   const [activeId, setActiveId] = useState("");
   const antIcon = <Loader isLoading={true} />;
+  const [searchInput, setSearchInput] = useState("");
 
   // add lead component
   const [userUpdate, setUserUpdateModal] = useState(false);
@@ -36,6 +39,10 @@ const UserManagement = ({ isLoad, values }) => {
     setUserId(id);
     setUserUpdateModal(true);
   };
+
+  const debouncedSearch = debounce((s_value) => {
+    setSearchInput(s_value);
+  }, 1000);
 
   const onStatusClicked = async (v, id) => {
     setUserActiveInactive(v);
@@ -60,7 +67,6 @@ const UserManagement = ({ isLoad, values }) => {
     ...serial[index],
   }));
 
-  const onSearchClick = (e) => {};
   const onFinish = (values) => {
     const payload = {
       username: values?.username,
@@ -100,18 +106,22 @@ const UserManagement = ({ isLoad, values }) => {
 
         const roleDisplay = await getRole();
         setRole(roleDisplay.data.data);
-        //
-        const userDisplay = await userList();
-        setUser(userDisplay.data.data);
-
         setLoading(false);
-      } catch (err) {
+        //
+        const userDisplay = await userList(searchInput);
+        setUser(userDisplay.data.data);
+      } catch (error) {
+        if (error.response.status !== 200) {
+          setLogoutModal(true);
+          setLoading(false);
+          return;
+        }
         setLoading(false);
       }
     })();
 
     return () => ac.abort();
-  }, [callBack]);
+  }, [callBack, searchInput]);
 
   // sorting
   const [sortedInfo, setSortedInfo] = useState({});
@@ -159,18 +169,18 @@ const UserManagement = ({ isLoad, values }) => {
       key: "location",
       sorter: (a, b) => a?.location?.length - b?.location?.length,
       sortOrder: sortedInfo.columnKey === "location" ? sortedInfo.order : null,
-    },  
+    },
     {
       title: "Edit",
       dataIndex: "action",
       key: "key",
       render: (states, _data) => {
-        return (_data?.username === "SystemUser") ||
-          (_data.username === username )? null : (
+        return _data?.username === "SystemUser" ||
+          _data.username === username ? null : (
           <>
             <NavLink onClick={(e) => showModal(_data.userId)}>Edit</NavLink>
           </>
-        ) ;
+        );
       },
     },
     {
@@ -178,9 +188,8 @@ const UserManagement = ({ isLoad, values }) => {
       dataIndex: "active",
       key: "active",
       render: (active, _data) => {
-        console.log("_data.username",_data.username)
-        return (_data?.username === "SystemUser") ||
-         ( _data.username === username )? null : (
+        return _data?.username === "SystemUser" ||
+          _data.username === username ? null : (
           <>
             <Switch
               checked={_data?.active}
@@ -188,200 +197,182 @@ const UserManagement = ({ isLoad, values }) => {
               loading={isLoading}
             />
           </>
-        ) ;
+        );
       },
     },
   ];
 
   return (
     <>
-      {isLoading ? (
-        <Spin indicator={antIcon} loading={isLoading} />
-      ) : (
-        <>
-          {" "}
-          <Layout pageName={"User Management"}>
-            <p className="bt_Text" data-testid="um-mock">
-              User Management
-            </p>
+      <Layout pageName={"User Management"}>
+        <p className="bt_Text" data-testid="um-mock">
+          User Management
+        </p>
 
-            <div className="um_container">
-              <Form
-                form={form}
-                initialValues={{
-                  remember: true,
-                }}
-                onFinish={onFinish}
-                autoComplete="off"
+        <div className="um_container">
+          <Form
+            form={form}
+            initialValues={{
+              remember: true,
+            }}
+            onFinish={onFinish}
+            autoComplete="off"
+          >
+            <div className="um_form">
+              <Form.Item
+                label=""
+                name="username"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter username!",
+                  },
+                ]}
               >
-                <div className="um_form">
-                  <Form.Item
-                    label=""
-                    name="username"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please enter username!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      className="input_group"
-                      placeholder="Username"
-                      data-testid="username-mock"
-                    />
-                  </Form.Item>
+                <Input
+                  className="input_group"
+                  placeholder="Username"
+                  data-testid="username-mock"
+                />
+              </Form.Item>
 
-                  <Form.Item
-                    name="department"
-                    label=""
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please Select Department",
-                      },
-                    ]}
-                  >
-                    <Select
-                      allowClear
-                      showSearch
-                      placeholder="Department"
-                      data-testid="dep-mock"
-                      optionFilterProp="label"
-                    >
-                      {department.map((_d) => {
-                        return (
-                          <>
-                            <Option key={_d.id} value={_d.id} label={_d.name}>
-                              {_d.name}
-                            </Option>
-                          </>
-                        );
-                      })}
-                    </Select>
-                  </Form.Item>
+              <Form.Item
+                name="department"
+                label=""
+                rules={[
+                  {
+                    required: true,
+                    message: "Please Select Department",
+                  },
+                ]}
+              >
+                <Select
+                  allowClear
+                  showSearch
+                  placeholder="Department"
+                  data-testid="dep-mock"
+                  optionFilterProp="label"
+                >
+                  {department.map((_d) => {
+                    return (
+                      <>
+                        <Option key={_d.id} value={_d.id} label={_d.name}>
+                          {_d.name}
+                        </Option>
+                      </>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
 
-                  <Form.Item
-                    label=""
-                    name="email"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input valid email",
-                      },
-                      {
-                        type: "email",
-                      },
-                    ]}
-                  >
-                    <Input
-                      className="input_group"
-                      placeholder="Email"
-                      data-testid="email-mock"
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="location"
-                    label=""
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please Select Location!",
-                      },
-                    ]}
-                  >
-                    <Select
-                      allowClear
-                      showSearch
-                      placeholder="Role"
-                      data-testid="role-mock"
-                      optionFilterProp="label"
-                    >
-                      {role.map((_d) => {
-                        return (
-                          <>
-                            <Option key={_d.id} value={_d.id} label={_d.name}>
-                              {_d.name}
-                            </Option>
-                          </>
-                        );
-                      })}
-                    </Select>
-                  </Form.Item>
+              <Form.Item
+                label=""
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input valid email",
+                  },
+                  {
+                    type: "email",
+                  },
+                ]}
+              >
+                <Input
+                  className="input_group"
+                  placeholder="Email"
+                  data-testid="email-mock"
+                />
+              </Form.Item>
+              <Form.Item
+                name="location"
+                label=""
+                rules={[
+                  {
+                    required: true,
+                    message: "Please Select Location!",
+                  },
+                ]}
+              >
+                <Select
+                  allowClear
+                  showSearch
+                  placeholder="Role"
+                  data-testid="role-mock"
+                  optionFilterProp="label"
+                >
+                  {role.map((_d) => {
+                    return (
+                      <>
+                        <Option key={_d.id} value={_d.id} label={_d.name}>
+                          {_d.name}
+                        </Option>
+                      </>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
 
-                  <Form.Item
-                    name="role"
-                    label=""
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please Select Role",
-                      },
-                    ]}
-                  >
-                    <Select
-                      allowClear
-                      showSearch
-                      placeholder="Location"
-                      data-testid="location-mock"
-                      optionFilterProp="label"
-                    >
-                      {location.map((_d) => {
-                        return (
-                          <>
-                            <Option key={_d.id} value={_d.id} label={_d.name}>
-                              {_d.name}
-                            </Option>
-                          </>
-                        );
-                      })}
-                    </Select>
-                  </Form.Item>
-                </div>
-
-                <div className="um_f_part">
-                  <div className="lead-search">
-                    <input
-                      placeholder="Search by username,email"
-                      className="filterlead"
-                      type="text"
-                      name="fname"
-                    />
-                    <span style={{ cursor: "pointer" }} onClick={onSearchClick}>
-                      <i
-                        className="pi pi-search"
-                        style={{ color: "var(--primary-color)" }}
-                      ></i>
-                    </span>
-                  </div>
-
-                  <div className="f_btn">
-                    <Form.Item>
-                      <button className="create_btn" htmlType="submit">
-                        CREATE USER
-                      </button>
-                    </Form.Item>
-                  </div>
-                </div>
-              </Form>
-              {/* user Table View---------- */}
-              <div className="um_table">
-                <div>
-                  <Table
-                    rowKey={user.id}
-                    onChange={onTableChange}
-                    columns={columns}
-                    dataSource={dataWithSerial}
-                    loading={isLoading}
-                  />
-                </div>
-              </div>
-
-              {/*  Pagination */}
+              <Form.Item
+                name="role"
+                label=""
+                rules={[
+                  {
+                    required: true,
+                    message: "Please Select Role",
+                  },
+                ]}
+              >
+                <Select
+                  allowClear
+                  showSearch
+                  placeholder="Location"
+                  data-testid="location-mock"
+                  optionFilterProp="label"
+                >
+                  {location.map((_d) => {
+                    return (
+                      <>
+                        <Option key={_d.id} value={_d.id} label={_d.name}>
+                          {_d.name}
+                        </Option>
+                      </>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
             </div>
-          </Layout>
-        </>
-      )}
+
+            <div className="f_btn">
+              <Form.Item>
+                <button className="create_btn" htmlType="submit">
+                  CREATE USER
+                </button>
+              </Form.Item>
+            </div>
+          </Form>
+
+          <div className="lead-search">
+            <input
+              onChange={(e) => debouncedSearch(e.target.value)}
+              placeholder="Search by username,email....  "
+              className="filterlead"
+            />
+          </div>
+          {/* user Table View---------- */}
+          <div className="um_table">
+            <div>
+              <Table
+                rowKey={user.id}
+                onChange={onTableChange}
+                columns={columns}
+                dataSource={dataWithSerial}
+                loading={isLoading}
+              />
+            </div>
+          </div>
+        </div>
+      </Layout>
 
       {UpdateUserModal && (
         <UpdateUserModal
@@ -395,6 +386,9 @@ const UserManagement = ({ isLoad, values }) => {
           location={location}
           department={department}
         />
+      )}
+      {logoutModal && (
+        <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />
       )}
     </>
   );

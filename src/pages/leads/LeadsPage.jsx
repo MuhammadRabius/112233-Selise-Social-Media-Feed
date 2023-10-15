@@ -10,11 +10,12 @@ import AddLeadModal from "./AddLead";
 import { debounce } from "lodash";
 import { SearchOutlined } from "@ant-design/icons";
 import { ErrorColorCode } from "../../global_state/action";
+import LogoutModal from "../../components/SessionOutModal/LogoutModal";
 
 const LeadsPage = () => {
   const [isLoading, setLoading] = useState(false);
   const [callBack, setCallBack] = useState(false);
-
+  const [logoutModal, setLogoutModal] = useState(false);
   const [searchInput, setSearchInput] = useState("");
 
   const [leadListView, setLeadListView] = useState([]);
@@ -95,7 +96,12 @@ const LeadsPage = () => {
       set_P_Size(...p_Size, leadDisplay?.data?.data?.pageSize);
 
       setLoading(false);
-    } catch (err) {
+    } catch (error) {
+      if (error.response.status !== 200) {
+        setLogoutModal(true);
+        setLoading(false);
+        return;
+      }
       setLoading(false);
     }
   }, [callBack, p_Number, p_Size, searchInput, leadStatusId]);
@@ -353,6 +359,9 @@ const LeadsPage = () => {
           callBack={callBack}
           setCallBack={setCallBack}
         />
+      )}
+      {logoutModal && (
+        <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />
       )}
     </>
   );

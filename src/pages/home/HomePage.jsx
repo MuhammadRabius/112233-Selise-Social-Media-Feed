@@ -18,21 +18,20 @@ import "./homePage.css";
 import { getGrapFillColor } from "../../global_state/action";
 import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
 import Loader from "../../components/loader/Loader";
+import LogoutModal from "../../components/SessionOutModal/LogoutModal";
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 
-const HomePage = ({isLoad,onChange,disabledDate,testData}) => {
+const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
   const dateFormat = "YYYY-MM-DD";
-  const [isLoading, setLoading] = useState(
-    isLoad === "false" ? false : true
-  );
+  const [logoutModal, setLogoutModal] = useState(false);
+  const [isLoading, setLoading] = useState(isLoad === "false" ? false : true);
   const [tData, setTData] = useState([]);
   const [gData, setGData] = useState([]);
   const [toDate, setToDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [fromDate, setFormDate] = useState(
     dayjs().startOf("month").format("YYYY-MM-DD")
   );
-
   // Leads Table----y
   const onDateChange = (date, dateString) => {
     setToDate(dateString[1]);
@@ -49,25 +48,27 @@ const HomePage = ({isLoad,onChange,disabledDate,testData}) => {
   useEffect(() => {
     const ac = new AbortController();
 
-    try {
-      (async () => {
+    (async () => {
+      try {
         if (toDate && fromDate) {
           setLoading(isLoad === "false" ? false : true);
           // Table API
           const tableDisplay = await getLeadSource(fromDate, toDate);
-          setTData(tableDisplay.data.data);
-
-          // Grap API
-
           const typeDisplay = await getLeadSourceType(fromDate, toDate);
+
+          setTData(tableDisplay.data.data);
           setGData(typeDisplay.data.data);
+          setLoading(false);
+        }
+      } catch (error) {
+        if (error.response.status !== 200) {
+          setLogoutModal(true);
+          setLoading(false);
+          return;
         }
         setLoading(false);
-      })();
-    } catch (err) {
-      setLoading(false);
-      err.response.data.message && message.error(err.response.data.message);
-    }
+      }
+    })();
 
     return () => ac.abort();
   }, [fromDate, toDate]);
@@ -81,25 +82,29 @@ const HomePage = ({isLoad,onChange,disabledDate,testData}) => {
           <>
             <div className="homePage-content" data-testid="dashboard-mock">
               {" "}
-              <p className="bt_Text" data-testid="home-graph">Leads Overview</p>
+              <p className="bt_Text" data-testid="home-graph">
+                Leads Overview
+              </p>
               <div className="date_rage">
                 <RangePicker
                   data-testid="date-picker"
                   onChange={onDateChange || onChange}
                   defaultValue={[dayjs(fromDate), dayjs(toDate)]}
                   format={dateFormat}
-                  disabledDate={(current) => current.isAfter(dayjs() || disabledDate)}
+                  disabledDate={(current) =>
+                    current.isAfter(dayjs() || disabledDate)
+                  }
                 />
               </div>
-              <div className="chart_section"  data-testid="chartContent-mock">
+              <div className="chart_section" data-testid="chartContent-mock">
                 <div className="char-bar">
                   <small>Leads</small>
                   <BarChart
-                  width={900}
-                  height={300}
-                  data={gData ||testData}
-                  // loading={isLoading}
-                  // data-testid="bar-chart"
+                    width={900}
+                    height={300}
+                    data={gData || testData}
+                    // loading={isLoading}
+                    // data-testid="bar-chart"
                   >
                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
                     <Tooltip data-testid="tooltip" />
@@ -130,7 +135,9 @@ const HomePage = ({isLoad,onChange,disabledDate,testData}) => {
                   </BarChart>
                 </div>
               </div>
-              <p className="bt_Text" data-testid="home-table">Lead Sources</p>
+              <p className="bt_Text" data-testid="home-table">
+                Lead Sources
+              </p>
               <div className="card">
                 <DataTable
                   data-testid="table-mock"
@@ -157,6 +164,9 @@ const HomePage = ({isLoad,onChange,disabledDate,testData}) => {
           </>
         )}
       </Layout>
+      {logoutModal && (
+        <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />
+      )}
     </>
   );
 };

@@ -17,9 +17,9 @@ export const createUser = async (payload) => {
 
     return await axios.post(`/api/users`,payload);
 }
-export const userList = async () => {
+export const userList = async (search) => {
 
-    return await axios.get(`/api/users`);
+    return await axios.get(`/api/users?search=${search}`);
 }
 export const userById = async (id) => {
 

@@ -68,12 +68,13 @@
     opacity: 1;
 }
 
-.um_f_part .f_btn {
+.f_btn {
     text-align: end;
 }
 
+
 .create_btn {
-    margin-top: 40px;
+    margin-top: 10px;
     text-align: center;
     font-style: 'NotoSans-Bold';
     font-weight: 500;
@@ -104,6 +105,8 @@
     font-family: "NotoSans-Regular",sans-serif;
 
 }
+
+
 
 
 

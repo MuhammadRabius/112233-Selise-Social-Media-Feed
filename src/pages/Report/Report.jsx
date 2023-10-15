@@ -9,18 +9,18 @@ import {
   ReportExcelDownload,
 } from "../../global_state/action";
 import Loader from "../../components/loader/Loader";
+import LogoutModal from "../../components/SessionOutModal/LogoutModal";
 const { Option } = Select;
 
-const Report = ({isLoad}) => {
+const Report = ({ isLoad }) => {
   const [form] = Form.useForm();
+  const [logoutModal, setLogoutModal] = useState(false);
   const [dataCount, setDataCount] = useState(null);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [leadSourceId, setLeadId] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [isLoading, setLoading] = useState(
-   isLoad === "false" ? false : true
-  );
+  const [isLoading, setLoading] = useState(isLoad === "false" ? false : true);
   const [leadSorce, setLeadSource] = useState([]);
   const [callBack, setCallBack] = useState(false);
   const onChangeStart = (date, dateString) => {
@@ -88,6 +88,11 @@ const Report = ({isLoad}) => {
 
         setLoading(false);
       } catch (error) {
+        if (error.response.status !== 200) {
+          setLogoutModal(true);
+          setLoading(false);
+          return;
+        }
         setLoading(false);
         error?.response?.data?.details[0] &&
           message.error(error?.response?.data?.details[0]);
@@ -172,7 +177,11 @@ const Report = ({isLoad}) => {
                       {leadSorce.map((_d) => {
                         return (
                           <>
-                            <Option key={_d?.id} value={_d?.id} label={_d?.name}>
+                            <Option
+                              key={_d?.id}
+                              value={_d?.id}
+                              label={_d?.name}
+                            >
                               {_d?.name}
                             </Option>
                           </>
@@ -232,7 +241,11 @@ const Report = ({isLoad}) => {
                     }`}{" "}
                   </span>
                   <Form.Item>
-                    <button className="submit_btn" htmlType="submit" data-testid="submit-mock">
+                    <button
+                      className="submit_btn"
+                      htmlType="submit"
+                      data-testid="submit-mock"
+                    >
                       DOWNLOAD IN EXCEL
                     </button>
                   </Form.Item>
@@ -241,6 +254,10 @@ const Report = ({isLoad}) => {
             </div>
           </div>
         </Layout>
+      )}
+
+      {logoutModal && (
+        <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />
       )}
     </>
   );
