@@ -9,7 +9,7 @@ const LogoutModal = ({ open, setLogoutModal }) => {
   const onLogoutClick = async (e) => {
     localStorage.clear();
     try {
-      const logout = userLogout()
+      const logout = await userLogout()
       window.location.href = azureLogoutUrl;
     
     } catch (error) {
