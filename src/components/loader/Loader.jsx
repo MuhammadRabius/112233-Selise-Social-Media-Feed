@@ -9,14 +9,14 @@ const Loader = ({ isLoading, backDrop, handleClose }) => {
   return (
     <div data-testid="loader-mock">
       {!backDrop ? (
-        <div className="bouncer" style={{ backgroundColor: "white" }}>
+        <div className="bouncer" style={{ backgroundColor: "rgba(255, 255, 255, 0.603)" }}>
           <div className="dot"></div>
           <div className="dot"></div>
           <div className="dot"></div>
         </div>
       ) : (
         <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          sx={{ color: "rgba(255, 255, 255, 0.603)", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={isLoading}
           onClick={handleClose}
         >

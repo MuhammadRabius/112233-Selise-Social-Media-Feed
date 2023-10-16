@@ -63,7 +63,6 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
       } catch (error) {
         if (error?.response?.status !== 200) {
           setLogoutModal(true);
-          
         }
         setLoading(false);
       }
@@ -74,93 +73,85 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
 
   return (
     <>
+      <Loader isLoading={isLoading} />
+
       <Layout pageName={"Dashboard"}>
-        {isLoading ? (
-          <Loader isLoading={isLoading} />
-        ) : (
-          <>
-            <div className="homePage-content" data-testid="dashboard-mock">
-              {" "}
-              <p className="bt_Text" data-testid="home-graph">
-                Leads Overview
-              </p>
-              <div className="date_rage">
-                <RangePicker
-                  data-testid="date-picker"
-                  onChange={onDateChange || onChange}
-                  defaultValue={[dayjs(fromDate), dayjs(toDate)]}
-                  format={dateFormat}
-                  disabledDate={(current) =>
-                    current.isAfter(dayjs() || disabledDate)
-                  }
+        <div className="homePage-content" data-testid="dashboard-mock">
+          {" "}
+          <p className="bt_Text" data-testid="home-graph">
+            Leads Overview
+          </p>
+          <div className="date_rage">
+            <RangePicker
+              data-testid="date-picker"
+              onChange={onDateChange || onChange}
+              defaultValue={[dayjs(fromDate), dayjs(toDate)]}
+              format={dateFormat}
+              disabledDate={(current) =>
+                current.isAfter(dayjs() || disabledDate)
+              }
+            />
+          </div>
+          <div className="chart_section" data-testid="chartContent-mock">
+            <div className="char-bar">
+              <small>Leads</small>
+              <BarChart
+                width={900}
+                height={300}
+                data={gData || testData}
+                // loading={isLoading}
+                // data-testid="bar-chart"
+              >
+                <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                <Tooltip data-testid="tooltip" />
+                <XAxis
+                  dataKey="leadSourceTypeName"
+                  tickSize={2}
+                  padding={{ right: 90 }}
+                  label={{
+                    value: "Source Type",
+                    position: "insideBottomRight",
+                    // offset: -1,
+                    fill: "black",
+                    fontSize: "14px",
+                    fontWeight: "700",
+                  }}
                 />
-              </div>
-              <div className="chart_section" data-testid="chartContent-mock">
-                <div className="char-bar">
-                  <small>Leads</small>
-                  <BarChart
-                    width={900}
-                    height={300}
-                    data={gData || testData}
-                    // loading={isLoading}
-                    // data-testid="bar-chart"
-                  >
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                    <Tooltip data-testid="tooltip" />
-                    <XAxis
-                      dataKey="leadSourceTypeName"
-                      tickSize={2}
-                      padding={{ right: 90 }}
-                      label={{
-                        value: "Source Type",
-                        position: "insideBottomRight",
-                        // offset: -1,
-                        fill: "black",
-                        fontSize: "14px",
-                        fontWeight: "700",
-                      }}
-                    />
 
-                    <YAxis width={50} tickSize={2} />
+                <YAxis width={50} tickSize={2} />
 
-                    <Bar barSize={60} dataKey="totalLeadSentToUaa">
-                      {gData.map((entry, index) => {
-                        const color = getGrapFillColor(
-                          entry.leadSourceTypeName
-                        );
-                        return <Cell fill={color} />;
-                      })}
-                    </Bar>
-                  </BarChart>
-                </div>
-              </div>
-              <p className="bt_Text" data-testid="home-table">
-                Lead Sources
-              </p>
-              <div className="card">
-                <DataTable
-                  data-testid="table-mock"
-                  key={tData.id}
-                  value={tData}
-                  // loading={isLoading}
-                  tableStyle={{ minWidth: "50rem" }}
-                >
-                  <Column
-                    field="index"
-                    header="SL No."
-                    body={renderIndexColum}
-                  ></Column>
-                  <Column field="leadSourceName" header="Source"></Column>
-                  <Column
-                    field="totalLeadSentToUaa"
-                    header="To MyLife"
-                  ></Column>
-                  <Column field="totalLeadPending" header="Pending"></Column>
-                  <Column field="totalLead" header="Total"></Column>
-                </DataTable>
-              </div>
+                <Bar barSize={60} dataKey="totalLeadSentToUaa">
+                  {gData.map((entry, index) => {
+                    const color = getGrapFillColor(entry.leadSourceTypeName);
+                    return <Cell fill={color} />;
+                  })}
+                </Bar>
+              </BarChart>
             </div>
-          </>
+          </div>
+          <p className="bt_Text" data-testid="home-table">
+            Lead Sources
+          </p>
+          <div className="card">
+            <DataTable
+              data-testid="table-mock"
+              key={tData.id}
+              value={tData}
+              // loading={isLoading}
+              tableStyle={{ minWidth: "50rem" }}
+            >
+              <Column
+                field="index"
+                header="SL No."
+                body={renderIndexColum}
+              ></Column>
+              <Column field="leadSourceName" header="Source"></Column>
+              <Column field="totalLeadSentToUaa" header="To MyLife"></Column>
+              <Column field="totalLeadPending" header="Pending"></Column>
+              <Column field="totalLead" header="Total"></Column>
+            </DataTable>
+          </div>
+        </div>
         )}
       </Layout>
       {logoutModal && (
