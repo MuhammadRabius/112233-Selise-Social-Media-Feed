@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Modal, Form, Upload, Button, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import "./UploadModal.css";
-import { bulkExcelUpload } from "../Service/lead_service";
 import { ErrorExcelFileDownload } from "../../../global_state/action";
 import Loader from "../../../components/loader/Loader";
+import { bulkExcelUpload } from "../../../services/Services";
 
 const UploadModal = ({
   open,

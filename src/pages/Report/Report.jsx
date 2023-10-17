@@ -3,13 +3,13 @@ import Layout from "../../components/layout/Layout";
 import { DatePicker, Input, Form, message, Select } from "antd";
 import "./Report.css";
 import dayjs from "dayjs";
-import { getCount, getReport, getSource } from "./Service/Report_Service";
 import {
   LeadCountStatus,
   ReportExcelDownload,
 } from "../../global_state/action";
 import Loader from "../../components/loader/Loader";
 import LogoutModal from "../../components/SessionOutModal/LogoutModal";
+import { getLeadSourceType, reportDownloadExcel, reportTotalLeadCount } from "../../services/Services";
 const { Option } = Select;
 
 const Report = ({ isLoad }) => {
@@ -59,10 +59,10 @@ const Report = ({ isLoad }) => {
     try {
       setLoading(true);
       if (startDate && endDate) {
-        const display = await getCount(payload);
+        const display = await reportTotalLeadCount(payload);
         setDataCount(display?.data?.data);
       }
-      const res = await getReport(
+      const res = await reportDownloadExcel(
         payload,
         { responseType: "blob" },
         { "Content-Type": "application/octet-stream" }
@@ -81,12 +81,12 @@ const Report = ({ isLoad }) => {
     (async () => {
       try {
         setLoading(isLoad === "false" ? false : true);
-        const leadSource = await getSource();
+        const leadSource = await getLeadSourceType();
         setLeadSource(leadSource?.data?.data);
 
         setLoading(false);
       } catch (error) {
-        if (error.response.status !== 200) {
+        if (error?.response?.status === 401) {
           setLogoutModal(true);
         }
         setLoading(false);

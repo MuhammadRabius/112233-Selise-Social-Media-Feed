@@ -3,20 +3,24 @@ import logo from "../../assets/img/metlifelogo.png";
 import { NavLink } from "react-router-dom";
 import { LogoutOutlined } from "@ant-design/icons";
 import "./sidebar.css";
-import { userLogout } from "../../services/AuthService";
 import { RoleUIDashboard } from "../../global_state/action";
+import { azureLogoutUrl } from "../../utility/Urls";
+import { userLogout } from "../../services/Services";
+import { message } from "antd";
 
 const Sidebar = () => {
-  // const azureLogoutUrl ="https://login.microsoftonline.com/common/oauth2/logout?post_logout_redirect_uri=https%3A%2F%2Flogin.microsoftonline.com%2Fca56a4a5-e300-406a-98ff-7e36a0baac5b%2Foauth2%2Fv2.0%2Fauthorize%3Fclient_id%3D5a6f192a-8f85-4f86-8715-2efa16a9ea41%26response_type%3Dcode%26redirect_uri%3Dhttps%253A%252F%252Fdev.ulm.metlife.com.bd%252F%26response_mode%3Dquery%26scope%3Dhttps%253A%252F%252Fgraph.microsoft.com%252Fuser.read%26sso_reload%3Dtrue";
-  const azureLogoutUrl =
-    "https://login.microsoftonline.com/ca56a4a5-e300-406a-98ff-7e36a0baac5b/oauth2/v2.0/logout?post_logout_redirect_uri=https%3A%2F%2Flogin.microsoftonline.com%2Fca56a4a5-e300-406a-98ff-7e36a0baac5b%2Foauth2%2Fv2.0%2Fauthorize%3Fclient_id%3D5a6f192a-8f85-4f86-8715-2efa16a9ea41%26response_type%3Dcode%26redirect_uri%3Dhttps%253A%252F%252Fdev.ulm.metlife.com.bd%252F%26response_mode%3Dquery%26scope%3Dhttps%253A%252F%252Fgraph.microsoft.com%252Fuser.read%26sso_reload%3Dtrue";
   const user = JSON.parse(localStorage.getItem("user"));
   const authority = JSON.parse(localStorage.getItem("authority"));
 
-  const onLogoutClick = async (e) => {
-    const logout = await userLogout();
-    localStorage.clear();
-    window.location.href = azureLogoutUrl;
+  const onLogoutClick = async () => {
+    try {
+      const logout = await userLogout();
+      window.location.href = azureLogoutUrl;
+      localStorage.clear();
+    } catch (error) {
+      error?.response?.data?.error &&
+        message.error(error?.response?.data?.error);
+    }
   };
 
   return (

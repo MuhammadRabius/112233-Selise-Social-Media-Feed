@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Input, Select, Button, message } from "antd";
-import {
-  getDistrict,
-  leadListByID,
-  leadUpdateByID,
-} from "./Service/lead_service";
+
 import { phonePrefix } from "../../global_state/action";
 import Loader from "../../components/loader/Loader";
+import { getDistrict, leadListByID, leadUpdateByID } from "../../services/Services";
 
 const LeadUpdateModal = ({
   open,

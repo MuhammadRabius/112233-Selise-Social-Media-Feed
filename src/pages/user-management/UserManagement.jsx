@@ -5,16 +5,10 @@ import { NavLink } from "react-router-dom";
 import { debounce } from "lodash";
 import Loader from "../../components/loader/Loader";
 import "./UserManagement.css";
-import {
-  getLocations,
-  getRole,
-  getDepartment,
-  userList,
-  createUser,
-  userActiveStatus,
-} from "./Service/um_service";
+
 import UpdateUserModal from "./UpdateUserModal/UpdateUserModal";
 import LogoutModal from "../../components/SessionOutModal/LogoutModal";
+import { createUser, getDepartment, getLocations, userActiveStatus,userList,getRole } from "../../services/Services";
 
 const UserManagement = ({ isLoad, values }) => {
   const username = JSON.parse(localStorage.getItem("username"));

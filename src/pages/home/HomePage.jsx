@@ -16,9 +16,9 @@ import { Column } from "primereact/column";
 import { DatePicker, message } from "antd";
 import "./homePage.css";
 import { getGrapFillColor } from "../../global_state/action";
-import { getLeadSource, getLeadSourceType } from "./Service/homepage_action";
 import Loader from "../../components/loader/Loader";
 import LogoutModal from "../../components/SessionOutModal/LogoutModal";
+import { leadsGraphView, leadsTableView } from "../../services/Services";
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 
@@ -32,18 +32,15 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
   const [fromDate, setFormDate] = useState(
     dayjs().startOf("month").format("YYYY-MM-DD")
   );
-  // Leads Table----y
+
   const onDateChange = (date, dateString) => {
     setToDate(dateString[1]);
     setFormDate(dateString[0]);
   };
 
-  // Lead Source table Index
   const renderIndexColum = (rowIndex, column) => {
     return column.rowIndex + 1;
   };
-
-  // Data fetching on table
 
   useEffect(() => {
     const ac = new AbortController();
@@ -52,16 +49,16 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
       try {
         if (toDate && fromDate) {
           setLoading(isLoad === "false" ? false : true);
-          // Table API
-          const tableDisplay = await getLeadSource(fromDate, toDate);
-          const typeDisplay = await getLeadSourceType(fromDate, toDate);
 
-          setTData(tableDisplay.data.data);
-          setGData(typeDisplay.data.data);
+          const graphRes = await leadsGraphView(fromDate, toDate);
+          const tableRes = await leadsTableView(fromDate, toDate);
+
+          setGData(graphRes.data.data);
+          setTData(tableRes.data.data);
           setLoading(false);
         }
       } catch (error) {
-        if (error?.response?.status !== 200) {
+        if (error?.response?.status === 401) {
           setLogoutModal(true);
         }
         setLoading(false);
@@ -152,7 +149,6 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
             </DataTable>
           </div>
         </div>
-        )}
       </Layout>
       {logoutModal && (
         <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />

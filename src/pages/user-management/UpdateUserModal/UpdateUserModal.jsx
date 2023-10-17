@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Input, Select, message, Spin } from "antd";
 import "./UpdateUser.css";
-import { userById, userUpdateInformation } from "../Service/um_service";
+
 import {
   LocManage,
   StringManaged,
   depManage,
   roleManage,
 } from "../../../global_state/action";
+import { userUpdateInformation,userById } from "../../../services/Services";
 const UpdateUserModal = ({
   open,
   onCancel,

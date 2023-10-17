@@ -11,12 +11,12 @@ import {
   Spin,
 } from "antd";
 
+import "./LeadPage.css";
 import {
+  findFinicalAgent,
   getDistrict,
   submitLeadManual,
-  findFinicalAgent,
-} from "./Service/lead_service";
-import "./LeadPage.css";
+} from "../../services/Services";
 
 const AddLeadModal = ({
   open,

@@ -4,13 +4,13 @@ import Layout from "../../components/layout/Layout";
 import { Table, Input, Pagination, Select, Tag, Tooltip } from "antd";
 import UploadModal from "./CustomModal/UploadModal";
 import LeadUpdateModal from "./LeadUpdateModal";
-import { getLeadStatus, leadListWithPagination } from "./Service/lead_service";
 import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
 import { debounce } from "lodash";
 import { SearchOutlined } from "@ant-design/icons";
 import { ErrorColorCode } from "../../global_state/action";
 import LogoutModal from "../../components/SessionOutModal/LogoutModal";
+import { getLeadStatus, leadListWithPagination } from "../../services/Services";
 
 const LeadsPage = ({ isLoad }) => {
   const authority = JSON.parse(localStorage.getItem("authority"));
