@@ -9,7 +9,11 @@ import {
 } from "../../global_state/action";
 import Loader from "../../components/loader/Loader";
 import LogoutModal from "../../components/SessionOutModal/LogoutModal";
-import { getLeadSourceType, reportDownloadExcel, reportTotalLeadCount } from "../../services/Services";
+import {
+  getLeadSourceType,
+  reportDownloadExcel,
+  reportTotalLeadCount,
+} from "../../services/Services";
 const { Option } = Select;
 
 const Report = ({ isLoad }) => {
@@ -71,6 +75,9 @@ const Report = ({ isLoad }) => {
       setCallBack(!callBack);
       setLoading(false);
     } catch (error) {
+      if (error?.response?.status === 401) {
+        setLogoutModal(true);
+      }
       setLoading(false);
     }
   };

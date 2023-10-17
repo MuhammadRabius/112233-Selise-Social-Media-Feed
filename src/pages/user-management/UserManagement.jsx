@@ -8,7 +8,14 @@ import "./UserManagement.css";
 
 import UpdateUserModal from "./UpdateUserModal/UpdateUserModal";
 import LogoutModal from "../../components/SessionOutModal/LogoutModal";
-import { createUser, getDepartment, getLocations, userActiveStatus,userList,getRole } from "../../services/Services";
+import {
+  createUser,
+  getDepartment,
+  getLocations,
+  userActiveStatus,
+  userList,
+  getRole,
+} from "../../services/Services";
 
 const UserManagement = ({ isLoad, values }) => {
   const username = JSON.parse(localStorage.getItem("username"));
@@ -80,6 +87,9 @@ const UserManagement = ({ isLoad, values }) => {
         setLoading(false);
       })();
     } catch (error) {
+      if (error?.response?.status === 401) {
+        setLogoutModal(true);
+      }
       setLoading(false);
     }
   };
@@ -107,7 +117,6 @@ const UserManagement = ({ isLoad, values }) => {
       } catch (error) {
         if (error.response.status !== 200) {
           setLogoutModal(true);
-          
         }
         setLoading(false);
       }

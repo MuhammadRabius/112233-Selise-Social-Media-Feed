@@ -8,7 +8,8 @@ import {
   depManage,
   roleManage,
 } from "../../../global_state/action";
-import { userUpdateInformation,userById } from "../../../services/Services";
+import { userUpdateInformation, userById } from "../../../services/Services";
+import LogoutModal from "../../../components/SessionOutModal/LogoutModal";
 const UpdateUserModal = ({
   open,
   onCancel,
@@ -22,6 +23,7 @@ const UpdateUserModal = ({
   role,
 }) => {
   const [form] = Form.useForm();
+  const [logoutModal, setLogoutModal] = useState(false);
   const handleCancel = () => {
     form.resetFields();
     setUpdateLeadModal(false);
@@ -35,7 +37,6 @@ const UpdateUserModal = ({
     departmentId: null,
     locationId: null,
   });
-
 
   const onFinish = async () => {
     const payload = {
@@ -61,11 +62,14 @@ const UpdateUserModal = ({
       setUpdateLeadModal(false);
       setLoading(false);
     } catch (error) {
-      error?.response?.data?.details[0] && message.error(error?.response?.data?.details[0]);
+      if (error?.response?.status === 401) {
+        setLogoutModal(true);
+      }
+      error?.response?.data?.details[0] &&
+        message.error(error?.response?.data?.details[0]);
       setLoading(false);
     }
   };
-
 
   useEffect(() => {
     const ac = new AbortController();
@@ -73,8 +77,8 @@ const UpdateUserModal = ({
     (async () => {
       try {
         setLoading(true);
-        if(userId !== null){
-        const userDisplay = await userById(userId);
+        if (userId !== null) {
+          const userDisplay = await userById(userId);
           setUserData({
             ...userData,
             username: userDisplay?.data?.data?.username,
@@ -83,10 +87,13 @@ const UpdateUserModal = ({
             departmentId: userDisplay?.data?.data?.department,
             locationId: userDisplay?.data?.data?.location,
           });
-        } 
+        }
 
         setLoading(false);
-      } catch (err) {
+      } catch (error) {
+        if (error?.response?.status === 401) {
+          setLogoutModal(true);
+        }
         setLoading(false);
       }
     })();
@@ -229,6 +236,10 @@ const UpdateUserModal = ({
           </div>
         </Spin>
       </Modal>
+
+      {logoutModal && (
+        <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />
+      )}
     </>
   );
 };

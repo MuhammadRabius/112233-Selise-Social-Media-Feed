@@ -5,6 +5,7 @@ import "./UploadModal.css";
 import { ErrorExcelFileDownload } from "../../../global_state/action";
 import Loader from "../../../components/loader/Loader";
 import { bulkExcelUpload } from "../../../services/Services";
+import LogoutModal from "../../../components/SessionOutModal/LogoutModal";
 
 const UploadModal = ({
   open,
@@ -14,6 +15,7 @@ const UploadModal = ({
   callBack,
   setCallBack,
 }) => {
+  const [logoutModal, setLogoutModal] = useState(false);
   const [form] = Form.useForm();
   const { Dragger } = Upload;
   const [isLoading, setLoading] = useState(false);
@@ -50,6 +52,9 @@ const UploadModal = ({
       }
       setLoading(false);
     } catch (error) {
+      if (error?.response?.status === 401) {
+        setLogoutModal(true);
+      }
       setLoading(false);
       error.response.data.message && message.error(error.response.data.message);
     }
@@ -57,58 +62,58 @@ const UploadModal = ({
 
   return (
     <>
-      {isLoading ? (
-        <Loader isLoading={isLoading} />
-      ) : (
-        <Modal
-          className="bulk_up_container"
-          title="BULK UPLOAD"
-          open={open}
-          onCancel={handleCancel}
-          footer={null}
+      <Loader isLoading={isLoading} />
+      <Modal
+        className="bulk_up_container"
+        title="BULK UPLOAD"
+        open={open}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <Form
+          form={form}
+          name="excel_upload_form"
+          onFinish={onFinish}
+          initialValues={{
+            remember: true,
+          }}
         >
-          <Form
-            form={form}
-            name="excel_upload_form"
-            onFinish={onFinish}
-            initialValues={{
-              remember: true,
-            }}
+          <Form.Item
+            name="file"
+            rules={[
+              {
+                required: true,
+                message: "Please select an Excel file to upload!",
+              },
+            ]}
           >
-            <Form.Item
+            <Dragger
               name="file"
-              rules={[
-                {
-                  required: true,
-                  message: "Please select an Excel file to upload!",
-                },
-              ]}
+              accept=".xls,.xlsx"
+              multiple={false}
+              beforeUpload={() => false}
+              maxCount={1}
             >
-              <Dragger
-                name="file"
-                accept=".xls,.xlsx"
-                multiple={false}
-                beforeUpload={() => false}
-                maxCount={1}
-              >
-                <p className="ant-upload-drag-icon">
-                  <UploadOutlined />
-                </p>
-                <p className="ant-upload-text">
-                  Drag & Drop File <br /> Or <br /> Browse File
-                </p>
-              </Dragger>
-            </Form.Item>
+              <p className="ant-upload-drag-icon">
+                <UploadOutlined />
+              </p>
+              <p className="ant-upload-text">
+                Drag & Drop File <br /> Or <br /> Browse File
+              </p>
+            </Dragger>
+          </Form.Item>
 
-            <Form.Item>
-              <div className="upload_container">
-                <Button className="upload-btn" htmlType="submit">
-                  Upload
-                </Button>
-              </div>
-            </Form.Item>
-          </Form>
-        </Modal>
+          <Form.Item>
+            <div className="upload_container">
+              <Button className="upload-btn" htmlType="submit">
+                Upload
+              </Button>
+            </div>
+          </Form.Item>
+        </Form>
+      </Modal>
+      {logoutModal && (
+        <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />
       )}
     </>
   );

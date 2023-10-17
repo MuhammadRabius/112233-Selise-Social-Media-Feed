@@ -17,6 +17,7 @@ import {
   getDistrict,
   submitLeadManual,
 } from "../../services/Services";
+import LogoutModal from "../../components/SessionOutModal/LogoutModal";
 
 const AddLeadModal = ({
   open,
@@ -31,6 +32,7 @@ const AddLeadModal = ({
   const nameRegex = /^[\w\s!@#$%^&*()\-+=<>?/,.:;'"[\]{}|~]{3,350}$/;
   const { Option } = Select;
   const { TextArea } = Input;
+  const [logoutModal, setLogoutModal] = useState(false);
   const handleCancel = () => {
     form.resetFields();
     setFaCode(0);
@@ -117,6 +119,9 @@ const AddLeadModal = ({
         setFaCode(0);
         setPolicyNumber("");
       } catch (error) {
+        if (error?.response?.status === 401) {
+          setLogoutModal(true);
+        }
         setLoading(false);
         error?.response?.data?.details[0] &&
           message.error(error?.response?.data?.details[0]);
@@ -135,7 +140,10 @@ const AddLeadModal = ({
         setDistrictAPI(districtDisplay.data.data);
 
         setLoading(false);
-      } catch (err) {
+      } catch (error) {
+        if (error?.response?.status === 401) {
+          setLogoutModal(true);
+        }
         setLoading(false);
       }
     })();
@@ -384,6 +392,10 @@ const AddLeadModal = ({
           </Form>
         </div>
       </Modal>
+
+      {logoutModal && (
+        <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />
+      )}
     </>
   );
 };
