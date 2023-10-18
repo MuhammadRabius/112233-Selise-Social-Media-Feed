@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { Button, Modal, message } from "antd";
 import "./LogoutModal.css";
 import { azureLogoutUrl } from "../../utility/Urls";
-import { userLogout } from "../../services/Services";
 const LogoutModal = ({ open, setLogoutModal }) => {
   const onLogoutClick = async () => {
     try {
-      const logout = await userLogout();
       window.location.href = azureLogoutUrl;
       localStorage.clear();
     } catch (error) {
