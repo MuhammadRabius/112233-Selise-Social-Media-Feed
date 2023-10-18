@@ -24,7 +24,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="sidebar-container">
+    <div className="sidebar-container" data-testid = "sidebar-mock">
       <div className="sidebar-header">
         <NavLink to={"/dashboard"}>
           <img src={logo} className="sidebar-logo" alt="logo" width={120} />

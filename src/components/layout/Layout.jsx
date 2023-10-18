@@ -5,9 +5,9 @@ import "./layout.css";
 const Layout = ({ children,pageName }) => {
   return (
     
-    <div className="app-layout">
+    <div className="app-layout" data-testid = "app-layout-mock">
       <Sidebar />
-      <div className="layout-container">
+      <div className="layout-container" data-testid = "layout-mock">
         <ToastContainer 
           position="top-right"
           autoClose={5000} />
