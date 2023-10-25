@@ -46,11 +46,12 @@ const UploadModal = ({
           ? message.success(response?.data?.message)
           : message.warning(response?.data?.message);
         form.resetFields();
-        setCallBack(false);
+        setCallBack(!callBack);
         setBulkUpModal(false);
       } else {
         message.warning("Please Upload Excel File");
       }
+      
       setLoading(false);
     } catch (error) {
       if (error?.response?.status === 401) {
