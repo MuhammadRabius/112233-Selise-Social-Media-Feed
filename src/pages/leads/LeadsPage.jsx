@@ -133,7 +133,7 @@ const LeadsPage = ({ isLoad }) => {
         return (
           <p>
             {_d.firstName}
-            {_d.lastName}
+            <span style={{ marginLeft: "5px" }}>{_d.lastName}</span>
           </p>
         );
       },

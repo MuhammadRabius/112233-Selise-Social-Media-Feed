@@ -41,7 +41,7 @@ const UploadModal = ({
         if (response.data.data !== null) {
           ErrorExcelFileDownload(response?.data?.data);
         }
-        response?.data?.message === true
+        response?.data?.data === null
           ? message.success(response?.data?.message)
           : message.warning(response?.data?.message);
         form.resetFields();
