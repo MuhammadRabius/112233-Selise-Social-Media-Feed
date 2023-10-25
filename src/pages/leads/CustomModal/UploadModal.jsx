@@ -40,7 +40,7 @@ const UploadModal = ({
         });
         if (response.data.data !== null) {
           ErrorExcelFileDownload(response?.data?.data);
-          setCallBack(false);
+          window.location.reload();
         }
         response?.data?.data === null
           ? message.success(response?.data?.message)
