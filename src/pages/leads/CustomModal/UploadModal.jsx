@@ -40,12 +40,13 @@ const UploadModal = ({
         });
         if (response.data.data !== null) {
           ErrorExcelFileDownload(response?.data?.data);
+          setCallBack(false);
         }
         response?.data?.data === null
           ? message.success(response?.data?.message)
           : message.warning(response?.data?.message);
         form.resetFields();
-        setCallBack(!callBack);
+        setCallBack(false);
         setBulkUpModal(false);
       } else {
         message.warning("Please Upload Excel File");
