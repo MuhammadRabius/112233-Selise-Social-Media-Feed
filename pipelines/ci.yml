@@ -44,6 +44,7 @@ steps:
       sonarInstance: 'SonarQube'
       sonarProjectKey: BangladeshART_13639_ulm_client
       sonarProjectName: 'BangladeshART_13639_ulm_client'
+      sonarSources: ./build
       sonarExtraProperties: |
         sonar.sourceEncoding=UTF-8
         sonar.exclusions=**/node_modules/**
