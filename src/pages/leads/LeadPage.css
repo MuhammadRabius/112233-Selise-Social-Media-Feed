@@ -303,9 +303,10 @@
 }
 
 
-.ant-tag-red{
+.ant-tag-red {
   margin-bottom: 4px !important;
 }
+
 /* Pagination */
 
 
@@ -354,4 +355,16 @@
   color: #007ABC !important;
 }
 
+.ant-badge {
+  margin-left: 20px;
+}
 
+.ant-badge.ant-badge-status .ant-badge-status-dot {
+  width: 8px;
+  height: 8px;
+}
+
+.ant-badge.ant-badge-status .ant-badge-status-processing {
+  color: red;
+  background-color: red;
+}

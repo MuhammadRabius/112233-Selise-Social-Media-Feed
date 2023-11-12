@@ -85,13 +85,13 @@ export const StringManaged = (data, pString) => {
 export const ErrorColorCode = (leads) => {
   switch (leads) {
     case "Not Verified":
-      return "#D42123";
+      return "processing";
 
     case "Verified":
-      return "#FFBF00";
+      return "warning";
 
     default:
-      return "#A4CE4E";
+      return "success";
   }
 };
 
@@ -107,4 +107,38 @@ export const RoleUIDashboard = (role) => {
     default:
       return role;
   }
+};
+
+export const validateEmail = (email) => {
+  const emailRegex =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const test = emailRegex.test(email);
+  const validateHelp = test === true ? null : "Please input valid email";
+
+  return validateHelp;
+};
+export const validateEmailMessage = (email) => {
+  const emailRegex =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const test = emailRegex.test(email);
+  const validateValidation = test === true ? "success" : "error";
+
+  return validateValidation;
+};
+export const validateNameMessage = (name) => {
+  const nameRegex = /^[a-zA-Z\s]+$/;
+  const test = nameRegex.test(name);
+  const validateValidation = test === true ? "success" : "error";
+
+  return validateValidation;
+};
+export const validateNameHelp = (name) => {
+  const nameRegex = /^[a-zA-Z\s]+$/;
+  const test = nameRegex.test(name);
+  const validateValidation =
+    test === true
+      ? ""
+      : "Invalid Naming formation. Please name must be 3 to 350 characters long";
+
+  return validateValidation;
 };
