@@ -3,7 +3,7 @@ trigger:
    #- releases/*
    #- feature/*
 pool:
-  name: 'Linux APAC'
+  name: 'Default'
 
 resources:
   repositories:
@@ -40,7 +40,7 @@ steps:
       componentName: 'ULM_Client'
       nodejsVersion: ${{parameters.nodejsVersion}}
       disableUnitTests: true
-      disableSonarScan: true
+      disableSonarScan: false
       sonarInstance: 'SonarQube'
       sonarProjectKey: BangladeshART_13639_ulm_client
       sonarProjectName: 'BangladeshART_13639_ulm_client'
