@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
-import { Table, Input, Pagination, Select, Tag, Tooltip } from "antd";
+import { Table, Input, Pagination, Select, Tag, Tooltip, Badge } from "antd";
 import UploadModal from "./CustomModal/UploadModal";
 import LeadUpdateModal from "./LeadUpdateModal";
 import "./LeadPage.css";
@@ -192,16 +192,7 @@ const LeadsPage = ({ isLoad }) => {
       render: (leadStatus) => {
         return (
           <Tooltip title={`${leadStatus}`}>
-            <div
-              style={{
-                width: "12px",
-                height: "12px",
-                background: ErrorColorCode(leadStatus),
-                border: "1px solid #FFFFFF",
-                borderRadius: "14px",
-                marginLeft: "15px",
-              }}
-            ></div>
+            <Badge status={ErrorColorCode(leadStatus)} />
           </Tooltip>
         );
       },

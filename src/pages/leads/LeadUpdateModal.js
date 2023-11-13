@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Input, Select, Button, message } from "antd";
 
-import { phonePrefix } from "../../global_state/action";
+import {
+  phonePrefix,
+  validateEmail,
+  validateEmailMessage,
+  validateNameHelp,
+  validateNameMessage,
+} from "../../global_state/action";
+
 import Loader from "../../components/loader/Loader";
 import {
   getDistrict,
@@ -141,6 +148,7 @@ const LeadUpdateModal = ({
     return () => ac.abort();
   }, [callBack, singleID]);
 
+  <Loader isLoading={isLoading} />;
   return (
     <>
       <Modal
@@ -151,9 +159,13 @@ const LeadUpdateModal = ({
         onCancel={handleCancel}
         footer={false}
       >
-        <Loader isLoading={isLoading} />
         <div className="_modal_body">
-          <Form form={form} onFinish={onFinish} autoComplete="off">
+          <Form
+            form={form}
+            onFinish={onFinish}
+            autoComplete="off"
+            loading={isLoading}
+          >
             <Form.Item
               name="firstName"
               validateFirst={true}
@@ -163,6 +175,8 @@ const LeadUpdateModal = ({
                   message: "Name must be 3 to 350 characters long ",
                 },
               ]}
+              validateStatus={validateNameMessage(listViewData?.firstName)}
+              help={validateNameHelp(listViewData?.firstName)}
             >
               {" "}
               <Input
@@ -189,65 +203,57 @@ const LeadUpdateModal = ({
               />
             </Form.Item>
 
-            {(listViewData?.contactNo?.length === 11 ||
-              listViewData?.contactNo?.length === 13) &&
-            (listViewData?.contactNo?.charAt(0) === "0" ||
-              listViewData?.contactNo?.charAt(0) === "8") ? (
-              <Form.Item name="contactNo">
-                {" "}
-                <Input
-                  addonBefore="880"
-                  maxLength={10}
-                  placeholder="* Mobile Number"
-                  value={phonePrefix(listViewData?.contactNo)}
-                  onChange={(e) =>
-                    setListbyIdData({
-                      ...listViewData,
-                      contactNo: e.target.value,
-                    })
-                  }
-                />
-              </Form.Item>
-            ) : (
-              <Form.Item
-                name="contactNo"
-                rules={[
-                  {
-                    pattern: /^(?!880|0)\d{10}$/,
-                    message: "Phone number must be 10 digit, exclude 880",
-                  },
-                ]}
-              >
-                {" "}
-                <Input
-                  addonBefore="880"
-                  // className="input_group"
-                  maxLength={10}
-                  placeholder="* Mobile Number"
-                  value={phonePrefix(listViewData?.contactNo)}
-                  onChange={(e) =>
-                    setListbyIdData({
-                      ...listViewData,
-                      contactNo: e.target.value,
-                    })
-                  }
-                />
-                {
-                  <small style={{ color: "red" }}>
-                    Mobile number must be 10 digits, exclude 880. i.e 14XXXXXXXX
-                  </small>
+            <Form.Item
+              name="contactNo"
+              validateStatus={
+                listViewData?.contactNo !== "" &&
+                (listViewData?.contactNo?.length === 11 ||
+                  listViewData?.contactNo?.length === 13 ||
+                  listViewData?.contactNo?.length === 10)
+                  ? "success"
+                  : "error"
+              }
+              help={
+                listViewData?.contactNo?.length === 11 ||
+                listViewData?.contactNo?.length === 13 ||
+                listViewData?.contactNo?.length === 10
+                  ? null
+                  : "Please input your 10 digit phone number,exclude 880"
+              }
+            >
+              {" "}
+              <Input
+                addonBefore="880"
+                // className="input_group"
+                maxLength={10}
+                placeholder="* Mobile Number"
+                value={phonePrefix(listViewData?.contactNo)}
+                onChange={(e) =>
+                  setListbyIdData({
+                    ...listViewData,
+                    contactNo: e.target.value,
+                  })
                 }
-              </Form.Item>
-            )}
+              />
+            </Form.Item>
 
-            <Form.Item name="email">
+            <Form.Item
+              name="email"
+              validateStatus={validateEmailMessage(listViewData?.email)}
+              help={validateEmail(listViewData?.email)}
+            >
               {" "}
               <Input
                 className="input_group"
                 type="text"
                 placeholder="Email"
                 value={listViewData?.email}
-                disabled
+                onChange={(e) =>
+                  setListbyIdData({
+                    ...listViewData,
+                    email: e.target.value,
+                  })
+                }
               />
             </Form.Item>
 
@@ -262,8 +268,8 @@ const LeadUpdateModal = ({
               value={listViewData?.districtName}
               onChange={onDistrictChange}
               options={districtAPI.map((_d) => ({
-                label: _d.districtNameEng,
-                value: _d.districtNameEng,
+                label: _d.labelEnglish,
+                value: _d.nameEnglish,
               }))}
             />
 
