@@ -39,6 +39,7 @@ const LoginPage = () => {
         try {
           setLoading(true);
           const res = await userLogin(payload);
+          console.log("res",res)
 
           if (res.data.status === true) {
             setStatus(200);
@@ -59,10 +60,10 @@ const LoginPage = () => {
         } catch (error) {
           setLoading(false);
           setTimeout(() => {
-            error?.response?.data?.details[0] &&
-              message.error(error?.response?.data?.details[0]);
-            window.location.reload();
-            window.location.href = azureLogoutUrl;
+            // error?.response?.data?.details[0] &&
+            //   message.error(error?.response?.data?.details[0]);
+            // window.location.reload();
+            // window.location.href = azureLogoutUrl;
           }, 2000);
         }
       })();

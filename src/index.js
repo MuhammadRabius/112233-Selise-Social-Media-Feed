@@ -8,7 +8,9 @@ import "./index.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";    
 import "bootstrap/dist/css/bootstrap.min.css";
-axios.defaults.baseURL =  "qa.aks-ingress.api.bd-ulm.metlife.com";
+
+axios.defaults.baseURL =  "https://qa.aks-ingress.api.bd-ulm.metlife.com";
+
 
 axios.defaults.headers.common["Authorization"] =
   "Bearer " + localStorage.getItem("access-token");
