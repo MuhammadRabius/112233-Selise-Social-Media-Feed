@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
 export const getDate = (d) => {
   const date = new Date(d);
@@ -54,8 +55,10 @@ export const ErrorExcelFileDownload = (base64) => {
   var a = document.createElement("a");
   a.href = mediaType + base64;
   a.id = "abc";
-  var date = new Date().toJSON().slice(0, 10);
-  a.download = `ErrorLeads ${date}.xlsx`;
+  // var date = new Date().toJSON().slice(0, 10);
+  a.download = `Error_Excel_Report_${dayjs().format(
+    "YYYY-MM-DD hh:mm:ss A"
+  )}.xlsx`;
   a.textContent = "Download file!";
   document.body.appendChild(a);
   document.getElementById("abc")?.click();
@@ -67,7 +70,7 @@ export const ReportExcelDownload = (file) => {
   link.href = url;
   link.setAttribute(
     "download",
-    `LeadCount-Report ${dayjs().format("YYYY-MM-DD")}.xlsx`
+    `Lead_Report_${dayjs().format("YYYY-MM-DD hh:mm:ss A")}.xlsx`
   );
   document.body.appendChild(link);
   link.click();
@@ -142,4 +145,3 @@ export const validateNameHelp = (name) => {
 
   return validateValidation;
 };
-    
