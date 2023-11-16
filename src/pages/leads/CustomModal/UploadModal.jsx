@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Modal, Form, Upload, Button, message } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined,DownloadOutlined } from "@ant-design/icons";
 import "./UploadModal.css";
 import { ErrorExcelFileDownload } from "../../../global_state/action";
 import Loader from "../../../components/loader/Loader";
 import { bulkExcelUpload } from "../../../services/Services";
 import LogoutModal from "../../../components/SessionOutModal/LogoutModal";
+import sampleExcel from '../../../assets/sampleExcel/Bulk Upload Sample.xlsx'
 
 const UploadModal = ({
   open,
@@ -23,6 +24,10 @@ const UploadModal = ({
   const handleCancel = () => {
     form.resetFields();
     onCancel();
+  };
+  const handleSampleExcelDownload = () => {
+    const url = sampleExcel;
+    window.open(url,"_blank");
   };
 
   const onFinish = async (values) => {
@@ -106,11 +111,13 @@ const UploadModal = ({
           </Form.Item>
 
           <Form.Item>
-            <div className="upload_container">
-              <Button className="upload-btn" htmlType="submit">
-                Upload
-              </Button>
-            </div>
+          <div className="upload_container">
+          <Button className="link-btn" type="link" onClick={handleSampleExcelDownload} >Sample Excel <DownloadOutlined /></Button>
+         
+          <Button className="upload-btn" htmlType="submit">
+            Upload
+          </Button>
+        </div>
           </Form.Item>
         </Form>
       </Modal>
