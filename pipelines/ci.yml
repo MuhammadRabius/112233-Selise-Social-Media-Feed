@@ -35,7 +35,7 @@ steps:
     parameters:
       packageManager: npm
       isSelfHostedAgent: true
-      deleteLockFile: true
+      deleteLockFile: false
       projectName: 'ULM-CLient'
       componentName: 'ULM_Client'
       nodejsVersion: ${{parameters.nodejsVersion}}
