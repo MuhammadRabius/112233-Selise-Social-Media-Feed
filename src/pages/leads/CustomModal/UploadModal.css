@@ -32,7 +32,9 @@
 }
 
 .bulk_up_container .upload_container {
-  text-align: end;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
 
 }
@@ -56,4 +58,12 @@
 .bulk_up_container .upload-btn span {
   color: #FFFFFF;
 
+}
+
+.link-btn {
+  padding: 0px !important;
+  font-size: 16px !important;
+}
+.upload_container .anticon {
+  vertical-align: 0 !important;
 }

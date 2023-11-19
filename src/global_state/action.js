@@ -1,6 +1,9 @@
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
+
+// date generate
+
 export const getDate = (d) => {
   const date = new Date(d);
   return `${date.getDate()}, ${[date.getMonth()]}, ${date.getFullYear()}`;
@@ -22,6 +25,8 @@ export const getGrapFillColor = (typeName) => {
   }
 };
 
+// Update Modal Mobile Number CharAt Validation
+
 export const phonePrefix = (prefix) => {
   switch (prefix.charAt(0)) {
     case "8":
@@ -34,6 +39,8 @@ export const phonePrefix = (prefix) => {
       return prefix;
   }
 };
+
+// Report "Lead Data Count Status"
 
 export const LeadCountStatus = (type) => {
   switch (type) {
@@ -48,6 +55,7 @@ export const LeadCountStatus = (type) => {
   }
 };
 
+//  Error Excel File base64
 export const ErrorExcelFileDownload = (base64) => {
   var mediaType =
     "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,";
@@ -55,16 +63,17 @@ export const ErrorExcelFileDownload = (base64) => {
   var a = document.createElement("a");
   a.href = mediaType + base64;
   a.id = "abc";
-  // var date = new Date().toJSON().slice(0, 10);
-  a.download = `Error_Excel_Report_${dayjs().format(
-    "YYYY-MM-DD hh:mm:ss A"
-  )}.xlsx`;
+  var date = new Date().toJSON().slice(0, 10);
+  a.download = `Error_Excel_Report_${dayjs().format("YYYY-MM-DD hh:mm:ss A")}.xlsx`;
   a.textContent = "Download file!";
   document.body.appendChild(a);
   document.getElementById("abc")?.click();
 };
 
+// Report Excel Download
+
 export const ReportExcelDownload = (file) => {
+  // const url = window.URL.createObjectURL(new Blob([res?.data]));
   const url = window.URL.createObjectURL(new Blob([file]));
   const link = document.createElement("a");
   link.href = url;
@@ -75,6 +84,8 @@ export const ReportExcelDownload = (file) => {
   document.body.appendChild(link);
   link.click();
 };
+
+
 
 export const StringManaged = (data, pString) => {
   const stringMapping = {};
@@ -98,50 +109,41 @@ export const ErrorColorCode = (leads) => {
   }
 };
 
-export const RoleUIDashboard = (role) => {
-  switch (role) {
-    case "ROLE_ADMIN":
-      return "Admin";
-    case "ROLE_BUSINESS_ADMIN":
-      return "Business Admin";
-    case "ROLE_CALL_CENTER":
-      return "Call Center";
+export  const validateEmail = (email) => {
 
-    default:
-      return role;
-  }
+  const emailRegex =  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const test = emailRegex.test(email)
+  const validateHelp = test === true ? null : "Please input valid email"
+  
+  return validateHelp
+
 };
+export  const validateEmailMessage = (email) => {
 
-export const validateEmail = (email) => {
-  const emailRegex =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const test = emailRegex.test(email);
-  const validateHelp = test === true ? null : "Please input valid email";
+  const emailRegex =  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const test = emailRegex.test(email)
+  const validateValidation = test === true ? "success" : "error"
+  
+  return validateValidation
 
-  return validateHelp;
 };
-export const validateEmailMessage = (email) => {
-  const emailRegex =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const test = emailRegex.test(email);
-  const validateValidation = test === true ? "success" : "error";
+export  const validateNameMessage = (name) => {
 
-  return validateValidation;
-};
-export const validateNameMessage = (name) => {
   const nameRegex = /^[a-zA-Z\s]+$/;
-  const test = nameRegex.test(name);
-  const validateValidation = test === true ? "success" : "error";
+  const test = nameRegex.test(name)
+  const validateValidation = test === true ? "success" : "error"
+  
+  return validateValidation
 
-  return validateValidation;
-};
-export const validateNameHelp = (name) => {
+};   
+export  const validateNameHelp = (name) => {
+
   const nameRegex = /^[a-zA-Z\s]+$/;
-  const test = nameRegex.test(name);
-  const validateValidation =
-    test === true
-      ? ""
-      : "Invalid Naming formation. Please name must be 3 to 350 characters long";
+  const test = nameRegex.test(name)
+  const validateValidation = test === true ? "" : "Invalid Naming formation. Please name must be 3 to 350 characters long"
+  
+  return validateValidation
 
-  return validateValidation;
 };
+
+
