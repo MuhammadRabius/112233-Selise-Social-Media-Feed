@@ -31,7 +31,7 @@ const LoginPage = () => {
 
   const payload = {
     authorizationCode: code,
-  };
+  };   
 
   useEffect(() => {
     if (code) {
