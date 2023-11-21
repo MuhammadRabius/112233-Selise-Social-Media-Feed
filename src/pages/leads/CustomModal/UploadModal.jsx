@@ -43,11 +43,7 @@ const UploadModal = ({
             "Content-Type": "multipart/form-data",
           },
         });
-
-        response?.data?.data === null
-          ? message.success(response?.data?.message)
-          : message.warning(response?.data?.message);
-
+        response?.data?.status === true ? message.success(response?.data?.message) : message.warning(response?.data?.message);
         if (response.data.data !== null) {
           ErrorExcelFileDownload(response?.data?.data);
           window.location.reload();
