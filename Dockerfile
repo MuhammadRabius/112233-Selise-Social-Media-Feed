@@ -1,4 +1,6 @@
-FROM nginx:alpine
+FROM dtr.metlife.com/infra/openjdk:17-jre-alpine
+RUN apk update && apk upgrade
+#FROM nginx:alpine
 WORKDIR /app
 #COPY  ./docker-output/client-app .
 #Copy ci-dashboard-dist
