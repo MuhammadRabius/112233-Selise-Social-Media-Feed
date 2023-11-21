@@ -6,7 +6,7 @@ import { ErrorExcelFileDownload } from "../../../global_state/action";
 import Loader from "../../../components/loader/Loader";
 import { bulkExcelUpload } from "../../../services/Services";
 import LogoutModal from "../../../components/SessionOutModal/LogoutModal";
-import sampleExcel from '../../../assets/sampleExcel/Bulk Upload Sample.xlsx'
+import sampleExcel from '../../../assets/sampleExcel/Lead_bulk_upload.xlsx'
 
 const UploadModal = ({
   open,
