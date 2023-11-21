@@ -1,4 +1,5 @@
 FROM nginx:alpine
+RUN apk update && apk upgrade
 WORKDIR /app
 #COPY  ./docker-output/client-app .
 #Copy ci-dashboard-dist
