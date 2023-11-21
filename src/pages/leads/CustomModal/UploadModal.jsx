@@ -46,23 +46,12 @@ const UploadModal = ({
         });
 
         if (response.data.data !== null) {
+          setBulkUpModal(false);
           ErrorExcelFileDownload(response?.data?.data);
-          messageApi.open({
-            key,
-            type: "loading",
-            content: "Lead bulk upload has been in processing",
-          });
-
+          message.warning(response?.data?.message);
           setTimeout(() => {
-            messageApi.open({
-              key,
-              type: "warning",
-              content: response?.data?.message,
-              duration: 2,
-            });
             window.location.reload();
-          }, 1000);
-
+          }, 2000);
           return;
         }
         message.success(response?.data?.message);
