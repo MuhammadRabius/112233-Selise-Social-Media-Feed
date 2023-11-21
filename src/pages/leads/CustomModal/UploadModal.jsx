@@ -20,7 +20,8 @@ const UploadModal = ({
   const [form] = Form.useForm();
   const { Dragger } = Upload;
   const [isLoading, setLoading] = useState(false);
-
+  const [messageApi, contextHolder] = message.useMessage();
+  const key = "updatable";
   const handleCancel = () => {
     form.resetFields();
     onCancel();
@@ -46,8 +47,22 @@ const UploadModal = ({
 
         if (response.data.data !== null) {
           ErrorExcelFileDownload(response?.data?.data);
-          message.warning(response?.data?.message);
-          window.location.reload();
+          messageApi.open({
+            key,
+            type: "loading",
+            content: "Lead bulk upload has been in processing",
+          });
+
+          setTimeout(() => {
+            messageApi.open({
+              key,
+              type: "warning",
+              content: response?.data?.message,
+              duration: 2,
+            });
+            window.location.reload();
+          }, 1000);
+
           return;
         }
         message.success(response?.data?.message);
@@ -128,6 +143,7 @@ const UploadModal = ({
           </Form.Item>
         </Form>
       </Modal>
+      {contextHolder}
       {logoutModal && (
         <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />
       )}
