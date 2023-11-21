@@ -35,8 +35,8 @@ const LoginPage = () => {
           setLoading(true);
           const res = await userLogin(payload);
           console.log("res", res);
-          setStatus(res.status);
           if (res.data.status === true) {
+            setStatus(200);
             const token = res?.data?.data?.token;
             const username = res?.data?.data?.username;
             const authority = res?.data?.data?.authority[0]?.authority;
@@ -52,14 +52,15 @@ const LoginPage = () => {
             return;
           }
         } catch (error) {
+          setStatus(error?.response?.status);
           setLoading(false);
           clearCookies();
-          // setTimeout(() => {
-          //   error?.response?.data?.details[0] &&
-          //     message.error(error?.response?.data?.details[0]);
-          //   window.location.reload();
-          //   window.location.href = azureLogoutUrl;
-          // }, 2000);
+          setTimeout(() => {
+            error?.response?.data?.details[0] &&
+              message.error(error?.response?.data?.details[0]);
+            window.location.reload();
+            window.location.href = azureLogoutUrl;
+          }, 2000);
         }
       })();
     }
