@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Modal, message } from "antd";
 import "./LogoutModal.css";
 import { clearCookies } from "../../global_state/action";
 import { azureLogoutUrl } from "../../utility/Urls";
-// import { azureLogoutUrl } from "../../utility/Urls";
-const LogoutModal = ({ open, setLogoutModal }) => {
+const LogoutModal = ({ open }) => {
  
 
   const onLogoutClick = async () => {

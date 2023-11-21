@@ -6,7 +6,6 @@ import { message } from "antd";
 import { Navigate } from "react-router-dom";
 import { ReloadOutlined } from "@ant-design/icons";
 import Loader from "../../components/loader/Loader";
-// import { azureLogin, azureLogoutUrl } from "../../utility/Urls";
 import { userLogin } from "../../services/Services";
 import { clearCookies } from "../../global_state/action";
 import { azureLogin, azureLogoutUrl } from "../../utility/Urls";
@@ -55,12 +54,12 @@ const LoginPage = () => {
         } catch (error) {
           setLoading(false);
           clearCookies();
-          setTimeout(() => {
-            error?.response?.data?.details[0] &&
-              message.error(error?.response?.data?.details[0]);
-            window.location.reload();
-            window.location.href = azureLogoutUrl;
-          }, 2000);
+          // setTimeout(() => {
+          //   error?.response?.data?.details[0] &&
+          //     message.error(error?.response?.data?.details[0]);
+          //   window.location.reload();
+          //   window.location.href = azureLogoutUrl;
+          // }, 2000);
         }
       })();
     }

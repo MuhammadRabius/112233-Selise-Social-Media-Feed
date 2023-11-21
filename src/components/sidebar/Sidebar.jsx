@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import { LogoutOutlined } from "@ant-design/icons";
 import "./sidebar.css";
 import { RoleUIDashboard, clearCookies } from "../../global_state/action";
-// import { azureLogoutUrl } from "../../utility/Urls";
 import { userLogout } from "../../services/Services";
 import { message } from "antd";
 import { azureLogoutUrl } from "../../utility/Urls";
