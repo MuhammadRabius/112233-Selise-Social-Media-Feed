@@ -60,7 +60,7 @@ const UploadModal = ({
         setBulkUpModal(false);
       } else {
         message.warning("Please Upload Excel File");
-      }
+      }    
 
       setLoading(false);
     } catch (error) {
