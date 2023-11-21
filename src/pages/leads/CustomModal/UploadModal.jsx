@@ -43,12 +43,14 @@ const UploadModal = ({
             "Content-Type": "multipart/form-data",
           },
         });
-        response?.data?.status === true ? message.success(response?.data?.message) : message.warning(response?.data?.message);
+
         if (response.data.data !== null) {
           ErrorExcelFileDownload(response?.data?.data);
+          message.warning(response?.data?.message);
           window.location.reload();
+          return;
         }
-        
+        message.success(response?.data?.message);
         form.resetFields();
         setCallBack(!callBack);
         setBulkUpModal(false);
