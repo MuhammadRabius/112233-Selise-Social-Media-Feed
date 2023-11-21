@@ -16,7 +16,7 @@ resources:
       trigger: none
 
 pool:
-  name: 'Linux'
+  name: 'Linux APAC'
 
 variables:
   k8sDescriptorsDir: '$(Pipeline.Workspace)/13639-ULM-Client-CI/drop/manifest/kubernetes'
