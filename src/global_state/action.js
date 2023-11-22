@@ -60,10 +60,8 @@ export const ErrorExcelFileDownload = (base64) => {
   )}.xlsx`;
   a.textContent = "Download file!";
   document.body.appendChild(a);
-  document.getElementById("abc")?.click(); 
+  document.getElementById("abc")?.click();
   document.body.removeChild(a);
-
-  
 };
 
 export const ReportExcelDownload = (file) => {
@@ -77,7 +75,6 @@ export const ReportExcelDownload = (file) => {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
-
 };
 
 export const StringManaged = (data, pString) => {
@@ -89,15 +86,14 @@ export const StringManaged = (data, pString) => {
   return selectedStringId;
 };
 
-export const sampleLeadExcel =(file)=>{
-  const downloadExcel = document.createElement('a');
+export const sampleLeadExcel = (file) => {
+  const downloadExcel = document.createElement("a");
   downloadExcel.href = file;
-  downloadExcel.download = 'Lead_bulk_upload_sample.xlsx'
+  downloadExcel.download = "Lead_bulk_upload_sample.xlsx";
   document.body.appendChild(downloadExcel);
   downloadExcel.click();
   document.body.removeChild(downloadExcel);
-
-}
+};
 
 export const ErrorColorCode = (leads) => {
   switch (leads) {

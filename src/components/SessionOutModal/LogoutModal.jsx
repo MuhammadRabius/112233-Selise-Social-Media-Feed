@@ -4,8 +4,6 @@ import "./LogoutModal.css";
 import { clearCookies } from "../../global_state/action";
 import { azureLogoutUrl } from "../../utility/Urls";
 const LogoutModal = ({ open }) => {
- 
-
   const onLogoutClick = async () => {
     try {
       clearCookies();

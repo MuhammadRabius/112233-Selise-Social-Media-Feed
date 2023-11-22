@@ -11,7 +11,6 @@ import { clearCookies } from "../../global_state/action";
 import { azureLogin, azureLogoutUrl } from "../../utility/Urls";
 
 const LoginPage = () => {
-
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get("code");
   const [isLoading, setLoading] = useState(false);

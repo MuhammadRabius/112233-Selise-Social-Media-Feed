@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Form, Input, Select, message, Spin } from "antd";
 import "./UpdateUser.css";
-
-import {
-  LocManage,
-  StringManaged,
-  depManage,
-  roleManage,
-} from "../../../global_state/action";
+import { StringManaged } from "../../../global_state/action";
 import { userUpdateInformation, userById } from "../../../services/Services";
 import LogoutModal from "../../../components/SessionOutModal/LogoutModal";
 const UpdateUserModal = ({

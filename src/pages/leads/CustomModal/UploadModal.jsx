@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { Modal, Form, Upload, Button, message } from "antd";
 import { UploadOutlined, DownloadOutlined } from "@ant-design/icons";
 import "./UploadModal.css";
-import { ErrorExcelFileDownload, sampleLeadExcel } from "../../../global_state/action";
+import {
+  ErrorExcelFileDownload,
+  sampleLeadExcel,
+} from "../../../global_state/action";
 import Loader from "../../../components/loader/Loader";
 import { bulkExcelUpload } from "../../../services/Services";
 import LogoutModal from "../../../components/SessionOutModal/LogoutModal";
@@ -20,23 +23,19 @@ const UploadModal = ({
   const [form] = Form.useForm();
   const { Dragger } = Upload;
   const [isLoading, setLoading] = useState(false);
-  const [messageApi, contextHolder] = message.useMessage();
-  const key = "updatable";
   const handleCancel = () => {
     form.resetFields();
     onCancel();
   };
   const handleSampleExcelDownload = () => {
-
-    try{
+    try {
       const url = sampleExcel;
       sampleLeadExcel(url);
-      message.success("Lead Bulk Upload Sample Excel Download Successfully")
-    }catch(err){
+      message.success("Lead Bulk Upload Sample Excel Download Successfully");
+    } catch (err) {
       // const url = sampleExcel;
       // window.open(url, "_blank");
     }
-  
   };
 
   const onFinish = async (values) => {
@@ -68,7 +67,7 @@ const UploadModal = ({
         setBulkUpModal(false);
       } else {
         message.warning("Please Upload Excel File");
-      }    
+      }
 
       setLoading(false);
     } catch (error) {
@@ -140,7 +139,7 @@ const UploadModal = ({
           </Form.Item>
         </Form>
       </Modal>
-      {contextHolder}
+
       {logoutModal && (
         <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />
       )}

@@ -16,7 +16,7 @@ import {
 } from "../../services/Services";
 const { Option } = Select;
 
-const Report = ({ isLoad }) => {
+const Report = () => {
   const [form] = Form.useForm();
   const [logoutModal, setLogoutModal] = useState(false);
   const [dataCount, setDataCount] = useState(null);
@@ -24,7 +24,7 @@ const Report = ({ isLoad }) => {
   const [endDate, setEndDate] = useState("");
   const [leadSourceId, setLeadId] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [isLoading, setLoading] = useState(isLoad === "false" ? false : true);
+  const [isLoading, setLoading] = useState(false);
   const [leadSorce, setLeadSource] = useState([]);
   const [callBack, setCallBack] = useState(false);
   const onChangeStart = (date, dateString) => {
@@ -87,7 +87,7 @@ const Report = ({ isLoad }) => {
 
     (async () => {
       try {
-        setLoading(isLoad === "false" ? false : true);
+        setLoading(true);
         const leadSource = await getLeadSourceType();
         setLeadSource(leadSource?.data?.data);
 
