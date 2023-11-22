@@ -148,9 +148,9 @@ const LeadUpdateModal = ({
     return () => ac.abort();
   }, [callBack, singleID]);
 
-  <Loader isLoading={isLoading} />;
   return (
     <>
+  
       <Modal
         className="addLeadModal"
         key="updatelead"

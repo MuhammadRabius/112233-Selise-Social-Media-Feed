@@ -60,7 +60,10 @@ export const ErrorExcelFileDownload = (base64) => {
   )}.xlsx`;
   a.textContent = "Download file!";
   document.body.appendChild(a);
-  document.getElementById("abc")?.click();
+  document.getElementById("abc")?.click(); 
+  document.body.removeChild(a);
+
+  
 };
 
 export const ReportExcelDownload = (file) => {
@@ -73,6 +76,8 @@ export const ReportExcelDownload = (file) => {
   );
   document.body.appendChild(link);
   link.click();
+  document.body.removeChild(link);
+
 };
 
 export const StringManaged = (data, pString) => {
