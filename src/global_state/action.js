@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
 
 export const getDate = (d) => {
   const date = new Date(d);
@@ -84,6 +83,16 @@ export const StringManaged = (data, pString) => {
   const selectedStringId = stringMapping[pString];
   return selectedStringId;
 };
+
+export const sampleLeadExcel =(file)=>{
+  const downloadExcel = document.createElement('a');
+  downloadExcel.href = file;
+  downloadExcel.download = 'Lead_bulk_upload_sample.xlsx'
+  document.body.appendChild(downloadExcel);
+  downloadExcel.click();
+  document.body.removeChild(downloadExcel);
+
+}
 
 export const ErrorColorCode = (leads) => {
   switch (leads) {

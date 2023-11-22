@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal, Form, Upload, Button, message } from "antd";
 import { UploadOutlined, DownloadOutlined } from "@ant-design/icons";
 import "./UploadModal.css";
-import { ErrorExcelFileDownload } from "../../../global_state/action";
+import { ErrorExcelFileDownload, sampleLeadExcel } from "../../../global_state/action";
 import Loader from "../../../components/loader/Loader";
 import { bulkExcelUpload } from "../../../services/Services";
 import LogoutModal from "../../../components/SessionOutModal/LogoutModal";
@@ -27,8 +27,16 @@ const UploadModal = ({
     onCancel();
   };
   const handleSampleExcelDownload = () => {
-    const url = sampleExcel;
-    window.open(url, "_blank");
+
+    try{
+      const url = sampleExcel;
+      sampleLeadExcel(url);
+      message.success("Lead Bulk Upload Sample Excel Download Successfully")
+    }catch(err){
+      // const url = sampleExcel;
+      // window.open(url, "_blank");
+    }
+  
   };
 
   const onFinish = async (values) => {
