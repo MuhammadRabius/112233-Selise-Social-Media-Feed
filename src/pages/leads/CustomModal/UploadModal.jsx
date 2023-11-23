@@ -7,7 +7,10 @@ import {
   sampleLeadExcel,
 } from "../../../global_state/action";
 import Loader from "../../../components/loader/Loader";
-import { bulkExcelUpload } from "../../../services/Services";
+import {
+  bulkExcelUpload,
+  sampleExcelDownload,
+} from "../../../services/Services";
 import LogoutModal from "../../../components/SessionOutModal/LogoutModal";
 import sampleExcel from "../../../assets/sampleExcel/Lead_bulk_upload.xlsx";
 
@@ -29,9 +32,9 @@ const UploadModal = ({
   };
   const handleSampleExcelDownload = () => {
     try {
-      const url = sampleExcel;
-      sampleLeadExcel(url);
-      message.success("Lead Bulk Upload Sample Excel Download Successfully");
+      const res = sampleExcelDownload();
+      sampleLeadExcel(res?.data);
+      message.success(res?.data?.message);
     } catch (err) {
       // const url = sampleExcel;
       // window.open(url, "_blank");
