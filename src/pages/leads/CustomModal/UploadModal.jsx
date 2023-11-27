@@ -30,11 +30,11 @@ const UploadModal = ({
     form.resetFields();
     onCancel();
   };
-  const handleSampleExcelDownload = () => {
+ const handleSampleExcelDownload = async() => {
     try {
-      const res = sampleExcelDownload();
-      sampleLeadExcel(res?.data);
-      message.success(res?.data?.message);
+      const res = await sampleExcelDownload();
+      sampleLeadExcel(res.data?.data);
+      message.success("Sample Excel Download Successfully");
     } catch (err) {
       // const url = sampleExcel;
       // window.open(url, "_blank");
