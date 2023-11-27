@@ -42,7 +42,7 @@ export const bulkExcelUpload = async (file, header) => {
 };
 
 export const sampleExcelDownload = async () => {
-  return await axios.get(`/api/leads/excel-files`);
+  return await axios.get(`/api/leads/excel-templates`);
 };
 
 export const leadListWithPagination = async (
