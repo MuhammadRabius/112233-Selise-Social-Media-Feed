@@ -33,7 +33,7 @@ const LoginPage = () => {
         try {
           setLoading(true);
           const res = await userLogin(payload);
-          console.log("res", res);
+          
           if (res.data.status === true) {
             setStatus(200);
             const token = res?.data?.data?.token;
