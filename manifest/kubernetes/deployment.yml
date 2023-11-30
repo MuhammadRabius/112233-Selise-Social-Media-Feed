@@ -13,10 +13,10 @@ spec:
       labels:
         app: bd-ulm-app
     spec:
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 10000
-        runAsGroup: 10000
+      # securityContext:
+      #   # runAsNonRoot: true
+      #   # runAsUser: 10000
+      #   # runAsGroup: 10000
       containers:
         - name: bd-ulm-app-container
           image: #{IMAGE_REGISTRY}#/ulm-app:#{IMAGE_TAG}#
