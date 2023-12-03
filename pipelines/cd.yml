@@ -26,9 +26,9 @@ variables:
 stages:
   - template: ./common-cd/stages/k8s-stage-cd.yml@templates
     parameters:
-      stageName: Dev
-      environmentName: 13639-DEV
+      stageName: QA
+      environmentName: 13639-QA
       serviceName: ${{variables.serviceName}}
-      armServiceConnection: '13639-ULM-ServiceConnection'
-      azureResourceGroup: 'RG_13639_BDULM_DEV'
-      kubernetesCluster: 'AZAPACSA01KUB13639DV01'
+      armServiceConnection: '13639-ULM-ServiceConnection-QA-PROD'
+      azureResourceGroup: 'RG_13639_BDULM_QA'
+      kubernetesCluster: 'AZAPACSA01KUB13639QA01'

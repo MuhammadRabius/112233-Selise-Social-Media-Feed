@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
 
 export const getDate = (d) => {
   const date = new Date(d);
@@ -62,6 +61,7 @@ export const ErrorExcelFileDownload = (base64) => {
   a.textContent = "Download file!";
   document.body.appendChild(a);
   document.getElementById("abc")?.click();
+  document.body.removeChild(a);
 };
 
 export const ReportExcelDownload = (file) => {
@@ -74,6 +74,7 @@ export const ReportExcelDownload = (file) => {
   );
   document.body.appendChild(link);
   link.click();
+  document.body.removeChild(link);
 };
 
 export const StringManaged = (data, pString) => {
@@ -85,12 +86,35 @@ export const StringManaged = (data, pString) => {
   return selectedStringId;
 };
 
+export const sampleLeadExcel = (base64File) => {
+  var mediaType =
+    "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,";
+
+  var a = document.createElement("a");
+  a.href = mediaType + base64File;
+  a.id = "abc";
+  // var date = new Date().toJSON().slice(0, 10);
+  a.download = `Lead_Bulk_Upload_Sample${dayjs().format(
+    "YYYY-MM-DD hh:mm A"
+  )}.xlsx`;
+  a.textContent = "Download file!";
+  document.body.appendChild(a);
+  document.getElementById("abc")?.click();
+  document.body.removeChild(a);
+};
+
 export const ErrorColorCode = (leads) => {
   switch (leads) {
     case "Not Verified":
       return "processing";
 
     case "Verified":
+      return "warning";
+
+    case "Failed To Assign Campaign":
+      return "processing";
+
+    case "Ready To Send":
       return "warning";
 
     default:
@@ -144,4 +168,12 @@ export const validateNameHelp = (name) => {
       : "Invalid Naming formation. Please name must be 3 to 350 characters long";
 
   return validateValidation;
+};
+
+export const clearCookies = () => {
+  const cookies = document.cookie.split(";");
+  cookies.forEach((cookie) => {
+    const [name] = cookie.split("=");
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+  });
 };

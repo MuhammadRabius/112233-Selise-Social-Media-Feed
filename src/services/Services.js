@@ -41,6 +41,10 @@ export const bulkExcelUpload = async (file, header) => {
   return await axios.post(`${prefix_api_leads}/bulk`, file, header);
 };
 
+export const sampleExcelDownload = async () => {
+  return await axios.get(`/api/leads/excel-templates`);
+};
+
 export const leadListWithPagination = async (
   pageNumber,
   pageSize,

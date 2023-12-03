@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import { Modal, Form, Upload, Button, message } from "antd";
-import { UploadOutlined,DownloadOutlined } from "@ant-design/icons";
+import { UploadOutlined, DownloadOutlined } from "@ant-design/icons";
 import "./UploadModal.css";
-import { ErrorExcelFileDownload } from "../../../global_state/action";
+import {
+  ErrorExcelFileDownload,
+  sampleLeadExcel,
+} from "../../../global_state/action";
 import Loader from "../../../components/loader/Loader";
-import { bulkExcelUpload } from "../../../services/Services";
+import {
+  bulkExcelUpload,
+  sampleExcelDownload,
+} from "../../../services/Services";
 import LogoutModal from "../../../components/SessionOutModal/LogoutModal";
-import sampleExcel from '../../../assets/sampleExcel/Bulk Upload Sample.xlsx'
+import sampleExcel from "../../../assets/sampleExcel/Lead_bulk_upload.xlsx";
 
 const UploadModal = ({
   open,
@@ -20,14 +26,19 @@ const UploadModal = ({
   const [form] = Form.useForm();
   const { Dragger } = Upload;
   const [isLoading, setLoading] = useState(false);
-
   const handleCancel = () => {
     form.resetFields();
     onCancel();
   };
-  const handleSampleExcelDownload = () => {
-    const url = sampleExcel;
-    window.open(url,"_blank");
+ const handleSampleExcelDownload = async() => {
+    try {
+      const res = await sampleExcelDownload();
+      sampleLeadExcel(res.data?.data);
+      message.success("Sample Excel Download Successfully");
+    } catch (err) {
+      // const url = sampleExcel;
+      // window.open(url, "_blank");
+    }
   };
 
   const onFinish = async (values) => {
@@ -43,20 +54,24 @@ const UploadModal = ({
             "Content-Type": "multipart/form-data",
           },
         });
+
         if (response.data.data !== null) {
+          setBulkUpModal(false);
           ErrorExcelFileDownload(response?.data?.data);
-          window.location.reload();
+          message.warning(response?.data?.message);
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+          return;
         }
-        response?.data?.data === null
-          ? message.success(response?.data?.message)
-          : message.warning(response?.data?.message);
+        message.success(response?.data?.message);
         form.resetFields();
         setCallBack(!callBack);
         setBulkUpModal(false);
       } else {
         message.warning("Please Upload Excel File");
       }
-      
+
       setLoading(false);
     } catch (error) {
       if (error?.response?.status === 401) {
@@ -111,16 +126,23 @@ const UploadModal = ({
           </Form.Item>
 
           <Form.Item>
-          <div className="upload_container">
-          <Button className="link-btn" type="link" onClick={handleSampleExcelDownload} >Sample Excel <DownloadOutlined /></Button>
-         
-          <Button className="upload-btn" htmlType="submit">
-            Upload
-          </Button>
-        </div>
+            <div className="upload_container">
+              <Button
+                className="link-btn"
+                type="link"
+                onClick={handleSampleExcelDownload}
+              >
+                Sample Excel <DownloadOutlined />
+              </Button>
+
+              <Button className="upload-btn" htmlType="submit">
+                Upload
+              </Button>
+            </div>
           </Form.Item>
         </Form>
       </Modal>
+
       {logoutModal && (
         <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />
       )}

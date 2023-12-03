@@ -9,7 +9,6 @@ import {
   validateNameMessage,
 } from "../../global_state/action";
 
-import Loader from "../../components/loader/Loader";
 import {
   getDistrict,
   leadListByID,
@@ -65,7 +64,6 @@ const LeadUpdateModal = ({
     setListbyIdData({ ...listViewData, districtName: value });
   };
 
-  // Submission payload-------------
   const payload = {
     customerFirstname: listViewData?.firstName,
     customerLastname: listViewData?.lastName,
@@ -148,7 +146,6 @@ const LeadUpdateModal = ({
     return () => ac.abort();
   }, [callBack, singleID]);
 
-  <Loader isLoading={isLoading} />;
   return (
     <>
       <Modal

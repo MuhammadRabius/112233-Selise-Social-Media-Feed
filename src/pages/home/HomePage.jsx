@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { DatePicker, message } from "antd";
+import { DatePicker } from "antd";
 import "./homePage.css";
 import { getGrapFillColor } from "../../global_state/action";
 import Loader from "../../components/loader/Loader";
@@ -22,10 +22,10 @@ import { leadsGraphView, leadsTableView } from "../../services/Services";
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 
-const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
+const HomePage = () => {
   const dateFormat = "YYYY-MM-DD";
   const [logoutModal, setLogoutModal] = useState(false);
-  const [isLoading, setLoading] = useState(isLoad === "false" ? false : true);
+  const [isLoading, setLoading] = useState(false);
   const [tData, setTData] = useState([]);
   const [gData, setGData] = useState([]);
   const [toDate, setToDate] = useState(dayjs().format("YYYY-MM-DD"));
@@ -48,7 +48,7 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
     (async () => {
       try {
         if (toDate && fromDate) {
-          setLoading(isLoad === "false" ? false : true);
+          setLoading(true);
 
           const graphRes = await leadsGraphView(fromDate, toDate);
           const tableRes = await leadsTableView(fromDate, toDate);
@@ -81,24 +81,16 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
           <div className="date_rage">
             <RangePicker
               data-testid="date-picker"
-              onChange={onDateChange || onChange}
+              onChange={onDateChange}
               defaultValue={[dayjs(fromDate), dayjs(toDate)]}
               format={dateFormat}
-              disabledDate={(current) =>
-                current.isAfter(dayjs() || disabledDate)
-              }
+              disabledDate={(current) => current.isAfter(dayjs())}
             />
           </div>
           <div className="chart_section" data-testid="chartContent-mock">
             <div className="char-bar">
               <small>Leads</small>
-              <BarChart
-                width={900}
-                height={300}
-                data={gData || testData}
-                // loading={isLoading}
-                // data-testid="bar-chart"
-              >
+              <BarChart width={900} height={300} data={gData}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <Tooltip data-testid="tooltip" />
                 <XAxis
@@ -108,7 +100,6 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
                   label={{
                     value: "Source Type",
                     position: "insideBottomRight",
-                    // offset: -1,
                     fill: "black",
                     fontSize: "14px",
                     fontWeight: "700",
@@ -134,7 +125,6 @@ const HomePage = ({ isLoad, onChange, disabledDate, testData }) => {
               data-testid="table-mock"
               key={tData.id}
               value={tData}
-              // loading={isLoading}
               tableStyle={{ minWidth: "50rem" }}
             >
               <Column

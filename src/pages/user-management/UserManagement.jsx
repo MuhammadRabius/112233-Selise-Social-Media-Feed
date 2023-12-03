@@ -17,13 +17,13 @@ import {
   getRole,
 } from "../../services/Services";
 
-const UserManagement = ({ isLoad, values }) => {
+const UserManagement = () => {
   const username = JSON.parse(localStorage.getItem("username"));
   const [logoutModal, setLogoutModal] = useState(false);
   const { Option } = Select;
   const [form] = Form.useForm();
   const [callBack, setCallBack] = useState(false);
-  const [isLoading, setLoading] = useState(isLoad === "false" ? false : true);
+  const [isLoading, setLoading] = useState(false);
   const [role, setRole] = useState([]);
   const [department, setDepartment] = useState([]);
   const [location, setLocation] = useState([]);
@@ -51,9 +51,7 @@ const UserManagement = ({ isLoad, values }) => {
     try {
       const userStatus = await userActiveStatus(id);
       setCallBack(!callBack);
-    } catch (err) {
-      console.log("data ", v, id);
-    }
+    } catch (err) {}
   };
 
   const onTableChange = (sorter) => {
@@ -79,7 +77,7 @@ const UserManagement = ({ isLoad, values }) => {
 
     try {
       (async () => {
-        setLoading(isLoad === "false" ? false : true);
+        setLoading(true);
         const res = await createUser(payload);
         message.success(res.data.message);
         setCallBack(!callBack);
@@ -94,13 +92,12 @@ const UserManagement = ({ isLoad, values }) => {
     }
   };
 
-  //  api calling ---
   useEffect(() => {
     const ac = new AbortController();
 
     (async () => {
       try {
-        setLoading(isLoad === "false" ? false : true);
+        setLoading(true);
 
         const districtDisplay = await getLocations();
         setLocation(districtDisplay.data.data);
@@ -125,7 +122,6 @@ const UserManagement = ({ isLoad, values }) => {
     return () => ac.abort();
   }, [callBack, searchInput]);
 
-  // sorting
   const [sortedInfo, setSortedInfo] = useState({});
 
   const columns = [

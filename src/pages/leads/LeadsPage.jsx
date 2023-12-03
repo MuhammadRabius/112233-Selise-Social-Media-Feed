@@ -12,9 +12,9 @@ import { ErrorColorCode } from "../../global_state/action";
 import LogoutModal from "../../components/SessionOutModal/LogoutModal";
 import { getLeadStatus, leadListWithPagination } from "../../services/Services";
 
-const LeadsPage = ({ isLoad }) => {
+const LeadsPage = () => {
   const authority = JSON.parse(localStorage.getItem("authority"));
-  const [isLoading, setLoading] = useState(isLoad === "false" ? false : true);
+  const [isLoading, setLoading] = useState(false);
   const [callBack, setCallBack] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -273,6 +273,7 @@ const LeadsPage = ({ isLoad }) => {
 
           <div className="filter_tableStatus">
             <Select
+              key="leadStatusId"
               className="filter_select"
               value={leadStatusId}
               style={{

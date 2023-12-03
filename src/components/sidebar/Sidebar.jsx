@@ -3,22 +3,19 @@ import logo from "../../assets/img/metlifelogo.png";
 import { NavLink } from "react-router-dom";
 import { LogoutOutlined } from "@ant-design/icons";
 import "./sidebar.css";
-import { RoleUIDashboard } from "../../global_state/action";
-// import { azureLogoutUrl } from "../../utility/Urls";
+import { RoleUIDashboard, clearCookies } from "../../global_state/action";
 import { userLogout } from "../../services/Services";
 import { message } from "antd";
+import { azureLogoutUrl } from "../../utility/Urls";
 
 const Sidebar = () => {
-  const azureLogin =
-    "https://login.microsoftonline.com/ca56a4a5-e300-406a-98ff-7e36a0baac5b/oauth2/v2.0/authorize?client_id=5a6f192a-8f85-4f86-8715-2efa16a9ea41&response_type=code&redirect_uri=https%3a%2f%2fdev.ulm.metlife.com.bd%2f&response_mode=query&scope=https%3a%2f%2fgraph.microsoft.com%2fuser.read";
-  const azureLogoutUrl = `https://login.microsoftonline.com/ca56a4a5-e300-406a-98ff-7e36a0baac5b/oauth2/v2.0/logout?post_logout_redirect_uri=${azureLogin}`;
-
   const user = JSON.parse(localStorage.getItem("user"));
   const authority = JSON.parse(localStorage.getItem("authority"));
 
   const onLogoutClick = async () => {
     try {
       const logout = await userLogout();
+      clearCookies();
       window.location.href = azureLogoutUrl;
       localStorage.clear();
     } catch (error) {

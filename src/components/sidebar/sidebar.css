@@ -31,7 +31,8 @@
     background: #007ABC 0% 0% no-repeat padding-box;
     opacity: 1;
 }
-.user_display{
+
+.user_display {
     color: #F2F2F2;
     font-style: "NotoSans-Bold";
     font-size: 16px;
@@ -57,7 +58,7 @@
     height: 50px;
     text-decoration: none;
     color: #333333;
-    font-style: 'MetLifeCircular-Medium' , sans-serif;
+    font-style: 'MetLifeCircular-Medium', sans-serif;
     font-size: 14px;
     font-weight: 500;
     opacity: 100%;
@@ -93,7 +94,7 @@
     border-width: 2px 0px 0px 0px;
 }
 
-.account-logout p{
+.account-logout p {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -101,7 +102,7 @@
     text-decoration: none;
     text-align: center;
     color: #333333;
-    font-family: 'NotoSans-Bold' , sans-serif;
+    font-family: 'NotoSans-Bold', sans-serif;
     font-weight: 500;
     font-size: 15px;
     height: 50px;
