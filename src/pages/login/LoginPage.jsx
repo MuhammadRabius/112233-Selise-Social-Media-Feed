@@ -8,9 +8,12 @@ import { ReloadOutlined } from "@ant-design/icons";
 import Loader from "../../components/loader/Loader";
 import { userLogin } from "../../services/Services";
 import { clearCookies } from "../../global_state/action";
-import { azureLogin, azureLogoutUrl } from "../../utility/Urls";
 
 const LoginPage = () => {
+  const azureLogin =
+    "https://login.microsoftonline.com/ca56a4a5-e300-406a-98ff-7e36a0baac5b/oauth2/v2.0/authorize?client_id=7c2a7e4f-2fc8-463a-be17-acdc93f37b92&response_type=code&redirect_uri=https%3a%2f%2fdev.ulm.metlife.com.bd%2f&response_mode=query&scope=https%3a%2f%2fgraph.microsoft.com%2fuser.read";
+  const azureLogoutUrl = `https://login.microsoftonline.com/ca56a4a5-e300-406a-98ff-7e36a0baac5b/oauth2/v2.0/logout?post_logout_redirect_uri=https%3a%2f%2fdev.ulm.metlife.com.bd%2f&scope=https%3a%2f%2fgraph.microsoft.com%2fuser.read`;
+
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get("code");
   const [isLoading, setLoading] = useState(false);
@@ -33,7 +36,7 @@ const LoginPage = () => {
         try {
           setLoading(true);
           const res = await userLogin(payload);
-          
+
           if (res.data.status === true) {
             setStatus(200);
             const token = res?.data?.data?.token;

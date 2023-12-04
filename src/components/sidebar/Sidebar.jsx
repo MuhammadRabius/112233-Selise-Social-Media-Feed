@@ -6,9 +6,9 @@ import "./sidebar.css";
 import { RoleUIDashboard, clearCookies } from "../../global_state/action";
 import { userLogout } from "../../services/Services";
 import { message } from "antd";
-import { azureLogoutUrl } from "../../utility/Urls";
 
 const Sidebar = () => {
+  const azureLogoutUrl = `https://login.microsoftonline.com/ca56a4a5-e300-406a-98ff-7e36a0baac5b/oauth2/v2.0/logout?post_logout_redirect_uri=https%3a%2f%2fdev.ulm.metlife.com.bd%2f&scope=https%3a%2f%2fgraph.microsoft.com%2fuser.read`;
   const user = JSON.parse(localStorage.getItem("user"));
   const authority = JSON.parse(localStorage.getItem("authority"));
 
