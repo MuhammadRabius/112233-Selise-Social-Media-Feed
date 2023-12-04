@@ -55,6 +55,6 @@ steps:
       veracodeFailBuildOnPolicyFail: true
       veracodeUploadDir: ''
       acrARMConnection: '13639-ULM-ServiceConnection-QA-PROD'
-      acrHostName: 'acr13553s1qa01.azurecr.io'
+      acrHostName: 'acr13553s1dv01.azurecr.io'
       acrRepoName: 'ulm-app'
       dockerFilePath: $(Build.SourcesDirectory)
