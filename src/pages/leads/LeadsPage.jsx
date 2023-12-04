@@ -1,14 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
-import { Table, Input, Pagination, Select, Tag, Tooltip, Badge } from "antd";
+import { Table, Input, Pagination, Select, Tag, Space } from "antd";
 import UploadModal from "./CustomModal/UploadModal";
 import LeadUpdateModal from "./LeadUpdateModal";
 import "./LeadPage.css";
 import AddLeadModal from "./AddLead";
 import { debounce } from "lodash";
 import { SearchOutlined } from "@ant-design/icons";
-import { ErrorColorCode } from "../../global_state/action";
+import { ErrorColorCode, leadStatusColorIcon } from "../../global_state/action";
 import LogoutModal from "../../components/SessionOutModal/LogoutModal";
 import { getLeadStatus, leadListWithPagination } from "../../services/Services";
 
@@ -191,9 +191,14 @@ const LeadsPage = () => {
       responsive: ["sm"],
       render: (leadStatus) => {
         return (
-          <Tooltip title={`${leadStatus}`}>
-            <Badge status={ErrorColorCode(leadStatus)} />
-          </Tooltip>
+          <Space size={[0, 8]} wrap>
+            <Tag
+              icon={leadStatusColorIcon(leadStatus)}
+              color={ErrorColorCode(leadStatus)}
+            >
+              {leadStatus}
+            </Tag>
+          </Space>
         );
       },
     },

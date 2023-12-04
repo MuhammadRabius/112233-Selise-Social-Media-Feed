@@ -364,3 +364,8 @@
   color: red;
   background-color: red;
 }
+
+.anticon svg {
+  display: inline-block;
+  margin-bottom: 5px;
+}

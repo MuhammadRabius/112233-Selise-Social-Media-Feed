@@ -1,4 +1,12 @@
 import dayjs from "dayjs";
+import {
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  CloseCircleOutlined,
+  ExclamationCircleOutlined,
+  MinusCircleOutlined,
+  SyncOutlined,
+} from "@ant-design/icons";
 
 export const getDate = (d) => {
   const date = new Date(d);
@@ -106,19 +114,38 @@ export const sampleLeadExcel = (base64File) => {
 export const ErrorColorCode = (leads) => {
   switch (leads) {
     case "Not Verified":
-      return "processing";
+      return "error";
 
     case "Verified":
-      return "warning";
+      return "geekblue";
 
     case "Failed To Assign Campaign":
-      return "processing";
+      return "warning";
 
     case "Ready To Send":
-      return "warning";
+      return "processing";
 
     default:
       return "success";
+  }
+};
+
+export const leadStatusColorIcon = (leads) => {
+  switch (leads) {
+    case "Not Verified":
+      return <CloseCircleOutlined />;
+
+    case "Verified":
+      return <ClockCircleOutlined />;
+
+    case "Failed To Assign Campaign":
+      return <ExclamationCircleOutlined />;
+
+    case "Ready To Send":
+      return <SyncOutlined spin />;
+
+    default:
+      return <CheckCircleOutlined />;
   }
 };
 
