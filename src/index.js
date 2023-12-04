@@ -9,7 +9,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";    
 import "bootstrap/dist/css/bootstrap.min.css";
 
-axios.defaults.baseURL =  "https://dev.apim.gateway.apac.metlife.com/dev-ulm";
+axios.defaults.baseURL =  "https://dev.apim.gateway.apac.metlife.com/ulm";
 
 
 axios.defaults.headers.common["Authorization"] =
