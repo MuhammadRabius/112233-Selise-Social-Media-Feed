@@ -113,17 +113,20 @@ export const sampleLeadExcel = (base64File) => {
 
 export const ErrorColorCode = (leads) => {
   switch (leads) {
-    case "Not Verified":
+    case "Validation Failed":
       return "error";
 
-    case "Verified":
-      return "geekblue";
+    case "Processing To Assign Campaign":
+      return "Processing";
 
     case "Failed To Assign Campaign":
       return "warning";
 
     case "Ready To Send":
       return "processing";
+
+    case "Failed To Send":
+      return "error";
 
     default:
       return "success";
@@ -132,10 +135,10 @@ export const ErrorColorCode = (leads) => {
 
 export const leadStatusColorIcon = (leads) => {
   switch (leads) {
-    case "Not Verified":
+    case "Validation Failed":
       return <CloseCircleOutlined />;
 
-    case "Verified":
+    case "Processing To Assign Campaign":
       return <SyncOutlined spin />;
 
     case "Failed To Assign Campaign":
@@ -143,6 +146,9 @@ export const leadStatusColorIcon = (leads) => {
 
     case "Ready To Send":
       return <ClockCircleOutlined />;
+
+    case "Failed To Send":
+      return <MinusCircleOutlined />;
 
     default:
       return <CheckCircleOutlined />;
