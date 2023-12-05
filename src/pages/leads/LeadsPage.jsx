@@ -209,7 +209,7 @@ const LeadsPage = () => {
       width: 80,
       responsive: ["sm"],
       render: (states, _data) => {
-        return _data?.leadStatus === "Not Verified" ? (
+        return _data?.leadStatus === "Validation Failed" ? (
           <>
             <NavLink onClick={(e) => showLeadUpdateMOdal(_data.leadId)}>
               Edit
@@ -227,7 +227,7 @@ const LeadsPage = () => {
       width: "auto",
       render: (validationErrorMessage, _data) => {
         return validationErrorMessage.map((_d) => {
-          return _data.leadStatus === "Not Verified" ? (
+          return _data.leadStatus === "Validation Failed" ? (
             <Tag style={{ display: "block" }} color="red">
               {_d}
             </Tag>
