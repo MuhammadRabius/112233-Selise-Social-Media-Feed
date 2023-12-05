@@ -136,13 +136,13 @@ export const leadStatusColorIcon = (leads) => {
       return <CloseCircleOutlined />;
 
     case "Verified":
-      return <ClockCircleOutlined />;
+      return <SyncOutlined spin />;
 
     case "Failed To Assign Campaign":
       return <ExclamationCircleOutlined />;
 
     case "Ready To Send":
-      return <SyncOutlined spin />;
+      return <ClockCircleOutlined />;
 
     default:
       return <CheckCircleOutlined />;

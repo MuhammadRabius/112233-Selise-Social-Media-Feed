@@ -304,7 +304,7 @@ const AddLeadModal = ({
                       }}
                     >
                       <span style={{ color: "#6E6E6E", marginLeft: "3px" }}>
-                        Lead Submit with new FA ?
+                        Lead submit with current FA ?
                       </span>
                       <p style={{ color: "#6E6E6E" }}>
                         FA Status : <Tag color="#87d068">Active</Tag>
@@ -318,7 +318,7 @@ const AddLeadModal = ({
                     <Input
                       value={
                         faYesNO === "no"
-                          ? "Lead will submitted with new FA request"
+                          ? "New FA will be assigned"
                           : faCode
                       }
                       placeholder="FA Code"
