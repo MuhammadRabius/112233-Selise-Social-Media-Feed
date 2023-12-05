@@ -117,7 +117,7 @@ export const ErrorColorCode = (leads) => {
       return "error";
 
     case "Processing To Assign Campaign":
-      return "Processing";
+      return "processing";
 
     case "Failed To Assign Campaign":
       return "warning";
