@@ -74,7 +74,7 @@ const UserManagement = () => {
     ...serial[index],
   }));
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     const payload = {
       username: values?.username,
       email: values?.email,
@@ -84,19 +84,21 @@ const UserManagement = () => {
     };
 
     try {
-      (async () => {
-        setLoading(true);
-        const res = await createUser(payload);
-        message.success(res.data.message);
-        setCallBack(!callBack);
-        form.resetFields();
-        setLoading(false);
-      })();
+      setLoading(true);
+      const res = await createUser(payload);
+      message.success(res.data.message);
+      setCallBack(!callBack);
+      form.resetFields();
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
+
       if (error?.response?.status === 401) {
         setLogoutModal(true);
+        setLoading(false);
       }
-      setLoading(false);
+      error?.response?.data?.details[0] &&
+        message.error(error?.response?.data?.details[0]);
     }
   };
 
@@ -115,15 +117,16 @@ const UserManagement = () => {
 
         const roleDisplay = await getRole();
         setRole(roleDisplay.data.data);
-        setLoading(false);
         //
         const userDisplay = await userList(searchInput);
         setUser(userDisplay.data.data);
+
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         if (error.response.status !== 200) {
           setLogoutModal(true);
         }
-        setLoading(false);
       }
     })();
 

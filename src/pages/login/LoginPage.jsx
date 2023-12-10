@@ -90,7 +90,7 @@ const LoginPage = () => {
                         <h6>
                           {" "}
                           <span style={{ color: "red", marginRight: "5px" }}>
-                            User not found !
+                            Authentication Failed!
                           </span>
                           Redirecting to Login
                         </h6>
