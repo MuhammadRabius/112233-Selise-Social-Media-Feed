@@ -33,6 +33,14 @@ const UserManagement = () => {
   const antIcon = <Loader isLoading={true} />;
   const [searchInput, setSearchInput] = useState("");
 
+  const [addUser, setAddUser] = useState({
+    username: "",
+    email: "",
+    roleId: "",
+    departmentId: "",
+    locationId: "",
+  });
+
   // add lead component
   const [userUpdate, setUserUpdateModal] = useState(false);
   const [userId, setUserId] = useState(null);
@@ -70,9 +78,9 @@ const UserManagement = () => {
     const payload = {
       username: values?.username,
       email: values?.email,
-      roleId: values?.role,
-      departmentId: values?.department,
-      locationId: values?.location,
+      roleId: addUser?.roleId,
+      departmentId: addUser?.departmentId,
+      locationId: addUser?.locationId,
     };
 
     try {
@@ -250,6 +258,13 @@ const UserManagement = () => {
                   placeholder="Department"
                   data-testid="dep-mock"
                   optionFilterProp="label"
+                  value={addUser.departmentId}
+                  onChange={(value) =>
+                    setAddUser({
+                      ...addUser,
+                      departmentId: value,
+                    })
+                  }
                 >
                   {department.map((_d) => {
                     return (
@@ -298,6 +313,13 @@ const UserManagement = () => {
                   placeholder="Role"
                   data-testid="role-mock"
                   optionFilterProp="label"
+                  value={addUser.roleId}
+                  onChange={(value) =>
+                    setAddUser({
+                      ...addUser,
+                      roleId: value,
+                    })
+                  }
                 >
                   {role.map((_d) => {
                     return (
@@ -327,6 +349,13 @@ const UserManagement = () => {
                   placeholder="Location"
                   data-testid="location-mock"
                   optionFilterProp="label"
+                  value={addUser.locationId}
+                  onChange={(value) =>
+                    setAddUser({
+                      ...addUser,
+                      locationId: value,
+                    })
+                  }
                 >
                   {location.map((_d) => {
                     return (
