@@ -130,7 +130,7 @@ export const ErrorColorCode = (leads) => {
 
     default:
       return "success";
-  }
+  } 
 };
 
 export const leadStatusColorIcon = (leads) => {
