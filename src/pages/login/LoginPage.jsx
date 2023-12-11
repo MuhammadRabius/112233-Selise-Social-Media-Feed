@@ -11,7 +11,6 @@ import { clearCookies } from "../../global_state/action";
 import { azureLogin, azureLogoutUrl } from "../../utility/Urls";
 
 const LoginPage = () => {
-  
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get("code");
   const [isLoading, setLoading] = useState(false);
@@ -55,9 +54,9 @@ const LoginPage = () => {
           setStatus(error?.response?.status);
           setLoading(false);
           clearCookies();
+          error?.response?.data?.details[0] &&
+            message.error(error?.response?.data?.details[0]);
           setTimeout(() => {
-            error?.response?.data?.details[0] &&
-              message.error(error?.response?.data?.details[0]);
             window.location.reload();
             window.location.href = azureLogoutUrl;
           }, 2000);
@@ -90,7 +89,7 @@ const LoginPage = () => {
                         <h6>
                           {" "}
                           <span style={{ color: "red", marginRight: "5px" }}>
-                            Authentication Failed!
+                            Authentication Failed !
                           </span>
                           Redirecting to Login
                         </h6>
