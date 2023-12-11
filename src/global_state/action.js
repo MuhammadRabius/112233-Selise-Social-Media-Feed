@@ -186,14 +186,14 @@ export const validateEmailMessage = (email) => {
   return validateValidation;
 };
 export const validateNameMessage = (name) => {
-  const nameRegex = /^[a-zA-Z\s]+$/;
+  const nameRegex = /^[A-Za-z.\s]{3,350}$/;
   const test = nameRegex.test(name);
   const validateValidation = test === true ? "success" : "error";
 
   return validateValidation;
 };
 export const validateNameHelp = (name) => {
-  const nameRegex = /^[a-zA-Z\s]+$/;
+  const nameRegex = /^[A-Za-z.\s]{3,350}$/;
   const test = nameRegex.test(name);
   const validateValidation =
     test === true

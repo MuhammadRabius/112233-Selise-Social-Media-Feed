@@ -29,7 +29,7 @@ const AddLeadModal = ({
   isLoading,
 }) => {
   const [form] = Form.useForm();
-  const nameRegex = /^[\w\s!@#$%^&*()\-+=<>?/,.:;'"[\]{}|~]{3,350}$/;
+  const nameRegex = /^[A-Za-z.\s]{3,350}$/;
   const { Option } = Select;
   const { TextArea } = Input;
   const [logoutModal, setLogoutModal] = useState(false);
@@ -317,9 +317,7 @@ const AddLeadModal = ({
 
                     <Input
                       value={
-                        faYesNO === "no"
-                          ? "New FA will be assigned"
-                          : faCode
+                        faYesNO === "no" ? "New FA will be assigned" : faCode
                       }
                       placeholder="FA Code"
                       className="input_group"

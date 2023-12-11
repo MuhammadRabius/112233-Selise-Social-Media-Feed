@@ -26,7 +26,7 @@ const LeadUpdateModal = ({
   isLoading,
 }) => {
   const [form] = Form.useForm();
-  const nameRegex = /^[\w\s!@#$%^&*()\-+=<>?/,.:;'"[\]{}|~]{5,350}$/;
+  const nameRegex = /^[A-Za-z.\s]{3,350}$/;
   const [logoutModal, setLogoutModal] = useState(false);
   const handleCancel = () => {
     onCancel();
@@ -89,7 +89,7 @@ const LeadUpdateModal = ({
         if (res?.data?.status === false) {
           message.error(res.data.message);
         }
-
+        message.success(res.data.message);
         setCallBack(!callBack);
         setLoading(false);
         setUpdateLeadModal(false);
@@ -236,8 +236,8 @@ const LeadUpdateModal = ({
 
             <Form.Item
               name="email"
-              validateStatus={validateEmailMessage(listViewData?.email)}
-              help={validateEmail(listViewData?.email)}
+              // validateStatus={validateEmailMessage(listViewData?.email)}
+              // help={validateEmail(listViewData?.email)}
             >
               {" "}
               <Input
