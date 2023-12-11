@@ -265,8 +265,8 @@ const LeadUpdateModal = ({
               value={listViewData?.districtName}
               onChange={onDistrictChange}
               options={districtAPI.map((_d) => ({
-                label: _d.labelEnglish,
-                value: _d.nameEnglish,
+                label: _d.districtNameEng,
+                value: _d.districtNameEng,
               }))}
             />
 
