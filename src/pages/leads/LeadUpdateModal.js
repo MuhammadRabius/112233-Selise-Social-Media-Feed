@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal, Form, Input, Select, Button, message } from "antd";
 
 import {
+  nameRegex,
   phonePrefix,
   validateEmail,
   validateEmailMessage,
@@ -26,7 +27,6 @@ const LeadUpdateModal = ({
   isLoading,
 }) => {
   const [form] = Form.useForm();
-  const nameRegex = /^[A-Za-z.\s]{3,350}$/;
   const [logoutModal, setLogoutModal] = useState(false);
   const handleCancel = () => {
     onCancel();
@@ -169,7 +169,7 @@ const LeadUpdateModal = ({
               rules={[
                 {
                   pattern: nameRegex,
-                  message: "Name must be 3 to 350 characters long ",
+                  message: "Invalid name format!",
                 },
               ]}
               validateStatus={validateNameMessage(listViewData?.firstName)}

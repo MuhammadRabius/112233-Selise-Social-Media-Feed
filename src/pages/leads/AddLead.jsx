@@ -18,6 +18,7 @@ import {
   submitLeadManual,
 } from "../../services/Services";
 import LogoutModal from "../../components/SessionOutModal/LogoutModal";
+import { nameRegex } from "../../global_state/action";
 
 const AddLeadModal = ({
   open,
@@ -29,7 +30,6 @@ const AddLeadModal = ({
   isLoading,
 }) => {
   const [form] = Form.useForm();
-  const nameRegex = /^[A-Za-z.\s]{3,350}$/;
   const { Option } = Select;
   const { TextArea } = Input;
   const [logoutModal, setLogoutModal] = useState(false);
@@ -183,7 +183,7 @@ const AddLeadModal = ({
                 },
                 {
                   pattern: nameRegex,
-                  message: "Name must be 3 to 350 characters long ",
+                  message: "Invalid name format!",
                 },
               ]}
             >
@@ -202,7 +202,7 @@ const AddLeadModal = ({
               rules={[
                 {
                   pattern: nameRegex,
-                  message: "Name must be 3 to 350 characters long ",
+                  message: "Invalid name format!",
                 },
               ]}
             >
