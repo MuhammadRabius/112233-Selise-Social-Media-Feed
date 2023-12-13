@@ -289,6 +289,7 @@ const LeadUpdateModal = ({
             </Form.Item>
 
             <Form.Item label="" name="facode">
+            {" "}
               <Input
                 className="input_group"
                 placeholder="FA Code"
