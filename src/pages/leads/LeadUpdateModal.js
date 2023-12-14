@@ -25,6 +25,7 @@ const LeadUpdateModal = ({
   setUpdateLeadModal,
   callBack,
   setCallBack,
+  setLoading,
   isLoading,
 }) => {
   const [form] = Form.useForm();
@@ -35,12 +36,10 @@ const LeadUpdateModal = ({
     form.resetFields();
   };
 
-  console.log("modalLoader", modalLoader);
-
   const { TextArea } = Input;
   const [district, setDistrict] = useState("");
   const [districtAPI, setDistrictAPI] = useState([]);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [listViewData, setListbyIdData] = useState({
     firstName: "",
     lastName: "",
@@ -324,7 +323,6 @@ const LeadUpdateModal = ({
           </div>
         </Spin>
       </Modal>
-      {<Loader isLoading={loading} />}
       {logoutModal && (
         <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />
       )}

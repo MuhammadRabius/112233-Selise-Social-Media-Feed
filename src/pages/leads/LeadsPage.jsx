@@ -360,6 +360,8 @@ const LeadsPage = () => {
           setUpdateLeadModal={setUpdateLeadModal}
           callBack={callBack}
           setCallBack={setCallBack}
+          setLoading={setLoading}
+          isLoading={isLoading}
         />
       )}
       {logoutModal && (

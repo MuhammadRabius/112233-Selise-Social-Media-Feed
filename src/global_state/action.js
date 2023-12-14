@@ -189,6 +189,7 @@ export const validateEmailMessage = (email) => {
 export const nameRegex = /^[A-Za-z.\s]{3,350}$/;
 
 export const validateNameMessage = (name) => {
+  console.log("name",name)
   const test = nameRegex.test(name);
   const validateValidation = test === true ? "success" : "error";
 
