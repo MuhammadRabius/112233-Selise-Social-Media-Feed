@@ -16,7 +16,6 @@ import {
   leadUpdateByID,
 } from "../../services/Services";
 import LogoutModal from "../../components/SessionOutModal/LogoutModal";
-import Loader from "../../components/loader/Loader";
 
 const LeadUpdateModal = ({
   open,
@@ -39,7 +38,6 @@ const LeadUpdateModal = ({
   const { TextArea } = Input;
   const [district, setDistrict] = useState("");
   const [districtAPI, setDistrictAPI] = useState([]);
-  // const [loading, setLoading] = useState(false);
   const [listViewData, setListbyIdData] = useState({
     firstName: "",
     lastName: "",
