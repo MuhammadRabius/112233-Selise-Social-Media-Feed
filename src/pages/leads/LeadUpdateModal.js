@@ -35,6 +35,8 @@ const LeadUpdateModal = ({
     form.resetFields();
   };
 
+  console.log("modalLoader", modalLoader);
+
   const { TextArea } = Input;
   const [district, setDistrict] = useState("");
   const [districtAPI, setDistrictAPI] = useState([]);
@@ -114,7 +116,7 @@ const LeadUpdateModal = ({
 
     (async () => {
       try {
-        setModalLoader(false);
+        setModalLoader(true);
         const districtDisplay = await getDistrict();
         setDistrictAPI(districtDisplay.data.data);
 
@@ -158,7 +160,7 @@ const LeadUpdateModal = ({
         onCancel={handleCancel}
         footer={false}
       >
-        <Spin tip="Lead Data is Loading" spinning={modalLoader}>
+        <Spin tip="Lead Data is Loading" fullscreen spinning={modalLoader}>
           <div className="_modal_body">
             <Form
               form={form}
