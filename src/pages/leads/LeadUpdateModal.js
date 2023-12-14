@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Form, Input, Select, Button, message } from "antd";
+import { Modal, Form, Input, Select, Button, message, Spin } from "antd";
 
 import {
   nameRegex,
@@ -16,6 +16,7 @@ import {
   leadUpdateByID,
 } from "../../services/Services";
 import LogoutModal from "../../components/SessionOutModal/LogoutModal";
+import Loader from "../../components/loader/Loader";
 
 const LeadUpdateModal = ({
   open,
@@ -28,6 +29,7 @@ const LeadUpdateModal = ({
 }) => {
   const [form] = Form.useForm();
   const [logoutModal, setLogoutModal] = useState(false);
+  const [modalLoader, setModalLoader] = useState(false);
   const handleCancel = () => {
     onCancel();
     form.resetFields();
@@ -112,7 +114,7 @@ const LeadUpdateModal = ({
 
     (async () => {
       try {
-        setLoading(true);
+        setModalLoader(false);
         const districtDisplay = await getDistrict();
         setDistrictAPI(districtDisplay.data.data);
 
@@ -134,12 +136,12 @@ const LeadUpdateModal = ({
           });
           setDistrict(leadDisplay?.data?.data?.districtName);
         }
-        setLoading(false);
+        setModalLoader(false);
       } catch (error) {
         if (error?.response?.status === 401) {
           setLogoutModal(true);
         }
-        setLoading(false);
+        setModalLoader(false);
       }
     })();
 
@@ -156,167 +158,169 @@ const LeadUpdateModal = ({
         onCancel={handleCancel}
         footer={false}
       >
-        <div className="_modal_body">
-          <Form
-            form={form}
-            onFinish={onFinish}
-            autoComplete="off"
-            loading={isLoading}
-          >
-            <Form.Item
-              name="firstName"
-              validateFirst={true}
-              rules={[
-                {
-                  pattern: nameRegex,
-                  message: "Invalid name format!",
-                },
-              ]}
-              validateStatus={validateNameMessage(listViewData?.firstName)}
-              help={validateNameHelp(listViewData?.firstName)}
+        <Spin tip="Lead Data is Loading" size="small" spinning={modalLoader}>
+          <div className="_modal_body">
+            <Form
+              form={form}
+              onFinish={onFinish}
+              autoComplete="off"
+              loading={modalLoader}
             >
-              {" "}
-              <Input
-                className="input_group"
-                type="text"
-                placeholder="* First Name"
-                value={listViewData?.firstName}
-                onChange={(e) =>
-                  setListbyIdData({
-                    ...listViewData,
-                    firstName: e.target.value,
-                  })
-                }
-              />
-            </Form.Item>
-
-            <Form.Item name="lastName">
-              {" "}
-              <Input
-                className="input_group"
-                placeholder="Last Name"
-                value={listViewData?.lastName}
-                disabled
-              />
-            </Form.Item>
-
-            <Form.Item
-              name="contactNo"
-              validateStatus={
-                listViewData?.contactNo !== "" &&
-                (listViewData?.contactNo?.length === 11 ||
-                  listViewData?.contactNo?.length === 13 ||
-                  listViewData?.contactNo?.length === 10)
-                  ? "success"
-                  : "error"
-              }
-              help={
-                listViewData?.contactNo?.length === 11 ||
-                listViewData?.contactNo?.length === 13 ||
-                listViewData?.contactNo?.length === 10
-                  ? null
-                  : "Please input your 10 digit phone number,exclude 880"
-              }
-            >
-              {" "}
-              <Input
-                addonBefore="880"
-                // className="input_group"
-                maxLength={10}
-                placeholder="* Mobile Number"
-                value={phonePrefix(listViewData?.contactNo)}
-                onChange={(e) =>
-                  setListbyIdData({
-                    ...listViewData,
-                    contactNo: e.target.value,
-                  })
-                }
-              />
-            </Form.Item>
-
-            <Form.Item
-              name="email"
-              // validateStatus={validateEmailMessage(listViewData?.email)}
-              // help={validateEmail(listViewData?.email)}
-            >
-              {" "}
-              <Input
-                className="input_group"
-                type="text"
-                placeholder="Email"
-                value={listViewData?.email}
-                onChange={(e) =>
-                  setListbyIdData({
-                    ...listViewData,
-                    email: e.target.value,
-                  })
-                }
-              />
-            </Form.Item>
-
-            {listViewData?.districtName === null ? (
-              <small style={{ color: "red" }}>Please Select District</small>
-            ) : null}
-
-            <Select
-              className="districtChange"
-              allowClear
-              showSearch
-              value={listViewData?.districtName}
-              onChange={onDistrictChange}
-              options={districtAPI.map((_d) => ({
-                label: _d.districtNameEng,
-                value: _d.districtNameEng,
-              }))}
-            />
-
-            <Form.Item
-              label=""
-              validateFirst={true}
-              name="customerPolicyNumber"
-            >
-              <div className="exiting_policy">
+              <Form.Item
+                name="firstName"
+                validateFirst={true}
+                rules={[
+                  {
+                    pattern: nameRegex,
+                    message: "Invalid name format!",
+                  },
+                ]}
+                validateStatus={validateNameMessage(listViewData?.firstName)}
+                help={validateNameHelp(listViewData?.firstName)}
+              >
+                {" "}
                 <Input
                   className="input_group"
-                  disabled
-                  className="policy_input"
-                  placeholder="Existing Policy Number (If Any)"
+                  type="text"
+                  placeholder="* First Name"
+                  value={listViewData?.firstName}
+                  onChange={(e) =>
+                    setListbyIdData({
+                      ...listViewData,
+                      firstName: e.target.value,
+                    })
+                  }
                 />
-                <Button className="policy_btn " disabled>
-                  FIND
-                </Button>
-              </div>
-            </Form.Item>
+              </Form.Item>
 
-            <Form.Item label="" name="facode">
-              <Input
-                className="input_group"
-                placeholder="FA Code"
-                disabled
-                value={listViewData?.faCode}
+              <Form.Item name="lastName">
+                {" "}
+                <Input
+                  className="input_group"
+                  placeholder="Last Name"
+                  value={listViewData?.lastName}
+                  disabled
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="contactNo"
+                validateStatus={
+                  listViewData?.contactNo !== "" &&
+                  (listViewData?.contactNo?.length === 11 ||
+                    listViewData?.contactNo?.length === 13 ||
+                    listViewData?.contactNo?.length === 10)
+                    ? "success"
+                    : "error"
+                }
+                help={
+                  listViewData?.contactNo?.length === 11 ||
+                  listViewData?.contactNo?.length === 13 ||
+                  listViewData?.contactNo?.length === 10
+                    ? null
+                    : "Please input your 10 digit phone number,exclude 880"
+                }
+              >
+                {" "}
+                <Input
+                  addonBefore="880"
+                  // className="input_group"
+                  maxLength={10}
+                  placeholder="* Mobile Number"
+                  value={phonePrefix(listViewData?.contactNo)}
+                  onChange={(e) =>
+                    setListbyIdData({
+                      ...listViewData,
+                      contactNo: e.target.value,
+                    })
+                  }
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="email"
+                // validateStatus={validateEmailMessage(listViewData?.email)}
+                // help={validateEmail(listViewData?.email)}
+              >
+                {" "}
+                <Input
+                  className="input_group"
+                  type="text"
+                  placeholder="Email"
+                  value={listViewData?.email}
+                  onChange={(e) =>
+                    setListbyIdData({
+                      ...listViewData,
+                      email: e.target.value,
+                    })
+                  }
+                />
+              </Form.Item>
+
+              {listViewData?.districtName === null ? (
+                <small style={{ color: "red" }}>Please Select District</small>
+              ) : null}
+
+              <Select
+                className="districtChange"
+                allowClear
+                showSearch
+                value={listViewData?.districtName}
+                onChange={onDistrictChange}
+                options={districtAPI.map((_d) => ({
+                  label: _d.districtNameEng,
+                  value: _d.districtNameEng,
+                }))}
               />
-            </Form.Item>
 
-            <Form.Item label="" name="remark">
-              <TextArea
-                value={listViewData?.remark}
-                disabled
-                className="custom_remark"
-                style={{ resize: "none" }}
-              />
-            </Form.Item>
+              <Form.Item
+                label=""
+                validateFirst={true}
+                name="customerPolicyNumber"
+              >
+                <div className="exiting_policy">
+                  <Input
+                    className="input_group"
+                    disabled
+                    className="policy_input"
+                    placeholder="Existing Policy Number (If Any)"
+                  />
+                  <Button className="policy_btn " disabled>
+                    FIND
+                  </Button>
+                </div>
+              </Form.Item>
 
-            <Form.Item>
-              <div className="sub_btn_group">
-                <button htmlType="submit" className="sub_btn">
-                  Update
-                </button>
-              </div>
-            </Form.Item>
-          </Form>
-        </div>
+              <Form.Item label="" name="facode">
+                <Input
+                  className="input_group"
+                  placeholder="FA Code"
+                  disabled
+                  value={listViewData?.faCode}
+                />
+              </Form.Item>
+
+              <Form.Item label="" name="remark">
+                <TextArea
+                  value={listViewData?.remark}
+                  disabled
+                  className="custom_remark"
+                  style={{ resize: "none" }}
+                />
+              </Form.Item>
+
+              <Form.Item>
+                <div className="sub_btn_group">
+                  <button htmlType="submit" className="sub_btn">
+                    Update
+                  </button>
+                </div>
+              </Form.Item>
+            </Form>
+          </div>
+        </Spin>
       </Modal>
-
+      {<Loader isLoading={loading} />}
       {logoutModal && (
         <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />
       )}

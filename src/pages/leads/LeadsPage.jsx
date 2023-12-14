@@ -271,7 +271,7 @@ const LeadsPage = () => {
                 </button>
               )}
               <button className="btn_group" onClick={showADModal}>
-                + ADD LEAD
+                ADD LEAD
               </button>
             </div>
           </div>
