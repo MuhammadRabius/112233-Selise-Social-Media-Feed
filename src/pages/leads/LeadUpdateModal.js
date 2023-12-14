@@ -158,7 +158,7 @@ const LeadUpdateModal = ({
         onCancel={handleCancel}
         footer={false}
       >
-        <Spin tip="Lead Data is Loading" size="small" spinning={modalLoader}>
+        <Spin tip="Lead Data is Loading" spinning={modalLoader}>
           <div className="_modal_body">
             <Form
               form={form}
