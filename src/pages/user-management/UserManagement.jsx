@@ -15,7 +15,7 @@ import {
   userList,
   getRole,
 } from "../../services/Services";
-
+   
 const UserManagement = () => {
   const username = JSON.parse(localStorage.getItem("username"));
   const [logoutModal, setLogoutModal] = useState(false);
