@@ -5,7 +5,6 @@ import { NavLink } from "react-router-dom";
 import { debounce } from "lodash";
 import Loader from "../../components/loader/Loader";
 import "./UserManagement.css";
-
 import UpdateUserModal from "./UpdateUserModal/UpdateUserModal";
 import LogoutModal from "../../components/SessionOutModal/LogoutModal";
 import {

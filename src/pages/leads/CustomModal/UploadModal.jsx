@@ -30,7 +30,7 @@ const UploadModal = ({
     form.resetFields();
     onCancel();
   };
- const handleSampleExcelDownload = async() => {
+  const handleSampleExcelDownload = async () => {
     try {
       const res = await sampleExcelDownload();
       sampleLeadExcel(res.data?.data);

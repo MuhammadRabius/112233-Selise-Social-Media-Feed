@@ -84,7 +84,7 @@ const LeadUpdateModal = ({
       listViewData?.districtName
     ) {
       try {
-        setLoading(true);
+        setModalLoader(true);
 
         const res = await leadUpdateByID(singleID, payload);
         if (res?.data?.status === false) {
@@ -92,10 +92,10 @@ const LeadUpdateModal = ({
         }
         message.success(res.data.message);
         setCallBack(!callBack);
-        setLoading(false);
+        setModalLoader(false);
         setUpdateLeadModal(false);
       } catch (error) {
-        setLoading(false);
+        setModalLoader(false);
         error.response.data.details[0] &&
           message.error(error.response.data.details[0]);
       }
