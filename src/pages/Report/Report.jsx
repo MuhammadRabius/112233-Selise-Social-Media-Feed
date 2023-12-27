@@ -97,8 +97,8 @@ const Report = () => {
           setLogoutModal(true);
         }
         setLoading(false);
-        error?.response?.data?.details[0] &&
-          message.error(error?.response?.data?.details[0]);
+        error.response.data && message.error(error.response.data);
+
       }
     })();
 
