@@ -141,9 +141,8 @@ const Report = () => {
                     format={`YYYY-MM-DD`}
                     suffixIcon={false}
                     placeholder="Start Day"
-                    disabledDate={(current) =>
-                      current.isAfter(dayjs().add(-1, "day"))
-                    }
+                    disabledDate={(current) => current.isAfter(dayjs())}
+
                   />
                 </Form.Item>
                 <Form.Item
