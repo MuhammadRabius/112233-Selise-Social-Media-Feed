@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../../components/layout/Layout";
+import AppLayout from "../../components/layout/AppLayout";
 import { Input, Form, Select, Table, message, Switch } from "antd";
 import { NavLink } from "react-router-dom";
 import { debounce } from "lodash";
@@ -17,6 +17,7 @@ import {
 } from "../../services/Services";
    
 const UserManagement = () => {
+  const manuColp = localStorage.getItem("manu_collapsed")
   const username = JSON.parse(localStorage.getItem("username"));
   const [logoutModal, setLogoutModal] = useState(false);
   const { Option } = Select;
@@ -123,7 +124,7 @@ const UserManagement = () => {
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        if (error.response.status !== 200) {
+        if (error?.response?.status !== 200) {
           setLogoutModal(true);
         }
       }
@@ -212,7 +213,7 @@ const UserManagement = () => {
 
   return (
     <>
-      <Layout pageName={"User Management"}>
+      <AppLayout pageName={"User Management"} manuColp={manuColp}>
         <p className="bt_Text" data-testid="um-mock">
           User Management
         </p>
@@ -401,7 +402,7 @@ const UserManagement = () => {
             </div>
           </div>
         </div>
-      </Layout>
+      </AppLayout>
 
       {UpdateUserModal && (
         <UpdateUserModal

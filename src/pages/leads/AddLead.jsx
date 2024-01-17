@@ -48,9 +48,10 @@ const AddLeadModal = ({
   const [email, setEmail] = useState("");
   const [district, setDistrict] = useState("");
   const [findPolicy, setPolicyNumber] = useState("");
+  const [faCodeByPolicy, setfaCodeByPolicy] = useState(0);
   const [faYesNO, setFaYesNo] = useState("yes");
   const newFaReq = faYesNO === "yes" ? true : false;
-  const [faCode, setFaCode] = useState(0);
+  const [faCode, setFaCode] = useState("");
   const [remark, setRemak] = useState("");
 
   const handleName = (e) => {
@@ -75,16 +76,32 @@ const AddLeadModal = ({
     setDistrict(values);
   };
 
+  const handlePolicyInput = (e) => {
+    const value = e.target.value;
+    console.log("value", value);
+
+    if (value?.length === 0) {
+      setPolicyNumber("");
+      setfaCodeByPolicy(0);
+      return;
+    }
+
+    setPolicyNumber(value);
+  };
+
   const onFAQChange = (e) => {
     setFaYesNo(e?.target?.value);
   };
 
   const onPolicyFind = async (_v) => {
     try {
-      if (findPolicy) {
+      if (findPolicy.length !== 0) {
+        setFaYesNo("yes");
         setLoading(true);
         const faRes = await findFinicalAgent(findPolicy);
-        setFaCode(faRes?.data?.data?.FaCode);
+        setfaCodeByPolicy(faRes?.data?.data?.FaCode);
+        // setFaCode(faRes?.data?.data?.FaCode);
+        setFaCode("");
         setLoading(false);
       }
     } catch (err) {
@@ -93,19 +110,19 @@ const AddLeadModal = ({
   };
 
   const leadSubPayload = {
-    customerFirstname: fname || "",
-    customerLastname: lastname || "",
+    customerFirstname: fname,
+    customerLastname: lastname,
     customerContactNo: `880${phoneNumber}`,
     district: district,
-    customerEmail: email || "",
-    customerPolicyNumber: findPolicy || "",
-    faCode: faCode || "",
+    customerEmail: email,
+    customerPolicyNumber: findPolicy,
+    faCode: faCodeByPolicy === 0 ? faCode : faCodeByPolicy,
     newFaRequest: newFaReq,
-    remarks: remark || "",
+    remarks: remark,
   };
 
   const onFinish = async (btnTypes, values) => {
-    if (fname && phoneNumber.length === 10 && district) {
+    if (fname !== "" && phoneNumber?.length === 10 && district !== "") {
       try {
         setLoading(true);
         const sendSingleLead = await submitLeadManual(leadSubPayload);
@@ -116,8 +133,9 @@ const AddLeadModal = ({
         if (btnTypes === "singleExit") {
           setAddLead(false);
         }
-        setFaCode(0);
+        setfaCodeByPolicy(0);
         setPolicyNumber("");
+        setFaCode("");
       } catch (error) {
         if (error?.response?.status === 401) {
           setLogoutModal(true);
@@ -285,15 +303,21 @@ const AddLeadModal = ({
                 <div className="exiting_policy">
                   <Input
                     className="input_group"
-                    onChange={(e) => setPolicyNumber(e?.target?.value)}
+                    onChange={handlePolicyInput}
                     className="policy_input"
                     placeholder="Existing Policy Number (If Any)"
                   />
-                  <Button onClick={onPolicyFind} className="policy_btn ">
-                    FIND
-                  </Button>
+                  {findPolicy?.length !== 0 ? (
+                    <Button onClick={onPolicyFind} className="policy_btn ">
+                      FIND
+                    </Button>
+                  ) : (
+                    <Button disabled className="policy_btn ">
+                      FIND
+                    </Button>
+                  )}
                 </div>
-                {faCode ? (
+                {faCodeByPolicy?.length && findPolicy?.length !== 0 ? (
                   <div className="_ex_P">
                     <div
                       style={{
@@ -315,44 +339,83 @@ const AddLeadModal = ({
                       <Radio value="no">NO</Radio>
                     </Radio.Group>
 
-                    <Input
-                      value={
-                        faYesNO === "no" ? "New FA will be assigned" : faCode
-                      }
-                      placeholder="FA Code"
-                      className="input_group"
-                      readOnly
-                    />
+                    {faYesNO === "no" ? (
+                      <>
+                        <Form.Item
+                          name="faCode"
+                          rules={[
+                            {
+                              pattern: /^\d{8}$/,
+                              message: "Fa Code must be have 8 digits ",
+                            },
+                          ]}
+                        >
+                          {""}
+                          <Input
+                            maxLength={8}
+                            placeholder="Please assign FACode"
+                            className="input_group"
+                            value={faCode}
+                            onChange={(e) => setFaCode(e?.target?.value)}
+                          />
+                        </Form.Item>
+                      </>
+                    ) : (
+                      <Input
+                        value={faCodeByPolicy}
+                        readOnly
+                        placeholder="FA Code"
+                        className="input_group"
+                      />
+                    )}
                   </div>
                 ) : null}
               </Spin>
             </Form.Item>
-            {faCode === null || faCode === "" ? (
+
+            {findPolicy?.length !== 0 &&
+            (faCodeByPolicy === null || faCodeByPolicy === "") ? (
               <div style={{ marginBottom: "2px" }}>
                 <p style={{ color: "#6E6E6E", textAlign: "end" }}>
                   FA Status : <Tag color="#f50">FA Inactive</Tag>
                 </p>
-                <Input
-                  value={
-                    faCode === null || faCode === ""
-                      ? "New FA will be assigned"
-                      : null
-                  }
-                  placeholder="FA Code"
-                  className="input_group"
-                  readOnly
-                  style={{ marginBottom: "15px" }}
-                />
+
+                <Form.Item
+                  name="faCode"
+                  rules={[
+                    {
+                      pattern: /^\d{8}$/,
+                      message: "Fa Code must be have 8 digits ",
+                    },
+                  ]}
+                >
+                  {""}
+                  <Input
+                    value={faCode}
+                    maxLength={8}
+                    placeholder="Please assign a new FACode"
+                    className="input_group"
+                    onChange={(e) => setFaCode(e?.target?.value)}
+                  />
+                </Form.Item>
               </div>
             ) : null}
-            {faCode === 0 ? (
-              <Form.Item>
-                {" "}
+            {findPolicy?.length === 0 ? (
+              <Form.Item
+                name="faCode"
+                rules={[
+                  {
+                    pattern: /^\d{8}$/,
+                    message: "Fa Code must be have 8 digits ",
+                  },
+                ]}
+              >
                 <Input
+                  maxLength={8}
                   placeholder="FA Code"
                   className="input_group"
-                  readOnly
-                />{" "}
+                  onChange={(e) => setFaCode(e?.target?.value)}
+                />
               </Form.Item>
             ) : null}
 

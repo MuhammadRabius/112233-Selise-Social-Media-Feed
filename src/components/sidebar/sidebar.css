@@ -1,7 +1,8 @@
 @import url('../../App.css');
 
-.sidebar-container {
+/* .sidebar-container {
     width: 250px;
+    width: 220px;
     background: #FFFFFF 0% 0% no-repeat padding-box;
     box-shadow: 0px 2px 6px #00000029;
     height: 100vh;
@@ -11,7 +12,7 @@
     z-index: 1;
     overflow-y: auto;
     font-size: 14px;
-}
+} */
 
 .sidebar-logo {
     margin-top: 30px;
@@ -71,7 +72,8 @@
     flex-direction: row;
     background: var(--metlife-light-gray) 0% 0% no-repeat padding-box;
     background: #F2F2F2 0% 0% no-repeat padding-box;
-    opacity: 0.96;
+    opacity: 0.96;display:
+    
 }
 
 .nav-active::before {
@@ -82,7 +84,12 @@
     opacity: 1;
 }
 
-.sidebar-nav {}
+.sidebar-nav {   
+    background: #0000 linear-gradient(180deg,#007abc,#a4ce4e) 0 0 no-repeat padding-box;
+    content: " ";
+    height: 100%;
+    opacity: 1;
+    width: 4px;}
 
 .account-logout {
     cursor: pointer;
@@ -106,4 +113,81 @@
     font-weight: 500;
     font-size: 15px;
     height: 50px;
+}
+
+.ant-layout .ant-layout-sider {
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 6px #00000029; 
+}
+
+.ant-menu .ant-menu-item {
+    border-radius: 0px;
+  
+   
+}
+/* .ant-menu .ant-menu-item ::before {
+    border-inline-end: 1px solid rgba(5, 5, 5, 0.06);
+    background: #f2f2f2 0 0 no-repeat padding-box;
+    border-width: 0px 0px 0px 5px;
+    border-style: solid;
+    border-image:#0000 linear-gradient(180deg,#a4ce4e , #007abc) 0 0 no-repeat padding-box;
+} */
+/* .new_navber_items{
+    background: var(--metlife-light-gray) 0% 0% no-repeat padding-box;
+    background: #F2F2F2 0% 0% no-repeat padding-box;
+    opacity: 0.96;display:
+}
+.new_navber_items ::before {
+    
+    content: " ";
+    height: 100%;
+    width: 4px;
+    background: transparent linear-gradient(180deg, #007ABC 0%, #A4CE4E 100%) 0% 0% no-repeat padding-box;
+    opacity: 1;
+    
+} */
+
+.ant-menu ul li {
+    /* display: flex;
+    flex-direction: row; */
+    background: var(--metlife-light-gray) 0% 0% no-repeat padding-box;
+    background: #F2F2F2 0% 0% no-repeat padding-box;
+    opacity: 0.96;display:
+   
+    
+}
+.ant-menu ul li ::before{
+    content: " ";
+    height: 100%;
+    width: 4px;
+    background: transparent linear-gradient(180deg, #007ABC 0%, #A4CE4E 100%) 0% 0% no-repeat padding-box;
+    opacity: 1;
+   
+    
+}
+.ant-menu-light .ant-menu-item-selected {
+    background: #f2f2f2 0 0 no-repeat padding-box;
+    border-width: 0px 0px 0px 5px;
+    border-style: solid;
+    border-image: linear-gradient(to right, #0090DA, #333333) 1;
+}
+
+.ant-menu-title-content{
+    color: #333333;
+    font-style: 'MetLifeCircular-Medium', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+}
+.ant-layout .ant-layout-sider-trigger{
+    background: #007ABC 0% 0% no-repeat padding-box;
+}
+
+.ant-avatar-lg .ant-avatar-string {
+    font-size: 16px;
+    font-weight: 600;
+
+}
+
+.ant-avatar-string{
+
 }

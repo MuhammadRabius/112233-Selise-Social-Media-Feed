@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../../components/layout/Layout";
+import AppLayout from "../../components/layout/AppLayout";
 import { DatePicker, Input, Form, message, Select } from "antd";
 import "./Report.css";
 import dayjs from "dayjs";
@@ -17,6 +17,7 @@ import {
 const { Option } = Select;
 
 const Report = () => {
+  const manuColp = localStorage.getItem("manu_collapsed");
   const [form] = Form.useForm();
   const [logoutModal, setLogoutModal] = useState(false);
   const [dataCount, setDataCount] = useState(null);
@@ -97,7 +98,7 @@ const Report = () => {
           setLogoutModal(true);
         }
         setLoading(false);
-        error.response.data && message.error(error.response.data);
+        error?.response?.data && message.error( error?.response?.data);
 
       }
     })();
@@ -109,7 +110,7 @@ const Report = () => {
     <>
       <Loader isLoading={isLoading} />
 
-      <Layout pageName={"Report"}>
+      <AppLayout pageName={"Report"} manuColp={manuColp}>
         <div className="reportComponent_mock">
           <p className="bt_Text" data-testid="report_mock">
             Report
@@ -249,7 +250,7 @@ const Report = () => {
             </Form>
           </div>
         </div>
-      </Layout>
+      </AppLayout>
 
       {logoutModal && (
         <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />

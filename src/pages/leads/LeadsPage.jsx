@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { NavLink } from "react-router-dom";
-import Layout from "../../components/layout/Layout";
+import AppLayout from "../../components/layout/AppLayout";
 import { Table, Input, Pagination, Select, Tag, Space } from "antd";
 import UploadModal from "./CustomModal/UploadModal";
 import LeadUpdateModal from "./LeadUpdateModal";
@@ -14,6 +14,7 @@ import { getLeadStatus, leadListWithPagination } from "../../services/Services";
 
 const LeadsPage = () => {
   const authority = JSON.parse(localStorage.getItem("authority"));
+  const manuColp = localStorage.getItem("manu_collapsed");
   const [isLoading, setLoading] = useState(false);
   const [callBack, setCallBack] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
@@ -220,31 +221,32 @@ const LeadsPage = () => {
         );
       },
     },
-    {
-      title: "Validation Message",
-      dataIndex: "validationErrorMessage",
-      key: "validationErrorMessage",
-      width: "auto",
-      render: (validationErrorMessage, _data) => {
-        return validationErrorMessage.map((_d) => {
-          return _data.leadStatus === "Validation Failed" ? (
-            <Tag style={{ display: "block" }} color="red">
-              {_d}
-            </Tag>
-          ) : (
-            <Tag style={{ display: "block" }} color="red">
-              {" "}
-              <del>{_d}</del>{" "}
-            </Tag>
-          );
-        });
-      },
-    },
+    Table.EXPAND_COLUMN,
+    // {
+    //   title: "Validation Message",
+    //   dataIndex: "validationErrorMessage",
+    //   key: "validationErrorMessage",
+    //   width: "auto",
+    //   render: (validationErrorMessage, _data) => {
+    //     return validationErrorMessage.map((_d) => {
+    //       return _data.leadStatus === "Validation Failed" ? (
+    //         <Tag style={{ display: "block" }} color="red">
+    //           {_d}
+    //         </Tag>
+    //       ) : (
+    //         <Tag style={{ display: "block" }} color="red">
+    //           {" "}
+    //           <del>{_d}</del>{" "}
+    //         </Tag>
+    //       );
+    //     });
+    //   },
+    // },
   ];
 
   return (
     <>
-      <Layout pageName={"Leads"}>
+      <AppLayout pageName={"Leads"}>
         <div className="lead-container">
           <p className="bt_Text" data-testid="leads-mock">
             Lead Submission
@@ -303,7 +305,7 @@ const LeadsPage = () => {
             <div>
               <Table
                 size="middle"
-                rowKey="key"
+                rowKey="leadId"
                 loading={isLoading}
                 columns={columns}
                 dataSource={leadListView}
@@ -312,6 +314,32 @@ const LeadsPage = () => {
                 tableLayout="auto"
                 scroll={{
                   x: 500,
+                }}
+                expandable={{
+                  expandedRowRender: (record) => {
+                    return (
+                      <div>
+                        {record.validationErrorMessage.map((data, key) => {
+                          return (
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                gap: "10px",
+                              }}
+                            >
+                              {" "}
+                              <Tag color="#f50">Validation Error Message</Tag> :
+                              <Tag style={{ display: "block" }} color="red">
+                                {data}
+                              </Tag>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  },
                 }}
               />
             </div>
@@ -349,7 +377,7 @@ const LeadsPage = () => {
             />
           )}
         </div>
-      </Layout>
+      </AppLayout>
 
       {updateLeadModal && (
         <LeadUpdateModal

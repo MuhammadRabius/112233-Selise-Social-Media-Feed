@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../../components/layout/Layout";
+import AppLayout from "../../components/layout/AppLayout";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import {
@@ -24,6 +24,7 @@ const { RangePicker } = DatePicker;
 
 const HomePage = () => {
   const dateFormat = "YYYY-MM-DD";
+  const manuColp = localStorage.getItem("manu_collapsed")
   const [logoutModal, setLogoutModal] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [tData, setTData] = useState([]);
@@ -72,7 +73,7 @@ const HomePage = () => {
     <>
       <Loader isLoading={isLoading} />
 
-      <Layout pageName={"Dashboard"}>
+      <AppLayout pageName={"Dashboard"} manuColp={manuColp}>
         <div className="homePage-content" data-testid="dashboard-mock">
           {" "}
           <p className="bt_Text" data-testid="home-graph">
@@ -139,7 +140,7 @@ const HomePage = () => {
             </DataTable>
           </div>
         </div>
-      </Layout>
+      </AppLayout>
       {logoutModal && (
         <LogoutModal open={logoutModal} setLogoutModal={setLogoutModal} />
       )}

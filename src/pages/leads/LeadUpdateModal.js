@@ -197,8 +197,12 @@ const LeadUpdateModal = ({
                 <Input
                   className="input_group"
                   placeholder="Last Name"
-                  value={listViewData?.lastName}
-                  disabled
+                  onChange={(e) =>
+                    setListbyIdData({
+                      ...listViewData,
+                      lastName: e.target.value,
+                    })
+                  }
                 />
               </Form.Item>
 
@@ -290,13 +294,35 @@ const LeadUpdateModal = ({
                 </div>
               </Form.Item>
 
-              <Form.Item label="" name="facode">
+              <Form.Item
+                label=""
+                name="facode"
+                validateStatus={
+                  listViewData?.faCode?.length !== 8 ||
+                  listViewData?.faCode === "" ||
+                  listViewData?.faCode === null
+                    ? "error"
+                    : "success"
+                }
+                help={
+                  listViewData?.faCode?.length !== 8 ||
+                  listViewData?.faCode === "" ||
+                  listViewData?.faCode === null
+                    ? "FA Code must be have 8 digits"
+                    : null
+                }
+              >
                 {" "}
                 <Input
+                  maxLength={8}
                   className="input_group"
                   placeholder="FA Code"
-                  disabled
-                  value={listViewData?.faCode}
+                  onChange={(e) =>
+                    setListbyIdData({
+                      ...listViewData,
+                      faCode: e.target.value,
+                    })
+                  }
                 />
               </Form.Item>
 
@@ -306,7 +332,7 @@ const LeadUpdateModal = ({
                   value={listViewData?.remark}
                   disabled
                   className="custom_remark"
-                  style={{ resize: "none" }}
+                  style={{ resize: "none", marginTop: "10px" }}
                 />
               </Form.Item>
 
