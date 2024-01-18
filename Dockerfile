@@ -1,5 +1,5 @@
-#FROM nginx:alpine
-FROM dtr.metlife.com/infra/httpd:2.4.57
+FROM dtr.metlife.com/infra/nginx:alpine
+#FROM dtr.metlife.com/infra/httpd:2.4.57
 # Create non root user and set as process owner
 #RUN adduser --uid 10000 --disabled-password nonroot
 #USER 10000
