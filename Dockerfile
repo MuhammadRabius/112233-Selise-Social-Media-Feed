@@ -17,7 +17,7 @@ COPY build/ /usr/local/apache2/htdocs/
 
 #Copy default nginx configuration
 #COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+#COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 4200 80
 #test
