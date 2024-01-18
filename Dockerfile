@@ -10,6 +10,7 @@ WORKDIR /app
 #Copy ci-dashboard-dist
 #COPY ./docker-output/client-app  /usr/share/nginx/html
 
+COPY ./httpd.conf /usr/local/apache2/conf/httpd.conf
 
 #COPY build/ /usr/share/nginx/html 
 COPY build/ /usr/local/apache2/htdocs/
