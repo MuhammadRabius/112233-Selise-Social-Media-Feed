@@ -1,3 +1,4 @@
+
 .app-layout{
     display: flex;
     flex-direction: row;
@@ -16,3 +17,41 @@
 .layout-children-container{
     margin-top: 35px;
 }
+
+/* Social Media Feed App layout CSS */
+
+.feed_container {
+    position: "sticky";
+          top: 0;
+          z-index: 1;
+          width: "100%";
+          display: "flex";
+          align-items: "center";
+          justify-content: flex-end ;
+          background: #c62c2c 0% 0% no-repeat padding-box;
+}
+
+
+.nav_contents{
+    min-width: 0px;
+    display: flex;
+    justify-content: flex-end;
+    background: #c62c2c 0% 0% no-repeat padding-box;
+    
+}
+
+.inner_container{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   max-width: '90%';
+   
+}
+.ant-menu-title-content{
+    font-weight:bolder;
+}
+.ant-menu-item-selected{
+    color: #fff;
+    background-color:  #c62c2c !important;
+}
+
